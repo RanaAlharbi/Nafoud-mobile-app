@@ -1,4 +1,4 @@
-import 'package:final_project/features/home/presentation/pages/home_screen.dart';
+import 'package:final_project/ai_test.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -8,12 +8,10 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
- 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: const HomeScreen(),
-    );
+    return MaterialApp(home: const AIImageAnalysisScreen());
   }
 }
 
+// GeminiAPIKey=AIzaSyDvyGSCJUeMJ3Gt6YPbMfXSyOMFeQLPBKE
