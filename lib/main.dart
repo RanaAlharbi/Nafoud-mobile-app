@@ -1,4 +1,4 @@
-import 'package:final_project/features/profile/presentation_layer/pages/profile_screen.dart';
+import 'package:final_project/ai_test.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,9 +10,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: const ProfileScreen(),
-      debugShowCheckedModeBanner: false,
-    );
+    return MaterialApp(home: const AIImageAnalysisScreen());
   }
 }
+
+// GeminiAPIKey=AIzaSyDvyGSCJUeMJ3Gt6YPbMfXSyOMFeQLPBKE
