@@ -1,32 +1,39 @@
 import 'dart:typed_data';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:injectable/injectable.dart';
 
-class AIRemoteDataSource {
-  late final GenerativeModel model;
+abstract class BaseAiDatasource {
+  Future<String> analyze(Uint8List imageBytes);
+}
 
-  AIRemoteDataSource() {
-    final apiKey = dotenv.env['GeminiAPIKey'] ?? '';
-    model = GenerativeModel(model: 'gemini-2.5-flash', apiKey: apiKey);
-  }
+@Injectable(as: BaseAiDatasource)
+@lazySingleton
+class AIRemoteDataSource implements BaseAiDatasource {
+  final GenerativeModel model;
 
+  AIRemoteDataSource(this.model);
+
+  @override
   Future<String> analyze(Uint8List imageBytes) async {
-    String prompt = """
-You are a highly knowledgeable historian specializing in Saudi Arabia.
-Provide the following in English:
+    const prompt = """
+    You are a highly knowledgeable historian specializing in Saudi Arabia.
+    Provide the following in English:
+    1. Name of the Place  
+    2. City & Region  
+    3. Historical Background  
+    4. Cultural or Religious Significance  
+    5. Interesting Facts
+    6. Nearby places restaurant, cafe
 
-1. Name of the Place  
-2. City & Region  
-3. Historical Background  
-4. Cultural or Religious Significance  
-5. Interesting Facts  
-
-If the landmark is not in Saudi Arabia, respond:
-'No recognizable Saudi Arabian landmark was detected in the image.'
-""";
+    If the landmark is not in Saudi Arabia, respond:
+    'No recognizable Saudi Arabian landmark was detected in the image.'
+    """;
 
     final content = [
-      Content.multi([TextPart(prompt), DataPart("image/jpeg", imageBytes)]),
+      Content.multi([
+        TextPart(prompt),
+        DataPart("image/jpeg", imageBytes),
+      ])
     ];
 
     final response = await model.generateContent(content);

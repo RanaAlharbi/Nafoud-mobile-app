@@ -6,8 +6,8 @@ import 'package:final_project/features/ai_image_analysis/domain_layer/repository
 import 'package:injectable/injectable.dart';
 
 
-@LazySingleton(as: AIRepository) 
-class AIRepositoryImpl implements AIRepository {
+@LazySingleton(as: AiImageAnalysisRepository) 
+class AIRepositoryImpl implements AiImageAnalysisRepository {
   final AIRemoteDataSource dataSource;
 
   AIRepositoryImpl(this.dataSource);

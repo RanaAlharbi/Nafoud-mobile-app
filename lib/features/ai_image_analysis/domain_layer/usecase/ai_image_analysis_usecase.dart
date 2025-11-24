@@ -7,7 +7,7 @@ import 'package:injectable/injectable.dart';
 
 @lazySingleton 
 class AnalyzeImageUseCase {
-  final AIRepository repository;
+  final AiImageAnalysisRepository repository;
 
   AnalyzeImageUseCase(this.repository);
 

@@ -44,17 +44,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i656.GenerativeModel>(
       () => thirdPartySetup.generativeModel,
     );
-    gh.lazySingleton<_i123.AIRepository>(
-      () => _i376.AIRepositoryImpl(gh<_i115.AIRemoteDataSource>()),
-    );
     gh.lazySingleton<_i1038.AuthenticationDatasource>(
       () => _i1038.SupabaseDatasource(gh<_i454.SupabaseClient>()),
     );
-    gh.lazySingleton<_i16.AnalyzeImageUseCase>(
-      () => _i16.AnalyzeImageUseCase(gh<_i123.AIRepository>()),
+    gh.lazySingleton<_i123.AiImageAnalysisRepository>(
+      () => _i376.AIRepositoryImpl(gh<_i115.AIRemoteDataSource>()),
     );
     gh.lazySingleton<_i410.AuthenticationRepositoryDomain>(
       () => _i60.DataRepository(gh<_i1038.AuthenticationDatasource>()),
+    );
+    gh.lazySingleton<_i16.AnalyzeImageUseCase>(
+      () => _i16.AnalyzeImageUseCase(gh<_i123.AiImageAnalysisRepository>()),
     );
     gh.lazySingleton<_i801.AuthenticationUsecases>(
       () => _i801.AuthenticationUsecases(
