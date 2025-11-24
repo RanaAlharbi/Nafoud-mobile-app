@@ -57,6 +57,7 @@ dependencies:
   google_generative_ai: ^0.4.7
   file_picker: ^10.3.7
   dartz: ^0.10.1
+  get_storage: ^2.1.1
 
 dev_dependencies:
   flutter_test:
@@ -84,7 +85,10 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - .env
+    #- .env
+    - Assets/Images/Icons/
+    - Assets/Images/Sign_In_Screen/
+    - Assets/Images/Sign_Up_Screen/ 
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
