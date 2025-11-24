@@ -1,3 +1,4 @@
+import 'package:final_project/AI_chatbot/chat_screen.dart';
 import 'package:final_project/ai_test.dart';
 import 'package:final_project/core/initial/setup.dart';
 import 'package:final_project/core/routes/router.dart';
@@ -7,7 +8,6 @@ import 'package:final_project/features/authentication/presentation_layer/bloc/au
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,9 +21,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
- 
-    return MaterialApp(
-      home: AIImageAnalysisScreen());
+    return MaterialApp(home: ChatScreen());
   }
 }
-
