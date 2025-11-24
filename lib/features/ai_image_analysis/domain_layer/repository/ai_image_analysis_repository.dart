@@ -5,4 +5,5 @@ import 'package:final_project/features/ai_image_analysis/domain_layer/entity/ai_
 
 abstract class AiImageAnalysisRepository {
   Future<Either<String, LandmarkAnalysis>> analyzeImage(Uint8List imageBytes);
+
 }

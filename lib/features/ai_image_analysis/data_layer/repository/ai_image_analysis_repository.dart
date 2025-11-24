@@ -7,10 +7,10 @@ import 'package:injectable/injectable.dart';
 
 
 @LazySingleton(as: AiImageAnalysisRepository) 
-class AIRepositoryImpl implements AiImageAnalysisRepository {
-  final AIRemoteDataSource dataSource;
+class AiImageAnalysisRepositoryDataSource implements AiImageAnalysisRepository {
+final BaseAiImageAnalysisDataSource dataSource;
 
-  AIRepositoryImpl(this.dataSource);
+  AiImageAnalysisRepositoryDataSource(this.dataSource);
 
   @override
   Future<Either<String, LandmarkAnalysis>> analyzeImage(Uint8List imageBytes) async {

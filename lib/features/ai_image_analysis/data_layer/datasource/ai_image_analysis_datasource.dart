@@ -2,16 +2,16 @@ import 'dart:typed_data';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:injectable/injectable.dart';
 
-abstract class BaseAiDatasource {
+
+abstract class BaseAiImageAnalysisDataSource  {
   Future<String> analyze(Uint8List imageBytes);
 }
 
-@Injectable(as: BaseAiDatasource)
-@lazySingleton
-class AIRemoteDataSource implements BaseAiDatasource {
+@LazySingleton(as: BaseAiImageAnalysisDataSource )
+class AiImageAnalysisRemoteDataSource  implements BaseAiImageAnalysisDataSource  {
   final GenerativeModel model;
 
-  AIRemoteDataSource(this.model);
+  AiImageAnalysisRemoteDataSource(this.model);
 
   @override
   Future<String> analyze(Uint8List imageBytes) async {

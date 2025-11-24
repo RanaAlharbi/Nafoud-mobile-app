@@ -1,29 +1,19 @@
-import 'package:equatable/equatable.dart';
-import 'package:final_project/features/ai_image_analysis/domain_layer/entity/ai_landmark_analysis_entity.dart';
+part of 'ai_cubit.dart';
 
-sealed class AiState extends Equatable {
-  const AiState();
-
-  @override
-  List<Object?> get props => [];
+abstract class AIImageState {
+  const AIImageState();
 }
 
-final class AiInitial extends AiState {}
+class AIImageInitial extends AIImageState {}
 
-final class AILoading extends AiState {}
+class AIImageLoading extends AIImageState {}
 
-final class AISuccess extends AiState {
+class AIImageSuccess extends AIImageState {
   final LandmarkAnalysis analysis;
-  const AISuccess(this.analysis);
-
-  @override
-  List<Object?> get props => [analysis];
+  const AIImageSuccess(this.analysis);
 }
 
-final class AIError extends AiState {
+class AIImageError extends AIImageState {
   final String message;
-  const AIError(this.message);
-
-  @override
-  List<Object?> get props => [message];
+  const AIImageError(this.message);
 }

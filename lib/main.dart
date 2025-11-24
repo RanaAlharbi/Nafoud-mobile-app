@@ -9,8 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  configureDependencies();
   await setup();
+  configureDependencies();
   runApp(const MyApp());
 }
 
@@ -19,11 +19,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home:AIImageAnalysisScreenw() );
+    return MaterialApp(home:AIImageAnalysisScreen() );
   }
 }
 
 //  BlocProvider<AuthenticationBloc>(
 //       create: (_) => AuthenticationBloc(getIt<AuthenticationUsecases>()),
 //       child: MaterialApp.router(routerConfig: AppRoutes.appRouter),
-//     );
+// );

@@ -47,8 +47,13 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1038.AuthenticationDatasource>(
       () => _i1038.SupabaseDatasource(gh<_i454.SupabaseClient>()),
     );
+    gh.lazySingleton<_i115.BaseAiImageAnalysisDataSource>(
+      () => _i115.AiImageAnalysisRemoteDataSource(gh<_i656.GenerativeModel>()),
+    );
     gh.lazySingleton<_i123.AiImageAnalysisRepository>(
-      () => _i376.AIRepositoryImpl(gh<_i115.AIRemoteDataSource>()),
+      () => _i376.AiImageAnalysisRepositoryDataSource(
+        gh<_i115.BaseAiImageAnalysisDataSource>(),
+      ),
     );
     gh.lazySingleton<_i410.AuthenticationRepositoryDomain>(
       () => _i60.DataRepository(gh<_i1038.AuthenticationDatasource>()),

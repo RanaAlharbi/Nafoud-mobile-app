@@ -5,13 +5,13 @@ import 'package:final_project/features/ai_image_analysis/domain_layer/entity/ai_
 import 'package:final_project/features/ai_image_analysis/domain_layer/repository/ai_image_analysis_repository.dart';
 import 'package:injectable/injectable.dart';
 
-@lazySingleton 
+@lazySingleton
 class AnalyzeImageUseCase {
   final AiImageAnalysisRepository repository;
 
   AnalyzeImageUseCase(this.repository);
 
-  Future<Either<String, LandmarkAnalysis>> call(Uint8List imageBytes) {
+  Future<Either<String, LandmarkAnalysis>> analyzeImage(Uint8List imageBytes) {
     return repository.analyzeImage(imageBytes);
   }
 }
