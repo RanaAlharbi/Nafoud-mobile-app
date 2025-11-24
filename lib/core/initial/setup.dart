@@ -9,11 +9,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 final getIt = GetIt.instance;
 
-@InjectableInit(
-  initializerName: 'init', 
-  preferRelativeImports: true,
-  asExtension: true,
-)
+@InjectableInit()
 void configureDependencies() => getIt.init();
 
 Future<void> setup() async {

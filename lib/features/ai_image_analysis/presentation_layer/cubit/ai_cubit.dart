@@ -28,18 +28,18 @@ class AIImageCubit extends Cubit<AiState> {
       } else return;
 
       selectedImage = bytes;
-      emit(AiInitial()); // تحديث الـ UI بعد اختيار الصورة
+      emit(AiInitial()); 
     }
   }
 
-   Future<void> analyzeImageMethod() async { // غير الاسم لتجنب التعارض
+   Future<void> analyzeImageMethod() async { 
     if (selectedImage == null) {
       emit(AIError("Please select an image first."));
       return;
     }
 
     emit(AILoading());
-    final result = await analyzeImage(selectedImage!); // call موجود في UseCase
+    final result = await analyzeImage(selectedImage!); 
 
     result.fold(
       (error) => emit(AIError(error)),

@@ -85,8 +85,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    #- .env
-    - Assets/Images/Icons/
+    - .env
+    - Assets/Images/Icons/Input_Fields/
     - Assets/Images/Sign_In_Screen/
     - Assets/Images/Sign_Up_Screen/ 
   #   - images/a_dot_ham.jpeg

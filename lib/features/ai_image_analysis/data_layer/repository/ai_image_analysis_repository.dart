@@ -8,14 +8,14 @@ import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: AIRepository) 
 class AIRepositoryImpl implements AIRepository {
-  final AIRemoteDataSource remote;
+  final AIRemoteDataSource dataSource;
 
-  AIRepositoryImpl(this.remote);
+  AIRepositoryImpl(this.dataSource);
 
   @override
   Future<Either<String, LandmarkAnalysis>> analyzeImage(Uint8List imageBytes) async {
     try {
-      final response = await remote.analyze(imageBytes);
+      final response = await dataSource.analyze(imageBytes);
       return Right(LandmarkAnalysis(response));
     } catch (e) {
       return Left(e.toString());
