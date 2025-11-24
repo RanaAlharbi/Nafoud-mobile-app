@@ -20,7 +20,10 @@ class AIImageAnalysisScreen extends StatelessWidget {
         builder: (context) {
           final cubit = context.read<AIImageCubit>();
           return Scaffold(
-            appBar: AppBar(title: const Text("AI Landmark Analyzer")),
+            appBar: AppBar(
+              title: const Text("AI Landmark Analyzer"),
+              centerTitle: true,
+              ),
             body: Padding(
               padding: const EdgeInsets.all(16),
               child: SingleChildScrollView(
@@ -29,9 +32,11 @@ class AIImageAnalysisScreen extends StatelessWidget {
                     GestureDetector(
                       onTap: () async {
                         // Open file picker to select an image
-                        FilePickerResult? result = await FilePicker.platform //open gallery
+                        FilePickerResult? result = await FilePicker
+                            .platform //open gallery
                             .pickFiles(
-                              type: FileType.custom, //define  file type acceptible.
+                              type: FileType
+                                  .custom, //define  file type acceptible.
                               allowedExtensions: ['jpg', 'jpeg', 'png'],
                             );
 
@@ -50,11 +55,13 @@ class AIImageAnalysisScreen extends StatelessWidget {
                           cubit.pickImage(bytes);
                         }
                       },
+
+                      //Image Container
                       child: Container(
                         width: double.infinity,
                         height: 200,
                         decoration: BoxDecoration(
-                          color: Colors.grey[300],
+                          color: Colors.grey[100],
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(color: Colors.grey),
                           image: cubit.selectedImage != null
@@ -74,7 +81,7 @@ class AIImageAnalysisScreen extends StatelessWidget {
                                       size: 50,
                                       color: Colors.grey,
                                     ),
-                                    SizedBox(height: 8),
+                                    Gap(8),
                                     Text("Tap to select a landmark image"),
                                   ],
                                 ),
@@ -105,7 +112,7 @@ class AIImageAnalysisScreen extends StatelessWidget {
                             style: const TextStyle(color: Colors.red),
                           );
                         }
-                        return Container();
+                        return SizedBox.shrink();
                       },
                     ),
                   ],
