@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:hugeicons/hugeicons.dart';
+import 'package:remixicon/remixicon.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -7,15 +10,32 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        leading: BackButton(),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(RemixIcons.notification_3_line),
+          ),
+        ],
+      ),
+
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const Gap(100),
 
+          
+
             //avatar photo
             Stack(
+              clipBehavior: Clip.none,
               children: [
+                
                 const CircleAvatar(
                   radius: 50.0,
                   backgroundColor: Color.fromARGB(255, 201, 189, 161),
@@ -29,7 +49,29 @@ class ProfileScreen extends StatelessWidget {
                     child: const CircleAvatar(
                       radius: 18,
                       backgroundColor: Colors.grey,
-                      child: Icon(Icons.edit, color: Colors.white, size: 16),
+                      child: Icon(
+                        RemixIcons.edit_line,
+                        color: Colors.white,
+                        size: 16,
+                      ),
+                      //Icon(Icons.edit, color: Colors.white, size: 16),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 0,
+                  left: -10,
+                  // right: 0,
+                  // bottom: 0,
+
+                  child: Container(
+                    height: 50.h,
+                    clipBehavior: Clip.none,
+                    width: 50.h,
+
+                    decoration: BoxDecoration(
+                      color: Colors.amber,
+                      shape: BoxShape.circle,
                     ),
                   ),
                 ),
@@ -40,11 +82,13 @@ class ProfileScreen extends StatelessWidget {
 
             // User name - phone
             const Text(
-              'Rana Alharbi',
+              'Abdul-Rahman Al-Nasser',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
             Row(
-              mainAxisAlignment: .center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
                   'example@gmail.com |  ',
@@ -72,7 +116,7 @@ class ProfileScreen extends StatelessWidget {
                     color: Colors.grey.withAlpha(18),
                     spreadRadius: 5,
                     blurRadius: 7,
-                    offset: Offset(0, 3), 
+                    offset: Offset(0, 3),
                   ),
                 ],
               ),
@@ -92,7 +136,9 @@ class ProfileScreen extends StatelessWidget {
                   ),
 
                   ListTile(
-                    leading: Icon(Icons.language),
+                    leading: HugeIcon(
+                      icon: HugeIcons.strokeRoundedMessageTranslate,
+                    ),
                     title: Text("Language"),
                     trailing: Text("English"),
                   ),

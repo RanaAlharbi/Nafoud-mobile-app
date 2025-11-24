@@ -57,6 +57,8 @@ dependencies:
   google_generative_ai: ^0.4.7
   file_picker: ^10.3.7
   get_storage: ^2.1.1
+  hugeicons: ^1.1.1
+  remixicon: ^1.4.1
 
 dev_dependencies:
   flutter_test:
