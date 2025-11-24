@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
@@ -17,13 +18,20 @@ class _AIImageAnalysisScreenState extends State<AIImageAnalysisScreen> {
   String selectedFileName = '';
   Uint8List? imageBytes;
   String generatedText = '';
-  late final model;
+  GenerativeModel? model;
+  bool isLoading = false;
 
   void getAPIKey() async {
     await dotenv.load(fileName: ".env");
     var geminiAPIKey = dotenv.env['GeminiAPIKey'] ?? '';
+
+    if (geminiAPIKey.isEmpty) {
+      print("Error: Gemini API Key is empty!");
+      return;
+    }
+
     model = GenerativeModel(
-      model: 'gemini-2.5-flash', // maybe gemini-2.5-flash-lite
+      model: 'gemini-2.5-flash',
       apiKey: geminiAPIKey,
       safetySettings: [
         SafetySetting(HarmCategory.harassment, HarmBlockThreshold.high),
@@ -31,58 +39,95 @@ class _AIImageAnalysisScreenState extends State<AIImageAnalysisScreen> {
         SafetySetting(HarmCategory.sexuallyExplicit, HarmBlockThreshold.high),
       ],
     );
+    print("Gemini model initialized.");
   }
-   void generateRecipe() async {
-    //  This function creates the recipe based on the user provided image. This function is where Gemini is used.
-   
-    // The instructions provided tell Gemini to create a recipe based on all logical ingredients observed in the image
-    String prompt = "You are an expert cook with detailed knowledge of making recipes. A user is interested in making recipes with a certain set of ingredients and have provided this. If no ingredients that can be used to realistically create food are provided, please state 'No ingredients in picture' to the user. Please generate a recipe that uses these ingredients. Please only return the following sections: Recipe Name, Ingredients, Complexity, Steps to Create. Please only return the recipe and do not return any other text in your response.";
-   
-    // The content is then passed to Gemini combining the instructions from the prompt and the image byte data
+
+  void analyzeImage() async {
+    if (imageBytes == null) {
+      setState(() {
+        generatedText = "Please select an image first.";
+      });
+      return;
+    }
+
+    if (model == null) {
+      setState(() {
+        generatedText = "Gemini model not initialized or API key missing.";
+      });
+      return;
+    }
+
+    setState(() {
+      isLoading = true;
+      generatedText = "";
+    });
+
+String prompt = """
+You are a highly knowledgeable historian and cultural guide specializing in Saudi Arabia. 
+A user has uploaded an image that likely depicts a tourist landmark, historical site, or culturally significant location within Saudi Arabia.
+
+Your task is to carefully analyze the image and provide ONLY the following information in English:
+
+1. Name of the Place
+2. City & Region (within Saudi Arabia)
+3. Historical Background
+4. Cultural or Religious Significance
+5. Interesting Facts
+
+If the landmark is not located in Saudi Arabia, or if you cannot confidently identify it, respond with: 
+'No recognizable Saudi Arabian landmark was detected in the image.'
+
+Please be clear, concise, and informative. Use complete sentences and provide engaging content suitable for someone interested in history and tourism.
+""";
+
+
+
     final content = [
       Content.multi([
-      TextPart(prompt),
-      // The only accepted mime types are image/*.
-      DataPart('image/jpeg', imageBytes!),
-      // DataPart('image/jpeg', sconeBytes.buffer.asUint8List()),
+        TextPart(prompt),
+        DataPart('image/jpeg', imageBytes!),
       ])
     ];
 
-    // The model is then run and the recipe is generated
-    final recipe = await model.generateContent(content);
-
-    // Sets state to update the display of the app
-    setState(() {
-      
-      generatedText = recipe.text;
-
-    });
+    try {
+      final response = await model!.generateContent(content);
+      setState(() {
+        generatedText = response.text ?? "No response was generated.";
+      });
+    } catch (e) {
+      setState(() {
+        generatedText = "An error occurred: $e";
+      });
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
- void pickFiles() async {
-    // This function enables users to pick files from their local directories
-    // This is used to allow users to select the image with the ingredients they want to cook with
-    // Uses the file picker Flutter library to achieve this
 
-    // The result variable contains the user's selected file
-    // The parameters here only allows the user to upload one image files
+  void pickFiles() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowMultiple: false,
       allowedExtensions: ['jpg', 'jpeg', 'png'],
     );
 
-
     if (result != null) {
       PlatformFile file = result.files.first;
+      Uint8List bytes;
+      if (file.bytes != null) {
+        bytes = file.bytes!;
+      } else if (file.path != null) {
+        bytes = await File(file.path!).readAsBytes();
+      } else {
+        print("Error: file has no bytes and no path.");
+        return;
+      }
 
-      // Updates file name and data into appropriate variables when the user selects the files
       setState(() {
         selectedFileName = file.name;
-        imageBytes = file.bytes;
+        imageBytes = bytes;
       });
-
-    } else {
-      // User canceled the picker
     }
   }
 
@@ -92,17 +137,11 @@ class _AIImageAnalysisScreenState extends State<AIImageAnalysisScreen> {
     getAPIKey();
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("AI Test"),
-        //backgroundColor: Colors.color,
-      ),
-
-      body: Padding(
+      appBar: AppBar(title: Text("AI Landmark Analyzer")),
+     body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
@@ -138,7 +177,7 @@ class _AIImageAnalysisScreenState extends State<AIImageAnalysisScreen> {
 
                 Gap(8),
                 ElevatedButton(
-                  onPressed: generateRecipe,
+                  onPressed: isLoading  ? null : analyzeImage,
                   style: ElevatedButton.styleFrom(
                     // backgroundColor:
                     //foregroundColor:
@@ -173,4 +212,3 @@ class _AIImageAnalysisScreenState extends State<AIImageAnalysisScreen> {
     );
   }
 }
-
