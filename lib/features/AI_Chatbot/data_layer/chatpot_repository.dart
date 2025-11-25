@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: ChatbotRepositoryDomain)
 class ChatbotRepositoryData implements ChatbotRepositoryDomain {
-  final ChatRemoteDataSource _remoteDataSource;
+  final ChatDataSource _remoteDataSource;
 
   ChatbotRepositoryData(this._remoteDataSource);
 
