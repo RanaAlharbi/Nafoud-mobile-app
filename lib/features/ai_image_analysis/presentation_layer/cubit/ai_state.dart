@@ -9,7 +9,7 @@ class AIImageInitial extends AIImageState {}
 class AIImageLoading extends AIImageState {}
 
 class AIImageSuccess extends AIImageState {
-  final LandmarkAnalysis analysis;
+  final LandmarkAnalysisEntity analysis;
   const AIImageSuccess(this.analysis);
 }
 

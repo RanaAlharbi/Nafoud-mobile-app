@@ -1,5 +1,5 @@
-class LandmarkAnalysis {
+class LandmarkAnalysisEntity {
   final String text;
 
-  const LandmarkAnalysis(this.text);
+  const LandmarkAnalysisEntity(this.text);
 }

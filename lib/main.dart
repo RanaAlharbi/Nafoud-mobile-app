@@ -5,6 +5,7 @@ import 'package:final_project/features/authentication/domain_layer/usecase/authe
 import 'package:final_project/features/authentication/presentation_layer/bloc/authentication_bloc.dart';
 import 'package:final_project/features/profile/presentation_layer/pages/profile_screen.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return MaterialApp(
-          home: ProfileScreen(),
+          home: AIImageAnalysisScreen(),
         );
       },
     );
