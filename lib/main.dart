@@ -1,8 +1,9 @@
+import 'package:final_project/AI_Chat_Test/chat_screen.dart';
 import 'package:final_project/core/initial/setup.dart';
-import 'package:final_project/features/profile/presentation_layer/pages/profile_screen.dart';
+import 'package:final_project/core/routes/router.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,12 +18,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(375, 812), 
+      designSize: const Size(375, 812),
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
         return MaterialApp(
-          home: ProfileScreen(),
+          home: AIImageAnalysisScreen(),
         );
       },
     );

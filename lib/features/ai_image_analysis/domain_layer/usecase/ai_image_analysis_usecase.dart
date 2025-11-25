@@ -11,7 +11,7 @@ class AnalyzeImageUseCase {
 
   AnalyzeImageUseCase(this.repository);
 
-  Future<Either<String, LandmarkAnalysis>> analyzeImage(Uint8List imageBytes) {
+  Future<Either<String, LandmarkAnalysisEntity>> analyzeImage(Uint8List imageBytes) {
     return repository.analyzeImage(imageBytes);
   }
 }
