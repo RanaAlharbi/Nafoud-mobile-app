@@ -6,3 +6,5 @@ sealed class ChatbotEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class ChatbotStarted extends ChatbotEvent {}

@@ -1,4 +1,4 @@
-import 'package:final_project/AI_Chat_initial/ai_chat_screen.dart';
+import 'package:final_project/features/AI_Chatbot/presentation_layer/pages/chatbot_screen.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/forgot_password_screen.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/sign_in_screen.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/sign_up_screen.dart';
