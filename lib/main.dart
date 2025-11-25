@@ -1,4 +1,3 @@
-import 'package:final_project/AI_Chat_Test/chat_screen.dart';
 import 'package:final_project/core/initial/setup.dart';
 import 'package:final_project/core/routes/router.dart';
 import 'package:flutter/material.dart';
@@ -22,9 +21,7 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return MaterialApp(
-          home: AIImageAnalysisScreen(),
-        );
+        return MaterialApp.router(routerConfig: AppRoutes.appRouter);
       },
     );
   }
