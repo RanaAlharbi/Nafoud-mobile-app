@@ -1,3 +1,4 @@
+import 'package:final_project/AI_Chat_Test/chat_screen.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/forgot_password_screen.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/sign_in_screen.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/sign_up_screen.dart';
@@ -14,10 +15,15 @@ class AppRoutes {
   static const updatePasswordScreen = '/update-password';
   static const homeScreen = '/home';
   static const profileScreen = '/profile_screen';
+  static const chatScreen = '/chat';
 
   static final GoRouter appRouter = GoRouter(
-    initialLocation: AppRoutes.profileScreen,
+    initialLocation: AppRoutes.chatScreen,
     routes: [
+      GoRoute(
+        path: AppRoutes.chatScreen,
+        builder: (context, state) => ChatScreen(),
+      ),
       GoRoute(
         path: AppRoutes.signInScreen,
         builder: (context, state) => SignInScreen(),

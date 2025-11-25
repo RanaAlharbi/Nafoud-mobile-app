@@ -1,13 +1,8 @@
+import 'package:final_project/AI_Chat_Test/chat_screen.dart';
 import 'package:final_project/core/initial/setup.dart';
 import 'package:final_project/core/routes/router.dart';
-import 'package:final_project/features/ai_image_analysis/presentation_layer/pages/ai_image_analysis_screen.dart';
-import 'package:final_project/features/authentication/domain_layer/usecase/authentication_usecase.dart';
-import 'package:final_project/features/authentication/presentation_layer/bloc/authentication_bloc.dart';
-import 'package:final_project/features/profile/presentation_layer/pages/profile_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,13 +17,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(375, 812), 
+      designSize: const Size(375, 812),
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return MaterialApp(
-          home: ProfileScreen(),
-        );
+        return MaterialApp.router(routerConfig: AppRoutes.appRouter);
       },
     );
   }
