@@ -1,4 +1,6 @@
 import 'package:final_project/features/AI_Chatbot/presentation_layer/pages/chatbot_screen.dart';
+import 'package:final_project/features/authentication/domain_layer/usecase/authentication_usecase.dart';
+import 'package:final_project/features/authentication/presentation_layer/bloc/authentication_bloc.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/forgot_password_screen.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/sign_in_screen.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/sign_up_screen.dart';
@@ -6,6 +8,8 @@ import 'package:final_project/features/authentication/presentation_layer/pages/u
 import 'package:final_project/features/home/presentation_layer/pages/home_screen.dart';
 import 'package:final_project/features/profile/presentation_layer/pages/edit_profile_screen.dart';
 import 'package:final_project/features/profile/presentation_layer/pages/profile_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRoutes {
@@ -28,16 +32,49 @@ class AppRoutes {
       ),
       GoRoute(
         path: AppRoutes.signInScreen,
-        builder: (context, state) => SignInScreen(),
+        builder: (context, state) {
+          return BlocProvider<AuthenticationBloc>(
+            create: (context) =>
+                AuthenticationBloc(GetIt.I.get<AuthenticationUsecases>()),
+            child: SignInScreen(),
+          );
+        },
       ),
+
       GoRoute(
         path: AppRoutes.signUpScreen,
-        builder: (context, state) => SignUpScreen(),
+        builder: (context, state) {
+          return BlocProvider<AuthenticationBloc>(
+            create: (context) =>
+                AuthenticationBloc(GetIt.I.get<AuthenticationUsecases>()),
+            child: SignUpScreen(),
+          );
+        },
       ),
+
       GoRoute(
         path: AppRoutes.forgotPasswordScreen,
-        builder: (context, state) => ForgotPasswordScreen(),
+        builder: (context, state) {
+          return BlocProvider<AuthenticationBloc>(
+            create: (context) =>
+                AuthenticationBloc(GetIt.I.get<AuthenticationUsecases>()),
+            child: ForgotPasswordScreen(),
+          );
+        },
       ),
+
+      GoRoute(
+        path: AppRoutes.updatePasswordScreen,
+        builder: (context, state) {
+          final email = state.extra as String;
+          return BlocProvider<AuthenticationBloc>(
+            create: (context) =>
+                AuthenticationBloc(GetIt.I.get<AuthenticationUsecases>()),
+            child: UpdatePasswordScreen(email: email),
+          );
+        },
+      ),
+
       GoRoute(
         path: AppRoutes.profileScreen,
         builder: (context, state) => ProfileScreen(),
@@ -45,13 +82,6 @@ class AppRoutes {
       GoRoute(
         path: AppRoutes.editProfileScreen,
         builder: (context, state) => EditProfileScreen(),
-      ),
-      GoRoute(
-        path: AppRoutes.updatePasswordScreen,
-        builder: (context, state) {
-          final email = state.extra as String;
-          return UpdatePasswordScreen(email: email);
-        },
       ),
 
       GoRoute(
