@@ -1,5 +1,5 @@
-import 'package:final_project/features/AI_Chatbot/domain_layer/chatbot_entity.dart';
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:final_project/features/AI_Chatbot/domain_layer/entity/chatbot_entity.dart';
 
 part 'chatbot_model.mapper.dart';
 

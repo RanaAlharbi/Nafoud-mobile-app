@@ -1,4 +1,5 @@
 import 'package:final_project/features/AI_Chatbot/presentation_layer/pages/chatbot_screen.dart';
+import 'package:final_project/features/ai_image_analysis/presentation_layer/pages/ai_image_analysis_screen.dart';
 import 'package:final_project/features/authentication/domain_layer/usecase/authentication_usecase.dart';
 import 'package:final_project/features/authentication/presentation_layer/bloc/authentication_bloc.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/forgot_password_screen.dart';
@@ -19,12 +20,17 @@ class AppRoutes {
   static const forgotPasswordScreen = '/forgot-password';
   static const updatePasswordScreen = '/update-password';
   static const homeScreen = '/home';
+
+  //profile
   static const profileScreen = '/profile-screen';
   static const editProfileScreen = '/edit-profile-screen';
+
+  //chat bot
   static const chatScreen = '/chat';
+  static const aiImageAnalysisScreen = '/ai-image-analysis-screen';
 
   static final GoRouter appRouter = GoRouter(
-    initialLocation: AppRoutes.chatScreen,
+    initialLocation: AppRoutes.signInScreen,
     routes: [
       GoRoute(
         path: AppRoutes.chatScreen,
