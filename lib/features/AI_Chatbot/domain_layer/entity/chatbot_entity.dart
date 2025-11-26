@@ -11,3 +11,4 @@ class ChatbotEntity {
     required this.welcomeMessage,
   });
 }
+

@@ -14,3 +14,5 @@ class ChatbotRepositoryData implements ChatbotRepositoryDomain {
     return _remoteDataSource.fetchConfig();
   }
 }
+
+
