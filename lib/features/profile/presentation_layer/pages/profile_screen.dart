@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:hugeicons/hugeicons.dart';
 import 'package:remixicon/remixicon.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -86,7 +85,6 @@ class ProfileScreen extends StatelessWidget {
                         color: Colors.black,
                         size: 23.sp,
                       ),
-                      //Icon(Icons.edit, color: Colors.white, size: 16),
                     ),
                   ),
                 ),
@@ -99,7 +97,11 @@ class ProfileScreen extends StatelessWidget {
           // User name - phone
           const Text(
             'Abdul-Rahman Al-Nasser',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Color.fromRGBO(103, 70, 54, 1),
+            ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
@@ -119,7 +121,7 @@ class ProfileScreen extends StatelessWidget {
 
           const Gap(20),
 
-          //Card
+          // First Card
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(16),
@@ -129,10 +131,9 @@ class ProfileScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(12.0),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withAlpha(18),
-                  spreadRadius: 5,
-                  blurRadius: 7,
-                  offset: Offset(0, 3),
+                  color: Colors.grey.withValues(alpha: 0.5),
+                  spreadRadius: 1,
+                  blurRadius: 3,
                 ),
               ],
             ),
@@ -140,21 +141,19 @@ class ProfileScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
                 ListTile(
-                  leading: Icon(Icons.person),
+                  leading: Icon(RemixIcons.profile_line),
                   title: Text("Edit Profile Information"),
                   trailing: Icon(Icons.chevron_right),
                 ),
 
                 ListTile(
-                  leading: Icon(Icons.notifications),
+                  leading: Icon(RemixIcons.notification_3_line),
                   title: Text("Notifications"),
                   trailing: Text("ON"),
                 ),
 
                 ListTile(
-                  leading: HugeIcon(
-                    icon: HugeIcons.strokeRoundedMessageTranslate,
-                  ),
+                  leading: Icon(RemixIcons.translate_2),
                   title: Text("Language"),
                   trailing: Text("English"),
                 ),
@@ -162,6 +161,46 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
           const Gap(20),
+
+          // The Second Card
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(16),
+            margin: const EdgeInsets.symmetric(horizontal: 20.0),
+            decoration: BoxDecoration(
+              color: Color(0xFFFfFFFF),
+              borderRadius: BorderRadius.circular(12.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withValues(alpha: 0.5),
+                  spreadRadius: 1,
+                  blurRadius: 3,
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                ListTile(
+                  leading: Icon(RemixIcons.mental_health_line),
+                  title: Text("Theme"),
+                  trailing: Text("Light mode"),
+                ),
+
+                ListTile(
+                  leading: Icon(RemixIcons.chat_quote_line),
+                  title: Text("Contact us"),
+                  trailing: Icon(Icons.chevron_right),
+                ),
+
+                ListTile(
+                  leading: Icon(RemixIcons.lock_2_line),
+                  title: Text("Privacy policy"),
+                  trailing: Icon(Icons.chevron_right),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
