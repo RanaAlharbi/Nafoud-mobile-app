@@ -1,14 +1,26 @@
+import 'dart:io';
+import 'dart:typed_data';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:get_it/get_it.dart';
 import 'package:remixicon/remixicon.dart';
+import '../../domain_layer/usecase/profile_usecase.dart';
+import '../cubit/profile_cubit.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BlocProvider(
+      create: (context) => ProfileCubit(GetIt.I.get<ProfileUsecase>())..loadProfile(),
+      child: Builder(
+        builder: (context) {
+          final cubit = context.read<ProfileCubit>();
+          return Scaffold(
       backgroundColor: Colors.white,
 
       appBar: AppBar(
@@ -202,6 +214,9 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
         ],
+      ),
+          );
+        },
       ),
     );
   }
