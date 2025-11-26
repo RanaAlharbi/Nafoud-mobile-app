@@ -1,5 +1,5 @@
-import 'package:dart_mappable/dart_mappable.dart';
 import 'package:final_project/features/AI_Chatbot/domain_layer/entity/chatbot_entity.dart';
+import 'package:dart_mappable/dart_mappable.dart';
 
 part 'chatbot_model.mapper.dart';
 
@@ -11,9 +11,9 @@ class ChatbotConfigModel extends ChatbotEntity with ChatbotConfigModelMappable {
     required String systemInstruction,
     required String welcomeMessage,
   }) : super(
-          apiKey: apiKey,
-          model: model,
-          systemInstruction: systemInstruction,
-          welcomeMessage: welcomeMessage,
-        );
+         apiKey: apiKey,
+         model: model,
+         systemInstruction: systemInstruction,
+         welcomeMessage: welcomeMessage,
+       );
 }
