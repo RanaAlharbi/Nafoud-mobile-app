@@ -1,26 +1,29 @@
-import 'dart:io';
-import 'dart:typed_data';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:get_it/get_it.dart';
 import 'package:remixicon/remixicon.dart';
-import '../../domain_layer/usecase/profile_usecase.dart';
-import '../cubit/profile_cubit.dart';
+
+// TODO: Remember to uncomment these imports after finsihing "profile_datasource.dart" and "profile_repository.dart"
+// import 'dart:io';
+// import 'dart:typed_data';
+// import 'package:file_picker/file_picker.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:get_it/get_it.dart';
+// import '../../domain_layer/usecase/profile_usecase.dart';
+// import '../cubit/profile_cubit.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ProfileCubit(GetIt.I.get<ProfileUsecase>())..loadProfile(),
-      child: Builder(
-        builder: (context) {
-          final cubit = context.read<ProfileCubit>();
-          return Scaffold(
+    // TODO: BlocProvider after finsihing "profile_datasource.dart" and "profile_repository.dart"
+    // return BlocProvider(
+    //   create: (context) => ProfileCubit(GetIt.I.get<ProfileUsecase>())..loadProfile(),
+    //   child: Builder(
+    //     builder: (context) {
+    //       final cubit = context.read<ProfileCubit>();
+    return Scaffold(
       backgroundColor: Colors.white,
 
       appBar: AppBar(
@@ -76,7 +79,6 @@ class ProfileScreen extends StatelessWidget {
                 Positioned(
                   bottom: -2.w,
                   left: (1.sw - 140.r) / 2 + 96.r,
-
                   child: CircleAvatar(
                     radius: 20.r,
                     backgroundColor: Colors.white,
@@ -87,7 +89,8 @@ class ProfileScreen extends StatelessWidget {
                   left: (1.sw - 140.r) / 2 + 98.r,
                   child: GestureDetector(
                     onTap: () {
-                      print("object"); // I need TODO image_picker here
+                      // TODO: Remember to implement "image picker" when "profile_datasource.dart" is ready
+                      print("Edit avatar tapped");
                     },
                     child: CircleAvatar(
                       radius: 18.r,
@@ -119,12 +122,12 @@ class ProfileScreen extends StatelessWidget {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
+            children: const [
+              Text(
                 'example@gmail.com |  ',
                 style: TextStyle(fontSize: 14, color: Colors.grey),
               ),
-              const Text(
+              Text(
                 '+966546160032',
                 style: TextStyle(fontSize: 14, color: Colors.grey),
               ),
@@ -215,9 +218,10 @@ class ProfileScreen extends StatelessWidget {
           ),
         ],
       ),
-          );
-        },
-      ),
     );
+    // TODO: !!!!!!!!!!!!!!!!!!  HERE after uncommenting (BlocProvider) !!!!!!!!!!!!!!!!!!
+    //     );
+    //   },
+    // ),
   }
 }
