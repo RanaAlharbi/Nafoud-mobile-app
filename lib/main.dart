@@ -1,5 +1,5 @@
 import 'package:final_project/core/initial/setup.dart';
-import 'package:final_project/features/ai_image_analysis/presentation_layer/pages/ai_image_analysis_screen.dart';
+import 'package:final_project/core/routes/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -26,7 +26,3 @@ class MyApp extends StatelessWidget {
   }
 }
 
-//  BlocProvider<AuthenticationBloc>(
-//       create: (_) => AuthenticationBloc(getIt<AuthenticationUsecases>()),
-//       child: MaterialApp.router(routerConfig: AppRoutes.appRouter),
-// );
