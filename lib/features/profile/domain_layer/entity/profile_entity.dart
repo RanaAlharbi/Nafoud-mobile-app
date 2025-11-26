@@ -10,12 +10,12 @@ class ProfileEntity extends Equatable {
   // 'deleted' = soft delete | 'suspended' = account blocked by admin | 'deactivated' = account deactivated temporarily by user
   final String status; // 'active', 'deleted', 'suspended', 'deactivated'  
   final bool isActive;
-  final DateTime? deletedAt;
-  final String? deletionReason;
+  // final DateTime? deletedAt;
+  // final String? deletionReason;
   final DateTime? lastLoginAt;
-  final int deactivationCount;
+  // final int deactivationCount;
   final DateTime? createdAt;
-  final DateTime? updatedAt;
+  // final DateTime? updatedAt;
 
   const ProfileEntity({
     required this.id,
@@ -25,12 +25,8 @@ class ProfileEntity extends Equatable {
     this.avatarUrl,
     required this.status,
     required this.isActive,
-    this.deletedAt,
-    this.deletionReason,
     this.lastLoginAt,
-    required this.deactivationCount,
     this.createdAt,
-    this.updatedAt,
   });
 
   @override
@@ -42,11 +38,7 @@ class ProfileEntity extends Equatable {
         avatarUrl,
         status,
         isActive,
-        deletedAt,
-        deletionReason,
         lastLoginAt,
-        deactivationCount,
         createdAt,
-        updatedAt,
       ];
 }

@@ -13,12 +13,7 @@ class ProfileModel extends ProfileEntity with ProfileModelMappable {
     super.avatarUrl,
     required super.status,
     required super.isActive,
-    super.deletedAt,
-    super.deletionReason,
     super.lastLoginAt,
-    required super.deactivationCount,
     super.createdAt,
-    super.updatedAt,
   });
-
 }
