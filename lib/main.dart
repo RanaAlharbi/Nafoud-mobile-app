@@ -1,7 +1,6 @@
 import 'package:final_project/core/initial/setup.dart';
 import 'package:final_project/core/routes/router.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() async {
@@ -27,7 +26,3 @@ class MyApp extends StatelessWidget {
   }
 }
 
-//  BlocProvider<AuthenticationBloc>(
-//       create: (_) => AuthenticationBloc(getIt<AuthenticationUsecases>()),
-//       child: MaterialApp.router(routerConfig: AppRoutes.appRouter),
-// );

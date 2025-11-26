@@ -10,13 +10,13 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:final_project/core/initial/setup.dart' as _i801;
-import 'package:final_project/features/AI_Chatbot/data_layer/chatbot_datasource.dart'
+import 'package:final_project/features/AI_Chatbot/data_layer/datasource/chatbot_datasource.dart'
     as _i986;
-import 'package:final_project/features/AI_Chatbot/data_layer/chatpot_repository.dart'
+import 'package:final_project/features/AI_Chatbot/data_layer/repository/chatbot_repository_data.dart'
     as _i886;
-import 'package:final_project/features/AI_Chatbot/domain_layer/chatbot_repository_domain.dart'
+import 'package:final_project/features/AI_Chatbot/domain_layer/repository/chatbot_repository_domain.dart'
     as _i439;
-import 'package:final_project/features/AI_Chatbot/domain_layer/chatbot_usecase.dart'
+import 'package:final_project/features/AI_Chatbot/domain_layer/usecase/chatbot_usecase.dart'
     as _i728;
 import 'package:final_project/features/AI_Chatbot/presentation_layer/bloc/chatbot_bloc.dart'
     as _i63;

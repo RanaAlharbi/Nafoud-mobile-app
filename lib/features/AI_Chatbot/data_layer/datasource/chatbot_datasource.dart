@@ -1,4 +1,4 @@
-import 'package:final_project/features/AI_Chatbot/data_layer/chatbot_model.dart';
+import 'package:final_project/features/AI_Chatbot/data_layer/model/chatbot_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:injectable/injectable.dart';
 

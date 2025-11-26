@@ -9,6 +9,4 @@ part 'ai_image_analysis_model.mapper.dart';
 class AiImageAnalysisModel extends LandmarkAnalysisEntity with AiImageAnalysisModelMappable {
  
   AiImageAnalysisModel( super.text);
-
- 
 }
