@@ -10,7 +10,7 @@ import 'package:final_project/features/profile/presentation_layer/pages/profile_
 import 'package:go_router/go_router.dart';
 
 class AppRoutes {
-  // Auth
+  //Auth
   static const signInScreen = '/sign-in';
   static const signUpScreen = '/sign-up';
   static const forgotPasswordScreen = '/forgot-password';
