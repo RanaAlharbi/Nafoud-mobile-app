@@ -75,7 +75,7 @@ class ProfileScreen extends StatelessWidget {
                   left: (1.sw - 140.r) / 2 + 98.r,
                   child: GestureDetector(
                     onTap: () {
-                      print("object");
+                      print("object"); // I need TODO image_picker here
                     },
                     child: CircleAvatar(
                       radius: 18.r,
