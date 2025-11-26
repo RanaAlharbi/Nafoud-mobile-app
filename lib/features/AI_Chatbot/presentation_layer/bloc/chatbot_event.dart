@@ -8,3 +8,4 @@ sealed class ChatbotEvent extends Equatable {
 }
 
 class ChatbotStarted extends ChatbotEvent {}
+

@@ -26,3 +26,4 @@ class ChatRemoteDataSource implements ChatDataSource {
     );
   }
 }
+
