@@ -1,10 +1,22 @@
 part of 'navigation_cubit.dart';
 
-sealed class NavigationState extends Equatable {
-  const NavigationState();
+abstract class NavState extends Equatable {
+  const NavState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
-final class NavigationInitial extends NavigationState {}
+class NavInitialState extends NavState {}
+
+class NavLoadingState extends NavState {}
+
+class NavLoadedState extends NavState {}
+
+class NavErrorState extends NavState {
+  final String message;
+  const NavErrorState({required this.message});
+
+  @override
+  List<Object?> get props => [message];
+}

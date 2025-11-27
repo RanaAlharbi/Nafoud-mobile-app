@@ -25,6 +25,7 @@ class UpdatePasswordScreen extends StatelessWidget {
       child: Builder(
         builder: (innerContext) {
           return Scaffold(
+            backgroundColor: Colors.brown,
             body: Center(
               child: BlocListener<AuthenticationBloc, AuthenticationState>(
                 listener: (innerContext, state) {
