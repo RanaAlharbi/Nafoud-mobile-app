@@ -5,6 +5,7 @@ import 'package:final_project/features/ai_image_analysis/presentation_layer/cubi
 import 'dart:typed_data';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
@@ -23,7 +24,7 @@ class AIImageAnalysisScreen extends StatelessWidget {
             appBar: AppBar(
               title: const Text("AI Landmark Analyzer"),
               centerTitle: true,
-              ),
+            ),
             body: Padding(
               padding: const EdgeInsets.all(16),
               child: SingleChildScrollView(
@@ -105,7 +106,13 @@ class AIImageAnalysisScreen extends StatelessWidget {
                             size: 50,
                           );
                         } else if (state is AIImageSuccess) {
-                          return Text(state.analysis.text);
+                          return SizedBox(
+                            height: 500,
+                            child: Markdown(
+                              data: state.analysis.text,
+                              selectable: true,
+                            ),
+                          );
                         } else if (state is AIImageError) {
                           return Text(
                             state.message,

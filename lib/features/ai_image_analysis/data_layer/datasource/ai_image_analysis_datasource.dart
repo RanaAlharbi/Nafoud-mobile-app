@@ -15,6 +15,7 @@ class AiImageAnalysisRemoteDataSource  implements BaseAiImageAnalysisDataSource 
 
   @override
   Future<String> analyze(Uint8List imageBytes) async {
+    
     const prompt = """
     You are a highly knowledgeable historian specializing in Saudi Arabia.
     Provide the following in English:

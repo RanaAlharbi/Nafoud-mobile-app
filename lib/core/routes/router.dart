@@ -7,6 +7,8 @@ import 'package:final_project/features/authentication/presentation_layer/pages/s
 import 'package:final_project/features/authentication/presentation_layer/pages/sign_up_screen.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/update_password_screen.dart';
 import 'package:final_project/features/home/presentation_layer/pages/home_screen.dart';
+import 'package:final_project/features/navigation/presentation_layer/cubit/navigation_cubit.dart';
+import 'package:final_project/features/navigation/presentation_layer/pages/navigation.dart';
 import 'package:final_project/features/profile/presentation_layer/pages/edit_profile_screen.dart';
 import 'package:final_project/features/profile/presentation_layer/pages/profile_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,7 +29,11 @@ class AppRoutes {
 
   //chat bot
   static const chatScreen = '/chat';
+
+  //ai image analysis
   static const aiImageAnalysisScreen = '/ai-image-analysis-screen';
+
+  static const navigationScreen = '/navigation_screen';
 
   static final GoRouter appRouter = GoRouter(
     initialLocation: AppRoutes.signInScreen,
@@ -91,9 +97,23 @@ class AppRoutes {
       ),
 
       GoRoute(
+        path: AppRoutes.aiImageAnalysisScreen,
+        builder: (context, state) => AIImageAnalysisScreen(),
+      ),
+
+      GoRoute(
         path: AppRoutes.homeScreen,
         builder: (context, state) => HomeScreen(),
       ),
+
+      GoRoute(
+        path: AppRoutes.navigationScreen,
+        builder: (context, state) => BlocProvider(
+          create: (context) => NavigationCubit(),
+          child: const NavigationScreen(),
+        ),
+      ),
+
     ],
     errorBuilder: (context, state) => HomeScreen(),
   );
