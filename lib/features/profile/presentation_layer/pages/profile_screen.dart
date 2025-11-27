@@ -9,6 +9,9 @@ import 'package:remixicon/remixicon.dart';
 import '../../../../core/routes/router.dart';
 import '../../domain_layer/usecase/profile_usecase.dart';
 import '../cubit/profile_cubit.dart';
+import '../widgets/profile_avatar_widget.dart';
+import '../widgets/profile_info_widget.dart';
+import '../widgets/profile_settings_card_widget.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -117,246 +120,104 @@ class ProfileScreen extends StatelessWidget {
                     // Add top padding for AppBar and safe area (for the design)
                     Gap(kToolbarHeight + 40.h + ScreenUtil().statusBarHeight),
 
-                    // Stack starts here
-                    SizedBox(
-                      height: 140.r,
-                      width: double.infinity,
-                      child: Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          // Background Circle
-                          Positioned(
-                            top: -280.h,
-                            left: (1.sw - 445.w) / 2,
-                            child: Container(
-                              height: 390.sp,
-                              clipBehavior: Clip.none,
-                              width: 445.w,
-                              decoration: BoxDecoration(
-                                color: Color.fromRGBO(255, 248, 232, 1),
-                                borderRadius: BorderRadius.circular(445.w),
-                              ),
-                            ),
-                          ),
-
-                          // Avatar starts here
-                          Positioned(
-                            top: 0,
-                            left: (1.sw - 140.r) / 2,
-                            child: CircleAvatar(
-                              radius: 70.r,
-                              backgroundColor: const Color.fromARGB(255, 201, 189, 161),
-                              backgroundImage: profile?.avatarUrl != null
-                                  ? NetworkImage(profile!.avatarUrl!)
-                                  : null,
-                              child: profile?.avatarUrl == null
-                                  ? Icon(
-                                      Icons.person,
-                                      color: Colors.white,
-                                      size: 70.sp,
-                                    )
-                                  : null,
-                            ),
-                          ),
-
-                          // Small pen (edit), starts here
-                          Positioned(
-                            bottom: -2.w,
-                            left: (1.sw - 140.r) / 2 + 96.r,
-                            child: CircleAvatar(
-                              radius: 20.r,
-                              backgroundColor: Colors.white,
-                            ),
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            left: (1.sw - 140.r) / 2 + 98.r,
-                            child: GestureDetector(
-                              onTap: () => _pickAndUploadAvatar(context),
-                              child: CircleAvatar(
-                                radius: 18.r,
-                                backgroundColor: Color.fromRGBO(245, 245, 245, 1),
-                                child: state is AvatarUploading
-                                    ? SizedBox(
-                                        width: 16.sp,
-                                        height: 16.sp,
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 2,
-                                          valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
-                                        ),
-                                      )
-                                    : Icon(
-                                        RemixIcons.edit_line,
-                                        color: Colors.black,
-                                        size: 23.sp,
-                                      ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                    // Avatar widget
+                    ProfileAvatarWidget(
+                      avatarUrl: profile?.avatarUrl,
+                      isUploading: state is AvatarUploading,
+                      onEditTap: () => _pickAndUploadAvatar(context),
                     ),
 
                     const Gap(40),
 
-                    // Full name
-                    Text(
-                      profile?.fullName ?? 'Loading...',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromRGBO(103, 70, 54, 1),
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    // Username
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '@${profile?.username ?? ''}',
-                          style: TextStyle(fontSize: 14, color: Colors.grey, fontWeight: FontWeight.w500),
-                        ),
-                      ],
-                    ),
-                    Gap(4),
-                    // Email and Phone
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '${profile?.email ?? ''} ${profile?.phoneNumber != null ? '| ' : ''}',
-                          style: TextStyle(fontSize: 14, color: Colors.grey),
-                        ),
-                        if (profile?.phoneNumber != null)
-                          Text(
-                            profile!.phoneNumber!,
-                            style: TextStyle(fontSize: 14, color: Colors.grey),
-                          ),
-                      ],
+                    // Profile info
+                    ProfileInfoWidget(
+                      fullName: profile?.fullName,
+                      username: profile?.username,
+                      email: profile?.email,
+                      phoneNumber: profile?.phoneNumber,
                     ),
 
                     const Gap(20),
 
                     // First Card
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(16),
-                      margin: const EdgeInsets.symmetric(horizontal: 20.0),
-                      decoration: BoxDecoration(
-                        color: Color(0xFFFfFFFF),
-                        borderRadius: BorderRadius.circular(12.0),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withValues(alpha: 0.5),
-                            spreadRadius: 1,
-                            blurRadius: 3,
+                    ProfileSettingsCardWidget(
+                      children: [
+                        ListTile(
+                          leading: Icon(RemixIcons.profile_line),
+                          title: Text("Edit Profile Information"),
+                          trailing: Icon(Icons.chevron_right),
+                          onTap: () => context.push(AppRoutes.editProfileScreen),
+                        ),
+                        ListTile(
+                          leading: Icon(RemixIcons.notification_3_line),
+                          title: Text("Notifications"),
+                          trailing: Text(
+                            "ON",
+                            style: TextStyle(color: Color.fromRGBO(103, 70, 54, 1)),
                           ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ListTile(
-                            leading: Icon(RemixIcons.profile_line),
-                            title: Text("Edit Profile Information"),
-                            trailing: Icon(Icons.chevron_right),
-                            onTap: () => context.push(AppRoutes.editProfileScreen),
+                        ),
+                        ListTile(
+                          leading: Icon(RemixIcons.translate_2),
+                          title: Text("Language"),
+                          trailing: Text(
+                            "English",
+                            style: TextStyle(color: Color.fromRGBO(103, 70, 54, 1)),
                           ),
-
-                          ListTile(
-                            leading: Icon(RemixIcons.notification_3_line),
-                            title: Text("Notifications"),
-                            trailing: Text(
-                              "ON",
-                              style: TextStyle(color: Color.fromRGBO(103, 70, 54, 1)),
-                            ),
-                          ),
-
-                          ListTile(
-                            leading: Icon(RemixIcons.translate_2),
-                            title: Text("Language"),
-                            trailing: Text(
-                              "English",
-                              style: TextStyle(color: Color.fromRGBO(103, 70, 54, 1)),
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                     const Gap(20),
 
                     // The Second Card
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(16),
-                      margin: const EdgeInsets.symmetric(horizontal: 20.0),
-                      decoration: BoxDecoration(
-                        color: Color(0xFFFfFFFF),
-                        borderRadius: BorderRadius.circular(12.0),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withValues(alpha: 0.5),
-                            spreadRadius: 1,
-                            blurRadius: 3,
+                    ProfileSettingsCardWidget(
+                      children: [
+                        ListTile(
+                          leading: Icon(RemixIcons.mental_health_line),
+                          title: Text("Theme"),
+                          trailing: Text(
+                            "Light mode",
+                            style: TextStyle(color: Color.fromRGBO(103, 70, 54, 1)),
                           ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ListTile(
-                            leading: Icon(RemixIcons.mental_health_line),
-                            title: Text("Theme"),
-                            trailing: Text(
-                              "Light mode",
-                              style: TextStyle(color: Color.fromRGBO(103, 70, 54, 1)),
-                            ),
-                          ),
+                        ),
+                        ListTile(
+                          leading: Icon(RemixIcons.chat_quote_line),
+                          title: Text("Contact us"),
+                          trailing: Icon(Icons.chevron_right),
+                        ),
+                        ListTile(
+                          leading: Icon(RemixIcons.lock_2_line),
+                          title: Text("Privacy policy"),
+                          trailing: Icon(Icons.chevron_right),
+                        ),
+                        ListTile(
+                          leading: Icon(RemixIcons.logout_box_r_line),
+                          title: Text("Sign Out"),
+                          trailing: Icon(Icons.chevron_right),
+                          onTap: () async {
+                            final shouldSignOut = await showDialog<bool>(
+                              context: context,
+                              builder: (dialogContext) => AlertDialog(
+                                title: Text('Sign Out'),
+                                content: Text('Are you sure you want to sign out?'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(dialogContext, false),
+                                    child: Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(dialogContext, true),
+                                    child: Text('Sign Out', style: TextStyle(color: Colors.red)),
+                                  ),
+                                ],
+                              ),
+                            );
 
-                          ListTile(
-                            leading: Icon(RemixIcons.chat_quote_line),
-                            title: Text("Contact us"),
-                            trailing: Icon(Icons.chevron_right),
-                          ),
-
-                          ListTile(
-                            leading: Icon(RemixIcons.lock_2_line),
-                            title: Text("Privacy policy"),
-                            trailing: Icon(Icons.chevron_right),
-                          ),
-
-                          ListTile(
-                            leading: Icon(RemixIcons.logout_box_r_line),
-                            title: Text("Sign Out"),
-                            trailing: Icon(Icons.chevron_right),
-                            onTap: () async {
-                              final shouldSignOut = await showDialog<bool>(
-                                context: context,
-                                builder: (dialogContext) => AlertDialog(
-                                  title: Text('Sign Out'),
-                                  content: Text('Are you sure you want to sign out?'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(dialogContext, false),
-                                      child: Text('Cancel'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(dialogContext, true),
-                                      child: Text('Sign Out', style: TextStyle(color: Colors.red)),
-                                    ),
-                                  ],
-                                ),
-                              );
-
-                              if (shouldSignOut == true && context.mounted) {
-                                context.read<ProfileCubit>().signOut();
-                              }
-                            },
-                          ),
-                        ],
-                      ),
+                            if (shouldSignOut == true && context.mounted) {
+                              context.read<ProfileCubit>().signOut();
+                            }
+                          },
+                        ),
+                      ],
                     ),
                     const Gap(20),
                   ],

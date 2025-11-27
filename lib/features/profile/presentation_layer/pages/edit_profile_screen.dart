@@ -7,12 +7,22 @@ import 'package:go_router/go_router.dart';
 import '../../domain_layer/entity/country_code_entity.dart';
 import '../../domain_layer/usecase/profile_usecase.dart';
 import '../cubit/profile_cubit.dart';
+import '../widgets/country_code_dropdown_widget.dart';
 
 class EditProfileScreen extends StatelessWidget {
   const EditProfileScreen({super.key});
 
-  // Load country codes from JSON
-  Future<List<CountryCodeEntity>> _loadCountryCodes() async {
+  // Cache the country codes Future to prevent rebuilding
+  static Future<List<CountryCodeEntity>>? _countryCodesFuture;
+
+  // Load country codes from JSON (cached)
+  Future<List<CountryCodeEntity>> _loadCountryCodes() {
+    _countryCodesFuture ??= _loadCountryCodesFromAsset();
+    return _countryCodesFuture!;
+  }
+
+  // Load country codes from asset
+  Future<List<CountryCodeEntity>> _loadCountryCodesFromAsset() async {
     final String response = await rootBundle.loadString(
       'Assets/jsons/country_code.json',
     );
@@ -46,53 +56,6 @@ class EditProfileScreen extends StatelessWidget {
     );
   }
 
-  // Build country code dropdown item
-  DropdownMenuItem<String> _buildCountryCodeItem(CountryCodeEntity country) {
-    return DropdownMenuItem(
-      value: country.code,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Image.network(
-            country.flagUrl,
-            width: 24,
-            height: 16,
-            fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) {
-              return Icon(Icons.flag, size: 24, color: Colors.grey);
-            },
-          ),
-          const SizedBox(width: 8),
-          Text(country.dialCode),
-        ],
-      ),
-    );
-  }
-
-  // Build country code dropdown widget
-  Widget _buildCountryCodeDropdown({
-    required String? selectedCode,
-    required List<CountryCodeEntity> countryCodes,
-    required bool isSubmitting,
-    required Function(String?) onChanged,
-  }) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      decoration: BoxDecoration(
-        color: const Color(0xFFFFF8E8),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.grey, width: 2),
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          value: selectedCode ?? 'sa',
-          isExpanded: false,
-          items: countryCodes.map(_buildCountryCodeItem).toList(),
-          onChanged: isSubmitting ? null : onChanged,
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -249,7 +212,7 @@ class EditProfileScreen extends StatelessWidget {
                         return Row(
                           children: [
                             // Country code dropdown with flag
-                            _buildCountryCodeDropdown(
+                            CountryCodeDropdownWidget(
                               selectedCode: formState.selectedCountryCode,
                               countryCodes: countryCodes,
                               isSubmitting: formState.isSubmitting,
