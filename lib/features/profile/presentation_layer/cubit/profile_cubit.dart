@@ -27,7 +27,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     try {
       print('Test login...');
       await supabase.auth.signInWithPassword(
-        email: 'test@example.com',
+        email: 'testo@example.com',
         password: 'Test123456!',
       );
       print('Test login success');

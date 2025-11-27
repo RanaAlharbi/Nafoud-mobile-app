@@ -4,10 +4,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import '../../../../core/routes/router.dart';
 import '../../domain_layer/entity/country_code_entity.dart';
 import '../../domain_layer/usecase/profile_usecase.dart';
 import '../cubit/profile_cubit.dart';
 import '../widgets/country_code_dropdown_widget.dart';
+import '../widgets/country_dropdown_widget.dart';
 
 class EditProfileScreen extends StatelessWidget {
   const EditProfileScreen({super.key});
@@ -80,6 +82,15 @@ class EditProfileScreen extends StatelessWidget {
             );
             // Navigate back after successful update
             context.pop();
+          } else if (state is AccountDeleted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                backgroundColor: Colors.orange,
+              ),
+            );
+            // Navigate to sign-in screen after account deletion
+            context.go(AppRoutes.signInScreen);
           } else if (state is ProfileLoaded) {
             // Initialize form with current profile data
             context.read<ProfileCubit>().initializeFormForEditing(
@@ -246,68 +257,77 @@ class EditProfileScreen extends StatelessWidget {
                     const SizedBox(height: 16),
 
                     // Country and Genre row
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFFAF4E6),
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: Colors.grey, width: 2),
-                            ),
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton<String>(
-                                hint: Text('Country'),
-                                value: formState.selectedCountry,
-                                isExpanded: true,
+                    FutureBuilder<List<CountryCodeEntity>>(
+                      future: _loadCountryCodes(),
+                      builder: (context, snapshot) {
+                        final countries = snapshot.data ?? [];
 
-                                // idk how we will work with it, but most likely by making a JSON file containing all contries, but idk where this fill will be
-                                items: ['USA', 'UK', 'Canada', 'Saudi Arabia']
-                                    .map(
-                                      (country) => DropdownMenuItem(
-                                        value: country,
-                                        child: Text(country),
+                        return Row(
+                          children: [
+                            Expanded(
+                              child: snapshot.connectionState == ConnectionState.waiting
+                                  ? Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 12,
+                                        vertical: 14,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: const Color(0xFFFAF4E6),
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(color: Colors.grey, width: 2),
+                                      ),
+                                      child: const SizedBox(
+                                        height: 20,
+                                        child: Center(
+                                          child: SizedBox(
+                                            width: 16,
+                                            height: 16,
+                                            child: CircularProgressIndicator(
+                                              strokeWidth: 2,
+                                            ),
+                                          ),
+                                        ),
                                       ),
                                     )
-                                    .toList(),
-                                onChanged: formState.isSubmitting
-                                    ? null
-                                    : (value) => cubit.updateCountry(value),
+                                  : CountryDropdownWidget(
+                                      selectedCountryCode: formState.selectedCountry,
+                                      countries: countries,
+                                      isSubmitting: formState.isSubmitting,
+                                      onChanged: (value) => cubit.updateCountry(value),
+                                    ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 12),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFFAF4E6),
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(color: Colors.grey, width: 2),
+                                ),
+                                child: DropdownButtonHideUnderline(
+                                  child: DropdownButton<String>(
+                                    hint: Text('Genre'),
+                                    value: formState.selectedGenre,
+                                    isExpanded: true,
+                                    items: ['Male', 'Female']
+                                        .map(
+                                          (genre) => DropdownMenuItem(
+                                            value: genre,
+                                            child: Text(genre),
+                                          ),
+                                        )
+                                        .toList(),
+                                    onChanged: formState.isSubmitting
+                                        ? null
+                                        : (value) => cubit.updateGenre(value),
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFFAF4E6),
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: Colors.grey, width: 2),
-                            ),
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton<String>(
-                                hint: Text('Genre'),
-                                value: formState.selectedGenre,
-                                isExpanded: true,
-                                items: ['Male', 'Female']
-                                    .map(
-                                      (genre) => DropdownMenuItem(
-                                        value: genre,
-                                        child: Text(genre),
-                                      ),
-                                    )
-                                    .toList(),
-                                onChanged: formState.isSubmitting
-                                    ? null
-                                    : (value) => cubit.updateGenre(value),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                          ],
+                        );
+                      },
                     ),
                     const SizedBox(height: 16),
 
@@ -362,7 +382,7 @@ class EditProfileScreen extends StatelessWidget {
                     ),
 
                     const SizedBox(height: 24),
-                    // TODO: Delete button (not finished yet) 
+                    // Delete account button
                     SizedBox(
                       width: double.infinity,
                       height: 48,
@@ -375,9 +395,42 @@ class EditProfileScreen extends StatelessWidget {
                         ),
                         onPressed: formState.isSubmitting
                             ? null
-                            : () => cubit.validateAndSubmitForm(),
-                        child: formState.isSubmitting
-                            ? SizedBox(
+                            : () async {
+                                final shouldDelete = await showDialog<bool>(
+                                  context: context,
+                                  builder: (dialogContext) => AlertDialog(
+                                    title: const Text(
+                                      'Delete Account',
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    content: const Text(
+                                      'Are you sure you want to delete your account? This action cannot be undone.',
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(dialogContext, false),
+                                        child: const Text('Cancel'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(dialogContext, true),
+                                        child: const Text(
+                                          'Delete',
+                                          style: TextStyle(color: Colors.red),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+
+                                if (shouldDelete == true && context.mounted) {
+                                  cubit.deleteAccount('User requested account deletion');
+                                }
+                              },
+                        child: state is AccountDeleting
+                            ? const SizedBox(
                                 height: 20,
                                 width: 20,
                                 child: CircularProgressIndicator(
