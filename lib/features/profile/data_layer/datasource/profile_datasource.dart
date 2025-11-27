@@ -10,6 +10,9 @@ abstract class ProfileDatasource {
     String? username,
     String? fullName,
     String? phoneNumber,
+    String? address,
+    String? gender,
+    String? nationality,
   });
 
   Future<String> uploadAvatar(Uint8List imageBytes, String fileName);
@@ -56,6 +59,9 @@ class SupabaseProfileDatasource implements ProfileDatasource {
     String? username,
     String? fullName,
     String? phoneNumber,
+    String? address,
+    String? gender,
+    String? nationality,
   }) async {
     final user = supabase.auth.currentUser;
     if (user == null) {
@@ -66,6 +72,9 @@ class SupabaseProfileDatasource implements ProfileDatasource {
     if (username != null) updates['username'] = username;
     if (fullName != null) updates['full_name'] = fullName;
     if (phoneNumber != null) updates['phone_number'] = phoneNumber;
+    if (address != null) updates['address'] = address;
+    if (gender != null) updates['gender'] = gender;
+    if (nationality != null) updates['nationality'] = nationality;
 
     if (updates.isEmpty) {
       throw Exception('No fields to update');

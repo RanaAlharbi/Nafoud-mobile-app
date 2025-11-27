@@ -53,11 +53,12 @@ class ProfileFormState extends ProfileState {
   final String fullName;
   final String username;
   final String email;
-  final String phoneNumber;
+  final String phoneNumber; // Just the local phone number (will be concatenated with country code on submit)
+  final String phoneCountryCode; // Country code for phone (e.g., 'sa')
+  final String dialCode; // Dial code for phone (e.g., '+966') - temporary for form submission
   final String address;
-  final String? selectedCountry;
-  final String? selectedCountryCode;
-  final String? selectedGenre;
+  final String? nationality; // Nationality (country code)
+  final String? gender; // Gender
   final Map<String, String> validationErrors;
   final bool isSubmitting;
 
@@ -66,10 +67,11 @@ class ProfileFormState extends ProfileState {
     required this.username,
     required this.email,
     required this.phoneNumber,
+    this.phoneCountryCode = 'sa',
+    this.dialCode = '+966',
     this.address = '',
-    this.selectedCountry,
-    this.selectedCountryCode = 'sa',
-    this.selectedGenre,
+    this.nationality,
+    this.gender,
     this.validationErrors = const {},
     this.isSubmitting = false,
   });
@@ -79,10 +81,11 @@ class ProfileFormState extends ProfileState {
     String? username,
     String? email,
     String? phoneNumber,
+    String? phoneCountryCode,
+    String? dialCode,
     String? address,
-    String? selectedCountry,
-    String? selectedCountryCode,
-    String? selectedGenre,
+    String? nationality,
+    String? gender,
     Map<String, String>? validationErrors,
     bool? isSubmitting,
   }) {
@@ -91,10 +94,11 @@ class ProfileFormState extends ProfileState {
       username: username ?? this.username,
       email: email ?? this.email,
       phoneNumber: phoneNumber ?? this.phoneNumber,
+      phoneCountryCode: phoneCountryCode ?? this.phoneCountryCode,
+      dialCode: dialCode ?? this.dialCode,
       address: address ?? this.address,
-      selectedCountry: selectedCountry ?? this.selectedCountry,
-      selectedCountryCode: selectedCountryCode ?? this.selectedCountryCode,
-      selectedGenre: selectedGenre ?? this.selectedGenre,
+      nationality: nationality ?? this.nationality,
+      gender: gender ?? this.gender,
       validationErrors: validationErrors ?? this.validationErrors,
       isSubmitting: isSubmitting ?? this.isSubmitting,
     );

@@ -26,12 +26,18 @@ class ProfileRepositoryImpl implements ProfileRepository {
     String? username,
     String? fullName,
     String? phoneNumber,
+    String? address,
+    String? gender,
+    String? nationality,
   }) async {
     try {
       final profile = await datasource.updateProfile(
         username: username,
         fullName: fullName,
         phoneNumber: phoneNumber,
+        address: address,
+        gender: gender,
+        nationality: nationality,
       );
       return Right(profile);
     } catch (e) {

@@ -9,7 +9,10 @@ abstract class ProfileRepository {
   Future<Either<String, ProfileEntity>> updateProfile({
     String? username, // Unique username/nickname
     String? fullName, // User's actual full name
-    String? phoneNumber,
+    String? phoneNumber, // Phone number with country code
+    String? address, // User's address
+    String? gender, // User's gender
+    String? nationality, // User's nationality (country code)
   });
 
   // Upload and update user's avatar | fileName incase if the image didn't load then we know the file path/name

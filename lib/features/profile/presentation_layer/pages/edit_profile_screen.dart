@@ -142,10 +142,10 @@ class EditProfileScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
 
-                    // Nickname/Username
+                    // Nickname/Username (non-editable)
                     TextFormField(
                       initialValue: formState.username,
-                      enabled: !formState.isSubmitting,
+                      enabled: false,
                       decoration: _buildInputDecoration(
                         labelText: "Username",
                         hintText: "puerto_rico (without @)",
@@ -224,12 +224,19 @@ class EditProfileScreen extends StatelessWidget {
                           children: [
                             // Country code dropdown with flag
                             CountryCodeDropdownWidget(
-                              selectedCode: formState.selectedCountryCode,
+                              selectedCode: formState.phoneCountryCode,
                               countryCodes: countryCodes,
                               isSubmitting: formState.isSubmitting,
                               onChanged: (value) {
                                 if (value != null) {
-                                  cubit.updateFormField('countryCode', value);
+                                  // Find the country and get its dial code
+                                  final country = countryCodes.firstWhere(
+                                    (c) => c.code == value,
+                                    orElse: () => countryCodes.first,
+                                  );
+                                  // Update both country code and dial code
+                                  cubit.updateFormField('phoneCountryCode', value);
+                                  cubit.updateFormField('dialCode', country.dialCode);
                                 }
                               },
                             ),
@@ -256,7 +263,7 @@ class EditProfileScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
 
-                    // Country and Genre row
+                    // Nationality and Gender row
                     FutureBuilder<List<CountryCodeEntity>>(
                       future: _loadCountryCodes(),
                       builder: (context, snapshot) {
@@ -290,10 +297,10 @@ class EditProfileScreen extends StatelessWidget {
                                       ),
                                     )
                                   : CountryDropdownWidget(
-                                      selectedCountryCode: formState.selectedCountry,
+                                      selectedCountryCode: formState.nationality,
                                       countries: countries,
                                       isSubmitting: formState.isSubmitting,
-                                      onChanged: (value) => cubit.updateCountry(value),
+                                      onChanged: (value) => cubit.updateNationality(value),
                                     ),
                             ),
                             const SizedBox(width: 16),
@@ -307,20 +314,20 @@ class EditProfileScreen extends StatelessWidget {
                                 ),
                                 child: DropdownButtonHideUnderline(
                                   child: DropdownButton<String>(
-                                    hint: Text('Genre'),
-                                    value: formState.selectedGenre,
+                                    hint: const Text('Gender'),
+                                    value: formState.gender,
                                     isExpanded: true,
                                     items: ['Male', 'Female']
                                         .map(
-                                          (genre) => DropdownMenuItem(
-                                            value: genre,
-                                            child: Text(genre),
+                                          (gender) => DropdownMenuItem(
+                                            value: gender,
+                                            child: Text(gender),
                                           ),
                                         )
                                         .toList(),
                                     onChanged: formState.isSubmitting
                                         ? null
-                                        : (value) => cubit.updateGenre(value),
+                                        : (value) => cubit.updateGender(value),
                                   ),
                                 ),
                               ),
@@ -357,7 +364,7 @@ class EditProfileScreen extends StatelessWidget {
                         ),
                         onPressed: formState.isSubmitting
                             ? null
-                            : () => cubit.validateAndSubmitForm(),
+                            : () => cubit.validateAndSubmitForm(formState.dialCode),
                         child: formState.isSubmitting
                             ? SizedBox(
                                 height: 20,

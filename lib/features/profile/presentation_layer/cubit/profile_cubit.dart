@@ -137,8 +137,8 @@ class ProfileCubit extends Cubit<ProfileState> {
       email: profile.email,
       phoneNumber: profile.phoneNumber ?? '',
       address: '',
-      selectedCountry: null,
-      selectedGenre: null,
+      nationality: null,
+      gender: null,
     ));
   }
 
@@ -161,8 +161,11 @@ class ProfileCubit extends Cubit<ProfileState> {
         case 'address':
           newState = currentState.copyWith(address: value);
           break;
-        case 'countryCode':
-          newState = currentState.copyWith(selectedCountryCode: value);
+        case 'phoneCountryCode':
+          newState = currentState.copyWith(phoneCountryCode: value);
+          break;
+        case 'dialCode':
+          newState = currentState.copyWith(dialCode: value);
           break;
         default:
           return;
@@ -172,24 +175,24 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  // Update country dropdown
-  void updateCountry(String? country) {
+  // Update nationality dropdown
+  void updateNationality(String? nationality) {
     if (state is ProfileFormState) {
       final currentState = state as ProfileFormState;
-      emit(currentState.copyWith(selectedCountry: country));
+      emit(currentState.copyWith(nationality: nationality));
     }
   }
 
-  // Update genre dropdown
-  void updateGenre(String? genre) {
+  // Update gender dropdown
+  void updateGender(String? gender) {
     if (state is ProfileFormState) {
       final currentState = state as ProfileFormState;
-      emit(currentState.copyWith(selectedGenre: genre));
+      emit(currentState.copyWith(gender: gender));
     }
   }
 
   // Validate and submit the form
-  Future<void> validateAndSubmitForm() async {
+  Future<void> validateAndSubmitForm(String dialCode) async {
     if (state is! ProfileFormState) return;
 
     final formState = state as ProfileFormState;
@@ -206,6 +209,18 @@ class ProfileCubit extends Cubit<ProfileState> {
       errors['username'] = 'Username can only contain letters, numbers, and underscores';
     }
 
+    if (formState.phoneNumber.trim().isEmpty) {
+      errors['phoneNumber'] = 'Phone number is required';
+    }
+
+    if (formState.nationality == null) {
+      errors['nationality'] = 'Nationality is required';
+    }
+
+    if (formState.gender == null) {
+      errors['gender'] = 'Gender is required';
+    }
+
     if (errors.isNotEmpty) {
       emit(formState.copyWith(validationErrors: errors));
       return;
@@ -214,11 +229,17 @@ class ProfileCubit extends Cubit<ProfileState> {
     // Clear errors and set submitting state
     emit(formState.copyWith(validationErrors: {}, isSubmitting: true));
 
+    // Concatenate dial code with phone number (remove + sign)
+    final fullPhoneNumber = dialCode.replaceAll('+', '') + formState.phoneNumber.trim();
+
     // Submit the update
     final result = await _usecase.updateProfile(
       username: formState.username.trim(),
       fullName: formState.fullName.trim(),
-      phoneNumber: formState.phoneNumber.trim(),
+      phoneNumber: fullPhoneNumber,
+      address: formState.address.trim().isEmpty ? null : formState.address.trim(),
+      gender: formState.gender,
+      nationality: formState.nationality,
     );
 
     result.fold(
