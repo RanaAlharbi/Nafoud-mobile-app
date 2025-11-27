@@ -56,6 +56,7 @@ class ProfileFormState extends ProfileState {
   final String phoneNumber;
   final String address;
   final String? selectedCountry;
+  final String? selectedCountryCode;
   final String? selectedGenre;
   final Map<String, String> validationErrors;
   final bool isSubmitting;
@@ -67,6 +68,7 @@ class ProfileFormState extends ProfileState {
     required this.phoneNumber,
     this.address = '',
     this.selectedCountry,
+    this.selectedCountryCode = 'sa',
     this.selectedGenre,
     this.validationErrors = const {},
     this.isSubmitting = false,
@@ -79,6 +81,7 @@ class ProfileFormState extends ProfileState {
     String? phoneNumber,
     String? address,
     String? selectedCountry,
+    String? selectedCountryCode,
     String? selectedGenre,
     Map<String, String>? validationErrors,
     bool? isSubmitting,
@@ -90,6 +93,7 @@ class ProfileFormState extends ProfileState {
       phoneNumber: phoneNumber ?? this.phoneNumber,
       address: address ?? this.address,
       selectedCountry: selectedCountry ?? this.selectedCountry,
+      selectedCountryCode: selectedCountryCode ?? this.selectedCountryCode,
       selectedGenre: selectedGenre ?? this.selectedGenre,
       validationErrors: validationErrors ?? this.validationErrors,
       isSubmitting: isSubmitting ?? this.isSubmitting,

@@ -1,12 +1,24 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import '../../domain_layer/entity/country_code_entity.dart';
 import '../../domain_layer/usecase/profile_usecase.dart';
 import '../cubit/profile_cubit.dart';
 
 class EditProfileScreen extends StatelessWidget {
   const EditProfileScreen({super.key});
+
+  // Load country codes from JSON
+  Future<List<CountryCodeEntity>> _loadCountryCodes() async {
+    final String response = await rootBundle.loadString(
+      'Assets/jsons/country_code.json',
+    );
+    final List<dynamic> data = json.decode(response);
+    return data.map((json) => CountryCodeEntity.fromJson(json)).toList();
+  }
 
   // To make the code a lot shorter & cleaner
   InputDecoration _buildInputDecoration({
@@ -30,6 +42,54 @@ class EditProfileScreen extends StatelessWidget {
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
         borderSide: BorderSide(color: Colors.grey, width: 2),
+      ),
+    );
+  }
+
+  // Build country code dropdown item
+  DropdownMenuItem<String> _buildCountryCodeItem(CountryCodeEntity country) {
+    return DropdownMenuItem(
+      value: country.code,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image.network(
+            country.flagUrl,
+            width: 24,
+            height: 16,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) {
+              return Icon(Icons.flag, size: 24, color: Colors.grey);
+            },
+          ),
+          const SizedBox(width: 8),
+          Text(country.dialCode),
+        ],
+      ),
+    );
+  }
+
+  // Build country code dropdown widget
+  Widget _buildCountryCodeDropdown({
+    required String? selectedCode,
+    required List<CountryCodeEntity> countryCodes,
+    required bool isSubmitting,
+    required Function(String?) onChanged,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFF8E8),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.grey, width: 2),
+      ),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          value: selectedCode ?? 'sa',
+          isExpanded: false,
+          items: countryCodes.map(_buildCountryCodeItem).toList(),
+          onChanged: isSubmitting ? null : onChanged,
+        ),
       ),
     );
   }
@@ -59,7 +119,9 @@ class EditProfileScreen extends StatelessWidget {
             context.pop();
           } else if (state is ProfileLoaded) {
             // Initialize form with current profile data
-            context.read<ProfileCubit>().initializeFormForEditing(state.profile);
+            context.read<ProfileCubit>().initializeFormForEditing(
+              state.profile,
+            );
           }
         },
         child: Scaffold(
@@ -101,7 +163,8 @@ class EditProfileScreen extends StatelessWidget {
                         hintText: "Puerto Rico",
                         errorText: formState.validationErrors['fullName'],
                       ),
-                      onChanged: (value) => cubit.updateFormField('fullName', value),
+                      onChanged: (value) =>
+                          cubit.updateFormField('fullName', value),
                     ),
                     const SizedBox(height: 16),
 
@@ -114,14 +177,14 @@ class EditProfileScreen extends StatelessWidget {
                         hintText: "puerto_rico (without @)",
                         errorText: formState.validationErrors['username'],
                       ),
-                      onChanged: (value) => cubit.updateFormField('username', value),
+                      onChanged: (value) =>
+                          cubit.updateFormField('username', value),
                     ),
                     const SizedBox(height: 16),
 
                     // Email
                     TextFormField(
                       initialValue: formState.email,
-                      enabled: false, // Email shouldn't be editable typically
                       decoration: _buildInputDecoration(
                         labelText: "Email",
                         hintText: "youremail@domain.com",
@@ -130,45 +193,92 @@ class EditProfileScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
 
-                    // Phone number with flag icon
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Color.fromRGBO(255, 248, 232, 1),
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: Colors.grey, width: 2),
-                      ),
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Row(
-                        children: [
-                          // Flag icon, change "sa" to the country the user chooses and the flag will change (in the code later on, and the default will be "sa" flag)
-                          Image.network(
-                            'https://flagcdn.com/w20/sa.png',
-                            width: 24,
-                            height: 16,
-                            fit: BoxFit.cover,
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: TextFormField(
-                              initialValue: formState.phoneNumber,
-                              enabled: !formState.isSubmitting,
-                              decoration: const InputDecoration(
-                                labelText: "phone number",
-                                labelStyle: TextStyle(color: Colors.grey),
-                                hintText: "123-456-7890",
-                                hintStyle: TextStyle(color: Colors.grey),
-                                border: InputBorder.none,
-                                isDense: true,
-                                contentPadding: EdgeInsets.symmetric(
+                    // Country code dropdown and Phone number
+                    FutureBuilder<List<CountryCodeEntity>>(
+                      future: _loadCountryCodes(),
+                      builder: (context, snapshot) {
+                        // Show loading state while loading country codes
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Row(
+                            children: [
+                              // Loading placeholder for country code dropdown
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
                                   vertical: 14,
                                 ),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFFFF8E8),
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                    color: Colors.grey,
+                                    width: 2,
+                                  ),
+                                ),
+                                child: const SizedBox(
+                                  width: 80,
+                                  height: 20,
+                                  child: Center(
+                                    child: SizedBox(
+                                      width: 16,
+                                      height: 16,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ),
-                              keyboardType: TextInputType.phone,
-                              onChanged: (value) => cubit.updateFormField('phoneNumber', value),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: TextFormField(
+                                  enabled: false,
+                                  decoration: _buildInputDecoration(
+                                    labelText: "Phone number",
+                                    hintText: "123-456-7890",
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        }
+
+                        final countryCodes = snapshot.data ?? [];
+
+                        return Row(
+                          children: [
+                            // Country code dropdown with flag
+                            _buildCountryCodeDropdown(
+                              selectedCode: formState.selectedCountryCode,
+                              countryCodes: countryCodes,
+                              isSubmitting: formState.isSubmitting,
+                              onChanged: (value) {
+                                if (value != null) {
+                                  cubit.updateFormField('countryCode', value);
+                                }
+                              },
                             ),
-                          ),
-                        ],
-                      ),
+                            const SizedBox(width: 12),
+                            // Phone number field
+                            Expanded(
+                              child: TextFormField(
+                                initialValue: formState.phoneNumber,
+                                enabled: !formState.isSubmitting,
+                                decoration: _buildInputDecoration(
+                                  labelText: "Phone number",
+                                  hintText: "123-456-7890",
+                                  errorText:
+                                      formState.validationErrors['phoneNumber'],
+                                ),
+                                keyboardType: TextInputType.phone,
+                                onChanged: (value) =>
+                                    cubit.updateFormField('phoneNumber', value),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
                     ),
                     const SizedBox(height: 16),
 
@@ -177,16 +287,11 @@ class EditProfileScreen extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
                             decoration: BoxDecoration(
                               color: const Color(0xFFFAF4E6),
                               borderRadius: BorderRadius.circular(8),
-                              border: Border.all(
-                                color: Colors.grey,
-                                width: 2,
-                              ),
+                              border: Border.all(color: Colors.grey, width: 2),
                             ),
                             child: DropdownButtonHideUnderline(
                               child: DropdownButton<String>(
@@ -213,16 +318,11 @@ class EditProfileScreen extends StatelessWidget {
                         const SizedBox(width: 16),
                         Expanded(
                           child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                            ),
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
                             decoration: BoxDecoration(
                               color: const Color(0xFFFAF4E6),
                               borderRadius: BorderRadius.circular(8),
-                              border: Border.all(
-                                color: Colors.grey,
-                                width: 2,
-                              ),
+                              border: Border.all(color: Colors.grey, width: 2),
                             ),
                             child: DropdownButtonHideUnderline(
                               child: DropdownButton<String>(
@@ -256,7 +356,8 @@ class EditProfileScreen extends StatelessWidget {
                         labelText: "Address",
                         hintText: "45 New Avenue, New York",
                       ),
-                      onChanged: (value) => cubit.updateFormField('address', value),
+                      onChanged: (value) =>
+                          cubit.updateFormField('address', value),
                     ),
                     const SizedBox(height: 32),
 
@@ -296,7 +397,44 @@ class EditProfileScreen extends StatelessWidget {
                               ),
                       ),
                     ),
+
                     const SizedBox(height: 24),
+                    // TODO: Delete button (not finished yet) 
+                    SizedBox(
+                      width: double.infinity,
+                      height: 48,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                        ),
+                        onPressed: formState.isSubmitting
+                            ? null
+                            : () => cubit.validateAndSubmitForm(),
+                        child: formState.isSubmitting
+                            ? SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    Colors.white,
+                                  ),
+                                ),
+                              )
+                            : const Text(
+                                'Delete Account',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 1.2,
+                                  fontSize: 19,
+                                ),
+                              ),
+                      ),
+                    ),
                   ],
                 ),
               );

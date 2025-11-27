@@ -161,6 +161,9 @@ class ProfileCubit extends Cubit<ProfileState> {
         case 'address':
           newState = currentState.copyWith(address: value);
           break;
+        case 'countryCode':
+          newState = currentState.copyWith(selectedCountryCode: value);
+          break;
         default:
           return;
       }
@@ -215,7 +218,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     final result = await _usecase.updateProfile(
       username: formState.username.trim(),
       fullName: formState.fullName.trim(),
-      phoneNumber: formState.phoneNumber.trim().isNotEmpty ? formState.phoneNumber.trim() : null,
+      phoneNumber: formState.phoneNumber.trim(),
     );
 
     result.fold(

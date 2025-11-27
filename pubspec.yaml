@@ -74,8 +74,9 @@ flutter:
     - .env
     - Assets/Images/Icons/Input_Fields/
     - Assets/Images/Sign_In_Screen/
-    - Assets/Images/Sign_Up_Screen/ 
+    - Assets/Images/Sign_Up_Screen/
     - Assets/translations/
+    - Assets/jsons/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
