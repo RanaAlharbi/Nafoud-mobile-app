@@ -30,6 +30,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       child: Builder(
         builder: (innerContext) {
           return Scaffold(
+            backgroundColor: Colors.brown,
             body: BlocListener<AuthenticationBloc, AuthenticationState>(
               listener: (innerContext, state) {
                 if (state is AuthenticationLoading) {
