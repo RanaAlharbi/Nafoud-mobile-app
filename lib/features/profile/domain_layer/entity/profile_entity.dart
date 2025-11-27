@@ -11,7 +11,7 @@ class ProfileEntity extends Equatable {
   final String status; // 'active', 'deleted', 'suspended', 'deactivated'  
   final bool isActive;
   // final DateTime? deletedAt;
-  // final String? deletionReason;
+  // final String? deletionReason;  | Do we need to ask him why he wants to delete his account?
   final DateTime? lastLoginAt;
   // final int deactivationCount;
   final DateTime? createdAt;

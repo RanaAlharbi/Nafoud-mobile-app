@@ -30,7 +30,7 @@ class AppRoutes {
   static const aiImageAnalysisScreen = '/ai-image-analysis-screen';
 
   static final GoRouter appRouter = GoRouter(
-    initialLocation: AppRoutes.signInScreen,
+    initialLocation: AppRoutes.editProfileScreen,
     routes: [
       GoRoute(
         path: AppRoutes.chatScreen,
