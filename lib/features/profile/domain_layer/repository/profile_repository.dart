@@ -7,7 +7,8 @@ abstract class ProfileRepository {
 
   // Update user's profile info
   Future<Either<String, ProfileEntity>> updateProfile({
-    String? username, // idk if we will make it changable or not 
+    String? username, // Unique username/nickname
+    String? fullName, // User's actual full name
     String? phoneNumber,
   });
 
