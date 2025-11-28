@@ -48,8 +48,8 @@ class ProfileUsecase {
   }
 
   // Soft delete user's account (there'll be no hard delete as Fahad requested)
-  Future<Either<String, String>> softDeleteAccount(String reason) async {
-    return await _repository.softDeleteAccount(reason);
+  Future<Either<String, String>> softDeleteAccount() async {
+    return await _repository.softDeleteAccount();
   }
 
   // Restore deleted account (idk if we will implement this function, so I'll leave it here)

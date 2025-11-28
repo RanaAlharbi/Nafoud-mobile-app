@@ -159,7 +159,12 @@ class ProfileScreen extends StatelessWidget {
                           leading: Icon(RemixIcons.profile_line),
                           title: Text("Edit Profile Information"),
                           trailing: Icon(Icons.chevron_right),
-                          onTap: () => context.push(AppRoutes.editProfileScreen),
+                          onTap: () async {
+                            await context.push(AppRoutes.editProfileScreen);
+                            if (context.mounted) {
+                              context.read<ProfileCubit>().loadProfile();
+                            }
+                          },
                         ),
                         ListTile(
                           leading: Icon(RemixIcons.notification_3_line),

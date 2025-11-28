@@ -19,7 +19,7 @@ abstract class ProfileDatasource {
 
   Future<ProfileModel> updateAvatarUrl(String avatarUrl);
 
-  Future<String> softDeleteAccount(String reason);
+  Future<String> softDeleteAccount();
 
   Future<String> restoreAccount();
 
@@ -159,7 +159,7 @@ class SupabaseProfileDatasource implements ProfileDatasource {
   }
 
   @override
-  Future<String> softDeleteAccount(String reason) async {
+  Future<String> softDeleteAccount() async {
     final user = supabase.auth.currentUser;
     if (user == null) {
       throw Exception('No user logged in');

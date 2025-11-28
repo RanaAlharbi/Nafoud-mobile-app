@@ -456,6 +456,9 @@ class EditProfileScreen extends StatelessWidget {
                                   ),
                                 );
 
+                                if (shouldDelete == true && context.mounted) {
+                                  cubit.deleteAccount();
+                                }
                               },
                         child: state is AccountDeleting
                             ? const SizedBox(

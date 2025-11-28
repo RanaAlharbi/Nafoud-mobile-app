@@ -101,10 +101,10 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   // Soft delete account
-  Future<void> deleteAccount(String reason) async {
+  Future<void> deleteAccount() async {
     emit(AccountDeleting());
 
-    final result = await _usecase.softDeleteAccount(reason);
+    final result = await _usecase.softDeleteAccount();
 
     result.fold(
       (error) => emit(ProfileError(error)),

@@ -22,7 +22,7 @@ abstract class ProfileRepository {
   Future<Either<String, ProfileEntity>> updateAvatarUrl(String avatarUrl);
 
   // Soft delete user's account
-  Future<Either<String, String>> softDeleteAccount(String reason);
+  Future<Either<String, String>> softDeleteAccount();
 
   // Restore deleted account, idk if we will implement it or not but it would be here for now
   Future<Either<String, String>> restoreAccount();

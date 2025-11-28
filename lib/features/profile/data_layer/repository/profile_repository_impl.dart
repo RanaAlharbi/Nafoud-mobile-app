@@ -69,9 +69,9 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }
 
   @override
-  Future<Either<String, String>> softDeleteAccount(String reason) async {
+  Future<Either<String, String>> softDeleteAccount() async {
     try {
-      final message = await datasource.softDeleteAccount(reason);
+      final message = await datasource.softDeleteAccount();
       return Right(message);
     } catch (e) {
       return Left('Failed to delete account: ${e.toString()}');
