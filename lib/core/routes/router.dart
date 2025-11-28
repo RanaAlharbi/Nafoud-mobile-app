@@ -32,7 +32,7 @@ class AppRoutes {
   static const navigationScreen = '/navigation_screen';
 
   static final GoRouter appRouter = GoRouter(
-    initialLocation: AppRoutes.signInScreen,
+    initialLocation: AppRoutes.navigationScreen,
     routes: [
       GoRoute(
         path: AppRoutes.chatScreen,
