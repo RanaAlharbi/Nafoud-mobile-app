@@ -38,7 +38,6 @@ class AppRoutes {
 
   static final GoRouter appRouter = GoRouter(
     initialLocation: AppRoutes.signInScreen,
-    initialLocation: AppRoutes.signInScreen,
     routes: [
       GoRoute(
         path: AppRoutes.chatScreen,
