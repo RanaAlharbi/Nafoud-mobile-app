@@ -12,10 +12,12 @@ class ProfileModel extends ProfileEntity with ProfileModelMappable {
     required super.email,
     @MappableField(key: 'phone_number') super.phoneNumber,
     @MappableField(key: 'avatar_url') super.avatarUrl,
+    super.address,
+    super.gender,
+    super.nationality,
     required super.status,
     @MappableField(key: 'is_active') required super.isActive,
     @MappableField(key: 'last_login_at') super.lastLoginAt,
     @MappableField(key: 'created_at') super.createdAt,
-    // I need to add gender here
   });
 }

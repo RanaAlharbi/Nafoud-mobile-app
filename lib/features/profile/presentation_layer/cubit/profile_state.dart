@@ -55,10 +55,10 @@ class ProfileFormState extends ProfileState {
   final String email;
   final String phoneNumber; // Just the local phone number (will be concatenated with country code on submit)
   final String phoneCountryCode; // Country code for phone (e.g., 'sa')
-  final String dialCode; // Dial code for phone (e.g., '+966') - temporary for form submission
+  final String dialCode; // (e.g., '+966') - temporary for form submission
   final String address;
   final String? nationality; // Nationality (country code)
-  final String? gender; // Gender
+  final String? gender; 
   final Map<String, String> validationErrors;
   final bool isSubmitting;
 

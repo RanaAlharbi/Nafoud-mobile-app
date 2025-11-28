@@ -58,7 +58,6 @@ class EditProfileScreen extends StatelessWidget {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -130,6 +129,7 @@ class EditProfileScreen extends StatelessWidget {
                   children: [
                     // Full name
                     TextFormField(
+                      key: ValueKey('fullName_${formState.fullName}'),
                       initialValue: formState.fullName,
                       enabled: !formState.isSubmitting,
                       decoration: _buildInputDecoration(
@@ -235,8 +235,14 @@ class EditProfileScreen extends StatelessWidget {
                                     orElse: () => countryCodes.first,
                                   );
                                   // Update both country code and dial code
-                                  cubit.updateFormField('phoneCountryCode', value);
-                                  cubit.updateFormField('dialCode', country.dialCode);
+                                  cubit.updateFormField(
+                                    'phoneCountryCode',
+                                    value,
+                                  );
+                                  cubit.updateFormField(
+                                    'dialCode',
+                                    country.dialCode,
+                                  );
                                 }
                               },
                             ),
@@ -244,6 +250,7 @@ class EditProfileScreen extends StatelessWidget {
                             // Phone number field
                             Expanded(
                               child: TextFormField(
+                                key: ValueKey('phone_${formState.phoneNumber}'),
                                 initialValue: formState.phoneNumber,
                                 enabled: !formState.isSubmitting,
                                 decoration: _buildInputDecoration(
@@ -272,7 +279,9 @@ class EditProfileScreen extends StatelessWidget {
                         return Row(
                           children: [
                             Expanded(
-                              child: snapshot.connectionState == ConnectionState.waiting
+                              child:
+                                  snapshot.connectionState ==
+                                      ConnectionState.waiting
                                   ? Container(
                                       padding: const EdgeInsets.symmetric(
                                         horizontal: 12,
@@ -281,7 +290,10 @@ class EditProfileScreen extends StatelessWidget {
                                       decoration: BoxDecoration(
                                         color: const Color(0xFFFAF4E6),
                                         borderRadius: BorderRadius.circular(8),
-                                        border: Border.all(color: Colors.grey, width: 2),
+                                        border: Border.all(
+                                          color: Colors.grey,
+                                          width: 2,
+                                        ),
                                       ),
                                       child: const SizedBox(
                                         height: 20,
@@ -297,20 +309,27 @@ class EditProfileScreen extends StatelessWidget {
                                       ),
                                     )
                                   : CountryDropdownWidget(
-                                      selectedCountryCode: formState.nationality,
+                                      selectedCountryCode:
+                                          formState.nationality,
                                       countries: countries,
                                       isSubmitting: formState.isSubmitting,
-                                      onChanged: (value) => cubit.updateNationality(value),
+                                      onChanged: (value) =>
+                                          cubit.updateNationality(value),
                                     ),
                             ),
                             const SizedBox(width: 16),
                             Expanded(
                               child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 12),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                ),
                                 decoration: BoxDecoration(
                                   color: const Color(0xFFFAF4E6),
                                   borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(color: Colors.grey, width: 2),
+                                  border: Border.all(
+                                    color: Colors.grey,
+                                    width: 2,
+                                  ),
                                 ),
                                 child: DropdownButtonHideUnderline(
                                   child: DropdownButton<String>(
@@ -340,6 +359,7 @@ class EditProfileScreen extends StatelessWidget {
 
                     // Address
                     TextFormField(
+                      key: ValueKey('address_${formState.address}'),
                       initialValue: formState.address,
                       enabled: !formState.isSubmitting,
                       decoration: _buildInputDecoration(
@@ -364,7 +384,9 @@ class EditProfileScreen extends StatelessWidget {
                         ),
                         onPressed: formState.isSubmitting
                             ? null
-                            : () => cubit.validateAndSubmitForm(formState.dialCode),
+                            : () => cubit.validateAndSubmitForm(
+                                formState.dialCode,
+                              ),
                         child: formState.isSubmitting
                             ? SizedBox(
                                 height: 20,
@@ -418,11 +440,13 @@ class EditProfileScreen extends StatelessWidget {
                                     ),
                                     actions: [
                                       TextButton(
-                                        onPressed: () => Navigator.pop(dialogContext, false),
+                                        onPressed: () =>
+                                            Navigator.pop(dialogContext, false),
                                         child: const Text('Cancel'),
                                       ),
                                       TextButton(
-                                        onPressed: () => Navigator.pop(dialogContext, true),
+                                        onPressed: () =>
+                                            Navigator.pop(dialogContext, true),
                                         child: const Text(
                                           'Delete',
                                           style: TextStyle(color: Colors.red),
@@ -433,7 +457,9 @@ class EditProfileScreen extends StatelessWidget {
                                 );
 
                                 if (shouldDelete == true && context.mounted) {
-                                  cubit.deleteAccount('User requested account deletion');
+                                  cubit.deleteAccount(
+                                    'User requested account deletion',
+                                  );
                                 }
                               },
                         child: state is AccountDeleting

@@ -50,6 +50,24 @@ class ProfileModelMapper extends ClassMapperBase<ProfileModel> {
     key: r'avatar_url',
     opt: true,
   );
+  static String? _$address(ProfileModel v) => v.address;
+  static const Field<ProfileModel, String> _f$address = Field(
+    'address',
+    _$address,
+    opt: true,
+  );
+  static String? _$gender(ProfileModel v) => v.gender;
+  static const Field<ProfileModel, String> _f$gender = Field(
+    'gender',
+    _$gender,
+    opt: true,
+  );
+  static String? _$nationality(ProfileModel v) => v.nationality;
+  static const Field<ProfileModel, String> _f$nationality = Field(
+    'nationality',
+    _$nationality,
+    opt: true,
+  );
   static String _$status(ProfileModel v) => v.status;
   static const Field<ProfileModel, String> _f$status = Field(
     'status',
@@ -84,6 +102,9 @@ class ProfileModelMapper extends ClassMapperBase<ProfileModel> {
     #email: _f$email,
     #phoneNumber: _f$phoneNumber,
     #avatarUrl: _f$avatarUrl,
+    #address: _f$address,
+    #gender: _f$gender,
+    #nationality: _f$nationality,
     #status: _f$status,
     #isActive: _f$isActive,
     #lastLoginAt: _f$lastLoginAt,
@@ -98,6 +119,9 @@ class ProfileModelMapper extends ClassMapperBase<ProfileModel> {
       email: data.dec(_f$email),
       phoneNumber: data.dec(_f$phoneNumber),
       avatarUrl: data.dec(_f$avatarUrl),
+      address: data.dec(_f$address),
+      gender: data.dec(_f$gender),
+      nationality: data.dec(_f$nationality),
       status: data.dec(_f$status),
       isActive: data.dec(_f$isActive),
       lastLoginAt: data.dec(_f$lastLoginAt),
@@ -174,6 +198,9 @@ abstract class ProfileModelCopyWith<$R, $In extends ProfileModel, $Out>
     String? email,
     String? phoneNumber,
     String? avatarUrl,
+    String? address,
+    String? gender,
+    String? nationality,
     String? status,
     bool? isActive,
     DateTime? lastLoginAt,
@@ -198,6 +225,9 @@ class _ProfileModelCopyWithImpl<$R, $Out>
     String? email,
     Object? phoneNumber = $none,
     Object? avatarUrl = $none,
+    Object? address = $none,
+    Object? gender = $none,
+    Object? nationality = $none,
     String? status,
     bool? isActive,
     Object? lastLoginAt = $none,
@@ -210,6 +240,9 @@ class _ProfileModelCopyWithImpl<$R, $Out>
       if (email != null) #email: email,
       if (phoneNumber != $none) #phoneNumber: phoneNumber,
       if (avatarUrl != $none) #avatarUrl: avatarUrl,
+      if (address != $none) #address: address,
+      if (gender != $none) #gender: gender,
+      if (nationality != $none) #nationality: nationality,
       if (status != null) #status: status,
       if (isActive != null) #isActive: isActive,
       if (lastLoginAt != $none) #lastLoginAt: lastLoginAt,
@@ -224,6 +257,9 @@ class _ProfileModelCopyWithImpl<$R, $Out>
     email: data.get(#email, or: $value.email),
     phoneNumber: data.get(#phoneNumber, or: $value.phoneNumber),
     avatarUrl: data.get(#avatarUrl, or: $value.avatarUrl),
+    address: data.get(#address, or: $value.address),
+    gender: data.get(#gender, or: $value.gender),
+    nationality: data.get(#nationality, or: $value.nationality),
     status: data.get(#status, or: $value.status),
     isActive: data.get(#isActive, or: $value.isActive),
     lastLoginAt: data.get(#lastLoginAt, or: $value.lastLoginAt),

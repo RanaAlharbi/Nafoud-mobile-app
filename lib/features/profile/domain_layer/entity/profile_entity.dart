@@ -8,6 +8,9 @@ class ProfileEntity extends Equatable {
   final String email;
   final String? phoneNumber;
   final String? avatarUrl;
+  final String? address;
+  final String? gender; // 'Male' or 'Female'
+  final String? nationality; // Country code (e.g., 'sa', 'us')
 
   // 'deleted' = soft delete | 'suspended' = account blocked by admin | 'deactivated' = account deactivated temporarily by user
   final String status; // 'active', 'deleted', 'suspended', 'deactivated'
@@ -18,7 +21,6 @@ class ProfileEntity extends Equatable {
   // final int deactivationCount;
   final DateTime? createdAt;
   // final DateTime? updatedAt;
-  // I need to add gender here
 
   const ProfileEntity({
     required this.id,
@@ -27,6 +29,9 @@ class ProfileEntity extends Equatable {
     required this.email,
     this.phoneNumber,
     this.avatarUrl,
+    this.address,
+    this.gender,
+    this.nationality,
     required this.status,
     required this.isActive,
     this.lastLoginAt,
@@ -41,6 +46,9 @@ class ProfileEntity extends Equatable {
         email,
         phoneNumber,
         avatarUrl,
+        address,
+        gender,
+        nationality,
         status,
         isActive,
         lastLoginAt,

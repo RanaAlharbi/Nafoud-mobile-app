@@ -1,9 +1,11 @@
-import 'dart:typed_data';
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:supabase_flutter/supabase_flutter.dart'; // TEMPORARY: For test login
 import '../../domain_layer/usecase/profile_usecase.dart';
 import '../../domain_layer/entity/profile_entity.dart';
+import '../../domain_layer/entity/country_code_entity.dart';
 
 part 'profile_state.dart';
 
@@ -129,16 +131,67 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
   }
 
+  // Method to load country codes from JSON
+  Future<List<CountryCodeEntity>> _loadCountryCodes() async {
+    final String response = await rootBundle.loadString(
+      'Assets/jsons/country_code.json',
+    );
+    final List<dynamic> data = json.decode(response);
+    return data.map((json) => CountryCodeEntity.fromJson(json)).toList();
+  }
+
+  // Method to change phone number type and extract country code
+  Future<Map<String, String>> _parsePhoneNumber(String? phoneNumber) async {
+    if (phoneNumber == null || phoneNumber.isEmpty) {
+      return {
+        'phoneCountryCode': 'sa',
+        'dialCode': '+966',
+        'localNumber': '',
+      };
+    }
+
+    // Load country codes
+    final countryCodes = await _loadCountryCodes();
+
+    // Sort by dial code length (descending) to match longer codes first
+    final sortedCodes = List<CountryCodeEntity>.from(countryCodes)
+      ..sort((a, b) => b.dialCode.length.compareTo(a.dialCode.length));
+
+    // Try to match the phone number with dial codes
+    for (final country in sortedCodes) {
+      final dialCodeWithoutPlus = country.dialCode.replaceAll('+', '');
+      if (phoneNumber.startsWith(dialCodeWithoutPlus)) {
+        return {
+          'phoneCountryCode': country.code,
+          'dialCode': country.dialCode,
+          'localNumber': phoneNumber.substring(dialCodeWithoutPlus.length),
+        };
+      }
+    }
+
+    // If no match found, default to Saudi Arabia
+    return {
+      'phoneCountryCode': 'sa',
+      'dialCode': '+966',
+      'localNumber': phoneNumber,
+    };
+  }
+
   // Initialize form for editing with current profile data
-  void initializeFormForEditing(ProfileEntity profile) {
+  Future<void> initializeFormForEditing(ProfileEntity profile) async {
+    // Change phone number type to extract country code and local number
+    final parsedPhone = await _parsePhoneNumber(profile.phoneNumber);
+
     emit(ProfileFormState(
       fullName: profile.fullName,
       username: profile.username,
       email: profile.email,
-      phoneNumber: profile.phoneNumber ?? '',
-      address: '',
-      nationality: null,
-      gender: null,
+      phoneNumber: parsedPhone['localNumber'] ?? '',
+      phoneCountryCode: parsedPhone['phoneCountryCode'] ?? 'sa',
+      dialCode: parsedPhone['dialCode'] ?? '+966',
+      address: profile.address ?? '',
+      nationality: profile.nationality,
+      gender: profile.gender,
     ));
   }
 
@@ -229,7 +282,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     // Clear errors and set submitting state
     emit(formState.copyWith(validationErrors: {}, isSubmitting: true));
 
-    // Concatenate dial code with phone number (remove + sign)
+    // Remove "+" sign from countries (+966 e.g.)
     final fullPhoneNumber = dialCode.replaceAll('+', '') + formState.phoneNumber.trim();
 
     // Submit the update
