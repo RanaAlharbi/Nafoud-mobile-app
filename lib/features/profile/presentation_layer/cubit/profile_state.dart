@@ -47,3 +47,52 @@ class AccountRestored extends ProfileState {
 }
 
 class SignedOut extends ProfileState {}
+
+// State for managing edit profile form
+class ProfileFormState extends ProfileState {
+  final String fullName;
+  final String username;
+  final String email;
+  final String phoneNumber;
+  final String address;
+  final String? selectedCountry;
+  final String? selectedGenre;
+  final Map<String, String> validationErrors;
+  final bool isSubmitting;
+
+  const ProfileFormState({
+    required this.fullName,
+    required this.username,
+    required this.email,
+    required this.phoneNumber,
+    this.address = '',
+    this.selectedCountry,
+    this.selectedGenre,
+    this.validationErrors = const {},
+    this.isSubmitting = false,
+  });
+
+  ProfileFormState copyWith({
+    String? fullName,
+    String? username,
+    String? email,
+    String? phoneNumber,
+    String? address,
+    String? selectedCountry,
+    String? selectedGenre,
+    Map<String, String>? validationErrors,
+    bool? isSubmitting,
+  }) {
+    return ProfileFormState(
+      fullName: fullName ?? this.fullName,
+      username: username ?? this.username,
+      email: email ?? this.email,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      address: address ?? this.address,
+      selectedCountry: selectedCountry ?? this.selectedCountry,
+      selectedGenre: selectedGenre ?? this.selectedGenre,
+      validationErrors: validationErrors ?? this.validationErrors,
+      isSubmitting: isSubmitting ?? this.isSubmitting,
+    );
+  }
+}

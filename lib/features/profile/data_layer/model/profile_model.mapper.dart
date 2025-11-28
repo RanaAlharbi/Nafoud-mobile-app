@@ -28,18 +28,26 @@ class ProfileModelMapper extends ClassMapperBase<ProfileModel> {
     'username',
     _$username,
   );
+  static String _$fullName(ProfileModel v) => v.fullName;
+  static const Field<ProfileModel, String> _f$fullName = Field(
+    'fullName',
+    _$fullName,
+    key: r'full_name',
+  );
   static String _$email(ProfileModel v) => v.email;
   static const Field<ProfileModel, String> _f$email = Field('email', _$email);
   static String? _$phoneNumber(ProfileModel v) => v.phoneNumber;
   static const Field<ProfileModel, String> _f$phoneNumber = Field(
     'phoneNumber',
     _$phoneNumber,
+    key: r'phone_number',
     opt: true,
   );
   static String? _$avatarUrl(ProfileModel v) => v.avatarUrl;
   static const Field<ProfileModel, String> _f$avatarUrl = Field(
     'avatarUrl',
     _$avatarUrl,
+    key: r'avatar_url',
     opt: true,
   );
   static String _$status(ProfileModel v) => v.status;
@@ -51,40 +59,20 @@ class ProfileModelMapper extends ClassMapperBase<ProfileModel> {
   static const Field<ProfileModel, bool> _f$isActive = Field(
     'isActive',
     _$isActive,
-  );
-  static DateTime? _$deletedAt(ProfileModel v) => v.deletedAt;
-  static const Field<ProfileModel, DateTime> _f$deletedAt = Field(
-    'deletedAt',
-    _$deletedAt,
-    opt: true,
-  );
-  static String? _$deletionReason(ProfileModel v) => v.deletionReason;
-  static const Field<ProfileModel, String> _f$deletionReason = Field(
-    'deletionReason',
-    _$deletionReason,
-    opt: true,
+    key: r'is_active',
   );
   static DateTime? _$lastLoginAt(ProfileModel v) => v.lastLoginAt;
   static const Field<ProfileModel, DateTime> _f$lastLoginAt = Field(
     'lastLoginAt',
     _$lastLoginAt,
+    key: r'last_login_at',
     opt: true,
-  );
-  static int _$deactivationCount(ProfileModel v) => v.deactivationCount;
-  static const Field<ProfileModel, int> _f$deactivationCount = Field(
-    'deactivationCount',
-    _$deactivationCount,
   );
   static DateTime? _$createdAt(ProfileModel v) => v.createdAt;
   static const Field<ProfileModel, DateTime> _f$createdAt = Field(
     'createdAt',
     _$createdAt,
-    opt: true,
-  );
-  static DateTime? _$updatedAt(ProfileModel v) => v.updatedAt;
-  static const Field<ProfileModel, DateTime> _f$updatedAt = Field(
-    'updatedAt',
-    _$updatedAt,
+    key: r'created_at',
     opt: true,
   );
 
@@ -92,34 +80,28 @@ class ProfileModelMapper extends ClassMapperBase<ProfileModel> {
   final MappableFields<ProfileModel> fields = const {
     #id: _f$id,
     #username: _f$username,
+    #fullName: _f$fullName,
     #email: _f$email,
     #phoneNumber: _f$phoneNumber,
     #avatarUrl: _f$avatarUrl,
     #status: _f$status,
     #isActive: _f$isActive,
-    #deletedAt: _f$deletedAt,
-    #deletionReason: _f$deletionReason,
     #lastLoginAt: _f$lastLoginAt,
-    #deactivationCount: _f$deactivationCount,
     #createdAt: _f$createdAt,
-    #updatedAt: _f$updatedAt,
   };
 
   static ProfileModel _instantiate(DecodingData data) {
     return ProfileModel(
       id: data.dec(_f$id),
       username: data.dec(_f$username),
+      fullName: data.dec(_f$fullName),
       email: data.dec(_f$email),
       phoneNumber: data.dec(_f$phoneNumber),
       avatarUrl: data.dec(_f$avatarUrl),
       status: data.dec(_f$status),
       isActive: data.dec(_f$isActive),
-      deletedAt: data.dec(_f$deletedAt),
-      deletionReason: data.dec(_f$deletionReason),
       lastLoginAt: data.dec(_f$lastLoginAt),
-      deactivationCount: data.dec(_f$deactivationCount),
       createdAt: data.dec(_f$createdAt),
-      updatedAt: data.dec(_f$updatedAt),
     );
   }
 
@@ -188,17 +170,14 @@ abstract class ProfileModelCopyWith<$R, $In extends ProfileModel, $Out>
   $R call({
     String? id,
     String? username,
+    String? fullName,
     String? email,
     String? phoneNumber,
     String? avatarUrl,
     String? status,
     bool? isActive,
-    DateTime? deletedAt,
-    String? deletionReason,
     DateTime? lastLoginAt,
-    int? deactivationCount,
     DateTime? createdAt,
-    DateTime? updatedAt,
   });
   ProfileModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
@@ -215,52 +194,40 @@ class _ProfileModelCopyWithImpl<$R, $Out>
   $R call({
     String? id,
     String? username,
+    String? fullName,
     String? email,
     Object? phoneNumber = $none,
     Object? avatarUrl = $none,
     String? status,
     bool? isActive,
-    Object? deletedAt = $none,
-    Object? deletionReason = $none,
     Object? lastLoginAt = $none,
-    int? deactivationCount,
     Object? createdAt = $none,
-    Object? updatedAt = $none,
   }) => $apply(
     FieldCopyWithData({
       if (id != null) #id: id,
       if (username != null) #username: username,
+      if (fullName != null) #fullName: fullName,
       if (email != null) #email: email,
       if (phoneNumber != $none) #phoneNumber: phoneNumber,
       if (avatarUrl != $none) #avatarUrl: avatarUrl,
       if (status != null) #status: status,
       if (isActive != null) #isActive: isActive,
-      if (deletedAt != $none) #deletedAt: deletedAt,
-      if (deletionReason != $none) #deletionReason: deletionReason,
       if (lastLoginAt != $none) #lastLoginAt: lastLoginAt,
-      if (deactivationCount != null) #deactivationCount: deactivationCount,
       if (createdAt != $none) #createdAt: createdAt,
-      if (updatedAt != $none) #updatedAt: updatedAt,
     }),
   );
   @override
   ProfileModel $make(CopyWithData data) => ProfileModel(
     id: data.get(#id, or: $value.id),
     username: data.get(#username, or: $value.username),
+    fullName: data.get(#fullName, or: $value.fullName),
     email: data.get(#email, or: $value.email),
     phoneNumber: data.get(#phoneNumber, or: $value.phoneNumber),
     avatarUrl: data.get(#avatarUrl, or: $value.avatarUrl),
     status: data.get(#status, or: $value.status),
     isActive: data.get(#isActive, or: $value.isActive),
-    deletedAt: data.get(#deletedAt, or: $value.deletedAt),
-    deletionReason: data.get(#deletionReason, or: $value.deletionReason),
     lastLoginAt: data.get(#lastLoginAt, or: $value.lastLoginAt),
-    deactivationCount: data.get(
-      #deactivationCount,
-      or: $value.deactivationCount,
-    ),
     createdAt: data.get(#createdAt, or: $value.createdAt),
-    updatedAt: data.get(#updatedAt, or: $value.updatedAt),
   );
 
   @override

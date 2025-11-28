@@ -18,10 +18,12 @@ class ProfileUsecase {
   // Update user's profile information
   Future<Either<String, ProfileEntity>> updateProfile({
     String? username,
+    String? fullName,
     String? phoneNumber,
   }) async {
     return await _repository.updateProfile(
       username: username,
+      fullName: fullName,
       phoneNumber: phoneNumber,
     );
   }
