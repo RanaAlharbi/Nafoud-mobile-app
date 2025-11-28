@@ -43,6 +43,30 @@ class SupabaseDatasource implements AuthenticationDatasource {
     if (session == null) {
       throw Exception('Sign in failed: no session returned');
     }
+
+    // Check if profile exists, if not create one
+    final userId = response.user?.id;
+    if (userId != null) {
+      final existingProfile = await supabase
+          .from('profiles')
+          .select()
+          .eq('id', userId)
+          .maybeSingle();
+
+      if (existingProfile == null) {
+        // Create profile if it doesn't exist with all required fields
+        final defaultUsername = email.split('@')[0];
+        await supabase.from('profiles').upsert({
+          'id': userId,
+          'email': email,
+          'username': defaultUsername,
+          'full_name': defaultUsername, // Default to username because old users only have name back then
+          'status': 'active',
+          'is_active': true,
+        });
+      }
+    }
+
     return AuthenticationModel.fromSession(session);
   }
 
@@ -68,6 +92,9 @@ class SupabaseDatasource implements AuthenticationDatasource {
         'id': userId,
         'username': username,
         'email': email,
+        'full_name': username, // Default to username, user can update later (Old users couldn't go to profile, but solved it this way)
+        'status': 'active',
+        'is_active': true,
       });
     }
     return AuthenticationModel.fromSession(session);

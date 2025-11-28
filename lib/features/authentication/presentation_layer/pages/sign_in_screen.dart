@@ -45,7 +45,7 @@ class SignInScreen extends StatelessWidget {
                       innerContext,
                     ).showSnackBar(SnackBar(content: Text(state.message)));
 
-                    innerContext.go(AppRoutes.homeScreen);
+                    innerContext.go(AppRoutes.navigationScreen);
                   } else if (state is AuthenticationFailure) {
                     ScaffoldMessenger.of(
                       innerContext,
