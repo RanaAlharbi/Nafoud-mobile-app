@@ -1,5 +1,5 @@
 import 'package:final_project/core/app_theme/app_text/app_text.dart';
-import 'package:final_project/core/initial/setup.dart';
+import 'package:final_project/core/di/configure_dependencies.dart';
 import 'package:final_project/core/routes/router.dart';
 import 'package:final_project/features/authentication/presentation_layer/bloc/authentication_bloc.dart';
 import 'package:final_project/features/authentication/presentation_layer/widgets/authentication_card_widget.dart';

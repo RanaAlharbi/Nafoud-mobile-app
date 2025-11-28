@@ -1,33 +1,18 @@
-import 'package:final_project/core/initial/setup.config.dart';
-import 'package:get_it/get_it.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:injectable/injectable.dart';
-import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:injectable/injectable.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
-
-final getIt = GetIt.instance;
-
-@InjectableInit()
-void configureDependencies() => getIt.init();
-
-Future<void> setup() async {
-  await dotenv.load(fileName: ".env");
-
-  await Supabase.initialize(
-    url: dotenv.env['supabaseURL']!,
-    anonKey: dotenv.env['supabaseAPIKey']!,
-  );
-
-  getIt.registerLazySingleton<SupabaseClient>(() => Supabase.instance.client);
-
-  await GetStorage.init();
-  getIt.registerLazySingleton<GetStorage>(() => GetStorage());
-}
 
 @module
 abstract class ThirdPartySetup {
+  
+  @lazySingleton
+  GetStorage get storage => GetStorage();
+
+  @lazySingleton
+  SupabaseClient get supabaseClient => Supabase.instance.client;
+  
   @lazySingleton 
   GenerativeModel get generativeModel {
     final apiKey = dotenv.env['GeminiAPIKey'];

@@ -1,4 +1,4 @@
-import 'package:final_project/core/initial/setup.dart';
+import 'package:final_project/core/di/configure_dependencies.dart';
 import 'package:final_project/features/AI_Chatbot/presentation_layer/widget/chatbot_header_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

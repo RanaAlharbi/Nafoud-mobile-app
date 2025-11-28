@@ -1,5 +1,6 @@
-import 'package:final_project/core/initial/setup.dart';
+import 'package:final_project/core/di/configure_dependencies.dart';
 import 'package:final_project/core/routes/router.dart';
+import 'package:final_project/core/setup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
