@@ -22,14 +22,11 @@ class AppRoutes {
   static const forgotPasswordScreen = '/forgot-password';
   static const updatePasswordScreen = '/update-password';
   static const homeScreen = '/home';
-
   //profile
   static const profileScreen = '/profile-screen';
   static const editProfileScreen = '/edit-profile-screen';
-
   //chat bot
   static const chatScreen = '/chat';
-
   //ai image analysis
   static const aiImageAnalysisScreen = '/ai-image-analysis-screen';
 
@@ -37,6 +34,7 @@ class AppRoutes {
   static const navigationScreen = '/navigation_screen';
 
   static final GoRouter appRouter = GoRouter(
+    initialLocation: AppRoutes.signInScreen,
     initialLocation: AppRoutes.signInScreen,
     routes: [
       GoRoute(
