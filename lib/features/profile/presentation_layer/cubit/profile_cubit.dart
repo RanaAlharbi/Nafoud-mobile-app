@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:supabase_flutter/supabase_flutter.dart'; // TEMPORARY: For test login
 import '../../domain_layer/usecase/profile_usecase.dart';
 import '../../domain_layer/entity/profile_entity.dart';
 import '../../domain_layer/entity/country_code_entity.dart';
@@ -15,32 +14,8 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   ProfileCubit(this._usecase) : super(ProfileInitial());
 
-
-  // TODO: Remove this when sign-in page is created (from here)
-  Future<void> _testAutoLogin() async {
-    final supabase = Supabase.instance.client;
-
-    // Check if already logged in
-    if (supabase.auth.currentUser != null) {
-      return;
-    }
-
-    try {
-      await supabase.auth.signInWithPassword(
-        email: 'testo@example.com',
-        password: 'Test123456!',
-      );
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  // TODO: ============================ (TO HERE) ============================ 
-
   // Load user profile
   Future<void> loadProfile() async {
-    await _testAutoLogin(); // TODO: Remove this when sign-in page is created
-
     emit(ProfileLoading());
 
     final result = await _usecase.getProfile();
