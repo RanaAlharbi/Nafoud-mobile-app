@@ -29,7 +29,7 @@ class CountryDropdownWidget extends StatelessWidget {
             placeholder: (context, url) => Container(
               width: 24,
               height: 16,
-              color: Colors.grey[300],
+              color: Colors.grey,
               child: const SizedBox(
                 width: 12,
                 height: 12,
@@ -45,7 +45,7 @@ class CountryDropdownWidget extends StatelessWidget {
               return Container(
                 width: 24,
                 height: 16,
-                color: Colors.grey[300],
+                color: Colors.grey,
                 child: const Icon(Icons.flag, size: 16, color: Colors.grey),
               );
             },
@@ -69,7 +69,7 @@ class CountryDropdownWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
-        color: const Color(0xFFFAF4E6),
+        color: const Color.fromRGBO(250, 244, 230, 1),
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: Colors.grey, width: 2),
       ),

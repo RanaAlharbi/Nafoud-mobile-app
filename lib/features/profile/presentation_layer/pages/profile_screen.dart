@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,11 +29,22 @@ class ProfileScreen extends StatelessWidget {
 
       if (result != null && result.files.isNotEmpty) {
         final file = result.files.first;
-        final bytes = file.bytes;
+        Uint8List? bytes;
 
-        if (bytes != null) {
+        if (file.path != null) {
+          final fileData = File(file.path!);
+          bytes = await fileData.readAsBytes();
+        }
+
+        if (bytes != null && bytes.isNotEmpty) {
           final fileName = file.name;
           await cubit.uploadAvatar(bytes, fileName);
+        } else {
+          if (context.mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Failed to read image data')),
+            );
+          }
         }
       }
     } catch (e) {

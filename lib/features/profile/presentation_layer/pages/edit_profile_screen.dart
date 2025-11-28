@@ -183,7 +183,7 @@ class EditProfileScreen extends StatelessWidget {
                                   vertical: 14,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: const Color(0xFFFFF8E8),
+                                  color: const Color.fromRGBO(255, 248, 232, 1),
                                   borderRadius: BorderRadius.circular(8),
                                   border: Border.all(
                                     color: Colors.grey,
@@ -288,7 +288,7 @@ class EditProfileScreen extends StatelessWidget {
                                         vertical: 14,
                                       ),
                                       decoration: BoxDecoration(
-                                        color: const Color(0xFFFAF4E6),
+                                        color: const Color.fromRGBO(250, 244, 230, 1),
                                         borderRadius: BorderRadius.circular(8),
                                         border: Border.all(
                                           color: Colors.grey,
@@ -324,7 +324,7 @@ class EditProfileScreen extends StatelessWidget {
                                   horizontal: 12,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: const Color(0xFFFAF4E6),
+                                  color: const Color.fromRGBO(250, 244, 230, 1),
                                   borderRadius: BorderRadius.circular(8),
                                   border: Border.all(
                                     color: Colors.grey,
@@ -377,7 +377,7 @@ class EditProfileScreen extends StatelessWidget {
                       height: 48,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF2D2926),
+                          backgroundColor: const Color.fromRGBO(45, 41, 38, 1),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(6),
                           ),
@@ -456,11 +456,6 @@ class EditProfileScreen extends StatelessWidget {
                                   ),
                                 );
 
-                                if (shouldDelete == true && context.mounted) {
-                                  cubit.deleteAccount(
-                                    'User requested account deletion',
-                                  );
-                                }
                               },
                         child: state is AccountDeleting
                             ? const SizedBox(

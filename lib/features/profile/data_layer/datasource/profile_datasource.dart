@@ -97,22 +97,44 @@ class SupabaseProfileDatasource implements ProfileDatasource {
       throw Exception('No user logged in');
     }
 
+    // Create unique filename with timestamp to prevent problems
+    final timestamp = DateTime.now().millisecondsSinceEpoch;
+    final extension = fileName.split('.').last.toLowerCase();
+    final uniqueFileName = 'avatar_$timestamp.$extension';
+
+    String contentType = 'image/jpeg';
+    if (extension == 'png') {
+      contentType = 'image/png';
+    } else if (extension == 'gif') {
+      contentType = 'image/gif';
+    } else if (extension == 'webp') {
+      contentType = 'image/webp';
+    } else if (extension == 'jpg' || extension == 'jpeg') {
+      contentType = 'image/jpeg';
+    }
+
+
     // Upload to Supabase Storage
-    final path = 'avatars/${user.id}/$fileName';
+    final path = 'avatars/${user.id}/$uniqueFileName';
 
-    await supabase.storage.from('profiles').uploadBinary(
-          path,
-          imageBytes,
-          fileOptions: const FileOptions(
-            upsert: true,
-            contentType: 'image/jpeg',
-          ),
-        );
+    try {
+      await supabase.storage.from('profiles').uploadBinary(
+            path,
+            imageBytes,
+            fileOptions: FileOptions(
+              upsert: true,
+              contentType: contentType,
+            ),
+          );
+    } catch (e) {
+      throw Exception('Failed to upload image to storage: $e');
+    }
 
-    // Get public URL
+    // Get Photo URL 
     final publicUrl = supabase.storage.from('profiles').getPublicUrl(path);
+    final urlWithCacheBust = '$publicUrl?t=$timestamp';
 
-    return publicUrl;
+    return urlWithCacheBust;
   }
 
   @override
@@ -122,14 +144,18 @@ class SupabaseProfileDatasource implements ProfileDatasource {
       throw Exception('No user logged in');
     }
 
-    final response = await supabase
-        .from('profiles')
-        .update({'avatar_url': avatarUrl})
-        .eq('id', user.id)
-        .select()
-        .single();
+    try {
+      final response = await supabase
+          .from('profiles')
+          .update({'avatar_url': avatarUrl})
+          .eq('id', user.id)
+          .select()
+          .single();
 
-    return ProfileModelMapper.fromMap(response);
+      return ProfileModelMapper.fromMap(response);
+    } catch (e) {
+      throw Exception('Failed to update avatar URL in database: $e');
+    }
   }
 
   @override

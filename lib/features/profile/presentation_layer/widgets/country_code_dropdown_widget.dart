@@ -66,7 +66,7 @@ class CountryCodeDropdownWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
-        color: const Color(0xFFFFF8E8),
+        color: const Color.fromRGBO(255, 248, 232, 1),
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: Colors.grey, width: 2),
       ),

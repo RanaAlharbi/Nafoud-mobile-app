@@ -22,19 +22,16 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     // Check if already logged in
     if (supabase.auth.currentUser != null) {
-      print('Already logged in as: ${supabase.auth.currentUser!.email}');
       return;
     }
 
     try {
-      print('Test login...');
       await supabase.auth.signInWithPassword(
         email: 'testo@example.com',
         password: 'Test123456!',
       );
-      print('Test login success');
     } catch (e) {
-      print('Test login failed: $e');
+      rethrow;
     }
   }
 
@@ -76,20 +73,28 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   // Upload avatar image
   Future<void> uploadAvatar(Uint8List imageBytes, String fileName) async {
+    // So it can update
     emit(AvatarUploading());
 
     // First upload the image
     final uploadResult = await _usecase.uploadAvatar(imageBytes, fileName);
 
     await uploadResult.fold(
-      (error) async => emit(ProfileError(error)),
+      (error) async {
+        emit(ProfileError(error));
+      },
       (avatarUrl) async {
+
         // Then update the profile with the new avatar URL
         final updateResult = await _usecase.updateAvatarUrl(avatarUrl);
 
         updateResult.fold(
-          (error) => emit(ProfileError(error)),
-          (profile) => emit(AvatarUploaded(profile, 'Avatar updated successfully')),
+          (error) {
+            emit(ProfileError(error));
+          },
+          (profile) {
+            emit(AvatarUploaded(profile, 'Avatar updated successfully'));
+          },
         );
       },
     );
@@ -258,7 +263,7 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     if (formState.username.trim().isEmpty) {
       errors['username'] = 'Username is required';
-    } else if (!RegExp(r'^[a-zA-Z0-9_]+$').hasMatch(formState.username)) {
+    } else if (!RegExp(r'^[a-zA-Z0-9_]+$').hasMatch(formState.username)) { // We might change this later on, but this what I think suits our cases
       errors['username'] = 'Username can only contain letters, numbers, and underscores';
     }
 
@@ -282,7 +287,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     // Clear errors and set submitting state
     emit(formState.copyWith(validationErrors: {}, isSubmitting: true));
 
-    // Remove "+" sign from countries (+966 e.g.)
+    // Remove "+" sign from countries ("+966" e.g.)
     final fullPhoneNumber = dialCode.replaceAll('+', '') + formState.phoneNumber.trim();
 
     // Submit the update

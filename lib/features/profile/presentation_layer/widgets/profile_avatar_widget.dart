@@ -42,6 +42,7 @@ class ProfileAvatarWidget extends StatelessWidget {
             top: 0,
             left: (1.sw - 140.r) / 2,
             child: CircleAvatar(
+              key: ValueKey(avatarUrl ?? 'default'),
               radius: 70.r,
               backgroundColor: const Color.fromARGB(255, 201, 189, 161),
               backgroundImage: avatarUrl != null ? NetworkImage(avatarUrl!) : null,
