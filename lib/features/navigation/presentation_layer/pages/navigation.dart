@@ -19,6 +19,7 @@ class NavigationScreen extends StatelessWidget {
             items: const [
               BottomNavigationBarItem(label: "Home", icon: Icon(Icons.home)),
               BottomNavigationBarItem(label: "AI", icon: Icon(Icons.camera)),
+              BottomNavigationBarItem(label: "Profile", icon: Icon(Icons.person)),
             ],
           ),
 
