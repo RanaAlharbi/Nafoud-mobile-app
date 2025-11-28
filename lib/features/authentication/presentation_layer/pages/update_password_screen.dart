@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:final_project/core/app_theme/app_text/app_text.dart';
-import 'package:final_project/core/initial/setup.dart';
+import 'package:final_project/core/di/configure_dependencies.dart';
 import 'package:final_project/core/routes/router.dart';
 import 'package:final_project/core/shared/Widgets/custom_button_widget.dart';
 import 'package:final_project/features/authentication/presentation_layer/bloc/authentication_bloc.dart';
