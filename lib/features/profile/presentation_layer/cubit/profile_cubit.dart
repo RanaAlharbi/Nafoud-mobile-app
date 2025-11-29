@@ -16,10 +16,12 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   // Load user profile
   Future<void> loadProfile() async {
+    if (isClosed) return;
     emit(ProfileLoading());
 
     final result = await _usecase.getProfile();
 
+    if (isClosed) return;
     result.fold(
       (error) => emit(ProfileError(error)),
       (profile) => emit(ProfileLoaded(profile)),
@@ -32,6 +34,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     String? fullName,
     String? phoneNumber,
   }) async {
+    if (isClosed) return;
     emit(ProfileUpdating());
 
     final result = await _usecase.updateProfile(
@@ -40,6 +43,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       phoneNumber: phoneNumber,
     );
 
+    if (isClosed) return;
     result.fold(
       (error) => emit(ProfileError(error)),
       (profile) => emit(ProfileUpdated(profile, 'Profile updated successfully')),
@@ -48,27 +52,30 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   // Upload avatar image
   Future<void> uploadAvatar(Uint8List imageBytes, String fileName) async {
+    if (isClosed) return;
     // So it can update
     emit(AvatarUploading());
 
     // First upload the image
     final uploadResult = await _usecase.uploadAvatar(imageBytes, fileName);
 
+    if (isClosed) return;
     await uploadResult.fold(
       (error) async {
-        emit(ProfileError(error));
+        if (!isClosed) emit(ProfileError(error));
       },
       (avatarUrl) async {
 
         // Then update the profile with the new avatar URL
         final updateResult = await _usecase.updateAvatarUrl(avatarUrl);
 
+        if (isClosed) return;
         updateResult.fold(
           (error) {
-            emit(ProfileError(error));
+            if (!isClosed) emit(ProfileError(error));
           },
           (profile) {
-            emit(AvatarUploaded(profile, 'Avatar updated successfully'));
+            if (!isClosed) emit(AvatarUploaded(profile, 'Avatar updated successfully'));
           },
         );
       },
@@ -77,10 +84,12 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   // Soft delete account
   Future<void> deleteAccount() async {
+    if (isClosed) return;
     emit(AccountDeleting());
 
     final result = await _usecase.softDeleteAccount();
 
+    if (isClosed) return;
     result.fold(
       (error) => emit(ProfileError(error)),
       (message) => emit(AccountDeleted(message)),
@@ -89,10 +98,12 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   // Restore deleted account
   Future<void> restoreAccount() async {
+    if (isClosed) return;
     emit(ProfileLoading());
 
     final result = await _usecase.restoreAccount();
 
+    if (isClosed) return;
     result.fold(
       (error) => emit(ProfileError(error)),
       (message) => emit(AccountRestored(message)),
@@ -101,10 +112,12 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   // Sign out
   Future<void> signOut() async {
+    if (isClosed) return;
     emit(ProfileLoading());
 
     final result = await _usecase.signOut();
 
+    if (isClosed) return;
     result.fold(
       (error) => emit(ProfileError(error)),
       (_) => emit(SignedOut()),
@@ -162,6 +175,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     // Change phone number type to extract country code and local number
     final parsedPhone = await _parsePhoneNumber(profile.phoneNumber);
 
+    if (isClosed) return;
     emit(ProfileFormState(
       fullName: profile.fullName,
       originalFullName: profile.fullName,
@@ -296,11 +310,13 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
 
     if (errors.isNotEmpty) {
+      if (isClosed) return;
       emit(formState.copyWith(validationErrors: errors));
       return;
     }
 
     // Clear errors and set submitting state
+    if (isClosed) return;
     emit(formState.copyWith(validationErrors: {}, isSubmitting: true));
 
     // Remove "+" sign from countries ("+966" e.g.)
@@ -317,6 +333,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       nationality: formState.nationality,
     );
 
+    if (isClosed) return;
     result.fold(
       (error) => emit(ProfileError(error)),
       (profile) => emit(ProfileUpdated(profile, 'Profile updated successfully')),
