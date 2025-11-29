@@ -8,6 +8,7 @@ class CountryDropdownWidget extends StatelessWidget {
   final bool isSubmitting;
   final Function(String?) onChanged;
   final String? errorText;
+  final bool errorSpace;
 
   const CountryDropdownWidget({
     super.key,
@@ -16,6 +17,7 @@ class CountryDropdownWidget extends StatelessWidget {
     required this.isSubmitting,
     required this.onChanged,
     this.errorText,
+    this.errorSpace = false,
   });
 
   DropdownMenuItem<String> _buildCountryItem(CountryCodeEntity country) {
@@ -102,7 +104,9 @@ class CountryDropdownWidget extends StatelessWidget {
                 fontSize: 12,
               ),
             ),
-          ),
+          )
+        else if (errorSpace)
+          const SizedBox(height: 20),
       ],
     );
   }

@@ -226,12 +226,14 @@ class EditProfileScreen extends StatelessWidget {
                         final countryCodes = snapshot.data ?? [];
 
                         return Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             // Country code dropdown with flag
                             CountryCodeDropdownWidget(
                               selectedCode: formState.phoneCountryCode,
                               countryCodes: countryCodes,
                               isSubmitting: formState.isSubmitting,
+                              errorSpace: formState.validationErrors['phoneNumber'] != null,
                               onChanged: (value) {
                                 if (value != null) {
                                   // Find the country and get its dial code
