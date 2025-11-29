@@ -51,6 +51,7 @@ class SignedOut extends ProfileState {}
 // State for managing edit profile form
 class ProfileFormState extends ProfileState {
   final String fullName;
+  final String originalFullName; // Track original name to allow old accounts with numbers
   final String username;
   final String email;
   final String phoneNumber; // Just the local phone number (will be connected with country code on submit)
@@ -58,12 +59,13 @@ class ProfileFormState extends ProfileState {
   final String dialCode; // (e.g., '+966') - temporary for form submission
   final String address;
   final String? nationality; // Nationality (country code)
-  final String? gender; 
+  final String? gender;
   final Map<String, String> validationErrors;
   final bool isSubmitting;
 
   const ProfileFormState({
     required this.fullName,
+    required this.originalFullName,
     required this.username,
     required this.email,
     required this.phoneNumber,
@@ -78,6 +80,7 @@ class ProfileFormState extends ProfileState {
 
   ProfileFormState copyWith({
     String? fullName,
+    String? originalFullName,
     String? username,
     String? email,
     String? phoneNumber,
@@ -91,6 +94,7 @@ class ProfileFormState extends ProfileState {
   }) {
     return ProfileFormState(
       fullName: fullName ?? this.fullName,
+      originalFullName: originalFullName ?? this.originalFullName,
       username: username ?? this.username,
       email: email ?? this.email,
       phoneNumber: phoneNumber ?? this.phoneNumber,

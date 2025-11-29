@@ -164,6 +164,7 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     emit(ProfileFormState(
       fullName: profile.fullName,
+      originalFullName: profile.fullName,
       username: profile.username,
       email: profile.email,
       phoneNumber: parsedPhone['localNumber'] ?? '',
@@ -187,6 +188,9 @@ class ProfileCubit extends Cubit<ProfileState> {
           break;
         case 'username':
           newState = currentState.copyWith(username: value);
+          break;
+        case 'email':
+          newState = currentState.copyWith(email: value);
           break;
         case 'phoneNumber':
           newState = currentState.copyWith(phoneNumber: value);
@@ -231,9 +235,22 @@ class ProfileCubit extends Cubit<ProfileState> {
     final formState = state as ProfileFormState;
     final errors = <String, String>{};
 
-    // Validation
+    // Full name validation
     if (formState.fullName.trim().isEmpty) {
       errors['fullName'] = 'Full name is required';
+    } else {
+      final nameParts = formState.fullName.trim().split(RegExp(r'\s+'));
+
+      if (nameParts.length < 2 || nameParts.length > 3) {
+        errors['fullName'] = 'Full name must be 2-3 names';
+      } else {
+        final originalHasNumbers = RegExp(r'\d').hasMatch(formState.originalFullName);
+        final currentHasNumbers = RegExp(r'\d').hasMatch(formState.fullName);
+
+        if (currentHasNumbers && !originalHasNumbers) {
+          errors['fullName'] = 'Full name cannot contain numbers';
+        }
+      }
     }
 
     if (formState.username.trim().isEmpty) {
@@ -242,8 +259,32 @@ class ProfileCubit extends Cubit<ProfileState> {
       errors['username'] = 'Username can only contain letters, numbers, and underscores';
     }
 
+    // Email validation
+    if (formState.email.trim().isEmpty) {
+      errors['email'] = 'Email is required';
+    } else {
+      final emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]{3,}\.[a-zA-Z]{1,}$');
+
+      if (!formState.email.contains('@')) {
+        errors['email'] = 'Email must include @';
+      } else if (!formState.email.contains('.')) {
+        errors['email'] = 'Email must include .';
+      } else if (!emailRegex.hasMatch(formState.email.trim())) {
+        errors['email'] = 'Email format: (3+)@(3+).(1+)';
+      }
+    }
+
+    // Phone number validation
     if (formState.phoneNumber.trim().isEmpty) {
       errors['phoneNumber'] = 'Phone number is required';
+    } else {
+      final phoneDigitsOnly = formState.phoneNumber.replaceAll(RegExp(r'[^\d]'), '');
+
+      if (RegExp(r'[a-zA-Z]').hasMatch(formState.phoneNumber)) {
+        errors['phoneNumber'] = 'Phone cannot contain letters';
+      } else if (phoneDigitsOnly.length < 6 || phoneDigitsOnly.length > 13) {
+        errors['phoneNumber'] = 'Phone must be 6-13 digits';
+      }
     }
 
     if (formState.nationality == null) {
@@ -269,6 +310,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     final result = await _usecase.updateProfile(
       username: formState.username.trim(),
       fullName: formState.fullName.trim(),
+      email: formState.email.trim(),
       phoneNumber: fullPhoneNumber,
       address: formState.address.trim().isEmpty ? null : formState.address.trim(),
       gender: formState.gender,

@@ -7,6 +7,7 @@ class CountryDropdownWidget extends StatelessWidget {
   final List<CountryCodeEntity> countries;
   final bool isSubmitting;
   final Function(String?) onChanged;
+  final String? errorText;
 
   const CountryDropdownWidget({
     super.key,
@@ -14,6 +15,7 @@ class CountryDropdownWidget extends StatelessWidget {
     required this.countries,
     required this.isSubmitting,
     required this.onChanged,
+    this.errorText,
   });
 
   DropdownMenuItem<String> _buildCountryItem(CountryCodeEntity country) {
@@ -66,22 +68,42 @@ class CountryDropdownWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      decoration: BoxDecoration(
-        color: const Color.fromRGBO(250, 244, 230, 1),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.grey, width: 2),
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          hint: const Text('Country'),
-          value: selectedCountryCode,
-          isExpanded: true,
-          items: countries.map(_buildCountryItem).toList(),
-          onChanged: isSubmitting ? null : onChanged,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          decoration: BoxDecoration(
+            color: const Color.fromRGBO(250, 244, 230, 1),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color: errorText != null ? Colors.red : Colors.grey,
+              width: 2,
+            ),
+          ),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+              hint: const Text('Country'),
+              value: selectedCountryCode,
+              isExpanded: true,
+              items: countries.map(_buildCountryItem).toList(),
+              onChanged: isSubmitting ? null : onChanged,
+            ),
+          ),
         ),
-      ),
+        if (errorText != null)
+          Padding(
+            padding: const EdgeInsets.only(left: 12, top: 8),
+            child: Text(
+              errorText!,
+              style: const TextStyle(
+                color: Colors.red,
+                fontSize: 12,
+              ),
+            ),
+          ),
+      ],
     );
   }
 }

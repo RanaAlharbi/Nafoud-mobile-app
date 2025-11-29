@@ -19,6 +19,7 @@ class ProfileUsecase {
   Future<Either<String, ProfileEntity>> updateProfile({
     String? username,
     String? fullName,
+    String? email,
     String? phoneNumber,
     String? address,
     String? gender,
@@ -27,6 +28,7 @@ class ProfileUsecase {
     return await _repository.updateProfile(
       username: username,
       fullName: fullName,
+      email: email,
       phoneNumber: phoneNumber,
       address: address,
       gender: gender,
