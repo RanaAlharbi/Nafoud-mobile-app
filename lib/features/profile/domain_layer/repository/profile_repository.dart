@@ -9,6 +9,7 @@ abstract class ProfileRepository {
   Future<Either<String, ProfileEntity>> updateProfile({
     String? username, // Unique username/nickname
     String? fullName, // User's actual full name
+    String? email, // User's email address
     String? phoneNumber, // Phone number with country code
     String? address, // User's address
     String? gender, // User's gender
