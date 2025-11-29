@@ -14,6 +14,9 @@ import '../cubit/profile_cubit.dart';
 import '../widgets/profile_avatar_widget.dart';
 import '../widgets/profile_info_widget.dart';
 import '../widgets/profile_settings_card_widget.dart';
+import '../widgets/language_selector_widget.dart';
+import '../widgets/notification_selector_widget.dart';
+import '../widgets/theme_selector_widget.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -89,7 +92,6 @@ class ProfileScreen extends StatelessWidget {
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
-            leading: BackButton(),
             actions: [
               IconButton(
                 onPressed: () {},
@@ -166,22 +168,8 @@ class ProfileScreen extends StatelessWidget {
                             }
                           },
                         ),
-                        ListTile(
-                          leading: Icon(RemixIcons.notification_3_line),
-                          title: Text("Notifications"),
-                          trailing: Text(
-                            "ON",
-                            style: TextStyle(color: Color.fromRGBO(103, 70, 54, 1)),
-                          ),
-                        ),
-                        ListTile(
-                          leading: Icon(RemixIcons.translate_2),
-                          title: Text("Language"),
-                          trailing: Text(
-                            "English",
-                            style: TextStyle(color: Color.fromRGBO(103, 70, 54, 1)),
-                          ),
-                        ),
+                        NotificationSelectorWidget(),
+                        LanguageSelectorWidget(),
                       ],
                     ),
                     const Gap(20),
@@ -189,14 +177,7 @@ class ProfileScreen extends StatelessWidget {
                     // The Second Card
                     ProfileSettingsCardWidget(
                       children: [
-                        ListTile(
-                          leading: Icon(RemixIcons.mental_health_line),
-                          title: Text("Theme"),
-                          trailing: Text(
-                            "Light mode",
-                            style: TextStyle(color: Color.fromRGBO(103, 70, 54, 1)),
-                          ),
-                        ),
+                        ThemeSelectorWidget(),
                         ListTile(
                           leading: Icon(RemixIcons.chat_quote_line),
                           title: Text("Contact us"),

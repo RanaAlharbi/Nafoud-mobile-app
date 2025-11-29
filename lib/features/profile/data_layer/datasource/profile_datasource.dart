@@ -9,6 +9,7 @@ abstract class ProfileDatasource {
   Future<ProfileModel> updateProfile({
     String? username,
     String? fullName,
+    String? email,
     String? phoneNumber,
     String? address,
     String? gender,
@@ -58,6 +59,7 @@ class SupabaseProfileDatasource implements ProfileDatasource {
   Future<ProfileModel> updateProfile({
     String? username,
     String? fullName,
+    String? email,
     String? phoneNumber,
     String? address,
     String? gender,
@@ -71,6 +73,7 @@ class SupabaseProfileDatasource implements ProfileDatasource {
     final updates = <String, dynamic>{};
     if (username != null) updates['username'] = username;
     if (fullName != null) updates['full_name'] = fullName;
+    if (email != null) updates['email'] = email;
     if (phoneNumber != null) updates['phone_number'] = phoneNumber;
     if (address != null) updates['address'] = address;
     if (gender != null) updates['gender'] = gender;
