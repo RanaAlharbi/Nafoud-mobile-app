@@ -1,4 +1,4 @@
-import 'package:final_project/features/AI_Chatbot/presentation_layer/pages/chatbot_screen.dart';
+import 'package:final_project/features/ai_chatbot/presentation_layer/pages/chatbot_screen.dart';
 import 'package:final_project/features/ai_image_analysis/presentation_layer/pages/ai_image_analysis_screen.dart';
 import 'package:final_project/features/authentication/domain_layer/usecase/authentication_usecase.dart';
 import 'package:final_project/features/authentication/presentation_layer/bloc/authentication_bloc.dart';

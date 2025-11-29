@@ -1,5 +1,5 @@
 
-import 'package:final_project/features/AI_Chatbot/domain_layer/entity/chatbot_entity.dart';
+import 'package:final_project/features/ai_chatbot/domain_layer/entity/chatbot_entity.dart';
 
 abstract class ChatbotRepositoryDomain {
   ChatbotEntity getChatConfiguration();

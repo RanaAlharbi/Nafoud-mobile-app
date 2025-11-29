@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:final_project/features/AI_Chatbot/domain_layer/usecase/chatbot_usecase.dart';
+import 'package:final_project/features/ai_chatbot/domain_layer/usecase/chatbot_usecase.dart';
 import 'package:flutter_ai_toolkit/flutter_ai_toolkit.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:injectable/injectable.dart';
