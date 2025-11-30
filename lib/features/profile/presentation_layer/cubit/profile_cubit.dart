@@ -16,10 +16,12 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   // Load user profile
   Future<void> loadProfile() async {
+    if (isClosed) return;
     emit(ProfileLoading());
 
     final result = await _usecase.getProfile();
 
+    if (isClosed) return;
     result.fold(
       (error) => emit(ProfileError(error)),
       (profile) => emit(ProfileLoaded(profile)), // Error here
@@ -32,6 +34,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     String? fullName,
     String? phoneNumber,
   }) async {
+    if (isClosed) return;
     emit(ProfileUpdating());
 
     final result = await _usecase.updateProfile(
@@ -40,6 +43,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       phoneNumber: phoneNumber,
     );
 
+    if (isClosed) return;
     result.fold(
       (error) => emit(ProfileError(error)),
       (profile) => emit(ProfileUpdated(profile, 'Profile updated successfully')),
@@ -48,27 +52,30 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   // Upload avatar image
   Future<void> uploadAvatar(Uint8List imageBytes, String fileName) async {
+    if (isClosed) return;
     // So it can update
     emit(AvatarUploading());
 
     // First upload the image
     final uploadResult = await _usecase.uploadAvatar(imageBytes, fileName);
 
+    if (isClosed) return;
     await uploadResult.fold(
       (error) async {
-        emit(ProfileError(error));
+        if (!isClosed) emit(ProfileError(error));
       },
       (avatarUrl) async {
 
         // Then update the profile with the new avatar URL
         final updateResult = await _usecase.updateAvatarUrl(avatarUrl);
 
+        if (isClosed) return;
         updateResult.fold(
           (error) {
-            emit(ProfileError(error));
+            if (!isClosed) emit(ProfileError(error));
           },
           (profile) {
-            emit(AvatarUploaded(profile, 'Avatar updated successfully'));
+            if (!isClosed) emit(AvatarUploaded(profile, 'Avatar updated successfully'));
           },
         );
       },
@@ -77,10 +84,12 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   // Soft delete account
   Future<void> deleteAccount() async {
+    if (isClosed) return;
     emit(AccountDeleting());
 
     final result = await _usecase.softDeleteAccount();
 
+    if (isClosed) return;
     result.fold(
       (error) => emit(ProfileError(error)),
       (message) => emit(AccountDeleted(message)),
@@ -89,10 +98,12 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   // Restore deleted account
   Future<void> restoreAccount() async {
+    if (isClosed) return;
     emit(ProfileLoading());
 
     final result = await _usecase.restoreAccount();
 
+    if (isClosed) return;
     result.fold(
       (error) => emit(ProfileError(error)),
       (message) => emit(AccountRestored(message)),
@@ -101,10 +112,12 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   // Sign out
   Future<void> signOut() async {
+    if (isClosed) return;
     emit(ProfileLoading());
 
     final result = await _usecase.signOut();
 
+    if (isClosed) return;
     result.fold(
       (error) => emit(ProfileError(error)),
       (_) => emit(SignedOut()),
@@ -162,8 +175,10 @@ class ProfileCubit extends Cubit<ProfileState> {
     // Change phone number type to extract country code and local number
     final parsedPhone = await _parsePhoneNumber(profile.phoneNumber);
 
+    if (isClosed) return;
     emit(ProfileFormState(
       fullName: profile.fullName,
+      originalFullName: profile.fullName,
       username: profile.username,
       email: profile.email,
       phoneNumber: parsedPhone['localNumber'] ?? '',
@@ -187,6 +202,9 @@ class ProfileCubit extends Cubit<ProfileState> {
           break;
         case 'username':
           newState = currentState.copyWith(username: value);
+          break;
+        case 'email':
+          newState = currentState.copyWith(email: value);
           break;
         case 'phoneNumber':
           newState = currentState.copyWith(phoneNumber: value);
@@ -231,9 +249,22 @@ class ProfileCubit extends Cubit<ProfileState> {
     final formState = state as ProfileFormState;
     final errors = <String, String>{};
 
-    // Validation
+    // Full name validation
     if (formState.fullName.trim().isEmpty) {
       errors['fullName'] = 'Full name is required';
+    } else {
+      final nameParts = formState.fullName.trim().split(RegExp(r'\s+'));
+
+      if (nameParts.length < 2 || nameParts.length > 3) {
+        errors['fullName'] = 'Full name must be 2-3 names';
+      } else {
+        final originalHasNumbers = RegExp(r'\d').hasMatch(formState.originalFullName);
+        final currentHasNumbers = RegExp(r'\d').hasMatch(formState.fullName);
+
+        if (currentHasNumbers && !originalHasNumbers) {
+          errors['fullName'] = 'Full name cannot contain numbers';
+        }
+      }
     }
 
     if (formState.username.trim().isEmpty) {
@@ -242,8 +273,32 @@ class ProfileCubit extends Cubit<ProfileState> {
       errors['username'] = 'Username can only contain letters, numbers, and underscores';
     }
 
+    // Email validation
+    if (formState.email.trim().isEmpty) {
+      errors['email'] = 'Email is required';
+    } else {
+      final emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9.-]{3,}\.[a-zA-Z]{1,}$');
+
+      if (!formState.email.contains('@')) {
+        errors['email'] = 'Email must include @';
+      } else if (!formState.email.contains('.')) {
+        errors['email'] = 'Email must include .';
+      } else if (!emailRegex.hasMatch(formState.email.trim())) {
+        errors['email'] = 'Email format: (3+)@(3+).(1+)';
+      }
+    }
+
+    // Phone number validation
     if (formState.phoneNumber.trim().isEmpty) {
       errors['phoneNumber'] = 'Phone number is required';
+    } else {
+      final phoneDigitsOnly = formState.phoneNumber.replaceAll(RegExp(r'[^\d]'), '');
+
+      if (RegExp(r'[a-zA-Z]').hasMatch(formState.phoneNumber)) {
+        errors['phoneNumber'] = 'Phone cannot contain letters';
+      } else if (phoneDigitsOnly.length < 6 || phoneDigitsOnly.length > 13) {
+        errors['phoneNumber'] = 'Phone must be 6-13 digits';
+      }
     }
 
     if (formState.nationality == null) {
@@ -255,11 +310,13 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
 
     if (errors.isNotEmpty) {
+      if (isClosed) return;
       emit(formState.copyWith(validationErrors: errors));
       return;
     }
 
     // Clear errors and set submitting state
+    if (isClosed) return;
     emit(formState.copyWith(validationErrors: {}, isSubmitting: true));
 
     // Remove "+" sign from countries ("+966" e.g.)
@@ -269,12 +326,14 @@ class ProfileCubit extends Cubit<ProfileState> {
     final result = await _usecase.updateProfile(
       username: formState.username.trim(),
       fullName: formState.fullName.trim(),
+      email: formState.email.trim(),
       phoneNumber: fullPhoneNumber,
       address: formState.address.trim().isEmpty ? null : formState.address.trim(),
       gender: formState.gender,
       nationality: formState.nationality,
     );
 
+    if (isClosed) return;
     result.fold(
       (error) => emit(ProfileError(error)),
       (profile) => emit(ProfileUpdated(profile, 'Profile updated successfully')),

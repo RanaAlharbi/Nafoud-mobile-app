@@ -129,7 +129,7 @@ class EditProfileScreen extends StatelessWidget {
                   children: [
                     // Full name
                     TextFormField(
-                      key: ValueKey('fullName_${formState.fullName}'),
+                      key: const ValueKey('fullName'),
                       initialValue: formState.fullName,
                       enabled: !formState.isSubmitting,
                       decoration: _buildInputDecoration(
@@ -158,12 +158,17 @@ class EditProfileScreen extends StatelessWidget {
 
                     // Email
                     TextFormField(
+                      key: const ValueKey('email'),
                       initialValue: formState.email,
+                      enabled: !formState.isSubmitting,
                       decoration: _buildInputDecoration(
                         labelText: "Email",
                         hintText: "youremail@domain.com",
+                        errorText: formState.validationErrors['email'],
                       ),
                       keyboardType: TextInputType.emailAddress,
+                      onChanged: (value) =>
+                          cubit.updateFormField('email', value),
                     ),
                     const SizedBox(height: 16),
 
@@ -221,12 +226,14 @@ class EditProfileScreen extends StatelessWidget {
                         final countryCodes = snapshot.data ?? [];
 
                         return Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             // Country code dropdown with flag
                             CountryCodeDropdownWidget(
                               selectedCode: formState.phoneCountryCode,
                               countryCodes: countryCodes,
                               isSubmitting: formState.isSubmitting,
+                              errorSpace: formState.validationErrors['phoneNumber'] != null,
                               onChanged: (value) {
                                 if (value != null) {
                                   // Find the country and get its dial code
@@ -250,7 +257,7 @@ class EditProfileScreen extends StatelessWidget {
                             // Phone number field
                             Expanded(
                               child: TextFormField(
-                                key: ValueKey('phone_${formState.phoneNumber}'),
+                                key: const ValueKey('phoneNumber'),
                                 initialValue: formState.phoneNumber,
                                 enabled: !formState.isSubmitting,
                                 decoration: _buildInputDecoration(
@@ -277,6 +284,7 @@ class EditProfileScreen extends StatelessWidget {
                         final countries = snapshot.data ?? [];
 
                         return Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Expanded(
                               child:
@@ -315,40 +323,60 @@ class EditProfileScreen extends StatelessWidget {
                                       isSubmitting: formState.isSubmitting,
                                       onChanged: (value) =>
                                           cubit.updateNationality(value),
+                                      errorText: formState.validationErrors['nationality'],
                                     ),
                             ),
                             const SizedBox(width: 16),
                             Expanded(
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: const Color.fromRGBO(250, 244, 230, 1),
-                                  borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(
-                                    color: Colors.grey,
-                                    width: 2,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: const Color.fromRGBO(250, 244, 230, 1),
+                                      borderRadius: BorderRadius.circular(8),
+                                      border: Border.all(
+                                        color: formState.validationErrors['gender'] != null
+                                            ? Colors.red
+                                            : Colors.grey,
+                                        width: 2,
+                                      ),
+                                    ),
+                                    child: DropdownButtonHideUnderline(
+                                      child: DropdownButton<String>(
+                                        hint: const Text('Gender'),
+                                        value: formState.gender,
+                                        isExpanded: true,
+                                        items: ['Male', 'Female']
+                                            .map(
+                                              (gender) => DropdownMenuItem(
+                                                value: gender,
+                                                child: Text(gender),
+                                              ),
+                                            )
+                                            .toList(),
+                                        onChanged: formState.isSubmitting
+                                            ? null
+                                            : (value) => cubit.updateGender(value),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                                child: DropdownButtonHideUnderline(
-                                  child: DropdownButton<String>(
-                                    hint: const Text('Gender'),
-                                    value: formState.gender,
-                                    isExpanded: true,
-                                    items: ['Male', 'Female']
-                                        .map(
-                                          (gender) => DropdownMenuItem(
-                                            value: gender,
-                                            child: Text(gender),
-                                          ),
-                                        )
-                                        .toList(),
-                                    onChanged: formState.isSubmitting
-                                        ? null
-                                        : (value) => cubit.updateGender(value),
-                                  ),
-                                ),
+                                  if (formState.validationErrors['gender'] != null)
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 12, top: 8),
+                                      child: Text(
+                                        formState.validationErrors['gender']!,
+                                        style: const TextStyle(
+                                          color: Colors.red,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ),
+                                ],
                               ),
                             ),
                           ],
@@ -359,7 +387,7 @@ class EditProfileScreen extends StatelessWidget {
 
                     // Address
                     TextFormField(
-                      key: ValueKey('address_${formState.address}'),
+                      key: const ValueKey('address'),
                       initialValue: formState.address,
                       enabled: !formState.isSubmitting,
                       decoration: _buildInputDecoration(
@@ -411,77 +439,6 @@ class EditProfileScreen extends StatelessWidget {
                     ),
 
                     const SizedBox(height: 24),
-                    // Delete account button
-                    SizedBox(
-                      width: double.infinity,
-                      height: 48,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                        ),
-                        onPressed: formState.isSubmitting
-                            ? null
-                            : () async {
-                                final shouldDelete = await showDialog<bool>(
-                                  context: context,
-                                  builder: (dialogContext) => AlertDialog(
-                                    title: const Text(
-                                      'Delete Account',
-                                      style: TextStyle(
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    content: const Text(
-                                      'Are you sure you want to delete your account? This action cannot be undone.',
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () =>
-                                            Navigator.pop(dialogContext, false),
-                                        child: const Text('Cancel'),
-                                      ),
-                                      TextButton(
-                                        onPressed: () =>
-                                            Navigator.pop(dialogContext, true),
-                                        child: const Text(
-                                          'Delete',
-                                          style: TextStyle(color: Colors.red),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-
-                                if (shouldDelete == true && context.mounted) {
-                                  cubit.deleteAccount();
-                                }
-                              },
-                        child: state is AccountDeleting
-                            ? const SizedBox(
-                                height: 20,
-                                width: 20,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                    Colors.white,
-                                  ),
-                                ),
-                              )
-                            : const Text(
-                                'Delete Account',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                  letterSpacing: 1.2,
-                                  fontSize: 19,
-                                ),
-                              ),
-                      ),
-                    ),
                   ],
                 ),
               );

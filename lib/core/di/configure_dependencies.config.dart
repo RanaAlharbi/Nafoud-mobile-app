@@ -27,6 +27,8 @@ import '../../features/AI_Chatbot/presentation_layer/bloc/chatbot_bloc.dart'
     as _i824;
 import '../../features/ai_image_analysis/data_layer/datasource/ai_image_analysis_datasource.dart'
     as _i11;
+import '../../features/ai_image_analysis/data_layer/datasource/ai_local_storage_datasource.dart'
+    as _i157;
 import '../../features/ai_image_analysis/data_layer/repository/ai_image_analysis_repository.dart'
     as _i479;
 import '../../features/ai_image_analysis/domain_layer/repository/ai_image_analysis_repository.dart'
@@ -76,15 +78,19 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i18.ProfileDatasource>(
       () => _i18.SupabaseProfileDatasource(gh<_i454.SupabaseClient>()),
     );
+    gh.lazySingleton<_i157.BaseAiLocalStorageDataSource>(
+      () => _i157.AiLocalStorageDataSource(gh<_i792.GetStorage>()),
+    );
     gh.lazySingleton<_i11.BaseAiImageAnalysisDataSource>(
       () => _i11.AiImageAnalysisRemoteDataSource(gh<_i656.GenerativeModel>()),
     );
-    gh.lazySingleton<_i504.ChatDataSource>(() => _i504.ChatRemoteDataSource());
     gh.lazySingleton<_i855.AiImageAnalysisRepository>(
       () => _i479.AiImageAnalysisRepositoryDataSource(
         gh<_i11.BaseAiImageAnalysisDataSource>(),
+        gh<_i157.BaseAiLocalStorageDataSource>(),
       ),
     );
+    gh.lazySingleton<_i504.ChatDataSource>(() => _i504.ChatRemoteDataSource());
     gh.lazySingleton<_i998.ProfileRepository>(
       () => _i121.ProfileRepositoryImpl(gh<_i18.ProfileDatasource>()),
     );

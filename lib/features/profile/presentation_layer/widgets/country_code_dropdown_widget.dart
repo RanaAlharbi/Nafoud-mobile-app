@@ -7,6 +7,7 @@ class CountryCodeDropdownWidget extends StatelessWidget {
   final List<CountryCodeEntity> countryCodes;
   final bool isSubmitting;
   final Function(String?) onChanged;
+  final bool errorSpace;
 
   const CountryCodeDropdownWidget({
     super.key,
@@ -14,6 +15,7 @@ class CountryCodeDropdownWidget extends StatelessWidget {
     required this.countryCodes,
     required this.isSubmitting,
     required this.onChanged,
+    this.errorSpace = false,
   });
 
   // Build country code dropdown item with cached image
@@ -63,21 +65,28 @@ class CountryCodeDropdownWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      decoration: BoxDecoration(
-        color: const Color.fromRGBO(255, 248, 232, 1),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.grey, width: 2),
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          value: selectedCode ?? 'sa',
-          isExpanded: false,
-          items: countryCodes.map(_buildCountryCodeItem).toList(),
-          onChanged: isSubmitting ? null : onChanged,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          decoration: BoxDecoration(
+            color: const Color.fromRGBO(255, 248, 232, 1),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: Colors.grey, width: 2),
+          ),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+              value: selectedCode ?? 'sa',
+              isExpanded: false,
+              items: countryCodes.map(_buildCountryCodeItem).toList(),
+              onChanged: isSubmitting ? null : onChanged,
+            ),
+          ),
         ),
-      ),
+        if (errorSpace) const SizedBox(height: 20),
+      ],
     );
   }
 }

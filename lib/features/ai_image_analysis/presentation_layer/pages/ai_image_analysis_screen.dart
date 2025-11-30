@@ -49,8 +49,9 @@ class AIImageAnalysisScreen extends StatelessWidget {
                             bytes = file.bytes!;
                           } else if (file.path != null) {
                             bytes = await File(file.path!).readAsBytes();
-                          } else
+                          } else {
                             return;
+                          }
 
                           // Send the image to the Cubit
                           cubit.pickImage(bytes);
@@ -111,6 +112,21 @@ class AIImageAnalysisScreen extends StatelessWidget {
                             child: Markdown(
                               data: state.analysis.text,
                               selectable: true,
+                            ),
+                          );
+                        } else if (state is AIImageHistoryLoaded) {
+                          return SizedBox(
+                            height: 500,
+                            child: ListView.builder(
+                              itemCount: state.history.length,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 4,
+                                  ),
+                                  child: Text(state.history[index]),
+                                );
+                              },
                             ),
                           );
                         } else if (state is AIImageError) {

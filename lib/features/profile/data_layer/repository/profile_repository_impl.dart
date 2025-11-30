@@ -25,6 +25,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
   Future<Either<String, ProfileEntity>> updateProfile({
     String? username,
     String? fullName,
+    String? email,
     String? phoneNumber,
     String? address,
     String? gender,
@@ -34,6 +35,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
       final profile = await datasource.updateProfile(
         username: username,
         fullName: fullName,
+        email: email,
         phoneNumber: phoneNumber,
         address: address,
         gender: gender,

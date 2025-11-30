@@ -14,6 +14,9 @@ import '../cubit/profile_cubit.dart';
 import '../widgets/profile_avatar_widget.dart';
 import '../widgets/profile_info_widget.dart';
 import '../widgets/profile_settings_card_widget.dart';
+import '../widgets/language_selector_widget.dart';
+import '../widgets/notification_selector_widget.dart';
+import '../widgets/theme_selector_widget.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -49,9 +52,9 @@ class ProfileScreen extends StatelessWidget {
       }
     } catch (e) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to pick image: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to pick image: $e')));
       }
     }
   }
@@ -59,7 +62,8 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProfileCubit(GetIt.I.get<ProfileUsecase>())..loadProfile(),
+      create: (context) =>
+          ProfileCubit(GetIt.I.get<ProfileUsecase>())..loadProfile(),
       child: BlocListener<ProfileCubit, ProfileState>(
         listener: (context, state) {
           if (state is ProfileError) {
@@ -87,7 +91,6 @@ class ProfileScreen extends StatelessWidget {
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
-            leading: BackButton(),
             actions: [
               IconButton(
                 onPressed: () {},
@@ -115,11 +118,32 @@ class ProfileScreen extends StatelessWidget {
                       Gap(16),
                       Text('Error loading profile'),
                       Gap(8),
-                      Center(child: Text(state.message, style: TextStyle(color: Colors.grey))),
+                      Center(
+                        child: Text(
+                          state.message,
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ),
                       Gap(16),
-                      ElevatedButton(
-                        onPressed: () => context.read<ProfileCubit>().loadProfile(),
-                        child: Text('Retry'),
+                      Row(
+                        spacing: 20.w,
+                        mainAxisAlignment: .center,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () =>
+                                context.read<ProfileCubit>().loadProfile(),
+                            child: Text('Retry'),
+                          ),
+                          ElevatedButton(
+                            onPressed: () async {
+                              await context.push(AppRoutes.signInScreen);
+                              if (context.mounted) {
+                                context.read<ProfileCubit>().loadProfile();
+                              }
+                            },
+                            child: Text('Leave'),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -184,22 +208,8 @@ class ProfileScreen extends StatelessWidget {
                             }
                           },
                         ),
-                        ListTile(
-                          leading: Icon(RemixIcons.notification_3_line),
-                          title: Text("Notifications"),
-                          trailing: Text(
-                            "ON",
-                            style: TextStyle(color: Color.fromRGBO(103, 70, 54, 1)),
-                          ),
-                        ),
-                        ListTile(
-                          leading: Icon(RemixIcons.translate_2),
-                          title: Text("Language"),
-                          trailing: Text(
-                            "English",
-                            style: TextStyle(color: Color.fromRGBO(103, 70, 54, 1)),
-                          ),
-                        ),
+                        NotificationSelectorWidget(),
+                        LanguageSelectorWidget(),
                       ],
                     ),
                     const Gap(20),
@@ -207,14 +217,7 @@ class ProfileScreen extends StatelessWidget {
                     // The Second Card
                     ProfileSettingsCardWidget(
                       children: [
-                        ListTile(
-                          leading: Icon(RemixIcons.mental_health_line),
-                          title: Text("Theme"),
-                          trailing: Text(
-                            "Light mode",
-                            style: TextStyle(color: Color.fromRGBO(103, 70, 54, 1)),
-                          ),
-                        ),
+                        ThemeSelectorWidget(),
                         ListTile(
                           leading: Icon(RemixIcons.chat_quote_line),
                           title: Text("Contact us"),
@@ -234,15 +237,22 @@ class ProfileScreen extends StatelessWidget {
                               context: context,
                               builder: (dialogContext) => AlertDialog(
                                 title: Text('Sign Out'),
-                                content: Text('Are you sure you want to sign out?'),
+                                content: Text(
+                                  'Are you sure you want to sign out?',
+                                ),
                                 actions: [
                                   TextButton(
-                                    onPressed: () => Navigator.pop(dialogContext, false),
+                                    onPressed: () =>
+                                        Navigator.pop(dialogContext, false),
                                     child: Text('Cancel'),
                                   ),
                                   TextButton(
-                                    onPressed: () => Navigator.pop(dialogContext, true),
-                                    child: Text('Sign Out', style: TextStyle(color: Colors.red)),
+                                    onPressed: () =>
+                                        Navigator.pop(dialogContext, true),
+                                    child: Text(
+                                      'Sign Out',
+                                      style: TextStyle(color: Colors.red),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -250,6 +260,51 @@ class ProfileScreen extends StatelessWidget {
 
                             if (shouldSignOut == true && context.mounted) {
                               context.read<ProfileCubit>().signOut();
+                            }
+                          },
+                        ),
+                        ListTile(
+                          leading: Icon(
+                            RemixIcons.delete_bin_7_fill,
+                            color: Colors.red,
+                          ),
+                          title: Text(
+                            "Delete Account",
+                            style: TextStyle(color: Colors.red),
+                          ),
+                          trailing: Icon(
+                            Icons.chevron_right,
+                            color: Colors.red,
+                          ),
+                          onTap: () async {
+                            final shouldDelete = await showDialog<bool>(
+                              context: context,
+                              builder: (dialogContext) => AlertDialog(
+                                title: Text('Delete Account'),
+                                content: Text(
+                                  'Are you sure you want to delete your account?',
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(dialogContext, false),
+                                    child: Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(dialogContext, true),
+                                    child: Text(
+                                      'Delete Account',
+                                      style: TextStyle(color: Colors.red),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+
+                            if (shouldDelete == true && context.mounted) {
+                              context.read<ProfileCubit>().deleteAccount();
+                              await context.push(AppRoutes.signInScreen);
                             }
                           },
                         ),
