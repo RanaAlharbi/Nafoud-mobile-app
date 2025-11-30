@@ -80,6 +80,13 @@ class ProfileScreen extends StatelessWidget {
                 backgroundColor: Colors.green,
               ),
             );
+          } else if (state is AccountDeleted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('The account have been deleted'),
+                backgroundColor: Colors.green,
+              ),
+            );
           } else if (state is SignedOut) {
             context.go(AppRoutes.signInScreen);
           }

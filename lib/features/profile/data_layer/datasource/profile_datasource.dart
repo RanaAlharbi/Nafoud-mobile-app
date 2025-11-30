@@ -62,9 +62,10 @@ class SupabaseProfileDatasource implements ProfileDatasource {
         .single();
 
     // Update last_login_at
-    await supabase.from('profiles').update({
-      'last_login_at': DateTime.now().toIso8601String(),
-    }).eq('id', user.id);
+    await supabase
+        .from('profiles')
+        .update({'last_login_at': DateTime.now().toIso8601String()})
+        .eq('id', user.id);
 
     // Save new data to cache for next time
     await _cacheService.saveProfile(response);
@@ -136,24 +137,22 @@ class SupabaseProfileDatasource implements ProfileDatasource {
       contentType = 'image/jpeg';
     }
 
-
     // Upload to Supabase Storage
     final path = 'avatars/${user.id}/$uniqueFileName';
 
     try {
-      await supabase.storage.from('profiles').uploadBinary(
+      await supabase.storage
+          .from('profiles')
+          .uploadBinary(
             path,
             imageBytes,
-            fileOptions: FileOptions(
-              upsert: true,
-              contentType: contentType,
-            ),
+            fileOptions: FileOptions(upsert: true, contentType: contentType),
           );
     } catch (e) {
       throw Exception('Failed to upload image to storage: $e');
     }
 
-    // Get Photo URL 
+    // Get Photo URL
     final publicUrl = supabase.storage.from('profiles').getPublicUrl(path);
     final urlWithCacheBust = '$publicUrl?t=$timestamp';
 
@@ -191,18 +190,25 @@ class SupabaseProfileDatasource implements ProfileDatasource {
       throw Exception('No user logged in');
     }
 
-    await supabase.from('profiles').update({
-      'status': 'deleted',
-      'is_active': false,
-    }).eq('id', user.id);
+    try {
+      // Updates auth.users.deleted_at, which will sync profiles table
+      final response = await supabase.rpc('soft_delete_account');
 
-    // Clear cache before sign out
-    await _cacheService.clearAll();
+      if (response['success'] != true) {
+        final error = response['message'] ?? 'Failed to delete account';
+        throw Exception(error);
+      }
 
-    // Sign out after soft delete
-    await supabase.auth.signOut();
+      // Clear cache before sign out
+      await _cacheService.clearAll();
 
-    return 'Account deleted successfully';
+      // Sign out after soft delete
+      await supabase.auth.signOut();
+
+      return response['message'] ?? 'Account deleted successfully';
+    } catch (e) {
+      throw Exception('Failed to delete account: $e');
+    }
   }
 
   @override
@@ -212,15 +218,22 @@ class SupabaseProfileDatasource implements ProfileDatasource {
       throw Exception('No user logged in');
     }
 
-    await supabase.from('profiles').update({
-      'status': 'active',
-      'is_active': true,
-    }).eq('id', user.id);
+    try {
+      // Clears auth.users.deleted_at, which will sync profiles table
+      final response = await supabase.rpc('restore_account');
 
-    // Clear cache to force fresh data on next load
-    await _cacheService.clearProfile();
+      if (response['success'] != true) {
+        final error = response['message'] ?? 'Failed to restore account';
+        throw Exception(error);
+      }
 
-    return 'Account restored successfully';
+      // Clear cache to force fresh data on next load
+      await _cacheService.clearProfile();
+
+      return response['message'] ?? 'Account restored successfully';
+    } catch (e) {
+      throw Exception('Failed to restore account: $e');
+    }
   }
 
   @override

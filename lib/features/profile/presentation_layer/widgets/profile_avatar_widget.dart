@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:remixicon/remixicon.dart';
@@ -48,14 +49,32 @@ class ProfileAvatarWidget extends StatelessWidget {
                   key: ValueKey(avatarUrl ?? 'default'),
                   radius: 70.r,
                   backgroundColor: const Color.fromARGB(255, 201, 189, 161),
-                  backgroundImage: avatarUrl != null ? NetworkImage(avatarUrl!) : null,
-                  child: avatarUrl == null
-                      ? Icon(
+                  child: avatarUrl != null
+                      ? CachedNetworkImage(
+                          imageUrl: avatarUrl!,
+                          imageBuilder: (context, imageProvider) => Container(
+                            width: 140.r,
+                            height: 140.r,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image: imageProvider,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          placeholder: (context, url) => const CircularProgressIndicator(),
+                          errorWidget: (context, url, error) => Icon(
+                            Icons.person,
+                            color: Colors.white,
+                            size: 70.sp,
+                          ),
+                        )
+                      : Icon(
                           Icons.person,
                           color: Colors.white,
                           size: 70.sp,
-                        )
-                      : null,
+                        ),
                 ),
                 // Loading overlay on the main avatar
                 if (isUploading)

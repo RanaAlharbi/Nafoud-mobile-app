@@ -11,6 +11,7 @@ part 'profile_state.dart';
 @injectable
 class ProfileCubit extends Cubit<ProfileState> {
   final ProfileUsecase _usecase;
+  List<CountryCodeEntity>? _cachedCountryCodes;
 
   ProfileCubit(this._usecase) : super(ProfileInitial());
 
@@ -144,13 +145,17 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
   }
 
-  // Method to load country codes from JSON
+  // Method to load country codes from JSON (with caching)
   Future<List<CountryCodeEntity>> _loadCountryCodes() async {
+    // Return cached data if available
+    if (_cachedCountryCodes != null) return _cachedCountryCodes!;
+
     final String response = await rootBundle.loadString(
       'Assets/jsons/country_code.json',
     );
     final List<dynamic> data = json.decode(response);
-    return data.map((json) => CountryCodeEntity.fromJson(json)).toList();
+    _cachedCountryCodes = data.map((json) => CountryCodeEntity.fromJson(json)).toList();
+    return _cachedCountryCodes!;
   }
 
   // Method to change phone number type and extract country code
