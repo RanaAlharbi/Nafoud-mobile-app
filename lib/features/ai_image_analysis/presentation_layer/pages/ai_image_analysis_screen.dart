@@ -49,8 +49,9 @@ class AIImageAnalysisScreen extends StatelessWidget {
                             bytes = file.bytes!;
                           } else if (file.path != null) {
                             bytes = await File(file.path!).readAsBytes();
-                          } else
+                          } else {
                             return;
+                          }
 
                           // Send the image to the Cubit
                           cubit.pickImage(bytes);

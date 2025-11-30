@@ -1,4 +1,4 @@
-import 'package:final_project/features/ai_chatbot/domain_layer/entity/chatbot_entity.dart';
+import 'package:final_project/features/AI_Chatbot/domain_layer/entity/chatbot_entity.dart';
 import 'package:dart_mappable/dart_mappable.dart';
 
 part 'chatbot_model.mapper.dart';

@@ -19,8 +19,4 @@ class NavigationCubit extends Cubit<NavState> {
     emit(NavLoadedState());
   }
 
-  @override
-  Future<void> close() {
-    return super.close();
-  }
 }
