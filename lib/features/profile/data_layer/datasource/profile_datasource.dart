@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:final_project/features/profile/data_layer/model/profile_model.dart';
 import 'package:injectable/injectable.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'profile_cache_service.dart';
 
 abstract class ProfileDatasource {
   Future<ProfileModel> getProfile();
@@ -30,8 +31,9 @@ abstract class ProfileDatasource {
 @LazySingleton(as: ProfileDatasource)
 class SupabaseProfileDatasource implements ProfileDatasource {
   final SupabaseClient supabase;
+  final ProfileCacheService _cacheService;
 
-  SupabaseProfileDatasource(this.supabase);
+  SupabaseProfileDatasource(this.supabase, this._cacheService);
 
   @override
   Future<ProfileModel> getProfile() async {
@@ -40,7 +42,19 @@ class SupabaseProfileDatasource implements ProfileDatasource {
       throw Exception('No user logged in');
     }
 
-    // Fetch profile from Supabase
+    // Return cached profile first so it will be there 0 loading
+    final cachedData = _cacheService.getCachedProfile();
+    if (cachedData != null) {
+      try {
+        // Return cached data fast (no loading)
+        return ProfileModelMapper.fromMap(cachedData);
+      } catch (e) {
+        // If cache have some issues, clear it and fetch new data
+        await _cacheService.clearProfile();
+      }
+    }
+
+    // Only fetch from Supabase if no cache exists
     final response = await supabase
         .from('profiles')
         .select()
@@ -51,6 +65,9 @@ class SupabaseProfileDatasource implements ProfileDatasource {
     await supabase.from('profiles').update({
       'last_login_at': DateTime.now().toIso8601String(),
     }).eq('id', user.id);
+
+    // Save new data to cache for next time
+    await _cacheService.saveProfile(response);
 
     return ProfileModelMapper.fromMap(response);
   }
@@ -89,6 +106,9 @@ class SupabaseProfileDatasource implements ProfileDatasource {
         .eq('id', user.id)
         .select()
         .single();
+
+    // Update cache with new profile data
+    await _cacheService.saveProfile(response);
 
     return ProfileModelMapper.fromMap(response);
   }
@@ -155,6 +175,9 @@ class SupabaseProfileDatasource implements ProfileDatasource {
           .select()
           .single();
 
+      // Update cache with new avatar URL
+      await _cacheService.saveProfile(response);
+
       return ProfileModelMapper.fromMap(response);
     } catch (e) {
       throw Exception('Failed to update avatar URL in database: $e');
@@ -172,6 +195,9 @@ class SupabaseProfileDatasource implements ProfileDatasource {
       'status': 'deleted',
       'is_active': false,
     }).eq('id', user.id);
+
+    // Clear cache before sign out
+    await _cacheService.clearAll();
 
     // Sign out after soft delete
     await supabase.auth.signOut();
@@ -191,11 +217,17 @@ class SupabaseProfileDatasource implements ProfileDatasource {
       'is_active': true,
     }).eq('id', user.id);
 
+    // Clear cache to force fresh data on next load
+    await _cacheService.clearProfile();
+
     return 'Account restored successfully';
   }
 
   @override
   Future<void> signOut() async {
+    // Clear cache before signing out
+    await _cacheService.clearAll();
+
     await supabase.auth.signOut();
   }
 }

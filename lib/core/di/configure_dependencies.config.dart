@@ -45,6 +45,8 @@ import '../../features/authentication/domain_layer/usecase/authentication_usecas
     as _i11;
 import '../../features/authentication/presentation_layer/bloc/authentication_bloc.dart'
     as _i892;
+import '../../features/profile/data_layer/datasource/profile_cache_service.dart'
+    as _i158;
 import '../../features/profile/data_layer/datasource/profile_datasource.dart'
     as _i18;
 import '../../features/profile/data_layer/repository/profile_repository_impl.dart'
@@ -72,11 +74,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i656.GenerativeModel>(
       () => thirdPartySetup.generativeModel,
     );
+    gh.lazySingleton<_i158.ProfileCacheService>(
+      () => _i158.ProfileCacheService(),
+    );
     gh.lazySingleton<_i517.AuthenticationDatasource>(
       () => _i517.SupabaseDatasource(gh<_i454.SupabaseClient>()),
-    );
-    gh.lazySingleton<_i18.ProfileDatasource>(
-      () => _i18.SupabaseProfileDatasource(gh<_i454.SupabaseClient>()),
     );
     gh.lazySingleton<_i157.BaseAiLocalStorageDataSource>(
       () => _i157.AiLocalStorageDataSource(gh<_i792.GetStorage>()),
@@ -91,6 +93,12 @@ extension GetItInjectableX on _i174.GetIt {
       ),
     );
     gh.lazySingleton<_i504.ChatDataSource>(() => _i504.ChatRemoteDataSource());
+    gh.lazySingleton<_i18.ProfileDatasource>(
+      () => _i18.SupabaseProfileDatasource(
+        gh<_i454.SupabaseClient>(),
+        gh<_i158.ProfileCacheService>(),
+      ),
+    );
     gh.lazySingleton<_i998.ProfileRepository>(
       () => _i121.ProfileRepositoryImpl(gh<_i18.ProfileDatasource>()),
     );

@@ -23,8 +23,12 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     if (isClosed) return;
     result.fold(
-      (error) => emit(ProfileError(error)),
-      (profile) => emit(ProfileLoaded(profile)), // Error here
+      (error) {
+        if (!isClosed) emit(ProfileError(error));
+      },
+      (profile) {
+        if (!isClosed) emit(ProfileLoaded(profile));
+      },
     );
   }
 
@@ -45,8 +49,12 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     if (isClosed) return;
     result.fold(
-      (error) => emit(ProfileError(error)),
-      (profile) => emit(ProfileUpdated(profile, 'Profile updated successfully')),
+      (error) {
+        if (!isClosed) emit(ProfileError(error));
+      },
+      (profile) {
+        if (!isClosed) emit(ProfileUpdated(profile, 'Profile updated successfully'));
+      },
     );
   }
 
@@ -91,8 +99,12 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     if (isClosed) return;
     result.fold(
-      (error) => emit(ProfileError(error)),
-      (message) => emit(AccountDeleted(message)),
+      (error) {
+        if (!isClosed) emit(ProfileError(error));
+      },
+      (message) {
+        if (!isClosed) emit(AccountDeleted(message));
+      },
     );
   }
 
@@ -105,8 +117,12 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     if (isClosed) return;
     result.fold(
-      (error) => emit(ProfileError(error)),
-      (message) => emit(AccountRestored(message)),
+      (error) {
+        if (!isClosed) emit(ProfileError(error));
+      },
+      (message) {
+        if (!isClosed) emit(AccountRestored(message));
+      },
     );
   }
 
@@ -119,8 +135,12 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     if (isClosed) return;
     result.fold(
-      (error) => emit(ProfileError(error)),
-      (_) => emit(SignedOut()),
+      (error) {
+        if (!isClosed) emit(ProfileError(error));
+      },
+      (_) {
+        if (!isClosed) emit(SignedOut());
+      },
     );
   }
 
@@ -335,8 +355,12 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     if (isClosed) return;
     result.fold(
-      (error) => emit(ProfileError(error)),
-      (profile) => emit(ProfileUpdated(profile, 'Profile updated successfully')),
+      (error) {
+        if (!isClosed) emit(ProfileError(error));
+      },
+      (profile) {
+        if (!isClosed) emit(ProfileUpdated(profile, 'Profile updated successfully'));
+      },
     );
   }
 }
