@@ -37,6 +37,9 @@ class CustomAuthenticationCardWidget extends StatelessWidget {
   final String buttonText;
   final VoidCallback onButtonPressed;
 
+  // Loading state
+  final bool isLoading;
+
   const CustomAuthenticationCardWidget({
     super.key,
     required this.title,
@@ -60,6 +63,7 @@ class CustomAuthenticationCardWidget extends StatelessWidget {
     this.passwordController,
     this.confirmPasswordController,
     this.resetCodeController,
+    this.isLoading = false,
   });
 
   @override
@@ -82,17 +86,17 @@ class CustomAuthenticationCardWidget extends StatelessWidget {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      Colors.white.withValues(alpha: 0.5),
-                      Colors.white.withValues(alpha: 0.2),
+                      Colors.white.withValues(alpha: .5),
+                      Colors.white.withValues(alpha: .2),
                     ],
                   ),
                   border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.2),
+                    color: Colors.white.withValues(alpha: .2),
                     width: 1,
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.25),
+                      color: Colors.black.withValues(alpha: .25),
                       blurRadius: 24,
                       offset: const Offset(0, 8),
                     ),
@@ -162,12 +166,24 @@ class CustomAuthenticationCardWidget extends StatelessWidget {
 
                     const SizedBox(height: 16),
 
-                    CustomButtonWidget(
-                      buttonWidth: 300,
-                      buttonHeight: 40,
-                      onPressed: onButtonPressed,
-                      text: buttonText,
-                    ),
+                    if (isLoading)
+                      const SizedBox(
+                        height: 40,
+                        width: 40,
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            strokeWidth: 3,
+                            color: Colors.white,
+                          ),
+                        ),
+                      )
+                    else
+                      CustomButtonWidget(
+                        buttonWidth: 300,
+                        buttonHeight: 40,
+                        onPressed: onButtonPressed,
+                        text: buttonText,
+                      ),
 
                     if (hasBottomText && bottomRichText != null)
                       Center(
