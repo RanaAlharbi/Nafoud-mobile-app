@@ -69,7 +69,7 @@ class ProfileAvatarWidget extends StatelessWidget {
                     child: Center(
                       child: CircularProgressIndicator(
                         strokeWidth: 3,
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                        color: Colors.white,
                       ),
                     ),
                   ),

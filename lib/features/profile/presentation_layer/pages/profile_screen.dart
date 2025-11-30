@@ -101,7 +101,7 @@ class ProfileScreen extends StatelessWidget {
 
           body: BlocBuilder<ProfileCubit, ProfileState>(
             buildWhen: (previous, current) => ( 
-              // (Don't rebuild for avatar-only changes)
+              // (It's like saying "Don't rebuild for avatar-only changes")
               current is! AvatarUploading && current is! AvatarUploaded
             ),
             builder: (context, state) {

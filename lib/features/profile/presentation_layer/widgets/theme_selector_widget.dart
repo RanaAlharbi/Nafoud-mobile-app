@@ -16,20 +16,38 @@ class _ThemeSelectorWidgetState extends State<ThemeSelectorWidget> {
     return ListTile(
       leading: Icon(RemixIcons.mental_health_line),
       title: Text("Theme"),
-      trailing: DropdownButton<String>(
-        value: selectedTheme,
-        underline: SizedBox(),
-        style: TextStyle(color: Color.fromRGBO(103, 70, 54, 1)),
-        items: [
-          DropdownMenuItem(value: "Light mode", child: Text("Light mode")),
-          DropdownMenuItem(value: "Dark mode", child: Text("Dark mode")),
+      trailing: PopupMenuButton<String>(
+        offset: Offset(0, 8),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              selectedTheme,
+              style: TextStyle(color: Color.fromRGBO(103, 70, 54, 1)),
+            ),
+            Icon(Icons.arrow_drop_down, color: Color.fromRGBO(103, 70, 54, 1)),
+          ],
+        ),
+        itemBuilder: (context) => [
+          PopupMenuItem(
+            value: "Light mode",
+            child: Text(
+              "Light mode",
+              style: TextStyle(color: Color.fromRGBO(103, 70, 54, 1)),
+            ),
+          ),
+          PopupMenuItem(
+            value: "Dark mode",
+            child: Text(
+              "Dark mode",
+              style: TextStyle(color: Color.fromRGBO(103, 70, 54, 1)),
+            ),
+          ),
         ],
-        onChanged: (value) {
-          if (value != null) {
-            setState(() {
-              selectedTheme = value;
-            });
-          }
+        onSelected: (value) {
+          setState(() {
+            selectedTheme = value;
+          });
         },
       ),
     );
