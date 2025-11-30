@@ -41,57 +41,71 @@ class ProfileAvatarWidget extends StatelessWidget {
           Positioned(
             top: 0,
             left: (1.sw - 140.r) / 2,
-            child: CircleAvatar(
-              key: ValueKey(avatarUrl ?? 'default'),
-              radius: 70.r,
-              backgroundColor: const Color.fromARGB(255, 201, 189, 161),
-              backgroundImage: avatarUrl != null ? NetworkImage(avatarUrl!) : null,
-              child: avatarUrl == null
-                  ? Icon(
-                      Icons.person,
-                      color: Colors.white,
-                      size: 70.sp,
-                    )
-                  : null,
-            ),
-          ),
-
-          // Edit button background circle
-          Positioned(
-            bottom: -2.w,
-            left: (1.sw - 140.r) / 2 + 96.r,
-            child: CircleAvatar(
-              radius: 20.r,
-              backgroundColor: Colors.white,
-            ),
-          ),
-
-          // Edit button
-          Positioned(
-            bottom: 0,
-            left: (1.sw - 140.r) / 2 + 98.r,
-            child: GestureDetector(
-              onTap: onEditTap,
-              child: CircleAvatar(
-                radius: 18.r,
-                backgroundColor: const Color.fromRGBO(245, 245, 245, 1),
-                child: isUploading
-                    ? SizedBox(
-                        width: 16.sp,
-                        height: 16.sp,
-                        child: const CircularProgressIndicator(
-                          strokeWidth: 2,
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
-                        ),
-                      )
-                    : Icon(
-                        RemixIcons.edit_line,
-                        color: Colors.black,
-                        size: 23.sp,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                CircleAvatar(
+                  key: ValueKey(avatarUrl ?? 'default'),
+                  radius: 70.r,
+                  backgroundColor: const Color.fromARGB(255, 201, 189, 161),
+                  backgroundImage: avatarUrl != null ? NetworkImage(avatarUrl!) : null,
+                  child: avatarUrl == null
+                      ? Icon(
+                          Icons.person,
+                          color: Colors.white,
+                          size: 70.sp,
+                        )
+                      : null,
+                ),
+                // Loading overlay on the main avatar
+                if (isUploading)
+                  Container(
+                    width: 140.r,
+                    height: 140.r,
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.5),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        strokeWidth: 3,
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                       ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+
+          // Edit button background circle (hidden when uploading)
+          if (!isUploading)
+            Positioned(
+              bottom: -2.w,
+              left: (1.sw - 140.r) / 2 + 96.r,
+              child: CircleAvatar(
+                radius: 20.r,
+                backgroundColor: Colors.white,
               ),
             ),
-          ),
+
+          // Edit button (hidden when uploading)
+          if (!isUploading)
+            Positioned(
+              bottom: 0,
+              left: (1.sw - 140.r) / 2 + 98.r,
+              child: GestureDetector(
+                onTap: onEditTap,
+                child: CircleAvatar(
+                  radius: 18.r,
+                  backgroundColor: const Color.fromRGBO(245, 245, 245, 1),
+                  child: Icon(
+                    RemixIcons.edit_line,
+                    color: Colors.black,
+                    size: 23.sp,
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );

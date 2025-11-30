@@ -76,8 +76,6 @@ class ProfileScreen extends StatelessWidget {
                 backgroundColor: Colors.green,
               ),
             );
-            // Reload profile to show new avatar
-            context.read<ProfileCubit>().loadProfile();
           } else if (state is SignedOut) {
             context.go(AppRoutes.signInScreen);
           }
@@ -99,6 +97,10 @@ class ProfileScreen extends StatelessWidget {
           ),
 
           body: BlocBuilder<ProfileCubit, ProfileState>(
+            buildWhen: (previous, current) => ( 
+              // (Don't rebuild for avatar-only changes)
+              current is! AvatarUploading && current is! AvatarUploaded
+            ),
             builder: (context, state) {
               if (state is ProfileLoading) {
                 return Center(child: CircularProgressIndicator());
@@ -134,10 +136,26 @@ class ProfileScreen extends StatelessWidget {
                     Gap(kToolbarHeight + 40.h + ScreenUtil().statusBarHeight),
 
                     // Avatar widget
-                    ProfileAvatarWidget(
-                      avatarUrl: profile?.avatarUrl,
-                      isUploading: state is AvatarUploading,
-                      onEditTap: () => _pickAndUploadAvatar(context),
+                    BlocBuilder<ProfileCubit, ProfileState>(
+                      buildWhen: (previous, current) {
+                        // Only rebuild when avatar changes
+                        return current is AvatarUploading ||
+                               current is AvatarUploaded ||
+                               current is ProfileLoaded;
+                      },
+                      builder: (context, avatarState) {
+                        final avatarUrl = avatarState is ProfileLoaded
+                            ? avatarState.profile.avatarUrl
+                            : (avatarState is AvatarUploaded
+                                ? avatarState.profile.avatarUrl
+                                : profile?.avatarUrl);
+
+                        return ProfileAvatarWidget(
+                          avatarUrl: avatarUrl,
+                          isUploading: avatarState is AvatarUploading,
+                          onEditTap: () => _pickAndUploadAvatar(context),
+                        );
+                      },
                     ),
 
                     const Gap(40),

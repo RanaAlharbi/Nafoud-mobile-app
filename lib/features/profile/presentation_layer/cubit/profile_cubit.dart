@@ -22,7 +22,7 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     result.fold(
       (error) => emit(ProfileError(error)),
-      (profile) => emit(ProfileLoaded(profile)),
+      (profile) => emit(ProfileLoaded(profile)), // Error here
     );
   }
 
