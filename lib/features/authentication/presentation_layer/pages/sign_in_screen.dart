@@ -42,7 +42,7 @@ class SignInScreen extends StatelessWidget {
               title: 'Log In',
               subtitle: 'Please sign in to continue',
               cardWidth: 334,
-              cardHeight: 362,
+              cardHeight: 390,
               titleTextStyle: AppText.logInSignUpTitle,
               showUsername: false,
               showPassword: true,

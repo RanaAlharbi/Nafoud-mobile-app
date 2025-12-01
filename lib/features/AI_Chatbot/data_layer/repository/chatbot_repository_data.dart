@@ -1,7 +1,7 @@
 
-import 'package:final_project/features/ai_chatbot/data_layer/datasource/chatbot_datasource.dart';
-import 'package:final_project/features/ai_chatbot/data_layer/model/chatbot_model.dart';
-import 'package:final_project/features/ai_chatbot/domain_layer/repository/chatbot_repository_domain.dart';
+import 'package:final_project/features/AI_Chatbot/data_layer/datasource/chatbot_datasource.dart';
+import 'package:final_project/features/AI_Chatbot/data_layer/model/chatbot_model.dart';
+import 'package:final_project/features/AI_Chatbot/domain_layer/repository/chatbot_repository_domain.dart';
 import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: ChatbotRepositoryDomain)

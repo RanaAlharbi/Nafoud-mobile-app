@@ -15,16 +15,16 @@ import 'package:google_generative_ai/google_generative_ai.dart' as _i656;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:supabase_flutter/supabase_flutter.dart' as _i454;
 
-import '../../features/ai_chatbot/data_layer/datasource/chatbot_datasource.dart'
-    as _i482;
-import '../../features/ai_chatbot/data_layer/repository/chatbot_repository_data.dart'
-    as _i545;
-import '../../features/ai_chatbot/domain_layer/repository/chatbot_repository_domain.dart'
-    as _i951;
-import '../../features/ai_chatbot/domain_layer/usecase/chatbot_usecase.dart'
-    as _i865;
-import '../../features/ai_chatbot/presentation_layer/bloc/chatbot_bloc.dart'
-    as _i490;
+import '../../features/AI_Chatbot/data_layer/datasource/chatbot_datasource.dart'
+    as _i504;
+import '../../features/AI_Chatbot/data_layer/repository/chatbot_repository_data.dart'
+    as _i181;
+import '../../features/AI_Chatbot/domain_layer/repository/chatbot_repository_domain.dart'
+    as _i351;
+import '../../features/AI_Chatbot/domain_layer/usecase/chatbot_usecase.dart'
+    as _i274;
+import '../../features/AI_Chatbot/presentation_layer/bloc/chatbot_bloc.dart'
+    as _i824;
 import '../../features/ai_image_analysis/data_layer/datasource/ai_image_analysis_datasource.dart'
     as _i11;
 import '../../features/ai_image_analysis/data_layer/datasource/ai_local_storage_datasource.dart'
@@ -45,6 +45,8 @@ import '../../features/authentication/domain_layer/usecase/authentication_usecas
     as _i11;
 import '../../features/authentication/presentation_layer/bloc/authentication_bloc.dart'
     as _i892;
+import '../../features/profile/data_layer/datasource/profile_cache_service.dart'
+    as _i158;
 import '../../features/profile/data_layer/datasource/profile_datasource.dart'
     as _i18;
 import '../../features/profile/data_layer/repository/profile_repository_impl.dart'
@@ -72,16 +74,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i656.GenerativeModel>(
       () => thirdPartySetup.generativeModel,
     );
+    gh.lazySingleton<_i158.ProfileCacheService>(
+      () => _i158.ProfileCacheService(),
+    );
     gh.lazySingleton<_i517.AuthenticationDatasource>(
       () => _i517.SupabaseDatasource(gh<_i454.SupabaseClient>()),
-    );
-    gh.lazySingleton<_i18.ProfileDatasource>(
-      () => _i18.SupabaseProfileDatasource(gh<_i454.SupabaseClient>()),
     );
     gh.lazySingleton<_i157.BaseAiLocalStorageDataSource>(
       () => _i157.AiLocalStorageDataSource(gh<_i792.GetStorage>()),
     );
-    gh.lazySingleton<_i482.ChatDataSource>(() => _i482.ChatRemoteDataSource());
     gh.lazySingleton<_i11.BaseAiImageAnalysisDataSource>(
       () => _i11.AiImageAnalysisRemoteDataSource(gh<_i656.GenerativeModel>()),
     );
@@ -89,6 +90,13 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i479.AiImageAnalysisRepositoryDataSource(
         gh<_i11.BaseAiImageAnalysisDataSource>(),
         gh<_i157.BaseAiLocalStorageDataSource>(),
+      ),
+    );
+    gh.lazySingleton<_i504.ChatDataSource>(() => _i504.ChatRemoteDataSource());
+    gh.lazySingleton<_i18.ProfileDatasource>(
+      () => _i18.SupabaseProfileDatasource(
+        gh<_i454.SupabaseClient>(),
+        gh<_i158.ProfileCacheService>(),
       ),
     );
     gh.lazySingleton<_i998.ProfileRepository>(
@@ -105,8 +113,8 @@ extension GetItInjectableX on _i174.GetIt {
         authRepo: gh<_i725.AuthenticationRepositoryDomain>(),
       ),
     );
-    gh.lazySingleton<_i951.ChatbotRepositoryDomain>(
-      () => _i545.ChatbotRepositoryData(gh<_i482.ChatDataSource>()),
+    gh.lazySingleton<_i351.ChatbotRepositoryDomain>(
+      () => _i181.ChatbotRepositoryData(gh<_i504.ChatDataSource>()),
     );
     gh.factory<_i892.AuthenticationBloc>(
       () => _i892.AuthenticationBloc(gh<_i11.AuthenticationUsecases>()),
@@ -114,14 +122,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i680.ProfileUsecase>(
       () => _i680.ProfileUsecase(gh<_i998.ProfileRepository>()),
     );
-    gh.lazySingleton<_i865.GetChatSessionUseCase>(
-      () => _i865.GetChatSessionUseCase(gh<_i951.ChatbotRepositoryDomain>()),
+    gh.lazySingleton<_i274.GetChatSessionUseCase>(
+      () => _i274.GetChatSessionUseCase(gh<_i351.ChatbotRepositoryDomain>()),
     );
     gh.factory<_i197.ProfileCubit>(
       () => _i197.ProfileCubit(gh<_i680.ProfileUsecase>()),
     );
-    gh.factory<_i490.ChatbotBloc>(
-      () => _i490.ChatbotBloc(gh<_i865.GetChatSessionUseCase>()),
+    gh.factory<_i824.ChatbotBloc>(
+      () => _i824.ChatbotBloc(gh<_i274.GetChatSessionUseCase>()),
     );
     return this;
   }

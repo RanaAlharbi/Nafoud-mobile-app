@@ -16,23 +16,59 @@ class _LanguageSelectorWidgetState extends State<LanguageSelectorWidget> {
     return ListTile(
       leading: Icon(RemixIcons.translate_2),
       title: Text("Language"),
-      trailing: DropdownButton<String>(
-        value: selectedLanguage,
-        underline: SizedBox(),
-        style: TextStyle(color: Color.fromRGBO(103, 70, 54, 1)),
-        items: [
-          DropdownMenuItem(value: "English", child: Text("English")),
-          DropdownMenuItem(value: "Arabic", child: Text("Arabic")),
-          DropdownMenuItem(value: "French", child: Text("French")),
-          DropdownMenuItem(value: "Urdu", child: Text("Urdu")),
-          DropdownMenuItem(value: "Hindi", child: Text("Hindi")),
+      trailing: PopupMenuButton<String>(
+        offset: Offset(0, 8),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              selectedLanguage,
+              style: TextStyle(color: Color.fromRGBO(103, 70, 54, 1)),
+            ),
+            Icon(Icons.arrow_drop_down, color: Color.fromRGBO(103, 70, 54, 1)),
+          ],
+        ),
+        itemBuilder: (context) => [
+          PopupMenuItem(
+            value: "English",
+            child: Text(
+              "English",
+              style: TextStyle(color: Color.fromRGBO(103, 70, 54, 1)),
+            ),
+          ),
+          PopupMenuItem(
+            value: "Arabic",
+            child: Text(
+              "Arabic",
+              style: TextStyle(color: Color.fromRGBO(103, 70, 54, 1)),
+            ),
+          ),
+          PopupMenuItem(
+            value: "French",
+            child: Text(
+              "French",
+              style: TextStyle(color: Color.fromRGBO(103, 70, 54, 1)),
+            ),
+          ),
+          PopupMenuItem(
+            value: "Urdu",
+            child: Text(
+              "Urdu",
+              style: TextStyle(color: Color.fromRGBO(103, 70, 54, 1)),
+            ),
+          ),
+          PopupMenuItem(
+            value: "Hindi",
+            child: Text(
+              "Hindi",
+              style: TextStyle(color: Color.fromRGBO(103, 70, 54, 1)),
+            ),
+          ),
         ],
-        onChanged: (value) {
-          if (value != null) {
-            setState(() {
-              selectedLanguage = value;
-            });
-          }
+        onSelected: (value) {
+          setState(() {
+            selectedLanguage = value;
+          });
         },
       ),
     );

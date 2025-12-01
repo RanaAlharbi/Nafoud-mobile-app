@@ -40,46 +40,48 @@ class SignUpScreen extends StatelessWidget {
             }
           },
           builder: (context, state) {
-            return CustomAuthenticationCardWidget(
-              title: 'Sign Up',
-              subtitle: 'Create an account to continue.',
-              cardWidth: 334,
-              cardHeight: 405,
-              titleTextStyle: AppText.logInSignUpTitle,
+            return SingleChildScrollView(
+              child: CustomAuthenticationCardWidget(
+                title: 'Sign Up',
+                subtitle: 'Create an account to continue.',
+                cardWidth: 334,
+                cardHeight: 430,
+                titleTextStyle: AppText.logInSignUpTitle,
 
-              showUsername: true,
-              showPassword: true,
-              showEmail: true,
-              hasForgotPassword: false,
-              hasBottomText: true,
+                showUsername: true,
+                showPassword: true,
+                showEmail: true,
+                hasForgotPassword: false,
+                hasBottomText: true,
 
-              bottomRichText: [
-                TextPart('Already have an account? Go to the '),
-                TextPart('Login Page', isHighlighted: true),
-              ],
+                bottomRichText: [
+                  TextPart('Already have an account? Go to the '),
+                  TextPart('Login Page', isHighlighted: true),
+                ],
 
-              onBottomTextTap: () {
-                context.go(AppRoutes.signInScreen);
-              },
+                onBottomTextTap: () {
+                  context.go(AppRoutes.signInScreen);
+                },
 
-              buttonText: 'Sign Up',
-              showConfirmPassword: false,
+                buttonText: 'Sign Up',
+                showConfirmPassword: false,
 
-              usernameController: _usernameCtrl,
-              emailController: _emailCtrl,
-              passwordController: _passwordCtrl,
+                usernameController: _usernameCtrl,
+                emailController: _emailCtrl,
+                passwordController: _passwordCtrl,
 
-              isLoading: state is AuthenticationLoading,
+                isLoading: state is AuthenticationLoading,
 
-              onButtonPressed: () {
-                context.read<AuthenticationBloc>().add(
-                  SignUpSubmitted(
-                    username: _usernameCtrl.text.trim(),
-                    email: _emailCtrl.text.trim(),
-                    password: _passwordCtrl.text.trim(),
-                  ),
-                );
-              },
+                onButtonPressed: () {
+                  context.read<AuthenticationBloc>().add(
+                    SignUpSubmitted(
+                      username: _usernameCtrl.text.trim(),
+                      email: _emailCtrl.text.trim(),
+                      password: _passwordCtrl.text.trim(),
+                    ),
+                  );
+                },
+              ),
             );
           },
         ),

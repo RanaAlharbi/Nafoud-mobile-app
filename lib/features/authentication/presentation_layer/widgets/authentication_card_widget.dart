@@ -164,7 +164,7 @@ class CustomAuthenticationCardWidget extends StatelessWidget {
                         ),
                       ),
 
-                    const SizedBox(height: 16),
+                    if (showPassword) const SizedBox(height: 16),
 
                     if (isLoading)
                       const SizedBox(
@@ -184,6 +184,8 @@ class CustomAuthenticationCardWidget extends StatelessWidget {
                         onPressed: onButtonPressed,
                         text: buttonText,
                       ),
+
+                    const SizedBox(height: 16),
 
                     if (hasBottomText && bottomRichText != null)
                       Center(

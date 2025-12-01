@@ -52,9 +52,9 @@ class ProfileScreen extends StatelessWidget {
       }
     } catch (e) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to pick image: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to pick image: $e')));
       }
     }
   }
@@ -62,7 +62,8 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProfileCubit(GetIt.I.get<ProfileUsecase>())..loadProfile(),
+      create: (context) =>
+          ProfileCubit(GetIt.I.get<ProfileUsecase>())..loadProfile(),
       child: BlocListener<ProfileCubit, ProfileState>(
         listener: (context, state) {
           if (state is ProfileError) {
@@ -79,8 +80,13 @@ class ProfileScreen extends StatelessWidget {
                 backgroundColor: Colors.green,
               ),
             );
-            // Reload profile to show new avatar
-            context.read<ProfileCubit>().loadProfile();
+          } else if (state is AccountDeleted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('The account have been deleted'),
+                backgroundColor: Colors.green,
+              ),
+            );
           } else if (state is SignedOut) {
             context.go(AppRoutes.signInScreen);
           }
@@ -101,6 +107,10 @@ class ProfileScreen extends StatelessWidget {
           ),
 
           body: BlocBuilder<ProfileCubit, ProfileState>(
+            buildWhen: (previous, current) => ( 
+              // (It's like saying "Don't rebuild for avatar-only changes")
+              current is! AvatarUploading && current is! AvatarUploaded
+            ),
             builder: (context, state) {
               if (state is ProfileLoading) {
                 return Center(child: CircularProgressIndicator());
@@ -115,11 +125,32 @@ class ProfileScreen extends StatelessWidget {
                       Gap(16),
                       Text('Error loading profile'),
                       Gap(8),
-                      Center(child: Text(state.message, style: TextStyle(color: Colors.grey))),
+                      Center(
+                        child: Text(
+                          state.message,
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ),
                       Gap(16),
-                      ElevatedButton(
-                        onPressed: () => context.read<ProfileCubit>().loadProfile(),
-                        child: Text('Retry'),
+                      Row(
+                        spacing: 20.w,
+                        mainAxisAlignment: .center,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () =>
+                                context.read<ProfileCubit>().loadProfile(),
+                            child: Text('Retry'),
+                          ),
+                          ElevatedButton(
+                            onPressed: () async {
+                              await context.push(AppRoutes.signInScreen);
+                              if (context.mounted) {
+                                context.read<ProfileCubit>().loadProfile();
+                              }
+                            },
+                            child: Text('Leave'),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -136,10 +167,26 @@ class ProfileScreen extends StatelessWidget {
                     Gap(kToolbarHeight + 40.h + ScreenUtil().statusBarHeight),
 
                     // Avatar widget
-                    ProfileAvatarWidget(
-                      avatarUrl: profile?.avatarUrl,
-                      isUploading: state is AvatarUploading,
-                      onEditTap: () => _pickAndUploadAvatar(context),
+                    BlocBuilder<ProfileCubit, ProfileState>(
+                      buildWhen: (previous, current) {
+                        // Only rebuild when avatar changes
+                        return current is AvatarUploading ||
+                               current is AvatarUploaded ||
+                               current is ProfileLoaded;
+                      },
+                      builder: (context, avatarState) {
+                        final avatarUrl = avatarState is ProfileLoaded
+                            ? avatarState.profile.avatarUrl
+                            : (avatarState is AvatarUploaded
+                                ? avatarState.profile.avatarUrl
+                                : profile?.avatarUrl);
+
+                        return ProfileAvatarWidget(
+                          avatarUrl: avatarUrl,
+                          isUploading: avatarState is AvatarUploading,
+                          onEditTap: () => _pickAndUploadAvatar(context),
+                        );
+                      },
                     ),
 
                     const Gap(40),
@@ -197,15 +244,22 @@ class ProfileScreen extends StatelessWidget {
                               context: context,
                               builder: (dialogContext) => AlertDialog(
                                 title: Text('Sign Out'),
-                                content: Text('Are you sure you want to sign out?'),
+                                content: Text(
+                                  'Are you sure you want to sign out?',
+                                ),
                                 actions: [
                                   TextButton(
-                                    onPressed: () => Navigator.pop(dialogContext, false),
+                                    onPressed: () =>
+                                        Navigator.pop(dialogContext, false),
                                     child: Text('Cancel'),
                                   ),
                                   TextButton(
-                                    onPressed: () => Navigator.pop(dialogContext, true),
-                                    child: Text('Sign Out', style: TextStyle(color: Colors.red)),
+                                    onPressed: () =>
+                                        Navigator.pop(dialogContext, true),
+                                    child: Text(
+                                      'Sign Out',
+                                      style: TextStyle(color: Colors.red),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -213,6 +267,51 @@ class ProfileScreen extends StatelessWidget {
 
                             if (shouldSignOut == true && context.mounted) {
                               context.read<ProfileCubit>().signOut();
+                            }
+                          },
+                        ),
+                        ListTile(
+                          leading: Icon(
+                            RemixIcons.delete_bin_7_fill,
+                            color: Colors.red,
+                          ),
+                          title: Text(
+                            "Delete Account",
+                            style: TextStyle(color: Colors.red),
+                          ),
+                          trailing: Icon(
+                            Icons.chevron_right,
+                            color: Colors.red,
+                          ),
+                          onTap: () async {
+                            final shouldDelete = await showDialog<bool>(
+                              context: context,
+                              builder: (dialogContext) => AlertDialog(
+                                title: Text('Delete Account'),
+                                content: Text(
+                                  'Are you sure you want to delete your account?',
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(dialogContext, false),
+                                    child: Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(dialogContext, true),
+                                    child: Text(
+                                      'Delete Account',
+                                      style: TextStyle(color: Colors.red),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+
+                            if (shouldDelete == true && context.mounted) {
+                              context.read<ProfileCubit>().deleteAccount();
+                              await context.push(AppRoutes.signInScreen);
                             }
                           },
                         ),
