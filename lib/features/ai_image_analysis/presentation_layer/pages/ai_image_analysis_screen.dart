@@ -2,11 +2,8 @@ import 'package:final_project/features/ai_image_analysis/domain_layer/usecase/ai
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:final_project/features/ai_image_analysis/presentation_layer/cubit/ai_cubit.dart';
-import 'dart:typed_data';
-import 'dart:io';
-import 'package:file_picker/file_picker.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
 
@@ -20,6 +17,7 @@ class AIImageAnalysisScreen extends StatelessWidget {
       child: Builder(
         builder: (context) {
           final cubit = context.read<AIImageCubit>();
+
           return Scaffold(
             appBar: AppBar(
               title: const Text("AI Landmark Analyzer"),
@@ -30,101 +28,122 @@ class AIImageAnalysisScreen extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    GestureDetector(
-                      onTap: () async {
-                        // Open file picker to select an image
-                        FilePickerResult? result = await FilePicker
-                            .platform //open gallery
-                            .pickFiles(
-                              type: FileType
-                                  .custom, //define  file type acceptible.
-                              allowedExtensions: ['jpg', 'jpeg', 'png'],
-                            );
+                    // Image
+                    BlocBuilder<AIImageCubit, AIImageState>(
+                      builder: (context, state) {
+                        final selectedImage = cubit.selectedImage;
 
-                        if (result != null) {
-                          final file = result.files.first;
-                          Uint8List bytes;
-
-                          if (file.bytes != null) {
-                            bytes = file.bytes!;
-                          } else if (file.path != null) {
-                            bytes = await File(file.path!).readAsBytes();
-                          } else {
-                            return;
-                          }
-
-                          // Send the image to the Cubit
-                          cubit.pickImage(bytes);
-
-                          print('Selected image bytes length: ${bytes.length}');
-                        }
-                      },
-
-                      //Image Container
-                      child: Container(
-                        width: double.infinity,
-                        height: 200,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[100],
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: Colors.grey),
-                          image: cubit.selectedImage != null
-                              ? DecorationImage(
-                                  image: MemoryImage(cubit.selectedImage!),
-                                  fit: BoxFit.cover,
+                        return Container(
+                          width: double.infinity,
+                          height: 220,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: Colors.grey),
+                            image: selectedImage != null
+                                ? DecorationImage(
+                                    image: MemoryImage(selectedImage),
+                                    fit: BoxFit.cover,
+                                  )
+                                : null,
+                          ),
+                          child: selectedImage == null
+                              ? const Center(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        Icons.image,
+                                        size: 50,
+                                        color: Colors.grey,
+                                      ),
+                                      Gap(8),
+                                      Text("No image selected"),
+                                    ],
+                                  ),
                                 )
                               : null,
-                        ),
-                        child: cubit.selectedImage == null
-                            ? const Center(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Icon(
-                                      Icons.image,
-                                      size: 50,
-                                      color: Colors.grey,
-                                    ),
-                                    Gap(8),
-                                    Text("Tap to select a landmark image"),
-                                  ],
-                                ),
-                              )
-                            : null,
-                      ),
+                        );
+                      },
                     ),
-                    Gap(16),
 
-                    // Button to analyze image
+                    const Gap(15),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton.icon(
+                          icon: const Icon(Icons.photo),
+                          label: const Text("Gallery"),
+                          onPressed: () async {
+                            final picker = ImagePicker();
+                            final XFile? picked = await picker.pickImage(
+                              source: ImageSource.gallery,
+                            );
+
+                            if (picked != null) {
+                              final bytes = await picked.readAsBytes();
+                              cubit.pickImage(bytes);
+                            }
+                          },
+                        ),
+                        ElevatedButton.icon(
+                          icon: const Icon(Icons.camera_alt),
+                          label: const Text("Camera"),
+                          onPressed: () async {
+                            final picker = ImagePicker();
+                            final XFile? picked = await picker.pickImage(
+                              source: ImageSource.camera,
+                            );
+
+                            if (picked != null) {
+                              final bytes = await picked.readAsBytes();
+                              cubit.pickImage(bytes);
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+
+                    const Gap(20),
+
+                    // Analyze button
                     ElevatedButton(
                       onPressed: () => cubit.analyzeImage(),
                       child: const Text("Analyze Landmark"),
                     ),
-                    Gap(16),
+
+                    const Gap(20),
                     BlocBuilder<AIImageCubit, AIImageState>(
                       builder: (context, state) {
                         if (state is AIImageLoading) {
-                          return const SpinKitFadingCircle(
-                            color: Colors.black,
-                            size: 50,
-                          );
+                          return const CircularProgressIndicator();
                         } else if (state is AIImageSuccess) {
                           return SizedBox(
-                            height: 500,
+                            height: 1000,
                             child: Markdown(
                               data: state.analysis.text,
                               selectable: true,
+                              styleSheet: MarkdownStyleSheet(
+                                p: const TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                ),
+                              ),
                             ),
                           );
                         } else if (state is AIImageHistoryLoaded) {
-                          final lastHistory = state.history.isNotEmpty
-                              ? state.history.last
-                              : '';
                           return SizedBox(
-                            height: 500,
+                            height: 1000,
                             child: Markdown(
-                              data: lastHistory,
+                              data: state.history.last,
                               selectable: true,
+                               styleSheet: MarkdownStyleSheet(
+                                p: const TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                ),
+                              ),
                             ),
                           );
                         } else if (state is AIImageError) {
@@ -133,7 +152,7 @@ class AIImageAnalysisScreen extends StatelessWidget {
                             style: const TextStyle(color: Colors.red),
                           );
                         }
-                        return SizedBox.shrink();
+                        return const SizedBox.shrink();
                       },
                     ),
                   ],
