@@ -16,7 +16,7 @@ abstract class ProfileRepository {
     String? nationality, // User's nationality (country code)
   });
 
-  // Upload and update user's avatar | fileName incase if the image didn't load then we know the file path/name
+  // Upload and update user's avatar | fileName will put the uploaded file's name in storage
   Future<Either<String, String>> uploadAvatar(Uint8List imageBytes, String fileName);
 
   // Update user's avatar URL

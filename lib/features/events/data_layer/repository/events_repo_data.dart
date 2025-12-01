@@ -27,6 +27,4 @@ Future<void> saveEvent(EventEntity event) async {
     throw Exception();
   }
 }
-
-
 }
