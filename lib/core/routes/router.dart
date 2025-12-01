@@ -39,7 +39,7 @@ class AppRoutes {
 
   static final GoRouter appRouter = GoRouter(
     initialLocation: GetIt.I.get<SupabaseClient>().auth.currentSession != null
-        ? '/profile-screen'
+        ? '/navigation_screen'
         : '/sign-in',
     routes: [
       GoRoute(
@@ -118,6 +118,6 @@ class AppRoutes {
         ),
       ),
     ],
-    errorBuilder: (context, state) => HomeScreen(), //fix here 
+    errorBuilder: (context, state) => HomeScreen(), //fix here
   );
 }
