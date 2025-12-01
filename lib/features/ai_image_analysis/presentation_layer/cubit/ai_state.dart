@@ -18,6 +18,10 @@ class AIImageSuccess extends AIImageState {
   const AIImageSuccess(this.analysis);
 }
 
+class AIImagePicked extends AIImageState {
+  final Uint8List image;
+  AIImagePicked(this.image);
+}
 
 class AIImageError extends AIImageState {
   final String message;

@@ -116,6 +116,6 @@ class AppRoutes {
       ),
 
     ],
-    errorBuilder: (context, state) => HomeScreen(),
+    errorBuilder: (context, state) => HomeScreen(), //fix here 
   );
 }

@@ -54,6 +54,8 @@ class AIImageAnalysisScreen extends StatelessWidget {
 
                           // Send the image to the Cubit
                           cubit.pickImage(bytes);
+
+                          print('Selected image bytes length: ${bytes.length}');
                         }
                       },
 
@@ -114,18 +116,14 @@ class AIImageAnalysisScreen extends StatelessWidget {
                             ),
                           );
                         } else if (state is AIImageHistoryLoaded) {
+                          final lastHistory = state.history.isNotEmpty
+                              ? state.history.last
+                              : '';
                           return SizedBox(
                             height: 500,
-                            child: ListView.builder(
-                              itemCount: state.history.length,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 4,
-                                  ),
-                                  child: Text(state.history[index]),
-                                );
-                              },
+                            child: Markdown(
+                              data: lastHistory,
+                              selectable: true,
                             ),
                           );
                         } else if (state is AIImageError) {
