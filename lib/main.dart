@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       minTextAdapt: true,
-      splitScreenMode: true, 
+      splitScreenMode: true,
       builder: (context, child) {
         return MaterialApp.router(
           routerConfig: AppRoutes.appRouter,
@@ -47,4 +47,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

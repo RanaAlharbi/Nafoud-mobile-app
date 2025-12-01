@@ -14,6 +14,7 @@ import 'package:final_project/features/profile/presentation_layer/pages/profile_
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AppRoutes {
   //Auth
@@ -29,7 +30,7 @@ class AppRoutes {
 
   //chat bot
   static const chatScreen = '/chat';
-  
+
   //ai image analysis
   static const aiImageAnalysisScreen = '/ai-image-analysis-screen';
 
@@ -37,7 +38,9 @@ class AppRoutes {
   static const navigationScreen = '/navigation_screen';
 
   static final GoRouter appRouter = GoRouter(
-    initialLocation: AppRoutes.signInScreen,
+    initialLocation: GetIt.I.get<SupabaseClient>().auth.currentSession != null
+        ? '/profile-screen'
+        : '/sign-in',
     routes: [
       GoRoute(
         path: AppRoutes.chatScreen,
@@ -114,7 +117,6 @@ class AppRoutes {
           child: const NavigationScreen(),
         ),
       ),
-
     ],
     errorBuilder: (context, state) => HomeScreen(),
   );
