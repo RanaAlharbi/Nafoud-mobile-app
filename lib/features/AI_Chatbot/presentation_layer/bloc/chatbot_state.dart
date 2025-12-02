@@ -15,10 +15,10 @@ class ChatbotLoaded extends ChatbotState {
   final LlmProvider provider;
   final String welcomeMessage;
 
-  ChatbotLoaded({required this.provider, required this.welcomeMessage});
+  const ChatbotLoaded({required this.provider, required this.welcomeMessage});
 }
 
 class ChatbotError extends ChatbotState {
   final String message;
-  ChatbotError(this.message);
+  const ChatbotError(this.message);
 }

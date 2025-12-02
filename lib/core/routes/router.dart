@@ -1,4 +1,4 @@
-import 'package:final_project/features/ai_chatbot/presentation_layer/pages/chatbot_screen.dart';
+import 'package:final_project/features/AI_Chatbot/presentation_layer/pages/chatbot_screen.dart';
 import 'package:final_project/features/ai_image_analysis/presentation_layer/pages/ai_image_analysis_screen.dart';
 import 'package:final_project/features/authentication/domain_layer/usecase/authentication_usecase.dart';
 import 'package:final_project/features/authentication/presentation_layer/bloc/authentication_bloc.dart';
@@ -14,6 +14,7 @@ import 'package:final_project/features/profile/presentation_layer/pages/profile_
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AppRoutes {
   //Auth
@@ -29,7 +30,7 @@ class AppRoutes {
 
   //chat bot
   static const chatScreen = '/chat';
-  
+
   //ai image analysis
   static const aiImageAnalysisScreen = '/ai-image-analysis-screen';
 
@@ -37,7 +38,9 @@ class AppRoutes {
   static const navigationScreen = '/navigation_screen';
 
   static final GoRouter appRouter = GoRouter(
-    initialLocation: AppRoutes.signInScreen,
+    initialLocation: GetIt.I.get<SupabaseClient>().auth.currentSession != null
+        ? '/navigation_screen'
+        : '/sign-in',
     routes: [
       GoRoute(
         path: AppRoutes.chatScreen,
@@ -114,8 +117,7 @@ class AppRoutes {
           child: const NavigationScreen(),
         ),
       ),
-
     ],
-    errorBuilder: (context, state) => HomeScreen(),
+    errorBuilder: (context, state) => HomeScreen(), //fix here
   );
 }

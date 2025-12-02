@@ -10,19 +10,19 @@ class AIImageCubit extends Cubit<AIImageState> {
   Uint8List? selectedImage;
 
   AIImageCubit(this._useCase) : super(AIImageInitial()) {
-    _loadHistory(); 
+    _loadHistory();
   }
 
   Future<void> pickImage(Uint8List bytes) async {
     selectedImage = bytes;
-    emit(AIImageInitial());
+    emit(AIImagePicked(bytes));
   }
 
   Future<void> analyzeImage() async {
     if (selectedImage == null) {
       emit(AIImageError("Please select an image first."));
       return;
-  }
+    }
 
     emit(AIImageLoading());
 
@@ -34,10 +34,10 @@ class AIImageCubit extends Cubit<AIImageState> {
     );
   }
 
-Future<void> _loadHistory() async {
-  final history = await _useCase.getHistory(); 
-  if (history.isNotEmpty) {
-    emit(AIImageHistoryLoaded(history));
+  Future<void> _loadHistory() async {
+    final history = await _useCase.getHistory();
+    if (history.isNotEmpty) {
+      emit(AIImageHistoryLoaded(history));
+    }
   }
-}
 }

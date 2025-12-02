@@ -1,12 +1,10 @@
-import 'dart:io';
-import 'dart:typed_data';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:remixicon/remixicon.dart';
 import '../../../../core/routes/router.dart';
 import '../../domain_layer/usecase/profile_usecase.dart';
@@ -24,23 +22,39 @@ class ProfileScreen extends StatelessWidget {
   Future<void> _pickAndUploadAvatar(BuildContext context) async {
     final cubit = context.read<ProfileCubit>();
 
+    final ImageSource? source = await showDialog<ImageSource>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text('Choose Image Source'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: Icon(Icons.photo_library),
+              title: Text('Gallery'),
+              onTap: () => Navigator.pop(dialogContext, ImageSource.gallery),
+            ),
+            ListTile(
+              leading: Icon(Icons.camera_alt),
+              title: Text('Camera'),
+              onTap: () => Navigator.pop(dialogContext, ImageSource.camera),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    if (source == null) return;
+
     try {
-      final result = await FilePicker.platform.pickFiles(
-        type: FileType.image,
-        allowMultiple: false,
-      );
+      final ImagePicker picker = ImagePicker();
+      final XFile? image = await picker.pickImage(source: source);
 
-      if (result != null && result.files.isNotEmpty) {
-        final file = result.files.first;
-        Uint8List? bytes;
+      if (image != null) {
+        final bytes = await image.readAsBytes();
+        final fileName = image.name;
 
-        if (file.path != null) {
-          final fileData = File(file.path!);
-          bytes = await fileData.readAsBytes();
-        }
-
-        if (bytes != null && bytes.isNotEmpty) {
-          final fileName = file.name;
+        if (bytes.isNotEmpty) {
           await cubit.uploadAvatar(bytes, fileName);
         } else {
           if (context.mounted) {
@@ -62,7 +76,8 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProfileCubit(GetIt.I.get<ProfileUsecase>())..loadProfile(),
+      create: (context) =>
+          ProfileCubit(GetIt.I.get<ProfileUsecase>())..loadProfile(),
       child: BlocListener<ProfileCubit, ProfileState>(
         listener: (context, state) {
           if (state is ProfileError) {
@@ -79,8 +94,13 @@ class ProfileScreen extends StatelessWidget {
                 backgroundColor: Colors.green,
               ),
             );
-            // Reload profile to show new avatar
-            context.read<ProfileCubit>().loadProfile();
+          } else if (state is AccountDeleted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('The account have been deleted'),
+                backgroundColor: Colors.green,
+              ),
+            );
           } else if (state is SignedOut) {
             context.go(AppRoutes.signInScreen);
           }
@@ -101,6 +121,10 @@ class ProfileScreen extends StatelessWidget {
           ),
 
           body: BlocBuilder<ProfileCubit, ProfileState>(
+            buildWhen: (previous, current) => ( 
+              // (It's like saying "Don't rebuild for avatar-only changes")
+              current is! AvatarUploading && current is! AvatarUploaded
+            ),
             builder: (context, state) {
               if (state is ProfileLoading) {
                 return Center(child: CircularProgressIndicator());
@@ -115,11 +139,32 @@ class ProfileScreen extends StatelessWidget {
                       Gap(16),
                       Text('Error loading profile'),
                       Gap(8),
-                      Center(child: Text(state.message, style: TextStyle(color: Colors.grey))),
+                      Center(
+                        child: Text(
+                          state.message,
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ),
                       Gap(16),
-                      ElevatedButton(
-                        onPressed: () => context.read<ProfileCubit>().loadProfile(),
-                        child: Text('Retry'),
+                      Row(
+                        spacing: 20.w,
+                        mainAxisAlignment: .center,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () =>
+                                context.read<ProfileCubit>().loadProfile(),
+                            child: Text('Retry'),
+                          ),
+                          ElevatedButton(
+                            onPressed: () async {
+                              await context.push(AppRoutes.signInScreen);
+                              if (context.mounted) {
+                                context.read<ProfileCubit>().loadProfile();
+                              }
+                            },
+                            child: Text('Leave'),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -136,10 +181,26 @@ class ProfileScreen extends StatelessWidget {
                     Gap(kToolbarHeight + 40.h + ScreenUtil().statusBarHeight),
 
                     // Avatar widget
-                    ProfileAvatarWidget(
-                      avatarUrl: profile?.avatarUrl,
-                      isUploading: state is AvatarUploading,
-                      onEditTap: () => _pickAndUploadAvatar(context),
+                    BlocBuilder<ProfileCubit, ProfileState>(
+                      buildWhen: (previous, current) {
+                        // Only rebuild when avatar changes
+                        return current is AvatarUploading ||
+                               current is AvatarUploaded ||
+                               current is ProfileLoaded;
+                      },
+                      builder: (context, avatarState) {
+                        final avatarUrl = avatarState is ProfileLoaded
+                            ? avatarState.profile.avatarUrl
+                            : (avatarState is AvatarUploaded
+                                ? avatarState.profile.avatarUrl
+                                : profile?.avatarUrl);
+
+                        return ProfileAvatarWidget(
+                          avatarUrl: avatarUrl,
+                          isUploading: avatarState is AvatarUploading,
+                          onEditTap: () => _pickAndUploadAvatar(context),
+                        );
+                      },
                     ),
 
                     const Gap(40),
@@ -149,7 +210,9 @@ class ProfileScreen extends StatelessWidget {
                       fullName: profile?.fullName,
                       username: profile?.username,
                       email: profile?.email,
-                      phoneNumber: profile?.phoneNumber,
+                      phoneNumber: profile != null
+                          ? (profile.phoneNumber?.isEmpty ?? true ? '' : profile.phoneNumber)
+                          : null,
                     ),
 
                     const Gap(20),
@@ -197,15 +260,22 @@ class ProfileScreen extends StatelessWidget {
                               context: context,
                               builder: (dialogContext) => AlertDialog(
                                 title: Text('Sign Out'),
-                                content: Text('Are you sure you want to sign out?'),
+                                content: Text(
+                                  'Are you sure you want to sign out?',
+                                ),
                                 actions: [
                                   TextButton(
-                                    onPressed: () => Navigator.pop(dialogContext, false),
+                                    onPressed: () =>
+                                        Navigator.pop(dialogContext, false),
                                     child: Text('Cancel'),
                                   ),
                                   TextButton(
-                                    onPressed: () => Navigator.pop(dialogContext, true),
-                                    child: Text('Sign Out', style: TextStyle(color: Colors.red)),
+                                    onPressed: () =>
+                                        Navigator.pop(dialogContext, true),
+                                    child: Text(
+                                      'Sign Out',
+                                      style: TextStyle(color: Colors.red),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -213,6 +283,51 @@ class ProfileScreen extends StatelessWidget {
 
                             if (shouldSignOut == true && context.mounted) {
                               context.read<ProfileCubit>().signOut();
+                            }
+                          },
+                        ),
+                        ListTile(
+                          leading: Icon(
+                            RemixIcons.delete_bin_7_fill,
+                            color: Colors.red,
+                          ),
+                          title: Text(
+                            "Delete Account",
+                            style: TextStyle(color: Colors.red),
+                          ),
+                          trailing: Icon(
+                            Icons.chevron_right,
+                            color: Colors.red,
+                          ),
+                          onTap: () async {
+                            final shouldDelete = await showDialog<bool>(
+                              context: context,
+                              builder: (dialogContext) => AlertDialog(
+                                title: Text('Delete Account'),
+                                content: Text(
+                                  'Are you sure you want to delete your account?',
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(dialogContext, false),
+                                    child: Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(dialogContext, true),
+                                    child: Text(
+                                      'Delete Account',
+                                      style: TextStyle(color: Colors.red),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+
+                            if (shouldDelete == true && context.mounted) {
+                              context.read<ProfileCubit>().deleteAccount();
+                              await context.push(AppRoutes.signInScreen);
                             }
                           },
                         ),

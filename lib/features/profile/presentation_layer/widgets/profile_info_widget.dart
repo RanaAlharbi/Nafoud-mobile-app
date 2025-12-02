@@ -21,7 +21,7 @@ class ProfileInfoWidget extends StatelessWidget {
       children: [
         // Full name
         Text(
-          fullName ?? 'Loading...',
+          fullName ?? 'Loading the name...',
           style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -35,7 +35,7 @@ class ProfileInfoWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              '@${username ?? ''}',
+              '@${username ?? 'Loading_The_Username...'}',
               style: const TextStyle(
                 fontSize: 14,
                 color: Colors.grey,
@@ -50,14 +50,17 @@ class ProfileInfoWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              '$email ${phoneNumber != null ? '| ' : ''}',
+              '${email ?? 'Loading Email...'} | ',
               style: const TextStyle(fontSize: 14, color: Colors.grey),
             ),
-            if (phoneNumber != null)
-              Text(
-                phoneNumber!,
-                style: const TextStyle(fontSize: 14, color: Colors.grey),
-              ),
+            Text(
+              phoneNumber == null
+                  ? 'Loading Number...'
+                  : phoneNumber == ''
+                      ? 'No Phone Number'
+                      : phoneNumber!,
+              style: const TextStyle(fontSize: 14, color: Colors.grey),
+            ),
           ],
         ),
       ],

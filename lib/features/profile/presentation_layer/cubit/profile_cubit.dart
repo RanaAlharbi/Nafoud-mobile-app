@@ -11,6 +11,7 @@ part 'profile_state.dart';
 @injectable
 class ProfileCubit extends Cubit<ProfileState> {
   final ProfileUsecase _usecase;
+  List<CountryCodeEntity>? _cachedCountryCodes;
 
   ProfileCubit(this._usecase) : super(ProfileInitial());
 
@@ -23,8 +24,12 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     if (isClosed) return;
     result.fold(
-      (error) => emit(ProfileError(error)),
-      (profile) => emit(ProfileLoaded(profile)),
+      (error) {
+        if (!isClosed) emit(ProfileError(error));
+      },
+      (profile) {
+        if (!isClosed) emit(ProfileLoaded(profile));
+      },
     );
   }
 
@@ -45,8 +50,12 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     if (isClosed) return;
     result.fold(
-      (error) => emit(ProfileError(error)),
-      (profile) => emit(ProfileUpdated(profile, 'Profile updated successfully')),
+      (error) {
+        if (!isClosed) emit(ProfileError(error));
+      },
+      (profile) {
+        if (!isClosed) emit(ProfileUpdated(profile, 'Profile updated successfully'));
+      },
     );
   }
 
@@ -91,8 +100,12 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     if (isClosed) return;
     result.fold(
-      (error) => emit(ProfileError(error)),
-      (message) => emit(AccountDeleted(message)),
+      (error) {
+        if (!isClosed) emit(ProfileError(error));
+      },
+      (message) {
+        if (!isClosed) emit(AccountDeleted(message));
+      },
     );
   }
 
@@ -105,32 +118,35 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     if (isClosed) return;
     result.fold(
-      (error) => emit(ProfileError(error)),
-      (message) => emit(AccountRestored(message)),
+      (error) {
+        if (!isClosed) emit(ProfileError(error));
+      },
+      (message) {
+        if (!isClosed) emit(AccountRestored(message));
+      },
     );
   }
 
   // Sign out
   Future<void> signOut() async {
     if (isClosed) return;
-    emit(ProfileLoading());
 
-    final result = await _usecase.signOut();
+    emit(SignedOut());
 
-    if (isClosed) return;
-    result.fold(
-      (error) => emit(ProfileError(error)),
-      (_) => emit(SignedOut()),
-    );
+    await _usecase.signOut();
   }
 
-  // Method to load country codes from JSON
+  // Method to load country codes from JSON (with caching)
   Future<List<CountryCodeEntity>> _loadCountryCodes() async {
+    // Return cached data if available
+    if (_cachedCountryCodes != null) return _cachedCountryCodes!;
+
     final String response = await rootBundle.loadString(
       'Assets/jsons/country_code.json',
     );
     final List<dynamic> data = json.decode(response);
-    return data.map((json) => CountryCodeEntity.fromJson(json)).toList();
+    _cachedCountryCodes = data.map((json) => CountryCodeEntity.fromJson(json)).toList();
+    return _cachedCountryCodes!;
   }
 
   // Method to change phone number type and extract country code
@@ -335,8 +351,12 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     if (isClosed) return;
     result.fold(
-      (error) => emit(ProfileError(error)),
-      (profile) => emit(ProfileUpdated(profile, 'Profile updated successfully')),
+      (error) {
+        if (!isClosed) emit(ProfileError(error));
+      },
+      (profile) {
+        if (!isClosed) emit(ProfileUpdated(profile, 'Profile updated successfully'));
+      },
     );
   }
 }

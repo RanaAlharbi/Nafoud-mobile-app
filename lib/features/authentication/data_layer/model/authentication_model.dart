@@ -5,8 +5,12 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 part 'authentication_model.mapper.dart';
 
 @MappableClass()
-class AuthenticationModel extends AuthenticationEntity with AuthenticationModelMappable {
-  AuthenticationModel({required super.accessToken, required super.refreshToken});
+class AuthenticationModel extends AuthenticationEntity
+    with AuthenticationModelMappable {
+  AuthenticationModel({
+    required super.accessToken,
+    required super.refreshToken,
+  });
 
   factory AuthenticationModel.fromSession(Session session) {
   return AuthenticationModel(
