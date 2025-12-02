@@ -2,6 +2,7 @@
 import 'package:final_project/core/di/configure_dependencies.dart';
 import 'package:final_project/core/routes/router.dart';
 import 'package:final_project/core/setup.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -33,12 +34,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(375, 812),
+      designSize: Size(440, 956),
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return MaterialApp.router(
+        return CupertinoApp.router(
+          debugShowCheckedModeBanner: false,
           routerConfig: AppRoutes.appRouter,
+
+          // to avoid sys crashess due to cupertino vs material
+          localizationsDelegates: const [
+            DefaultMaterialLocalizations.delegate,
+            DefaultCupertinoLocalizations.delegate,
+            DefaultWidgetsLocalizations.delegate,
+          ],
           // localizationsDelegates: context.localizationDelegates,
           // supportedLocales: context.supportedLocales,
           // locale: context.locale,

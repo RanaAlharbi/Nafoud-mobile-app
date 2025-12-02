@@ -2,6 +2,7 @@ import 'package:final_project/features/AI_Chatbot/presentation_layer/pages/chatb
 import 'package:final_project/features/ai_image_analysis/presentation_layer/pages/ai_image_analysis_screen.dart';
 import 'package:final_project/features/authentication/domain_layer/usecase/authentication_usecase.dart';
 import 'package:final_project/features/authentication/presentation_layer/bloc/authentication_bloc.dart';
+import 'package:final_project/features/authentication/presentation_layer/pages/authentication_landing_screen.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/forgot_password_screen.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/sign_in_screen.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/sign_up_screen.dart';
@@ -14,10 +15,10 @@ import 'package:final_project/features/profile/presentation_layer/pages/profile_
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AppRoutes {
   //Auth
+  static const authenticationLandingScreen = '/authentication-landing';
   static const signInScreen = '/sign-in';
   static const signUpScreen = '/sign-up';
   static const forgotPasswordScreen = '/forgot-password';
@@ -38,14 +39,20 @@ class AppRoutes {
   static const navigationScreen = '/navigation_screen';
 
   static final GoRouter appRouter = GoRouter(
-    initialLocation: GetIt.I.get<SupabaseClient>().auth.currentSession != null
-        ? '/navigation_screen'
-        : '/sign-in',
+    initialLocation: AppRoutes.authenticationLandingScreen,
+    /* GetIt.I.get<SupabaseClient>().auth.currentSession != null ? '/navigation_screen'
+        : '/sign-in',*/
     routes: [
       GoRoute(
         path: AppRoutes.chatScreen,
         builder: (context, state) => ChatScreen(),
       ),
+
+      GoRoute(
+        path: AppRoutes.authenticationLandingScreen,
+        builder: (context, state) => AuthenticationLandingScreen(),
+      ),
+
       GoRoute(
         path: AppRoutes.signInScreen,
         builder: (context, state) {
