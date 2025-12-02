@@ -1,12 +1,10 @@
-import 'dart:io';
-import 'dart:typed_data';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:remixicon/remixicon.dart';
 import '../../../../core/routes/router.dart';
 import '../../domain_layer/usecase/profile_usecase.dart';
@@ -24,23 +22,39 @@ class ProfileScreen extends StatelessWidget {
   Future<void> _pickAndUploadAvatar(BuildContext context) async {
     final cubit = context.read<ProfileCubit>();
 
+    final ImageSource? source = await showDialog<ImageSource>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text('Choose Image Source'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: Icon(Icons.photo_library),
+              title: Text('Gallery'),
+              onTap: () => Navigator.pop(dialogContext, ImageSource.gallery),
+            ),
+            ListTile(
+              leading: Icon(Icons.camera_alt),
+              title: Text('Camera'),
+              onTap: () => Navigator.pop(dialogContext, ImageSource.camera),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    if (source == null) return;
+
     try {
-      final result = await FilePicker.platform.pickFiles(
-        type: FileType.image,
-        allowMultiple: false,
-      );
+      final ImagePicker picker = ImagePicker();
+      final XFile? image = await picker.pickImage(source: source);
 
-      if (result != null && result.files.isNotEmpty) {
-        final file = result.files.first;
-        Uint8List? bytes;
+      if (image != null) {
+        final bytes = await image.readAsBytes();
+        final fileName = image.name;
 
-        if (file.path != null) {
-          final fileData = File(file.path!);
-          bytes = await fileData.readAsBytes();
-        }
-
-        if (bytes != null && bytes.isNotEmpty) {
-          final fileName = file.name;
+        if (bytes.isNotEmpty) {
           await cubit.uploadAvatar(bytes, fileName);
         } else {
           if (context.mounted) {
@@ -52,9 +66,9 @@ class ProfileScreen extends StatelessWidget {
       }
     } catch (e) {
       if (context.mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Failed to pick image: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to pick image: $e')),
+        );
       }
     }
   }
