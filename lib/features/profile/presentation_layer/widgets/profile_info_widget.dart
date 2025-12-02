@@ -54,7 +54,11 @@ class ProfileInfoWidget extends StatelessWidget {
               style: const TextStyle(fontSize: 14, color: Colors.grey),
             ),
             Text(
-              phoneNumber ?? 'Loading Number...',
+              phoneNumber == null
+                  ? 'Loading Number...'
+                  : phoneNumber == ''
+                      ? 'No Phone Number'
+                      : phoneNumber!,
               style: const TextStyle(fontSize: 14, color: Colors.grey),
             ),
           ],

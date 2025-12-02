@@ -196,7 +196,9 @@ class ProfileScreen extends StatelessWidget {
                       fullName: profile?.fullName,
                       username: profile?.username,
                       email: profile?.email,
-                      phoneNumber: profile?.phoneNumber,
+                      phoneNumber: profile != null
+                          ? (profile.phoneNumber?.isEmpty ?? true ? '' : profile.phoneNumber)
+                          : null,
                     ),
 
                     const Gap(20),
