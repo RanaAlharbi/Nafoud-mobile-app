@@ -10,7 +10,7 @@ class AuthenticationModel extends AuthenticationEntity with AuthenticationModelM
 
   factory AuthenticationModel.fromSession(Session session) {
   return AuthenticationModel(
-    accessToken: session.accessToken ?? '',
+    accessToken: session.accessToken ,
     refreshToken: session.refreshToken ?? '',
   );
 }
