@@ -56,7 +56,7 @@ class SignInScreen extends StatelessWidget {
                         Align(
                           alignment: Alignment.topRight,
                           child: SvgPicture.asset(
-                            'assets/logo/NafoudLogo.svg',
+                            'Assets/logo/NafoudLogo.svg',
                             width: 67.87.w,
                             height: 69.17.h,
                           ),
@@ -113,7 +113,7 @@ class SignInScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(9.r),
                           ),
                           suffix: SvgPicture.asset(
-                            'assets/icons/envelope_icon.svg',
+                            'Assets/icons/envelope_icon.svg',
                             width: 24.w,
                             height: 24.h,
                           ),
@@ -150,7 +150,7 @@ class SignInScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(9.r),
                           ),
                           suffix: SvgPicture.asset(
-                            'assets/icons/eye_icon.svg',
+                            'Assets/icons/eye_icon.svg',
                             width: 24.w,
                             height: 24.h,
                           ),
