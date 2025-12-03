@@ -21,6 +21,8 @@ abstract class AuthenticationDatasource {
   Future<void> verifyResetCode({required String email, required String code});
 
   Future<void> updatePassword({required String newPassword});
+
+  Future<void> verifyEmailOtp({required String email, required String otp});
 }
 
 @LazySingleton(as: AuthenticationDatasource)
@@ -60,9 +62,7 @@ class SupabaseDatasource implements AuthenticationDatasource {
           'id': userId,
           'email': email,
           'username': defaultUsername,
-          'full_name': defaultUsername, // Default to username because old users only have name back then
-          'status': 'active',
-          'is_active': true,
+          'full_name': defaultUsername,
         });
       }
     }
@@ -92,8 +92,7 @@ class SupabaseDatasource implements AuthenticationDatasource {
         'id': userId,
         'username': username,
         'email': email,
-        'full_name': username, // Default to username, user can update later (Old users couldn't go to profile, but solved it this way)
-        'status': 'active',
+        'full_name': username,
         'is_active': true,
       });
     }
@@ -125,5 +124,17 @@ class SupabaseDatasource implements AuthenticationDatasource {
   @override
   Future<void> updatePassword({required String newPassword}) async {
     await supabase.auth.updateUser(UserAttributes(password: newPassword));
+  }
+
+  @override
+  Future<void> verifyEmailOtp({
+    required String email,
+    required String otp,
+  }) async {
+    await supabase.auth.verifyOTP(
+      email: email,
+      token: otp,
+      type: OtpType.signup,
+    );
   }
 }

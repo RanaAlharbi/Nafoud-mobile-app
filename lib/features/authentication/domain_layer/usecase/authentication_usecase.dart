@@ -45,4 +45,8 @@ class AuthenticationUsecases {
   }) {
     return authRepo.updatePassword(email: email, newPassword: newPassword);
   }
+
+  Future<void> verifyEmailOtp({required String email, required String otp}) {
+    return authRepo.verifyEmailOtp(email: email, otp: otp);
+  }
 }

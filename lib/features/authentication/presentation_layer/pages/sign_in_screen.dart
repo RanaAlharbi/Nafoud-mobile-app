@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:final_project/core/routes/router.dart';
 import 'package:final_project/features/authentication/presentation_layer/bloc/authentication_bloc.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,27 +8,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jumping_dot/jumping_dot.dart';
 
 class SignInScreen extends StatelessWidget {
   const SignInScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController _emailController = TextEditingController();
-    TextEditingController _passwordController = TextEditingController();
-    bool rememberMe = false;
+    final TextEditingController _emailController = TextEditingController();
+    final TextEditingController _passwordController = TextEditingController();
+    final ValueNotifier<bool> _obscurePasswordNotifier = ValueNotifier(true);
+    final ValueNotifier<bool> _rememberMeNotifier = ValueNotifier(false);
+
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         if (state is AuthenticationSuccess) {
           context.go(AppRoutes.navigationScreen);
-        } else if (state is AuthenticationFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.message),
-              backgroundColor: Colors.red,
-              behavior: SnackBarBehavior.floating,
-            ),
-          );
         }
       },
       builder: (context, state) {
@@ -39,7 +35,7 @@ class SignInScreen extends StatelessWidget {
                 bottom: 0,
                 right: 0,
                 child: SvgPicture.asset(
-                  'assets/authentication/BackgroundLetters.svg',
+                  'Assets/authentication/BackgroundLetters.svg',
                   width: 419.w,
                   height: 774.h,
                   fit: BoxFit.contain,
@@ -56,7 +52,7 @@ class SignInScreen extends StatelessWidget {
                         Align(
                           alignment: Alignment.topRight,
                           child: SvgPicture.asset(
-                            'assets/logo/NafoudLogo.svg',
+                            'Assets/logo/NafoudLogo.svg',
                             width: 67.87.w,
                             height: 69.17.h,
                           ),
@@ -103,6 +99,10 @@ class SignInScreen extends StatelessWidget {
                             fontSize: 18.sp,
                             color: Color(0xFFB6B6B6),
                           ),
+                          padding: EdgeInsets.symmetric(
+                            vertical: 14.h,
+                            horizontal: 16.w,
+                          ),
                           decoration: BoxDecoration(
                             color: Colors.transparent,
                             shape: BoxShape.rectangle,
@@ -112,14 +112,18 @@ class SignInScreen extends StatelessWidget {
                             ),
                             borderRadius: BorderRadius.circular(9.r),
                           ),
-                          suffix: SvgPicture.asset(
-                            'assets/icons/envelope_icon.svg',
-                            width: 24.w,
-                            height: 24.h,
+                          suffix: Padding(
+                            padding: EdgeInsets.only(right: 12.w),
+                            child: SvgPicture.asset(
+                              'Assets/icons/envelope_icon.svg',
+                              width: 24.w,
+                              height: 24.h,
+                            ),
                           ),
                         ),
 
                         22.verticalSpace,
+
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
@@ -131,48 +135,83 @@ class SignInScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        CupertinoTextField(
-                          controller: _passwordController,
-                          placeholder: "*********",
-                          placeholderStyle: GoogleFonts.cairo(
-                            fontSize: 18.sp,
-                            color: Color(0xFFB6B6B6),
-                          ),
-                          obscureText: true,
-                          obscuringCharacter: '*',
-                          decoration: BoxDecoration(
-                            color: Colors.transparent,
-                            shape: BoxShape.rectangle,
-                            border: Border.all(
-                              color: Color(0xFFB6B6B6),
-                              width: 1.5,
-                            ),
-                            borderRadius: BorderRadius.circular(9.r),
-                          ),
-                          suffix: SvgPicture.asset(
-                            'assets/icons/eye_icon.svg',
-                            width: 24.w,
-                            height: 24.h,
-                          ),
+
+                        ValueListenableBuilder<bool>(
+                          valueListenable: _obscurePasswordNotifier,
+                          builder: (context, isObscured, child) {
+                            return CupertinoTextField(
+                              controller: _passwordController,
+                              placeholder: "*********",
+                              placeholderStyle: GoogleFonts.cairo(
+                                fontSize: 18.sp,
+                                color: Color(0xFFB6B6B6),
+                              ),
+                              obscureText: isObscured,
+                              obscuringCharacter: '*',
+                              padding: EdgeInsets.symmetric(
+                                vertical: 14.h,
+                                horizontal: 16.w,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                shape: BoxShape.rectangle,
+                                border: Border.all(
+                                  color: Color(0xFFB6B6B6),
+                                  width: 1.5,
+                                ),
+                                borderRadius: BorderRadius.circular(9.r),
+                              ),
+                              suffix: Padding(
+                                padding: EdgeInsets.only(right: 12.w),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    _obscurePasswordNotifier.value =
+                                        !isObscured;
+                                  },
+                                  child: SvgPicture.asset(
+                                    isObscured
+                                        ? 'Assets/icons/eye_icon.svg'
+                                        : 'Assets/icons/open_eye.svg',
+                                    width: 24.w,
+                                    height: 24.h,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
                         ),
 
                         13.verticalSpace,
                         Row(
                           children: [
-                            Container(
-                              width: 16.w,
-                              height: 16.h,
-                              child: CupertinoCheckbox(
-                                value: rememberMe,
-                                onChanged: (bool? newVal) {},
-                                side: BorderSide(
-                                  color: Color(0xFFB6B6B6),
-                                  width: 1.5.w,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(2.r),
-                                ),
-                              ),
+                            ValueListenableBuilder<bool>(
+                              valueListenable: _rememberMeNotifier,
+                              builder: (context, isRemembered, child) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    _rememberMeNotifier.value = !isRemembered;
+                                  },
+                                  child: Container(
+                                    width: 20.w,
+                                    height: 20.h,
+                                    child: isRemembered
+                                        ? SvgPicture.asset(
+                                            'Assets/icons/filled_checkbox.svg',
+                                            fit: BoxFit.contain,
+                                          )
+                                        : Container(
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: Color(0xFFB6B6B6),
+                                                width: 1.5,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(4.r),
+                                            ),
+                                          ),
+                                  ),
+                                );
+                              },
                             ),
                             6.horizontalSpace,
                             Text(
@@ -182,19 +221,38 @@ class SignInScreen extends StatelessWidget {
                                 color: Color(0xFF919191),
                               ),
                             ),
-                            124.horizontalSpace,
-                            Text(
-                              "Forget Password?",
-                              style: GoogleFonts.cairo(
-                                fontSize: 15.sp,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFF656A53),
+                            Spacer(),
+                            GestureDetector(
+                              onTap: () => context.go(AppRoutes.otpScreen),
+                              child: Text(
+                                "Forget Password?",
+                                style: GoogleFonts.cairo(
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF656A53),
+                                ),
                               ),
                             ),
                           ],
                         ),
-
-                        204.verticalSpace,
+                        if (state is AuthenticationFailure)
+                          Padding(
+                            padding: EdgeInsets.only(top: 10.h),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                state.message,
+                                style: GoogleFonts.cairo(
+                                  color: Colors.red,
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        (state is AuthenticationFailure)
+                            ? 170.verticalSpace
+                            : 204.verticalSpace,
 
                         ElevatedButton(
                           onPressed: state is AuthenticationLoading
@@ -204,6 +262,7 @@ class SignInScreen extends StatelessWidget {
                                     SignInSubmitted(
                                       email: _emailController.text,
                                       password: _passwordController.text,
+                                      rememberMe: _rememberMeNotifier.value,
                                     ),
                                   );
                                 },
@@ -217,10 +276,7 @@ class SignInScreen extends StatelessWidget {
                           ),
                           child: Text(
                             "Login",
-                            style: GoogleFonts.cairo(
-                              // color: Color(0xFFF0F0EE),
-                              fontSize: 18.sp,
-                            ),
+                            style: GoogleFonts.cairo(fontSize: 18.sp),
                           ),
                         ),
 
@@ -253,6 +309,27 @@ class SignInScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              if (state is AuthenticationLoading)
+                Positioned.fill(
+                  child: Stack(
+                    children: [
+                      BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                        child: Container(
+                          color: Colors.black.withValues(alpha: .2),
+                        ),
+                      ),
+                      Center(
+                        child: JumpingDots(
+                          color: Color(0xFF656A53),
+                          radius: 10,
+                          numberOfDots: 3,
+                          animationDuration: Duration(milliseconds: 200),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
             ],
           ),
         );

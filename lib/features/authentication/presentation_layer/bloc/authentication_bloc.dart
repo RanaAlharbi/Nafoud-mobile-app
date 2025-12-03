@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:final_project/features/authentication/domain_layer/usecase/authentication_usecase.dart';
+import 'package:get_it/get_it.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
 
 part 'authentication_event.dart';
@@ -16,6 +18,7 @@ class AuthenticationBloc
     on<SignInSubmitted>(_onSignInSubmitted);
     on<ResetPasswordEmailRequested>(_onResetPasswordEmailRequested);
     on<UpdatePasswordSubmitted>(_onUpdatePasswordSubmitted);
+    on<VerifyEmailSubmitted>(_onVerifyEmailSubmitted);
   }
 
   Future<void> _onSignUpSubmitted(
@@ -47,6 +50,8 @@ class AuthenticationBloc
     emit(AuthenticationLoading());
     try {
       await _usecases.signIn(email: event.email, password: event.password);
+      final storage = GetIt.I.get<GetStorage>();
+      storage.write('remember_me', event.rememberMe);
 
       emit(const AuthenticationSuccess('Logged in successfully.'));
     } catch (e) {
@@ -78,15 +83,31 @@ class AuthenticationBloc
     emit(AuthenticationLoading());
     try {
       await _usecases.verifyResetCode(email: event.email, code: event.code);
-
       await _usecases.updatePassword(
         email: event.email,
         newPassword: event.newPassword,
       );
-
       emit(
         const AuthenticationSuccess(
           'Password updated successfully. You can now log in with your new password.',
+        ),
+      );
+    } catch (e) {
+      emit(AuthenticationFailure(e.toString()));
+    }
+  }
+
+  Future<void> _onVerifyEmailSubmitted(
+    VerifyEmailSubmitted event,
+    Emitter<AuthenticationState> emit,
+  ) async {
+    emit(AuthenticationLoading());
+    try {
+      await _usecases.verifyEmailOtp(email: event.email, otp: event.otp);
+
+      emit(
+        const AuthenticationSuccess(
+          'Email verified successfully. You can now sign in.',
         ),
       );
     } catch (e) {

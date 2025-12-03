@@ -22,4 +22,6 @@ abstract class AuthenticationRepositoryDomain {
     required String email,
     required String newPassword,
   });
+
+  Future<void> verifyEmailOtp({required String email, required String otp});
 }
