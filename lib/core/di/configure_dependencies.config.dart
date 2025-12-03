@@ -9,6 +9,7 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:get_storage/get_storage.dart' as _i792;
 import 'package:google_generative_ai/google_generative_ai.dart' as _i656;
@@ -45,6 +46,18 @@ import '../../features/authentication/domain_layer/usecase/authentication_usecas
     as _i11;
 import '../../features/authentication/presentation_layer/bloc/authentication_bloc.dart'
     as _i892;
+import '../../features/currency_exchange/data_layer/datasource/currency_cache_datasource.dart'
+    as _i105;
+import '../../features/currency_exchange/data_layer/datasource/currency_exchange_datasource.dart'
+    as _i20;
+import '../../features/currency_exchange/data_layer/repository/currency_exchange_repository_impl.dart'
+    as _i909;
+import '../../features/currency_exchange/domain_layer/repository/currency_exchange_repository.dart'
+    as _i629;
+import '../../features/currency_exchange/domain_layer/usecase/currency_exchange_usecase.dart'
+    as _i235;
+import '../../features/currency_exchange/presentation_layer/cubit/currency_exchange_cubit.dart'
+    as _i1000;
 import '../../features/profile/data_layer/datasource/profile_cache_service.dart'
     as _i158;
 import '../../features/profile/data_layer/datasource/profile_datasource.dart'
@@ -71,6 +84,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i454.SupabaseClient>(
       () => thirdPartySetup.supabaseClient,
     );
+    gh.lazySingleton<_i361.Dio>(() => thirdPartySetup.dio);
     gh.lazySingleton<_i656.GenerativeModel>(
       () => thirdPartySetup.generativeModel,
     );
@@ -79,6 +93,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i517.AuthenticationDatasource>(
       () => _i517.SupabaseDatasource(gh<_i454.SupabaseClient>()),
+    );
+    gh.lazySingleton<_i105.CurrencyCacheDatasource>(
+      () => _i105.GetStorageCurrencyCacheDatasource(gh<_i792.GetStorage>()),
     );
     gh.lazySingleton<_i157.BaseAiLocalStorageDataSource>(
       () => _i157.AiLocalStorageDataSource(gh<_i792.GetStorage>()),
@@ -105,6 +122,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i725.AuthenticationRepositoryDomain>(
       () => _i933.DataRepository(gh<_i517.AuthenticationDatasource>()),
     );
+    gh.lazySingleton<_i20.CurrencyExchangeDatasource>(
+      () => _i20.CurrencyExchangeDatasourceImpl(
+        gh<_i361.Dio>(),
+        gh<_i105.CurrencyCacheDatasource>(),
+      ),
+    );
     gh.lazySingleton<_i754.AnalyzeImageUseCase>(
       () => _i754.AnalyzeImageUseCase(gh<_i855.AiImageAnalysisRepository>()),
     );
@@ -119,14 +142,26 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i892.AuthenticationBloc>(
       () => _i892.AuthenticationBloc(gh<_i11.AuthenticationUsecases>()),
     );
+    gh.lazySingleton<_i629.CurrencyExchangeRepository>(
+      () => _i909.CurrencyExchangeRepositoryImpl(
+        gh<_i20.CurrencyExchangeDatasource>(),
+      ),
+    );
     gh.factory<_i680.ProfileUsecase>(
       () => _i680.ProfileUsecase(gh<_i998.ProfileRepository>()),
+    );
+    gh.factory<_i235.CurrencyExchangeUsecase>(
+      () =>
+          _i235.CurrencyExchangeUsecase(gh<_i629.CurrencyExchangeRepository>()),
     );
     gh.lazySingleton<_i274.GetChatSessionUseCase>(
       () => _i274.GetChatSessionUseCase(gh<_i351.ChatbotRepositoryDomain>()),
     );
     gh.factory<_i197.ProfileCubit>(
       () => _i197.ProfileCubit(gh<_i680.ProfileUsecase>()),
+    );
+    gh.factory<_i1000.CurrencyExchangeCubit>(
+      () => _i1000.CurrencyExchangeCubit(gh<_i235.CurrencyExchangeUsecase>()),
     );
     gh.factory<_i824.ChatbotBloc>(
       () => _i824.ChatbotBloc(gh<_i274.GetChatSessionUseCase>()),

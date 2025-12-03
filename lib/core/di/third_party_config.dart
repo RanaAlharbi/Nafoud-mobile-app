@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
@@ -12,6 +13,9 @@ abstract class ThirdPartySetup {
 
   @lazySingleton
   SupabaseClient get supabaseClient => Supabase.instance.client;
+
+  @lazySingleton
+  Dio get dio => Dio();
   
   @lazySingleton 
   GenerativeModel get generativeModel {
