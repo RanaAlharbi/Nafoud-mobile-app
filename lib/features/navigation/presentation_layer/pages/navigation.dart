@@ -17,7 +17,6 @@ class NavigationScreen extends StatelessWidget {
             currentIndex: cubit.currentIndex,
             onTap: (value) => cubit.changeIndex(index: value),
             activeColor: Color(0xff656A53),
-
             inactiveColor: Color(0xFFB5B5B5),
             items: [
               BottomNavigationBarItem(

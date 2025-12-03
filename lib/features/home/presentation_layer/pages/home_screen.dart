@@ -13,7 +13,6 @@ class HomeScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => EventCubit(getIt<EventsUsecase>())..loadedEvents(),
       child: Scaffold(
-        appBar: AppBar(title: const Text("Events")),
         body: const EventsFeatureWidget(),
       ),
     );
