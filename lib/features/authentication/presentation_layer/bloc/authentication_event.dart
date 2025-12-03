@@ -25,11 +25,16 @@ class SignUpSubmitted extends AuthenticationEvent {
 class SignInSubmitted extends AuthenticationEvent {
   final String email;
   final String password;
+  final bool rememberMe;
 
-  const SignInSubmitted({required this.email, required this.password});
+  const SignInSubmitted({
+    required this.email,
+    required this.password,
+    required this.rememberMe,
+  });
 
   @override
-  List<Object?> get props => [email, password];
+  List<Object?> get props => [email, password, rememberMe];
 }
 
 class ResetPasswordEmailRequested extends AuthenticationEvent {

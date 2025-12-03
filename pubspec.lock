@@ -672,6 +672,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_timer_countdown:
+    dependency: "direct main"
+    description:
+      name: flutter_timer_countdown
+      sha256: "0c73e1593ad7949c007752199a17e7ed50bb581568743dbc32f061f49873219e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.7"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -909,6 +917,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.9.0"
+  jumping_dot:
+    dependency: "direct main"
+    description:
+      name: jumping_dot
+      sha256: "031d8f45a41b95df7d7438f7ce5f3105503cbe5432b6c9dd10cf9b6f0a8d6472"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.7"
   jwt_decode:
     dependency: transitive
     description:

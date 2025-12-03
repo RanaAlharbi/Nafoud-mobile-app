@@ -17,7 +17,9 @@ import 'package:final_project/features/profile/presentation_layer/pages/edit_pro
 import 'package:final_project/features/profile/presentation_layer/pages/profile_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:go_router/go_router.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AppRoutes {
   //Auth
@@ -25,7 +27,7 @@ class AppRoutes {
   static const signInScreen = '/sign-in';
   static const signUpScreen = '/sign-up';
   static const forgotPasswordScreen = '/forgot-password';
-  static const updatePasswordScreen = '/update-password';
+  static const otpScreen = '/otp-password';
   static const homeScreen = '/home';
 
   //profile
@@ -41,8 +43,20 @@ class AppRoutes {
   // Navigationbar
   static const navigationScreen = '/navigation_screen';
 
+  static String getInitialRoute() {
+    final session = GetIt.I.get<SupabaseClient>().auth.currentSession;
+    final box = GetIt.I.get<GetStorage>();
+    final rememberMe = box.read('remember_me') ?? false;
+
+    if (session != null && rememberMe) {
+      return AppRoutes.navigationScreen;
+    }
+
+    return AppRoutes.authenticationLandingScreen;
+  }
+
   static final GoRouter appRouter = GoRouter(
-    initialLocation: AppRoutes.authenticationLandingScreen,
+    initialLocation: getInitialRoute(),
     /* GetIt.I.get<SupabaseClient>().auth.currentSession != null ? '/navigation_screen'
         : '/sign-in',*/
     routes: [
@@ -78,25 +92,23 @@ class AppRoutes {
         },
       ),
 
+      // GoRoute(
+      //   path: AppRoutes.forgotPasswordScreen,
+      //   builder: (context, state) {
+      //     return BlocProvider<AuthenticationBloc>(
+      //       create: (context) =>
+      //           AuthenticationBloc(GetIt.I.get<AuthenticationUsecases>()),
+      //       child: ForgotPasswordScreen(),
+      //     );
+      //   },
+      // ),
       GoRoute(
-        path: AppRoutes.forgotPasswordScreen,
+        path: AppRoutes.otpScreen,
         builder: (context, state) {
           return BlocProvider<AuthenticationBloc>(
             create: (context) =>
                 AuthenticationBloc(GetIt.I.get<AuthenticationUsecases>()),
-            child: ForgotPasswordScreen(),
-          );
-        },
-      ),
-
-      GoRoute(
-        path: AppRoutes.updatePasswordScreen,
-        builder: (context, state) {
-          final email = state.extra as String;
-          return BlocProvider<AuthenticationBloc>(
-            create: (context) =>
-                AuthenticationBloc(GetIt.I.get<AuthenticationUsecases>()),
-            child: UpdatePasswordScreen(email: email),
+            child: OTPScreen(),
           );
         },
       ),
