@@ -21,6 +21,8 @@ abstract class AuthenticationDatasource {
   Future<void> verifyResetCode({required String email, required String code});
 
   Future<void> updatePassword({required String newPassword});
+
+  Future<void> verifyEmailOtp({required String email, required String otp});
 }
 
 @LazySingleton(as: AuthenticationDatasource)
@@ -122,5 +124,17 @@ class SupabaseDatasource implements AuthenticationDatasource {
   @override
   Future<void> updatePassword({required String newPassword}) async {
     await supabase.auth.updateUser(UserAttributes(password: newPassword));
+  }
+
+  @override
+  Future<void> verifyEmailOtp({
+    required String email,
+    required String otp,
+  }) async {
+    await supabase.auth.verifyOTP(
+      email: email,
+      token: otp,
+      type: OtpType.signup,
+    );
   }
 }

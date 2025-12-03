@@ -57,4 +57,12 @@ class DataRepository implements AuthenticationRepositoryDomain {
   }) async {
     await datasource.updatePassword(newPassword: newPassword);
   }
+
+  @override
+  Future<void> verifyEmailOtp({
+    required String email,
+    required String otp,
+  }) async {
+    await datasource.verifyEmailOtp(email: email, otp: otp);
+  }
 }

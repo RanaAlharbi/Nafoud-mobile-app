@@ -101,10 +101,12 @@ class AppRoutes {
       GoRoute(
         path: AppRoutes.otpScreen,
         builder: (context, state) {
+          final email = state.extra as String;
+
           return BlocProvider<AuthenticationBloc>(
             create: (context) =>
                 AuthenticationBloc(GetIt.I.get<AuthenticationUsecases>()),
-            child: OTPScreen(),
+            child: OTPScreen(email: email),
           );
         },
       ),

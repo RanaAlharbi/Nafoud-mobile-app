@@ -60,3 +60,13 @@ class UpdatePasswordSubmitted extends AuthenticationEvent {
   @override
   List<Object?> get props => [email, code, newPassword];
 }
+
+class VerifyEmailSubmitted extends AuthenticationEvent {
+  final String email;
+  final String otp;
+
+  const VerifyEmailSubmitted({required this.email, required this.otp});
+
+  @override
+  List<Object?> get props => [email, otp];
+}
