@@ -1,3 +1,4 @@
+import 'package:final_project/features/events/presentation_layer/pages/events_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -5,6 +6,9 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body:Text("..."));
+    return Scaffold(
+      appBar: AppBar(title: const Text("Events")),
+      body: const EventsFeatureWidget(),
+    );
   }
 }

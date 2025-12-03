@@ -13,9 +13,9 @@ class AuthenticationModel extends AuthenticationEntity
   });
 
   factory AuthenticationModel.fromSession(Session session) {
-  return AuthenticationModel(
-    accessToken: session.accessToken ,
-    refreshToken: session.refreshToken ?? '',
-  );
-}
+    return AuthenticationModel(
+      accessToken: session.accessToken,
+      refreshToken: session.refreshToken ?? '',
+    );
+  }
 }

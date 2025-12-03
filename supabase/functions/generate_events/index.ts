@@ -4,7 +4,7 @@ const GEMINI_API_KEY = Deno.env.get("GEMINI_API_KEY");
 const SERVICE_ROLE_KEY = Deno.env.get("SERVICE_ROLE_KEY");
 const PROJECT_URL = Deno.env.get("PROJECT_URL");
 
-// ---------- FIX JSON -----------
+
 function cleanJson(text: string) {
   return text
     .replaceAll("```json", "")
@@ -12,7 +12,6 @@ function cleanJson(text: string) {
     .trim();
 }
 
-// ---------- CALL GEMINI ----------
 async function generateEventsAI() {
   const prompt = `
 Return ONLY a valid JSON array.
@@ -61,7 +60,7 @@ Important rules:
   }
 }
 
-// ---------- SAVE TO SUPABASE ----------
+
 async function saveEvents(events: any[]) {
   if (!events.length) return [];
 
@@ -79,7 +78,7 @@ async function saveEvents(events: any[]) {
   return await res.json();
 }
 
-// ---------- MAIN FUNCTION ----------
+
 serve(async () => {
   const events = await generateEventsAI();
   const saved = await saveEvents(events);
