@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import '../../data_layer/datasource/currency_cache_datasource.dart';
 import '../../domain_layer/entity/country_currency_entity.dart';
 import '../../domain_layer/entity/currency_exchange_entity.dart';
 import '../../domain_layer/usecase/currency_exchange_usecase.dart';
@@ -11,11 +12,27 @@ part 'currency_exchange_state.dart';
 @injectable
 class CurrencyExchangeCubit extends Cubit<CurrencyExchangeState> {
   final CurrencyExchangeUsecase _usecase;
+  final CurrencyCacheDatasource _cacheDatasource;
   CurrencyExchangeEntity? _cachedRates;
 
-  CurrencyExchangeCubit(this._usecase) : super(CurrencyExchangeState()) {
+  CurrencyExchangeCubit(this._usecase, this._cacheDatasource) : super(CurrencyExchangeState()) {
     loadCurrencies();
-    loadExchangeRates();
+    _initializeWithFreshData();
+  }
+
+  Future<void> _initializeWithFreshData() async {
+    await _cacheDatasource.clearCache();
+    await loadExchangeRates();
+  }
+
+  Future<void> forceRefresh() async {
+    if (isClosed) return;
+    await _cacheDatasource.clearCache();
+    _cachedRates = null;
+    await loadExchangeRates();
+    if (state.toCurrency != null) {
+      _performConversion();
+    }
   }
 
   Future<void> loadCurrencies() async {

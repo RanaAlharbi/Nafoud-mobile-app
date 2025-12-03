@@ -6,6 +6,7 @@ abstract class CurrencyCacheDatasource {
   Future<CurrencyExchangeModel?> getCachedRates(String baseCurrency);
   Future<void> cacheRates(CurrencyExchangeModel rates);
   Future<bool> isCacheValid(String baseCurrency, String currentUpdateTime);
+  Future<void> clearCache();
 }
 
 @LazySingleton(as: CurrencyCacheDatasource)
@@ -17,7 +18,7 @@ class GetStorageCurrencyCacheDatasource implements CurrencyCacheDatasource {
 
   @override
   Future<CurrencyExchangeModel?> getCachedRates(String baseCurrency) async {
-    // We only support SAR as base currency
+    // We will only support SAR as base currency (cuz the app is about Saudi Arabia)
     if (baseCurrency.toUpperCase() != 'SAR') {
       return null;
     }
@@ -31,7 +32,7 @@ class GetStorageCurrencyCacheDatasource implements CurrencyCacheDatasource {
       // Parse the cached data
       final data = cachedData as Map<String, dynamic>;
 
-      // Reconstruct conversion_rates by inverting all the SAR rates
+      // Rebuild "conversion_rates" by inverting all the SAR rates
       final conversionRates = <String, double>{};
       final rates = data['rates'] as Map<String, dynamic>;
 
@@ -39,11 +40,19 @@ class GetStorageCurrencyCacheDatasource implements CurrencyCacheDatasource {
         final currencyCode = entry.key;
         final currencyToSarRate = (entry.value as num).toDouble();
 
+        // Skip invalid cached rates (incase if we got an error)
+        if (!currencyToSarRate.isFinite || currencyToSarRate == 0) continue;
+
         // Invert back: if 1 USD = 3.75 SAR, then 1 SAR = 1/3.75 = 0.27 USD
-        conversionRates[currencyCode] = 1 / currencyToSarRate;
+        final sarToCurrencyRate = 1 / currencyToSarRate;
+
+        // Skip if inverted rate is invalid (incase if we got an error)
+        if (!sarToCurrencyRate.isFinite || sarToCurrencyRate == 0) continue;
+
+        conversionRates[currencyCode] = sarToCurrencyRate;
       }
 
-      // Reconstruct the model in SAR format for the app to use
+      // Rebuild the model in SAR format for the app to use
       return CurrencyExchangeModel(
         result: data['result'] as String,
         timeLastUpdateUnix: data['time_last_update_unix'] as int,
@@ -72,13 +81,17 @@ class GetStorageCurrencyCacheDatasource implements CurrencyCacheDatasource {
         // Skip SAR to SAR conversion
         if (currencyCode.toUpperCase() == 'SAR') continue;
 
+        // Skip invalid rates (infinity, NaN, or 0) = (incase of an error)
+        if (!sarToCurrencyRate.isFinite || sarToCurrencyRate == 0) continue;
+
         // Invert the rate: if 1 SAR = 0.2667 USD, then 1 USD = 3.7496 SAR
         final currencyToSarRate = 1 / sarToCurrencyRate;
 
-        // Format to 4 decimal places
-        final formattedRate = double.parse(currencyToSarRate.toStringAsFixed(4));
+        // Skip if inverted rate is invalid
+        if (!currencyToSarRate.isFinite || currencyToSarRate == 0) continue;
 
-        invertedRates[currencyCode] = formattedRate;
+        // Store the numbers specifically (0.6 will be 0.6 not 1)
+        invertedRates[currencyCode] = currencyToSarRate;
       }
 
       // Store all data in a single structure
@@ -99,7 +112,10 @@ class GetStorageCurrencyCacheDatasource implements CurrencyCacheDatasource {
   }
 
   @override
-  Future<bool> isCacheValid(String baseCurrency, String currentUpdateTime) async {
+  Future<bool> isCacheValid(
+    String baseCurrency,
+    String currentUpdateTime,
+  ) async {
     try {
       final cached = await getCachedRates(baseCurrency);
 
@@ -109,5 +125,10 @@ class GetStorageCurrencyCacheDatasource implements CurrencyCacheDatasource {
     } catch (e) {
       return false;
     }
+  }
+
+  @override
+  Future<void> clearCache() async {
+    await storage.remove(cacheKey);
   }
 }

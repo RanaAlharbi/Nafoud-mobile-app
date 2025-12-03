@@ -13,7 +13,7 @@ class CurrencyExchangeState {
     this.currencies,
     this.fromCurrency = 'SAR',
     this.toCurrency,
-    this.amount = '1',
+    this.amount = '0',
     this.convertedAmount,
     this.errorMessage,
     this.isLoading = false,

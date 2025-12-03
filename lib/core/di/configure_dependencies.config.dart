@@ -154,14 +154,17 @@ extension GetItInjectableX on _i174.GetIt {
       () =>
           _i235.CurrencyExchangeUsecase(gh<_i629.CurrencyExchangeRepository>()),
     );
+    gh.factory<_i1000.CurrencyExchangeCubit>(
+      () => _i1000.CurrencyExchangeCubit(
+        gh<_i235.CurrencyExchangeUsecase>(),
+        gh<_i105.CurrencyCacheDatasource>(),
+      ),
+    );
     gh.lazySingleton<_i274.GetChatSessionUseCase>(
       () => _i274.GetChatSessionUseCase(gh<_i351.ChatbotRepositoryDomain>()),
     );
     gh.factory<_i197.ProfileCubit>(
       () => _i197.ProfileCubit(gh<_i680.ProfileUsecase>()),
-    );
-    gh.factory<_i1000.CurrencyExchangeCubit>(
-      () => _i1000.CurrencyExchangeCubit(gh<_i235.CurrencyExchangeUsecase>()),
     );
     gh.factory<_i824.ChatbotBloc>(
       () => _i824.ChatbotBloc(gh<_i274.GetChatSessionUseCase>()),

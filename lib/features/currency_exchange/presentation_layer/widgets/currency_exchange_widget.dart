@@ -8,6 +8,25 @@ import '../cubit/currency_exchange_cubit.dart';
 class CurrencyExchangeWidget extends StatelessWidget {
   const CurrencyExchangeWidget({super.key});
 
+  String _formatNumber(double number) {
+    // Split number into integer and decimal parts
+    final parts = number.toStringAsFixed(4).split('.');
+    final integerPart = parts[0];
+    final decimalPart = parts[1];
+
+    // Add dots every 3 digits from right to left for thousands separator
+    String formattedInteger = '';
+    for (int i = 0; i < integerPart.length; i++) {
+      if (i > 0 && (integerPart.length - i) % 3 == 0) {
+        formattedInteger += '.';
+      }
+      formattedInteger += integerPart[i];
+    }
+
+    // Return formatted number with comma as decimal separator
+    return '$formattedInteger,$decimalPart';
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -23,9 +42,6 @@ class CurrencyExchangeWidget extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextField(
-                  key: ValueKey(state.amount),
-                  controller: TextEditingController(text: state.amount)
-                    ..selection = TextSelection.collapsed(offset: state.amount.length),
                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
                   inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*'))],
                   decoration: InputDecoration(
@@ -33,7 +49,13 @@ class CurrencyExchangeWidget extends StatelessWidget {
                     border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
                     contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
                   ),
-                  onChanged: (value) => cubit.changeAmount(value),
+                  onChanged: (value) {
+                    if (value.isEmpty) {
+                      cubit.changeAmount('0');
+                    } else {
+                      cubit.changeAmount(value);
+                    }
+                  },
                 ),
 
                 SizedBox(height: 16.h),
@@ -64,8 +86,6 @@ class CurrencyExchangeWidget extends StatelessWidget {
                     ),
                   ),
 
-                SizedBox(height: 12.h),
-
                 Center(
                   child: IconButton(
                     onPressed: state.toCurrency != null ? () => cubit.swapCurrencies() : null,
@@ -74,8 +94,6 @@ class CurrencyExchangeWidget extends StatelessWidget {
                     iconSize: 32.sp,
                   ),
                 ),
-
-                SizedBox(height: 12.h),
 
                 if (state.currencies == null)
                   const Center(child: CircularProgressIndicator())
@@ -112,8 +130,6 @@ class CurrencyExchangeWidget extends StatelessWidget {
                     ),
                   ),
 
-                SizedBox(height: 20.h),
-
                 if (state.convertedAmount != null && state.toCurrency != null)
                   Container(
                     width: double.infinity,
@@ -122,18 +138,18 @@ class CurrencyExchangeWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          '${double.parse(state.amount).toStringAsFixed(4)} ${state.fromCurrency}',
+                          '${_formatNumber(double.parse(state.amount))} ${state.fromCurrency}',
                           style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
                         ),
                         SizedBox(height: 8.h),
-                        Icon(Icons.arrow_downward, size: 20.sp, color: Colors.blue),
+                        Icon(Icons.arrow_downward, size: 20.sp, color: Colors.orange),
                         SizedBox(height: 8.h),
                         Text(
-                          '${state.convertedAmount!.toStringAsFixed(4)} ${state.toCurrency}',
+                          '${_formatNumber(state.convertedAmount!)} ${state.toCurrency}',
                           style: TextStyle(
                             fontSize: 24.sp,
                             fontWeight: FontWeight.bold,
-                            color: Colors.blue,
+                            color: Colors.orange,
                           ),
                         ),
                       ],
