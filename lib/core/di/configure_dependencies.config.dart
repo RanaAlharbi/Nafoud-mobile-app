@@ -58,6 +58,14 @@ import '../../features/currency_exchange/domain_layer/usecase/currency_exchange_
     as _i235;
 import '../../features/currency_exchange/presentation_layer/cubit/currency_exchange_cubit.dart'
     as _i1000;
+import '../../features/events/data_layer/datasorce/events_datasorce.dart'
+    as _i987;
+import '../../features/events/data_layer/repository/events_repository.dart'
+    as _i442;
+import '../../features/events/domain_layer/repository/events_domain_repostiory.dart'
+    as _i586;
+import '../../features/events/domain_layer/usecase/events_usecase.dart'
+    as _i710;
 import '../../features/profile/data_layer/datasource/profile_cache_service.dart'
     as _i158;
 import '../../features/profile/data_layer/datasource/profile_datasource.dart'
@@ -91,6 +99,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i158.ProfileCacheService>(
       () => _i158.ProfileCacheService(),
     );
+    gh.lazySingleton<_i987.BaseEventsRemoteDatasource>(
+      () => _i987.EventsRemoteDatasource(gh<_i454.SupabaseClient>()),
+    );
     gh.lazySingleton<_i517.AuthenticationDatasource>(
       () => _i517.SupabaseDatasource(gh<_i454.SupabaseClient>()),
     );
@@ -122,6 +133,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i725.AuthenticationRepositoryDomain>(
       () => _i933.DataRepository(gh<_i517.AuthenticationDatasource>()),
     );
+    gh.lazySingleton<_i586.EventsDomainRepostiory>(
+      () => _i442.EventsRepositoryData(gh<_i987.BaseEventsRemoteDatasource>()),
+    );
     gh.lazySingleton<_i20.CurrencyExchangeDatasource>(
       () => _i20.CurrencyExchangeDatasourceImpl(
         gh<_i361.Dio>(),
@@ -141,6 +155,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i892.AuthenticationBloc>(
       () => _i892.AuthenticationBloc(gh<_i11.AuthenticationUsecases>()),
+    );
+    gh.lazySingleton<_i710.EventsUsecase>(
+      () => _i710.EventsUsecase(gh<_i586.EventsDomainRepostiory>()),
     );
     gh.lazySingleton<_i629.CurrencyExchangeRepository>(
       () => _i909.CurrencyExchangeRepositoryImpl(
