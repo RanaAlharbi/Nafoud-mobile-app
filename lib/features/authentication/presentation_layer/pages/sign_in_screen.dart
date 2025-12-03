@@ -13,8 +13,8 @@ class SignInScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController _emailController = TextEditingController();
-    TextEditingController _passwordController = TextEditingController();
+    TextEditingController emailController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
     bool rememberMe = false;
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
@@ -97,7 +97,7 @@ class SignInScreen extends StatelessWidget {
                           ),
                         ),
                         CupertinoTextField(
-                          controller: _emailController,
+                          controller: emailController,
                           placeholder: "Nafoud@Example.com",
                           placeholderStyle: GoogleFonts.cairo(
                             fontSize: 18.sp,
@@ -132,7 +132,7 @@ class SignInScreen extends StatelessWidget {
                           ),
                         ),
                         CupertinoTextField(
-                          controller: _passwordController,
+                          controller: passwordController,
                           placeholder: "*********",
                           placeholderStyle: GoogleFonts.cairo(
                             fontSize: 18.sp,
@@ -159,7 +159,7 @@ class SignInScreen extends StatelessWidget {
                         13.verticalSpace,
                         Row(
                           children: [
-                            Container(
+                            SizedBox(
                               width: 16.w,
                               height: 16.h,
                               child: CupertinoCheckbox(
@@ -202,8 +202,8 @@ class SignInScreen extends StatelessWidget {
                               : () {
                                   context.read<AuthenticationBloc>().add(
                                     SignInSubmitted(
-                                      email: _emailController.text,
-                                      password: _passwordController.text,
+                                      email: emailController.text,
+                                      password: passwordController.text,
                                     ),
                                   );
                                 },

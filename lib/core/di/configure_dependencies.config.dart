@@ -66,6 +66,8 @@ import '../../features/events/domain_layer/repository/events_domain_repostiory.d
     as _i586;
 import '../../features/events/domain_layer/usecase/events_usecase.dart'
     as _i710;
+import '../../features/events/presentation_layer/cubit/event_cubit.dart'
+    as _i985;
 import '../../features/profile/data_layer/datasource/profile_cache_service.dart'
     as _i158;
 import '../../features/profile/data_layer/datasource/profile_datasource.dart'
@@ -179,6 +181,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i274.GetChatSessionUseCase>(
       () => _i274.GetChatSessionUseCase(gh<_i351.ChatbotRepositoryDomain>()),
+    );
+    gh.factory<_i985.EventCubit>(
+      () => _i985.EventCubit(gh<_i710.EventsUsecase>()),
     );
     gh.factory<_i197.ProfileCubit>(
       () => _i197.ProfileCubit(gh<_i680.ProfileUsecase>()),
