@@ -115,13 +115,9 @@ class AppRoutes {
         builder: (context, state) => AIImageAnalysisScreen(),
       ),
 
-    
       GoRoute(
         path: AppRoutes.homeScreen,
-        builder: (context, state) => BlocProvider(
-          create: (_) => EventCubit(getIt<EventsUsecase>())..loadedEvents(),
-          child: const HomeScreen(),
-        ),
+        builder: (context, state) => const HomeScreen(),
       ),
 
       GoRoute(
@@ -132,6 +128,9 @@ class AppRoutes {
         ),
       ),
     ],
-    errorBuilder: (context, state) => HomeScreen(), //fix here
+    // errorBuilder: (context, state) => BlocProvider(
+    //   create: (_) => EventCubit(getIt<EventsUsecase>())..loadedEvents(),
+    //   child: const HomeScreen(),
+    // ),
   );
 }
