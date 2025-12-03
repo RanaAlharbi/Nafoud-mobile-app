@@ -60,9 +60,7 @@ class SupabaseDatasource implements AuthenticationDatasource {
           'id': userId,
           'email': email,
           'username': defaultUsername,
-          'full_name': defaultUsername, // Default to username because old users only have name back then
-          'status': 'active',
-          'is_active': true,
+          'full_name': defaultUsername,
         });
       }
     }
@@ -92,8 +90,7 @@ class SupabaseDatasource implements AuthenticationDatasource {
         'id': userId,
         'username': username,
         'email': email,
-        'full_name': username, // Default to username, user can update later (Old users couldn't go to profile, but solved it this way)
-        'status': 'active',
+        'full_name': username,
         'is_active': true,
       });
     }
