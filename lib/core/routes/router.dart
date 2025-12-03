@@ -8,12 +8,18 @@ import 'package:final_project/features/authentication/presentation_layer/pages/f
 import 'package:final_project/features/authentication/presentation_layer/pages/sign_in_screen.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/sign_up_screen.dart';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import 'package:final_project/features/authentication/presentation_layer/pages/update_password_screen.dart';
 import 'package:final_project/features/events/domain_layer/usecase/events_usecase.dart';
 import 'package:final_project/features/events/presentation_layer/cubit/event_cubit.dart';
 =======
 import 'package:final_project/features/authentication/presentation_layer/pages/otp_screen.dart';
 >>>>>>> feature/SignInModifications
+=======
+import 'package:final_project/features/authentication/presentation_layer/pages/update_password_screen.dart';
+import 'package:final_project/features/events/domain_layer/usecase/events_usecase.dart';
+import 'package:final_project/features/events/presentation_layer/cubit/event_cubit.dart';
+>>>>>>> 4f100e4259e8ef5b13271508926c9026f401f8a5
 import 'package:final_project/features/home/presentation_layer/pages/home_screen.dart';
 import 'package:final_project/features/navigation/presentation_layer/cubit/navigation_cubit.dart';
 import 'package:final_project/features/navigation/presentation_layer/pages/navigation.dart';
@@ -133,10 +139,7 @@ class AppRoutes {
 
       GoRoute(
         path: AppRoutes.homeScreen,
-        builder: (context, state) => BlocProvider(
-          create: (_) => EventCubit(getIt<EventsUsecase>())..loadedEvents(),
-          child: const HomeScreen(),
-        ),
+        builder: (context, state) => const HomeScreen(),
       ),
 
       GoRoute(
@@ -147,6 +150,9 @@ class AppRoutes {
         ),
       ),
     ],
-    errorBuilder: (context, state) => HomeScreen(), //fix here
+    // errorBuilder: (context, state) => BlocProvider(
+    //   create: (_) => EventCubit(getIt<EventsUsecase>())..loadedEvents(),
+    //   child: const HomeScreen(),
+    // ),
   );
 }
