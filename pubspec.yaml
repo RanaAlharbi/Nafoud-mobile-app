@@ -44,6 +44,8 @@ dependencies:
   flutter_ai_toolkit: ^0.8.0
   flutter_markdown_plus: ^1.0.5
   cached_network_image: ^3.4.1
+  flutter_timer_countdown: ^1.0.7
+  jumping_dot: ^0.0.7
   
 
 dev_dependencies:

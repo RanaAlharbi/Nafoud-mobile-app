@@ -14,7 +14,9 @@ import 'package:final_project/features/profile/presentation_layer/pages/edit_pro
 import 'package:final_project/features/profile/presentation_layer/pages/profile_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:go_router/go_router.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AppRoutes {
   //Auth
@@ -38,8 +40,20 @@ class AppRoutes {
   // Navigationbar
   static const navigationScreen = '/navigation_screen';
 
+  static String getInitialRoute() {
+    final session = GetIt.I.get<SupabaseClient>().auth.currentSession;
+    final box = GetIt.I.get<GetStorage>();
+    final rememberMe = box.read('remember_me') ?? false;
+
+    if (session != null && rememberMe) {
+      return AppRoutes.navigationScreen;
+    }
+
+    return AppRoutes.authenticationLandingScreen;
+  }
+
   static final GoRouter appRouter = GoRouter(
-    initialLocation: AppRoutes.authenticationLandingScreen,
+    initialLocation: getInitialRoute(),
     /* GetIt.I.get<SupabaseClient>().auth.currentSession != null ? '/navigation_screen'
         : '/sign-in',*/
     routes: [

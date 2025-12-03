@@ -1,3 +1,4 @@
+import 'package:final_project/features/authentication/presentation_layer/widgets/otp_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,7 +10,13 @@ class OTPScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController _otpController = TextEditingController();
+    int _otpLength = 6;
+    List<FocusNode> _focusNodes = List.generate(6, (index) => FocusNode());
+    List<TextEditingController> _otpController = List.generate(
+      6,
+      (index) => TextEditingController(),
+    );
+
     return CupertinoPageScaffold(
       backgroundColor: Color(0xFFF1F1F1),
       child: Stack(
@@ -18,7 +25,7 @@ class OTPScreen extends StatelessWidget {
             bottom: 0,
             right: 0,
             child: SvgPicture.asset(
-              'assets/authentication/BackgroundLetters.svg',
+              'Assets/authentication/BackgroundLetters.svg',
               width: 419.w,
               height: 774.h,
               fit: BoxFit.contain,
@@ -35,7 +42,7 @@ class OTPScreen extends StatelessWidget {
                     Align(
                       alignment: Alignment.topRight,
                       child: SvgPicture.asset(
-                        'assets/logo/NafoudLogo.svg',
+                        'Assets/logo/NafoudLogo.svg',
                         width: 67.87.w,
                         height: 69.17.h,
                       ),
@@ -64,24 +71,37 @@ class OTPScreen extends StatelessWidget {
                     ),
 
                     32.verticalSpace,
-                    CupertinoTextField(
-                      controller: _otpController,
-                      keyboardType: TextInputType.number,
-                      placeholder: "Mohammed",
-                      placeholderStyle: GoogleFonts.cairo(
-                        fontSize: 18.sp,
-                        color: Color(0xFFB6B6B6),
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        shape: BoxShape.rectangle,
-                        border: Border.all(
-                          color: Color(0xFFB6B6B6),
-                          width: 1.5,
-                        ),
-                        borderRadius: BorderRadius.circular(9.r),
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: List.generate(_otpLength, (index) {
+                        return SizedBox(
+                          width: 52,
+                          height: 62,
+                          child: CupertinoTextField(
+                            controller: _otpController[index],
+                            focusNode: _focusNodes[index],
+                            keyboardType: TextInputType.number,
+                            maxLength: 1,
+                            onChanged: (value) {
+                              if (value.isNotEmpty && index < _otpLength - 1) {
+                                FocusScope.of(
+                                  context,
+                                ).requestFocus(_focusNodes[index + 1]);
+                              } else if (value.isEmpty && index > 0) {
+                                FocusScope.of(
+                                  context,
+                                ).requestFocus(_focusNodes[index - 1]);
+                              }
+                            },
+                          ),
+                        );
+                      }),
                     ),
+
+                    190.verticalSpace,
+                    OtpWidget(),
+
+                    250.verticalSpace,
                   ],
                 ),
               ),
