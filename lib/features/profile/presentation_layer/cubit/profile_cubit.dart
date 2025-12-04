@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:equatable/equatable.dart';
 import '../../domain_layer/usecase/profile_usecase.dart';
 import '../../domain_layer/entity/profile_entity.dart';
 import '../../domain_layer/entity/country_code_entity.dart';
