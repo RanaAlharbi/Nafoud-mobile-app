@@ -5,8 +5,9 @@ import 'package:final_project/features/events/presentation_layer/cubit/event_cub
 import 'package:final_project/features/events/domain_layer/usecase/events_usecase.dart';
 import 'package:final_project/core/di/configure_dependencies.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
-import 'package:final_project/features/profile/presentation_layer/cubit/profile_cubit.dart';
+import 'package:final_project/features/home/presentation_layer/cubit/home_user_info_cubit.dart';
 import 'package:final_project/features/profile/domain_layer/usecase/profile_usecase.dart';
 import 'package:get_it/get_it.dart';
 
@@ -21,7 +22,8 @@ class HomeScreen extends StatelessWidget {
           create: (_) => EventCubit(getIt<EventsUsecase>())..loadedEvents(),
         ),
         BlocProvider(
-          create: (_) => ProfileCubit(GetIt.I.get<ProfileUsecase>())..loadProfile(),
+          create: (_) =>
+              HomeUserInfoCubit(GetIt.I.get<ProfileUsecase>())..loadUserInfo(),
         ),
       ],
       child: Scaffold(
@@ -31,27 +33,33 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               children: [
                 Gap(10.h),
-                BlocBuilder<ProfileCubit, ProfileState>(
-                  buildWhen: (previous, current) => previous != current,
+                BlocBuilder<HomeUserInfoCubit, HomeUserInfoState>(
                   builder: (context, state) {
-                    final profile = state is ProfileLoaded ? state.profile : null;
+                    // Extract user info from loaded state, or use defaults
+                    final String fullName = state is HomeUserInfoLoaded
+                        ? state.fullName
+                        : "Guest";
+                    final String? avatarUrl = state is HomeUserInfoLoaded
+                        ? state.avatarUrl
+                        : null;
 
                     return Row(
+                      spacing: 15.w,
                       children: [
                         // Image Area
                         CircleAvatar(
                           // Cover Image
                           backgroundColor: Color.fromRGBO(101, 106, 83, 1),
-                          radius: 43.h,
+                          radius: 41.h,
 
                           // The image itself
                           child: CircleAvatar(
                             backgroundColor: Color.fromRGBO(254, 254, 254, 1),
                             radius: 40.h,
-                            backgroundImage: profile?.avatarUrl != null
-                                ? NetworkImage(profile!.avatarUrl!)
+                            backgroundImage: avatarUrl != null
+                                ? NetworkImage(avatarUrl)
                                 : null,
-                            child: profile?.avatarUrl == null
+                            child: avatarUrl == null
                                 ? Icon(
                                     Icons.person,
                                     size: 40.h,
@@ -60,22 +68,32 @@ class HomeScreen extends StatelessWidget {
                                 : null,
                           ),
                         ),
-                        Padding(padding: EdgeInsets.only(left: 20.w)),
                         Column(
-                          crossAxisAlignment: .start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            Gap(15.h),
                             Row(
                               children: [
-                                Text("Hello, "),
                                 Text(
-                                  profile?.fullName ?? "Guest",
-                                  style: TextStyle(color: AppColors.primaryColor),
+                                  "Hello, ",
+                                  style: TextStyle(fontSize: 20.w),
+                                ),
+                                Text(
+                                  fullName,
+                                  style: TextStyle(
+                                    color: AppColors.primaryColor,
+                                  ),
                                 ),
                               ],
                             ),
-                            Text("What would you like to do today?"),
+                            Gap(10.h),
+                            Text(
+                              "What would you like to do today?",
+                              style: TextStyle(fontSize: 15.h),
+                            ),
                           ],
                         ),
+                        IconButton(onPressed: (){}, icon: SvgPicture.asset("./Assets/icons/Bell.svg"))
                       ],
                     );
                   },
