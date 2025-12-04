@@ -22,8 +22,6 @@ import '../../features/ai_chatbot/data_layer/repository/chatbot_repository_data.
     as _i545;
 import '../../features/ai_chatbot/domain_layer/usecase/chatbot_usecase.dart'
     as _i865;
-import '../../features/ai_chatbot/presentation_layer/bloc/chatbot_bloc.dart'
-    as _i490;
 import '../../features/ai_image_analysis/data_layer/datasource/ai_image_analysis_datasource.dart'
     as _i11;
 import '../../features/ai_image_analysis/data_layer/datasource/ai_local_storage_datasource.dart'
@@ -116,7 +114,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i11.BaseAiImageAnalysisDataSource>(
       () => _i11.AiImageAnalysisRemoteDataSource(gh<_i656.GenerativeModel>()),
     );
-    // gh.factory<_i490.ChatbotBloc>(() => _i490.ChatbotBloc(gh<InvalidType>()));
     gh.lazySingleton<_i855.AiImageAnalysisRepository>(
       () => _i479.AiImageAnalysisRepositoryDataSource(
         gh<_i11.BaseAiImageAnalysisDataSource>(),
