@@ -12,4 +12,8 @@ class AppColors {
 
   static const Color whiteText = Color(0xFFFFFFFF);
   static const Color yellowText = Color(0xFFFFB703);
+
+  // Figma Colors
+  static const Color primaryColor = Color.fromRGBO(101, 106, 83, 1);
+  static const Color secondaryColor = Color(0xFFFFFFFF);
 }
