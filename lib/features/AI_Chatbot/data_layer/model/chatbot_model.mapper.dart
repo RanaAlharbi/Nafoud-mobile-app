@@ -21,25 +21,26 @@ class ChatbotConfigModelMapper extends ClassMapperBase<ChatbotConfigModel> {
   @override
   final String id = 'ChatbotConfigModel';
 
+  static String _$apiKey(ChatbotConfigModel v) => v.apiKey;
   static const Field<ChatbotConfigModel, String> _f$apiKey = Field(
     'apiKey',
-    null,
-    mode: FieldMode.param,
+    _$apiKey,
   );
+  static String _$model(ChatbotConfigModel v) => v.model;
   static const Field<ChatbotConfigModel, String> _f$model = Field(
     'model',
-    null,
-    mode: FieldMode.param,
+    _$model,
   );
+  static String _$systemInstruction(ChatbotConfigModel v) =>
+      v.systemInstruction;
   static const Field<ChatbotConfigModel, String> _f$systemInstruction = Field(
     'systemInstruction',
-    null,
-    mode: FieldMode.param,
+    _$systemInstruction,
   );
+  static String _$welcomeMessage(ChatbotConfigModel v) => v.welcomeMessage;
   static const Field<ChatbotConfigModel, String> _f$welcomeMessage = Field(
     'welcomeMessage',
-    null,
-    mode: FieldMode.param,
+    _$welcomeMessage,
   );
 
   @override
@@ -131,10 +132,10 @@ abstract class ChatbotConfigModelCopyWith<
 >
     implements ClassCopyWith<$R, $In, $Out> {
   $R call({
-    required String apiKey,
-    required String model,
-    required String systemInstruction,
-    required String welcomeMessage,
+    String? apiKey,
+    String? model,
+    String? systemInstruction,
+    String? welcomeMessage,
   });
   ChatbotConfigModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
     Then<$Out2, $R2> t,
@@ -151,24 +152,27 @@ class _ChatbotConfigModelCopyWithImpl<$R, $Out>
       ChatbotConfigModelMapper.ensureInitialized();
   @override
   $R call({
-    required String apiKey,
-    required String model,
-    required String systemInstruction,
-    required String welcomeMessage,
+    String? apiKey,
+    String? model,
+    String? systemInstruction,
+    String? welcomeMessage,
   }) => $apply(
     FieldCopyWithData({
-      #apiKey: apiKey,
-      #model: model,
-      #systemInstruction: systemInstruction,
-      #welcomeMessage: welcomeMessage,
+      if (apiKey != null) #apiKey: apiKey,
+      if (model != null) #model: model,
+      if (systemInstruction != null) #systemInstruction: systemInstruction,
+      if (welcomeMessage != null) #welcomeMessage: welcomeMessage,
     }),
   );
   @override
   ChatbotConfigModel $make(CopyWithData data) => ChatbotConfigModel(
-    apiKey: data.get(#apiKey),
-    model: data.get(#model),
-    systemInstruction: data.get(#systemInstruction),
-    welcomeMessage: data.get(#welcomeMessage),
+    apiKey: data.get(#apiKey, or: $value.apiKey),
+    model: data.get(#model, or: $value.model),
+    systemInstruction: data.get(
+      #systemInstruction,
+      or: $value.systemInstruction,
+    ),
+    welcomeMessage: data.get(#welcomeMessage, or: $value.welcomeMessage),
   );
 
   @override
