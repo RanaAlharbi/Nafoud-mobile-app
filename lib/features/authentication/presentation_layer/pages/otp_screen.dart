@@ -170,8 +170,8 @@ class OTPScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
-                          )
-                        else if (state is AuthenticationFailure) ...[
+                          ),
+                        if (state is AuthenticationFailure)
                           Text(
                             state.message,
                             textAlign: TextAlign.center,
@@ -181,7 +181,7 @@ class OTPScreen extends StatelessWidget {
                               color: Colors.red,
                             ),
                           ),
-                        ] else if (state is AuthenticationSuccess) ...[
+                        if (state is AuthenticationSuccess)
                           Text(
                             state.message,
                             textAlign: TextAlign.center,
@@ -191,9 +191,8 @@ class OTPScreen extends StatelessWidget {
                               color: Colors.green,
                             ),
                           ),
-                        ] else ...[
-                          SizedBox(height: 20.h),
-                        ],
+
+                        SizedBox(height: 20.h),
 
                         170.verticalSpace,
 
