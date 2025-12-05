@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../domain_layer/entity/country_code_entity.dart';
 
 class CountryCodeDropdownWidget extends StatelessWidget {
@@ -33,7 +34,7 @@ class CountryCodeDropdownWidget extends StatelessWidget {
             placeholder: (context, url) => Container(
               width: 24,
               height: 16,
-              color: Colors.grey[300],
+              color: Colors.grey,
               child: const SizedBox(
                 width: 12,
                 height: 12,
@@ -49,7 +50,7 @@ class CountryCodeDropdownWidget extends StatelessWidget {
               return Container(
                 width: 24,
                 height: 16,
-                color: Colors.grey[300],
+                color: Colors.grey,
                 child: const Icon(Icons.flag, size: 16, color: Colors.grey),
               );
             },
@@ -80,6 +81,7 @@ class CountryCodeDropdownWidget extends StatelessWidget {
             child: DropdownButton<String>(
               value: selectedCode ?? 'sa',
               isExpanded: false,
+              menuMaxHeight: 350.h,
               items: countryCodes.map(_buildCountryCodeItem).toList(),
               onChanged: isSubmitting ? null : onChanged,
             ),

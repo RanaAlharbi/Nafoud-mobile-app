@@ -1,4 +1,5 @@
 import 'package:final_project/core/app_theme/app_colors/app_colors.dart';
+import 'package:final_project/features/home/presentation_layer/widgets/build_quick_guide_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:final_project/features/events/presentation_layer/cubit/event_cubit.dart';
@@ -53,12 +54,22 @@ class HomeScreen extends StatelessWidget {
                               // Image Area
                               CircleAvatar(
                                 // Cover Image
-                                backgroundColor: Color.fromRGBO(101, 106, 83, 1),
+                                backgroundColor: Color.fromRGBO(
+                                  101,
+                                  106,
+                                  83,
+                                  1,
+                                ),
                                 radius: 41.h,
 
                                 // The image itself
                                 child: CircleAvatar(
-                                  backgroundColor: Color.fromRGBO(254, 254, 254, 1),
+                                  backgroundColor: Color.fromRGBO(
+                                    254,
+                                    254,
+                                    254,
+                                    1,
+                                  ),
                                   radius: 40.h,
                                   backgroundImage: avatarUrl != null
                                       ? NetworkImage(avatarUrl)
@@ -72,35 +83,47 @@ class HomeScreen extends StatelessWidget {
                                       : null,
                                 ),
                               ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Gap(15.h),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "Hello, ",
-                                        style: TextStyle(fontSize: 20.w),
-                                      ),
-                                      Text(
-                                        fullName,
-                                        style: TextStyle(
-                                          color: AppColors.primaryColor,
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Gap(15.h),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "Hello, ",
+                                          style: TextStyle(fontSize: 20.w, fontWeight: .w600),
                                         ),
-                                      ),
-                                    ],
-                                  ),
+                                        Flexible(
+                                          child: Text(
+                                            fullName,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              color: AppColors.primaryColor,
+                                              fontSize: 20.h,
+                                              fontWeight: .bold
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   Gap(10.h),
                                   Text(
                                     "What would you like to do today?",
-                                    style: TextStyle(fontSize: 15.h),
+                                    style: TextStyle(
+                                      fontSize: 10.h,
+                                      color: Colors.black38,
+                                    ),
                                   ),
                                 ],
+                                ),
                               ),
                               IconButton(
-                                onPressed: (){}, 
-                                icon: SvgPicture.asset("./Assets/icons/Bell.svg")
-                              )
+                                onPressed: () {},
+                                icon: SvgPicture.asset(
+                                  "./Assets/icons/Bell.svg",
+                                ),
+                              ),
                             ],
                           );
                         },
@@ -108,33 +131,22 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                
+
                 // "Enjoy the moment with others" Section
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 16.w),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16.r),
                     color: AppColors.primaryColor,
+                    border: Border.all(
+                      color: AppColors.khuzamaColor,
+                      width: 2,
+                    ),
                   ),
                   child: Stack(
                     children: [
-                      // Saudi Male on the home screen
-                      Positioned(
-                        right: 0,
-                        top: 0,
-                        bottom: 0,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(16.r),
-                            bottomRight: Radius.circular(16.r),
-                          ),
-                          child: SvgPicture.asset(
-                            './Assets/Images/home/saudi_male_template.svg',
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
                       Container(
+                        width: double.infinity,
                         padding: EdgeInsets.all(24.w),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -143,7 +155,7 @@ class HomeScreen extends StatelessWidget {
                               'Enjoy the moment with others!',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 24.sp,
+                                fontSize: 20.sp,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -152,88 +164,115 @@ class HomeScreen extends StatelessWidget {
                               'Got an event and looking for company?\nPost your announcement and let everyone join',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 14.sp,
-                                height: 1.5,
+                                fontSize: 12.sp,
+                                height: 2,
                               ),
                             ),
                             Gap(20.h),
-                            ElevatedButton(
-                              onPressed: () {
-                                // Navigate to post event screen
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                foregroundColor: AppColors.primaryColor,
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 24.w, 
-                                  vertical: 12.h
+                            Container(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Colors.white,
+                                    AppColors.khuzamaColor,
+                                  ],
                                 ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.r),
-                                ),
+                                borderRadius: BorderRadius.circular(8.r),
                               ),
-                              child: Text(
-                                'Post Now',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 16.sp,
+                              child: Container(
+                                margin: EdgeInsets.all(2),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(6.r),
+                                ),
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    // Navigate to post event screen
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.transparent,
+                                    foregroundColor: AppColors.khuzamaColor,
+                                    shadowColor: Colors.transparent,
+                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                    minimumSize: Size(0, 33.h),
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 14.w,
+                                      vertical: 0.h,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(6.r),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    'Post Now',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 14.sp,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
                           ],
                         ),
                       ),
+                      // Saudi Male on the home screen
+                      Positioned(
+                        right: 0,
+                        top: 0,
+                        child: SvgPicture.asset(
+                          './Assets/Images/home/saudi_male_template2.svg',
+                          width: 150.w,
+                          height: 200.h,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ],
                   ),
                 ),
-                
+
                 Gap(24.h),
-                
+
                 // Your Quick Guides Section
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: Text(
                     'Your Quick Guides',
-                    style: TextStyle(
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black87,
-                    ),
+                    style: TextStyle(fontSize: 18.sp, color: Colors.black),
                   ),
                 ),
-                
+
                 Gap(16.h),
-                
+
                 // Quick Guide Icons
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: SingleChildScrollView(
-                    scrollDirection: .vertical,
+                    scrollDirection: Axis.horizontal,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround, // temporary
                       children: [
-                        buildQuickGuideItem(
-                          icon: Icons.directions_bus,
+                        BuildQuickGuideItemWidget(
+                          svgPath: './Assets/icons/Tram.svg',
                           label: 'Transport',
                           onTap: () {},
                         ),
-                        buildQuickGuideItem(
-                          icon: Icons.sim_card,
+                        BuildQuickGuideItemWidget(
+                          svgPath: './Assets/icons/SimCard.svg',
                           label: 'SIM Card',
                           onTap: () {},
                         ),
-                        buildQuickGuideItem(
-                          icon: Icons.emergency,
+                        BuildQuickGuideItemWidget(
+                          svgPath: './Assets/icons/Emergency.svg',
                           label: 'Emergency',
                           onTap: () {},
                         ),
-                        buildQuickGuideItem(
-                          icon: Icons.cloud,
+                        BuildQuickGuideItemWidget(
+                          svgPath: './Assets/icons/Cloud.svg',
                           label: 'Weather',
                           onTap: () {},
                         ),
-                        buildQuickGuideItem(
-                          icon: Icons.currency_exchange,
+                        BuildQuickGuideItemWidget(
+                          svgPath: './Assets/icons/Currency.svg',
                           label: 'Currency',
                           onTap: () {},
                         ),
@@ -241,9 +280,60 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                
+
                 Gap(24.h),
-                
+
+                // Discover All Destinations Dropdown
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Discover  ',
+                        style: TextStyle(
+                          fontSize: 25.sp,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                      DropdownButton<String>(
+                        value: 'All Destinations',
+                        underline: SizedBox(),
+                        icon: Icon(Icons.keyboard_arrow_down),
+                        iconEnabledColor: AppColors.primaryColor,
+                        style: TextStyle(
+                          fontSize: 25.sp,
+                          color: AppColors.primaryColor,
+                        ),
+                        items: [
+                          DropdownMenuItem(
+                            value: 'All Destinations',
+                            child: Text('All Destinations'),
+                          ),
+                          DropdownMenuItem(
+                            value: 'Riyadh',
+                            child: Text('Riyadh'),
+                          ),
+                          DropdownMenuItem(
+                            value: 'Jeddah',
+                            child: Text('Jeddah'),
+                          ),
+                          DropdownMenuItem(
+                            value: 'Dammam',
+                            child: Text('Dammam'),
+                          ),
+                          DropdownMenuItem(
+                            value: 'Medina',
+                            child: Text('Medina'),
+                          ),
+                        ],
+                        onChanged: (value) {},
+                      ),
+                    ],
+                  ),
+                ),
+
+
                 // Recommended Activities Section
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -252,11 +342,7 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       Text(
                         'Recommended Activities',
-                        style: TextStyle(
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87,
-                        ),
+                        style: TextStyle(fontSize: 18.sp, color: Colors.black),
                       ),
                       TextButton(
                         onPressed: () {
@@ -264,61 +350,17 @@ class HomeScreen extends StatelessWidget {
                         },
                         child: Text(
                           'View All',
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 14.sp,
-                          ),
+                          style: TextStyle(color: Colors.grey, fontSize: 14.sp),
                         ),
                       ),
                     ],
                   ),
                 ),
-                
+
                 Gap(8.h),
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-  
-  Widget buildQuickGuideItem({
-    required IconData icon,
-    required String label,
-    required VoidCallback onTap,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(12.r),
-      child: Container(
-        width: 70.w,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 56.w,
-              height: 56.h,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                icon,
-                color: Colors.grey,
-                size: 24.w,
-              ),
-            ),
-            Gap(8.h),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 12.sp,
-                color: Colors.grey,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
         ),
       ),
     );
