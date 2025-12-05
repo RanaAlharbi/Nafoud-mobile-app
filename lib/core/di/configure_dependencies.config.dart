@@ -66,6 +66,8 @@ import '../../features/events/domain_layer/repository/events_domain_repostiory.d
     as _i586;
 import '../../features/events/domain_layer/usecase/events_usecase.dart'
     as _i710;
+import '../../features/home/presentation_layer/cubit/home_user_info_cubit.dart'
+    as _i680;
 import '../../features/profile/data_layer/datasource/profile_cache_service.dart'
     as _i158;
 import '../../features/profile/data_layer/datasource/profile_datasource.dart'
@@ -182,6 +184,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i197.ProfileCubit>(
       () => _i197.ProfileCubit(gh<_i680.ProfileUsecase>()),
+    );
+    gh.factory<_i680.HomeUserInfoCubit>(
+      () => _i680.HomeUserInfoCubit(gh<_i680.ProfileUsecase>()),
     );
     gh.factory<_i824.ChatbotBloc>(
       () => _i824.ChatbotBloc(gh<_i274.GetChatSessionUseCase>()),

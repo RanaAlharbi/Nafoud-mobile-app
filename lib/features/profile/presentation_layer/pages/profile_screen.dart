@@ -78,49 +78,49 @@ class ProfileScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) =>
           ProfileCubit(GetIt.I.get<ProfileUsecase>())..loadProfile(),
-      child: BlocListener<ProfileCubit, ProfileState>(
-        listener: (context, state) {
-          if (state is ProfileError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-                backgroundColor: Colors.red,
-              ),
-            );
-          } else if (state is AvatarUploaded) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-                backgroundColor: Colors.green,
-              ),
-            );
-          } else if (state is AccountDeleted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('The account have been deleted'),
-                backgroundColor: Colors.green,
-              ),
-            );
-          } else if (state is SignedOut) {
-            context.go(AppRoutes.signInScreen);
-          }
-        },
-        child: Scaffold(
-          backgroundColor: Colors.white,
-          extendBodyBehindAppBar: true,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        extendBodyBehindAppBar: true,
 
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            actions: [
-              IconButton(
-                onPressed: () {},
-                icon: Icon(RemixIcons.notification_3_line),
-              ),
-            ],
-          ),
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: Icon(RemixIcons.notification_3_line),
+            ),
+          ],
+        ),
 
-          body: BlocBuilder<ProfileCubit, ProfileState>(
+        body: BlocListener<ProfileCubit, ProfileState>(
+          listener: (context, state) {
+            if (state is ProfileError) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            } else if (state is AvatarUploaded) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                  backgroundColor: Colors.green,
+                ),
+              );
+            } else if (state is AccountDeleted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('The account have been deleted'),
+                  backgroundColor: Colors.green,
+                ),
+              );
+            } else if (state is SignedOut) {
+              context.go(AppRoutes.signInScreen);
+            }
+          },
+          child: BlocBuilder<ProfileCubit, ProfileState>(
             buildWhen: (previous, current) => ( 
               // (It's like saying "Don't rebuild for avatar-only changes")
               current is! AvatarUploading && current is! AvatarUploaded

@@ -82,6 +82,7 @@ flutter:
     - Assets/Images/
     - Assets/Images/Sign_In_Screen/
     - Assets/Images/Sign_Up_Screen/
+    - Assets/Images/home/
     - Assets/translations/
     - Assets/jsons/
   #   - images/a_dot_ham.jpeg

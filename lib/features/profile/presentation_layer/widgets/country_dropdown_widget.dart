@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../domain_layer/entity/country_code_entity.dart';
 
 class CountryDropdownWidget extends StatelessWidget {
@@ -89,6 +90,7 @@ class CountryDropdownWidget extends StatelessWidget {
               hint: const Text('Country'),
               value: selectedCountryCode,
               isExpanded: true,
+              menuMaxHeight: 350.h,
               items: countries.map(_buildCountryItem).toList(),
               onChanged: isSubmitting ? null : onChanged,
             ),

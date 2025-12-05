@@ -46,8 +46,14 @@ class SupabaseProfileDatasource implements ProfileDatasource {
     final cachedData = _cacheService.getCachedProfile();
     if (cachedData != null) {
       try {
-        // Return cached data fast (no loading)
-        return ProfileModelMapper.fromMap(cachedData);
+        // IMPORTANT: Validate that cached profile belongs to current user
+        if (cachedData['id'] == user.id) {
+          // Return cached data fast (no loading)
+          return ProfileModelMapper.fromMap(cachedData);
+        } else {
+          // Cache is for a different user, clear it
+          await _cacheService.clearProfile();
+        }
       } catch (e) {
         // If cache have some issues, clear it and fetch new data
         await _cacheService.clearProfile();
