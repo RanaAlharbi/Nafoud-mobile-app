@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MurshidScreen extends StatelessWidget {
   const MurshidScreen({super.key});
@@ -21,15 +22,46 @@ class MurshidScreen extends StatelessWidget {
       drawer: Drawer(),
 
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(26),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: .start,
           children: [
             Gap(61),
-            Text('Hi there!'),
-            Text('I’m Murshid، your AI assistant'),
-            Text('How can I help you today?'),
+            Text(
+              'Hi there!',
+              style: GoogleFonts.cairo(fontSize: 25.92, fontWeight: .bold),
+            ),
+            RichText(
+              text: TextSpan(
+                style: GoogleFonts.cairo(
+                  fontSize: 25.92,
+                  fontWeight: .bold,
+                  color: Colors.black,
+                ),
+                children: [
+                  TextSpan(text: 'I’m '),
+                  TextSpan(
+                    text: 'Murshid',
+                    style: GoogleFonts.cairo(
+                      color: Color(0xff656A53),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  TextSpan(text: ', your AI assistant'),
+                ],
+              ),
+            ),
+
+            Gap(14),
+
+            Text(
+              'How can I help you today?',
+              style: TextStyle(
+                fontSize: 18,
+                color: Color(0xff919191),
+              ),
+            ),
 
             Gap(40),
             GestureDetector(
@@ -49,14 +81,21 @@ class MurshidScreen extends StatelessWidget {
                   children: [
                     SvgPicture.asset('Assets/icons/murshid_trip.svg'),
                     Gap(10),
-                    Text('Plan My Trip'),
+                    Text(
+                      'Plan My Trip',
+                      style: GoogleFonts.cairo(
+                        fontSize: 18,
+                        color: Color(0xff656A53),
+                       
+                      ),
+                    ),
                   ],
                 ),
               ),
             ),
             Gap(15),
             GestureDetector(
-                onTap: () {
+              onTap: () {
                 context.go('/ai-image-analysis-screen');
               },
               child: Container(
@@ -72,7 +111,12 @@ class MurshidScreen extends StatelessWidget {
                   children: [
                     SvgPicture.asset('Assets/icons/murshid_image.svg'),
                     Gap(10),
-                    Text('Identify The Image'),
+                    Text(
+                      'Identify The Image',
+                      style: GoogleFonts.cairo(
+                        color: Color(0xff656A53), 
+                        fontSize: 18),
+                    ),
                   ],
                 ),
               ),
