@@ -12,7 +12,7 @@ class MurshidScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Murshid'),
-        titleTextStyle: TextStyle(
+        titleTextStyle: GoogleFonts.cairo(
           color: Color(0xff3D4032),
           fontSize: 25.9,
           fontWeight: .bold,
@@ -96,7 +96,7 @@ class MurshidScreen extends StatelessWidget {
             Gap(15),
             GestureDetector(
               onTap: () {
-                context.go('/ai-image-analysis-screen');
+                context.push('/ai-image-analysis-screen');
               },
               child: Container(
                 width: 388,
