@@ -46,6 +46,7 @@ dependencies:
   cached_network_image: ^3.4.1
   flutter_timer_countdown: ^1.0.7
   jumping_dot: ^0.0.7
+  dashed_border: ^1.0.2
   
 
 dev_dependencies:
@@ -78,11 +79,15 @@ flutter:
     - Assets/authentication/
     - Assets/icons/    
     - Assets/logo/
+    - Assets/Images/
     - Assets/Images/Sign_In_Screen/
     - Assets/Images/Sign_Up_Screen/
     - Assets/Images/home/
     - Assets/translations/
     - Assets/jsons/
+    - Assets/Images/onboarding/onboarding_1.png
+    - Assets/Images/onboarding/onboarding_2.png
+    - Assets/Images/onboarding/onboarding_3.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
