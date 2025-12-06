@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:equatable/equatable.dart';
@@ -8,8 +9,13 @@ part 'home_user_info_state.dart';
 @injectable
 class HomeUserInfoCubit extends Cubit<HomeUserInfoState> {
   final ProfileUsecase _profileUsecase;
+  StreamSubscription<void>? _profileUpdateSubscription;
 
-  HomeUserInfoCubit(this._profileUsecase) : super(HomeUserInfoInitial());
+  HomeUserInfoCubit(this._profileUsecase) : super(HomeUserInfoInitial()) {
+    _profileUpdateSubscription = _profileUsecase.profileUpdateStream.listen((_) {
+      refreshUserInfo();
+    });
+  }
 
   // Load user info silently (no loading state)
   Future<void> loadUserInfo() async {
@@ -20,7 +26,6 @@ class HomeUserInfoCubit extends Cubit<HomeUserInfoState> {
     if (isClosed) return;
     result.fold(
       (error) {
-        // Keep previous state or initial if error occurs
         if (state is! HomeUserInfoLoaded) {
           emit(HomeUserInfoInitial());
         }
@@ -36,8 +41,13 @@ class HomeUserInfoCubit extends Cubit<HomeUserInfoState> {
     );
   }
 
-  // Refresh user info silently
   Future<void> refreshUserInfo() async {
     await loadUserInfo();
+  }
+
+  @override
+  Future<void> close() {
+    _profileUpdateSubscription?.cancel();
+    return super.close();
   }
 }

@@ -63,54 +63,32 @@ class EditProfileScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) =>
           ProfileCubit(GetIt.I.get<ProfileUsecase>())..loadProfile(),
-      child: BlocListener<ProfileCubit, ProfileState>(
-        listener: (context, state) {
-          if (state is ProfileError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-                backgroundColor: Colors.red,
-              ),
-            );
-          } else if (state is ProfileUpdated) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-                backgroundColor: Colors.green,
-              ),
-            );
-            // Navigate back after successful update
-            context.pop();
-          } else if (state is AccountDeleted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-                backgroundColor: Colors.orange,
-              ),
-            );
-            // Navigate to sign-in screen after account deletion
-            context.go(AppRoutes.signInScreen);
-          } else if (state is ProfileLoaded) {
-            // Initialize form with current profile data
-            context.read<ProfileCubit>().initializeFormForEditing(
-              state.profile,
-            );
-          }
-        },
-        child: Scaffold(
-          backgroundColor: Colors.white,
+      child: Scaffold(
+        backgroundColor: Colors.white,
 
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            leading: BackButton(),
-            title: Text(
-              "Edit profile",
-              style: TextStyle(fontWeight: FontWeight.w800),
-            ),
-            centerTitle: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          leading: BackButton(),
+          title: Text(
+            "Edit profile",
+            style: TextStyle(fontWeight: FontWeight.w800),
           ),
+          centerTitle: true,
+        ),
 
-          body: BlocBuilder<ProfileCubit, ProfileState>(
+        body: BlocListener<ProfileCubit, ProfileState>(
+          listener: (context, state) {
+            if (state is ProfileUpdated) {
+              context.pop();
+            } else if (state is AccountDeleted) {
+              context.go(AppRoutes.signInScreen);
+            } else if (state is ProfileLoaded) {
+              context.read<ProfileCubit>().initializeFormForEditing(
+                state.profile,
+              );
+            }
+          },
+          child: BlocBuilder<ProfileCubit, ProfileState>(
             builder: (context, state) {
               if (state is ProfileLoading) {
                 return Center(child: CircularProgressIndicator());

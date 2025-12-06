@@ -27,44 +27,26 @@ class ProfileError extends ProfileState {
   List<Object?> get props => [message];
 }
 
-class ProfileUpdating extends ProfileState {}
-
 class ProfileUpdated extends ProfileState {
   final ProfileEntity profile;
-  final String message;
-  const ProfileUpdated(this.profile, this.message);
+  const ProfileUpdated(this.profile);
 
   @override
-  List<Object?> get props => [profile, message];
+  List<Object?> get props => [profile];
 }
 
 class AvatarUploading extends ProfileState {}
 
 class AvatarUploaded extends ProfileState {
   final ProfileEntity profile;
-  final String message;
-  const AvatarUploaded(this.profile, this.message);
+  const AvatarUploaded(this.profile);
 
   @override
-  List<Object?> get props => [profile, message];
+  List<Object?> get props => [profile];
 }
-
-class AccountDeleting extends ProfileState {}
 
 class AccountDeleted extends ProfileState {
-  final String message;
-  const AccountDeleted(this.message);
-
-  @override
-  List<Object?> get props => [message];
-}
-
-class AccountRestored extends ProfileState {
-  final String message;
-  const AccountRestored(this.message);
-
-  @override
-  List<Object?> get props => [message];
+  const AccountDeleted();
 }
 
 class SignedOut extends ProfileState {}

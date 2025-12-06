@@ -34,32 +34,6 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
   }
 
-  // Update user profile
-  Future<void> updateProfile({
-    String? username,
-    String? fullName,
-    String? phoneNumber,
-  }) async {
-    if (isClosed) return;
-    emit(ProfileUpdating());
-
-    final result = await _usecase.updateProfile(
-      username: username,
-      fullName: fullName,
-      phoneNumber: phoneNumber,
-    );
-
-    if (isClosed) return;
-    result.fold(
-      (error) {
-        if (!isClosed) emit(ProfileError(error));
-      },
-      (profile) {
-        if (!isClosed) emit(ProfileUpdated(profile, 'Profile updated successfully'));
-      },
-    );
-  }
-
   // Upload avatar image
   Future<void> uploadAvatar(Uint8List imageBytes, String fileName) async {
     if (isClosed) return;
@@ -85,17 +59,18 @@ class ProfileCubit extends Cubit<ProfileState> {
             if (!isClosed) emit(ProfileError(error));
           },
           (profile) {
-            if (!isClosed) emit(AvatarUploaded(profile, 'Avatar updated successfully'));
+            if (!isClosed) {
+              emit(AvatarUploaded(profile));
+              _usecase.notifyProfileUpdated();
+            }
           },
         );
       },
     );
   }
 
-  // Soft delete account
   Future<void> deleteAccount() async {
     if (isClosed) return;
-    emit(AccountDeleting());
 
     final result = await _usecase.softDeleteAccount();
 
@@ -105,25 +80,7 @@ class ProfileCubit extends Cubit<ProfileState> {
         if (!isClosed) emit(ProfileError(error));
       },
       (message) {
-        if (!isClosed) emit(AccountDeleted(message));
-      },
-    );
-  }
-
-  // Restore deleted account
-  Future<void> restoreAccount() async {
-    if (isClosed) return;
-    emit(ProfileLoading());
-
-    final result = await _usecase.restoreAccount();
-
-    if (isClosed) return;
-    result.fold(
-      (error) {
-        if (!isClosed) emit(ProfileError(error));
-      },
-      (message) {
-        if (!isClosed) emit(AccountRestored(message));
+        if (!isClosed) emit(AccountDeleted());
       },
     );
   }
@@ -356,7 +313,7 @@ class ProfileCubit extends Cubit<ProfileState> {
         if (!isClosed) emit(ProfileError(error));
       },
       (profile) {
-        if (!isClosed) emit(ProfileUpdated(profile, 'Profile updated successfully'));
+        if (!isClosed) emit(ProfileUpdated(profile));
       },
     );
   }

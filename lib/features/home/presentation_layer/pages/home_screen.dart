@@ -92,7 +92,10 @@ class HomeScreen extends StatelessWidget {
                                       children: [
                                         Text(
                                           "Hello, ",
-                                          style: TextStyle(fontSize: 20.w, fontWeight: .w600),
+                                          style: TextStyle(
+                                            fontSize: 20.w,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
                                         Flexible(
                                           child: Text(
@@ -101,21 +104,21 @@ class HomeScreen extends StatelessWidget {
                                             style: TextStyle(
                                               color: AppColors.primaryColor,
                                               fontSize: 20.h,
-                                              fontWeight: .bold
+                                              fontWeight: FontWeight.bold,
                                             ),
                                           ),
                                         ),
                                       ],
                                     ),
-                                  Gap(10.h),
-                                  Text(
-                                    "What would you like to do today?",
-                                    style: TextStyle(
-                                      fontSize: 10.h,
-                                      color: Colors.black38,
+                                    Gap(10.h),
+                                    Text(
+                                      "What would you like to do today?",
+                                      style: TextStyle(
+                                        fontSize: 10.h,
+                                        color: Colors.black38,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
                                 ),
                               ),
                               IconButton(
@@ -138,12 +141,10 @@ class HomeScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16.r),
                     color: AppColors.primaryColor,
-                    border: Border.all(
-                      color: AppColors.khuzamaColor,
-                      width: 2,
-                    ),
+                    border: Border.all(color: AppColors.khuzamaColor, width: 2),
                   ),
                   child: Stack(
+                    clipBehavior: Clip.none,
                     children: [
                       Container(
                         width: double.infinity,
@@ -193,7 +194,8 @@ class HomeScreen extends StatelessWidget {
                                     backgroundColor: Colors.transparent,
                                     foregroundColor: AppColors.khuzamaColor,
                                     shadowColor: Colors.transparent,
-                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                    tapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
                                     minimumSize: Size(0, 33.h),
                                     padding: EdgeInsets.symmetric(
                                       horizontal: 14.w,
@@ -220,8 +222,8 @@ class HomeScreen extends StatelessWidget {
                       Positioned(
                         right: 0,
                         top: 0,
-                        child: SvgPicture.asset(
-                          './Assets/Images/home/saudi_male_template2.svg',
+                        child: Image.asset(
+                          'Assets/Images/home/saudi_male_template.png',
                           width: 150.w,
                           height: 200.h,
                           fit: BoxFit.cover,
@@ -332,7 +334,6 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-
 
                 // Recommended Activities Section
                 Padding(

@@ -24,8 +24,6 @@ import '../../features/AI_Chatbot/domain_layer/repository/chatbot_repository_dom
     as _i351;
 import '../../features/AI_Chatbot/domain_layer/usecase/chatbot_usecase.dart'
     as _i274;
-import '../../features/AI_Chatbot/presentation_layer/bloc/chatbot_bloc.dart'
-    as _i824;
 import '../../features/ai_image_analysis/data_layer/datasource/ai_image_analysis_datasource.dart'
     as _i11;
 import '../../features/ai_image_analysis/data_layer/datasource/ai_local_storage_datasource.dart'
@@ -166,7 +164,7 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i20.CurrencyExchangeDatasource>(),
       ),
     );
-    gh.factory<_i680.ProfileUsecase>(
+    gh.singleton<_i680.ProfileUsecase>(
       () => _i680.ProfileUsecase(gh<_i998.ProfileRepository>()),
     );
     gh.factory<_i235.CurrencyExchangeUsecase>(
@@ -187,9 +185,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i680.HomeUserInfoCubit>(
       () => _i680.HomeUserInfoCubit(gh<_i680.ProfileUsecase>()),
-    );
-    gh.factory<_i824.ChatbotBloc>(
-      () => _i824.ChatbotBloc(gh<_i274.GetChatSessionUseCase>()),
     );
     return this;
   }
