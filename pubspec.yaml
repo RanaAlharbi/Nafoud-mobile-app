@@ -85,6 +85,9 @@ flutter:
     - Assets/Images/home/
     - Assets/translations/
     - Assets/jsons/
+    - Assets/Images/onboarding/onboarding_1.png
+    - Assets/Images/onboarding/onboarding_2.png
+    - Assets/Images/onboarding/onboarding_3.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

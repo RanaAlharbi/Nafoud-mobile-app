@@ -9,6 +9,8 @@ import 'package:final_project/features/authentication/presentation_layer/pages/o
 import 'package:final_project/features/home/presentation_layer/pages/home_screen.dart';
 import 'package:final_project/features/navigation/presentation_layer/cubit/navigation_cubit.dart';
 import 'package:final_project/features/navigation/presentation_layer/pages/navigation.dart';
+import 'package:final_project/features/onbording/presentation/cubit/onbording_cubit.dart';
+import 'package:final_project/features/onbording/presentation/pages/onboarding_screen.dart';
 import 'package:final_project/features/profile/presentation_layer/pages/edit_profile_screen.dart';
 import 'package:final_project/features/profile/presentation_layer/pages/profile_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,6 +41,10 @@ class AppRoutes {
   // Navigationbar
   static const navigationScreen = '/navigation_screen';
 
+  //onboarding screen
+
+  static const onboardingScreen = '/onboarding_screen';
+
   static String getInitialRoute() {
     final session = GetIt.I.get<SupabaseClient>().auth.currentSession;
     final box = GetIt.I.get<GetStorage>();
@@ -52,7 +58,7 @@ class AppRoutes {
   }
 
   static final GoRouter appRouter = GoRouter(
-    initialLocation: getInitialRoute(),
+    initialLocation: AppRoutes.onboardingScreen,
     /* GetIt.I.get<SupabaseClient>().auth.currentSession != null ? '/navigation_screen'
         : '/sign-in',*/
     routes: [
@@ -135,6 +141,14 @@ class AppRoutes {
         builder: (context, state) => BlocProvider(
           create: (context) => NavigationCubit(),
           child: const NavigationScreen(),
+        ),
+      ),
+
+      GoRoute(
+        path: AppRoutes.onboardingScreen,
+        builder: (context, state) => BlocProvider(
+          create: (_) => OnboardingCubit(),
+          child: const OnboardingScreen(),
         ),
       ),
     ],
