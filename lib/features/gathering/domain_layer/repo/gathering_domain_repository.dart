@@ -1,7 +1,8 @@
-import 'package:final_project/features/gathering/domain_layer/entity/gathering_entity.dart';
+import 'package:final_project/features/gathering/data_layer/model/gathering_model.dart';
+import 'package:multiple_result/multiple_result.dart';
 
 abstract class GatheringDomainRepository {
-  Future<List<GatheringEntity>> getUsersEvents(); //get all ads from supabase
-  Future<void> createUserEvent(GatheringEntity gathering); // create gathering ads
-  Future<void> deleteUserEvent(String id, String userId ); //to delete user ads
+  Future<Result<List<GatheringModel>, String>> getUsersEvents();
+  Future<Result<void, String>> createUserEvent(GatheringModel event);
+  Future<Result<void, String>> deleteUserEvent(String id, String userId);
 }

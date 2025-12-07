@@ -47,6 +47,7 @@ dependencies:
   flutter_timer_countdown: ^1.0.7
   jumping_dot: ^0.0.7
   dashed_border: ^1.0.2
+  multiple_result: ^5.2.0
   
 
 dev_dependencies:
