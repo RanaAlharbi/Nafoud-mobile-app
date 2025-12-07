@@ -25,7 +25,7 @@ class ProfileScreen extends StatelessWidget {
     final ImageSource? source = await showDialog<ImageSource>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: Text('Choose Image Source'),
+        title: Text('Choose Image Source', style: TextStyle(fontSize: 23.h),),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -56,21 +56,9 @@ class ProfileScreen extends StatelessWidget {
 
         if (bytes.isNotEmpty) {
           await cubit.uploadAvatar(bytes, fileName);
-        } else {
-          if (context.mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Failed to read image data')),
-            );
-          }
         }
       }
-    } catch (e) {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to pick image: $e')),
-        );
-      }
-    }
+    } catch (e) {}
   }
 
   @override
@@ -95,28 +83,7 @@ class ProfileScreen extends StatelessWidget {
 
         body: BlocListener<ProfileCubit, ProfileState>(
           listener: (context, state) {
-            if (state is ProfileError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                  backgroundColor: Colors.red,
-                ),
-              );
-            } else if (state is AvatarUploaded) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                  backgroundColor: Colors.green,
-                ),
-              );
-            } else if (state is AccountDeleted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('The account have been deleted'),
-                  backgroundColor: Colors.green,
-                ),
-              );
-            } else if (state is SignedOut) {
+            if (state is SignedOut) {
               context.go(AppRoutes.signInScreen);
             }
           },

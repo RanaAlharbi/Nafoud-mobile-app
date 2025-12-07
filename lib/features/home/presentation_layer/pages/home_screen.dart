@@ -92,7 +92,10 @@ class HomeScreen extends StatelessWidget {
                                       children: [
                                         Text(
                                           "Hello, ",
-                                          style: TextStyle(fontSize: 20.w, fontWeight: .w600),
+                                          style: TextStyle(
+                                            fontSize: 20.w,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
                                         Flexible(
                                           child: Text(
@@ -101,21 +104,21 @@ class HomeScreen extends StatelessWidget {
                                             style: TextStyle(
                                               color: AppColors.primaryColor,
                                               fontSize: 20.h,
-                                              fontWeight: .bold
+                                              fontWeight: FontWeight.bold,
                                             ),
                                           ),
                                         ),
                                       ],
                                     ),
-                                  Gap(10.h),
-                                  Text(
-                                    "What would you like to do today?",
-                                    style: TextStyle(
-                                      fontSize: 10.h,
-                                      color: Colors.black38,
+                                    Gap(10.h),
+                                    Text(
+                                      "What would you like to do today?",
+                                      style: TextStyle(
+                                        fontSize: 10.h,
+                                        color: Colors.black38,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
                                 ),
                               ),
                               IconButton(
@@ -131,20 +134,39 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
+                Gap(30.h),
 
                 // "Enjoy the moment with others" Section
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 16.w),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16.r),
-                    color: AppColors.primaryColor,
-                    border: Border.all(
-                      color: AppColors.khuzamaColor,
-                      width: 2,
-                    ),
-                  ),
                   child: Stack(
+                    clipBehavior: Clip.none,
                     children: [
+                      // Transparent Background
+                      ShaderMask(
+                        shaderCallback: (Rect bounds) {
+                          return LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: [
+                              Colors.white,
+                              Colors.transparent,
+                            ],
+                            stops: [0.65, 1],
+                          ).createShader(bounds);
+                        },
+                        blendMode: .dstIn,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16.r),
+                            color: AppColors.primaryColor,
+                            border: Border.all(color: AppColors.khuzamaColor, width: 2),
+                          ),
+                          width: double.infinity,
+                          height: 200.h,
+                        ),
+                      ),
+                      // Content 
                       Container(
                         width: double.infinity,
                         padding: EdgeInsets.all(24.w),
@@ -193,7 +215,8 @@ class HomeScreen extends StatelessWidget {
                                     backgroundColor: Colors.transparent,
                                     foregroundColor: AppColors.khuzamaColor,
                                     shadowColor: Colors.transparent,
-                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                    tapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
                                     minimumSize: Size(0, 33.h),
                                     padding: EdgeInsets.symmetric(
                                       horizontal: 14.w,
@@ -219,12 +242,26 @@ class HomeScreen extends StatelessWidget {
                       // Saudi Male on the home screen
                       Positioned(
                         right: 0,
-                        top: 0,
-                        child: SvgPicture.asset(
-                          './Assets/Images/home/saudi_male_template2.svg',
-                          width: 150.w,
-                          height: 200.h,
-                          fit: BoxFit.cover,
+                        top: -55,
+                        child: ShaderMask(
+                          shaderCallback: (Rect bounds) {
+                            return LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: [
+                                Colors.transparent,
+                                Colors.white,
+                              ],
+                              stops: [0.2, 1],
+                            ).createShader(bounds);
+                          },
+                          blendMode: BlendMode.dstIn,
+                          child: Image.asset(
+                            'Assets/Images/home/saudi_male_template.png',
+                            width: 230.w,
+                            height: 300.h,
+                            fit: BoxFit.contain,
+                          ),
                         ),
                       ),
                     ],
@@ -332,7 +369,6 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-
 
                 // Recommended Activities Section
                 Padding(

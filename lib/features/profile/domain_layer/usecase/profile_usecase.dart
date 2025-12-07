@@ -1,14 +1,24 @@
+import 'dart:async';
 import 'dart:typed_data';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import '../entity/profile_entity.dart';
 import '../repository/profile_repository.dart';
 
-@injectable
+@singleton
 class ProfileUsecase {
   final ProfileRepository _repository;
+  final _profileUpdateController = StreamController<void>.broadcast();
 
   ProfileUsecase(this._repository);
+
+  Stream<void> get profileUpdateStream => _profileUpdateController.stream;
+
+  void notifyProfileUpdated() {
+    if (!_profileUpdateController.isClosed) {
+      _profileUpdateController.add(null);
+    }
+  }
 
   // Get current user's profile
   Future<Either<String, ProfileEntity>> getProfile() async {
