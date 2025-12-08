@@ -1,5 +1,7 @@
-import 'package:final_project/features/AI_Chatbot/presentation_layer/pages/chatbot_screen.dart';
 import 'package:final_project/features/ai_image_analysis/presentation_layer/pages/ai_image_analysis_screen.dart';
+import 'package:final_project/features/ai_trip_planner/domain_layer/usecase/ai_trip_usecase.dart';
+import 'package:final_project/features/ai_trip_planner/presentation_layer/bloc/ai_trip_planner_bloc.dart';
+import 'package:final_project/features/ai_trip_planner/presentation_layer/page/ai_trip_planner_screen.dart';
 import 'package:final_project/features/authentication/domain_layer/usecase/authentication_usecase.dart';
 import 'package:final_project/features/authentication/presentation_layer/bloc/authentication_bloc.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/authentication_landing_screen.dart';
@@ -73,13 +75,19 @@ class AppRoutes {
   }
 
   static final GoRouter appRouter = GoRouter(
-    initialLocation: AppRoutes.onboardingScreen,
+    initialLocation: getInitialRoute(),
     /* GetIt.I.get<SupabaseClient>().auth.currentSession != null ? '/navigation_screen'
         : '/sign-in',*/
     routes: [
       GoRoute(
         path: AppRoutes.chatScreen,
-        builder: (context, state) => ChatScreen(),
+        builder: (context, state) {
+          return BlocProvider<TripPlannerBloc>(
+            create: (context) =>
+                TripPlannerBloc(GetIt.I.get<GenerateTripUseCase>()),
+            child: const ChatScreen(),
+          );
+        },
       ),
 
       GoRoute(
@@ -183,7 +191,6 @@ class AppRoutes {
         builder: (context, state) => CurrencyScreen(),
       ),
 
-
       GoRoute(
         path: AppRoutes.navigationScreen,
         builder: (context, state) => BlocProvider(
@@ -200,6 +207,7 @@ class AppRoutes {
         ),
       ),
     ],
-    errorBuilder: (context, state) => ErrorPageFeatureScreen(), // Temporary Page, you can edit it to follow the flow
+    errorBuilder: (context, state) =>
+        ErrorPageFeatureScreen(), // Temporary Page, you can edit it to follow the flow
   );
 }
