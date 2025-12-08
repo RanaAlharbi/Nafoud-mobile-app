@@ -10,7 +10,7 @@ class CurrencyExchangeWidget extends StatelessWidget {
 
   String _formatNumber(double number) {
     // Split number into integer and decimal parts
-    final parts = number.toStringAsFixed(4).split('.');
+    final parts = number.toStringAsFixed(2).split('.');
     final integerPart = parts[0];
     final decimalPart = parts[1];
 
