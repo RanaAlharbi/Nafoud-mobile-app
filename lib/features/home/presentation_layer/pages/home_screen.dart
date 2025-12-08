@@ -1,5 +1,7 @@
 import 'package:final_project/core/app_theme/app_colors/app_colors.dart';
+import 'package:final_project/core/routes/router.dart';
 import 'package:final_project/features/home/presentation_layer/widgets/build_quick_guide_item_widget.dart';
+import 'package:final_project/features/home/presentation_layer/widgets/discover_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:final_project/features/events/presentation_layer/cubit/event_cubit.dart';
@@ -11,6 +13,7 @@ import 'package:gap/gap.dart';
 import 'package:final_project/features/home/presentation_layer/cubit/home_user_info_cubit.dart';
 import 'package:final_project/features/profile/domain_layer/usecase/profile_usecase.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -291,27 +294,37 @@ class HomeScreen extends StatelessWidget {
                         BuildQuickGuideItemWidget(
                           svgPath: './Assets/icons/Tram.svg',
                           label: 'Transport',
-                          onTap: () {},
+                          onTap: () {
+                            context.push(AppRoutes.transportScreen);
+                          },
                         ),
                         BuildQuickGuideItemWidget(
                           svgPath: './Assets/icons/SimCard.svg',
                           label: 'SIM Card',
-                          onTap: () {},
+                          onTap: () {
+                            context.push(AppRoutes.simCardScreen);
+                          },
                         ),
                         BuildQuickGuideItemWidget(
                           svgPath: './Assets/icons/Emergency.svg',
                           label: 'Emergency',
-                          onTap: () {},
+                          onTap: () {
+                            context.push(AppRoutes.emergencyScreen);
+                          },
                         ),
                         BuildQuickGuideItemWidget(
                           svgPath: './Assets/icons/Cloud.svg',
                           label: 'Weather',
-                          onTap: () {},
+                          onTap: () {
+                            context.push(AppRoutes.weatherScreen);
+                          },
                         ),
                         BuildQuickGuideItemWidget(
                           svgPath: './Assets/icons/Currency.svg',
                           label: 'Currency',
-                          onTap: () {},
+                          onTap: () {
+                            context.push(AppRoutes.currencyScreen);
+                          },
                         ),
                       ],
                     ),
@@ -321,54 +334,7 @@ class HomeScreen extends StatelessWidget {
                 Gap(24.h),
 
                 // Discover All Destinations Dropdown
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Discover  ',
-                        style: TextStyle(
-                          fontSize: 25.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                      DropdownButton<String>(
-                        value: 'All Destinations',
-                        underline: SizedBox(),
-                        icon: Icon(Icons.keyboard_arrow_down),
-                        iconEnabledColor: AppColors.primaryColor,
-                        style: TextStyle(
-                          fontSize: 25.sp,
-                          color: AppColors.primaryColor,
-                        ),
-                        items: [
-                          DropdownMenuItem(
-                            value: 'All Destinations',
-                            child: Text('All Destinations'),
-                          ),
-                          DropdownMenuItem(
-                            value: 'Riyadh',
-                            child: Text('Riyadh'),
-                          ),
-                          DropdownMenuItem(
-                            value: 'Jeddah',
-                            child: Text('Jeddah'),
-                          ),
-                          DropdownMenuItem(
-                            value: 'Dammam',
-                            child: Text('Dammam'),
-                          ),
-                          DropdownMenuItem(
-                            value: 'Medina',
-                            child: Text('Medina'),
-                          ),
-                        ],
-                        onChanged: (value) {},
-                      ),
-                    ],
-                  ),
-                ),
+                DiscoverWidget(),
 
                 // Recommended Activities Section
                 Padding(
@@ -382,7 +348,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                       TextButton(
                         onPressed: () {
-                          // TODO
+                          context.push(AppRoutes.allActivitiesScreen);
                         },
                         child: Text(
                           'View All',
@@ -392,8 +358,6 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-
-                Gap(8.h),
               ],
             ),
           ),

@@ -6,9 +6,14 @@ import 'package:final_project/features/authentication/presentation_layer/pages/a
 import 'package:final_project/features/authentication/presentation_layer/pages/sign_in_screen.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/sign_up_screen.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/otp_screen.dart';
-import 'package:final_project/features/gathering/presentation/cubit/gathering_cubit.dart';
-import 'package:final_project/features/gathering/presentation/pages/add_events.dart';
+import 'package:final_project/features/error_page/presentation/pages/error_page_feature_screen.dart';
+import 'package:final_project/features/home/presentation_layer/pages/all_activities_screen.dart';
+import 'package:final_project/features/home/presentation_layer/pages/currency_screen.dart';
+import 'package:final_project/features/home/presentation_layer/pages/emergency_screen.dart';
 import 'package:final_project/features/home/presentation_layer/pages/home_screen.dart';
+import 'package:final_project/features/home/presentation_layer/pages/sim_card_screen.dart';
+import 'package:final_project/features/home/presentation_layer/pages/transport_screen.dart';
+import 'package:final_project/features/home/presentation_layer/pages/weather_screen.dart';
 import 'package:final_project/features/navigation/presentation_layer/cubit/navigation_cubit.dart';
 import 'package:final_project/features/navigation/presentation_layer/pages/navigation.dart';
 import 'package:final_project/features/onbording/presentation/cubit/onbording_cubit.dart';
@@ -28,7 +33,15 @@ class AppRoutes {
   static const signUpScreen = '/sign-up';
   static const forgotPasswordScreen = '/forgot-password';
   static const otpScreen = '/otp-password';
+
+  // Home & Home Related things
   static const homeScreen = '/home';
+  static const allActivitiesScreen = '/all-activities';
+  static const emergencyScreen = '/emergency';
+  static const transportScreen = '/transport';
+  static const simCardScreen = '/sim-card';
+  static const weatherScreen = '/weather';
+  static const currencyScreen = '/currency';
 
   //profile
   static const profileScreen = '/profile-screen';
@@ -121,6 +134,7 @@ class AppRoutes {
         },
       ),
 
+      // Profile & Edit Profile
       GoRoute(
         path: AppRoutes.profileScreen,
         builder: (context, state) => ProfileScreen(),
@@ -135,10 +149,42 @@ class AppRoutes {
         builder: (context, state) => AIImageAnalysisScreen(),
       ),
 
+      // Home & Home Related things (Transport, SIM Card, Emergency, Weather, and Currency)
       GoRoute(
         path: AppRoutes.homeScreen,
         builder: (context, state) => HomeScreen(),
       ),
+
+      GoRoute(
+        path: AppRoutes.allActivitiesScreen,
+        builder: (context, state) => AllActivitiesScreen(),
+      ),
+
+      GoRoute(
+        path: AppRoutes.emergencyScreen,
+        builder: (context, state) => EmergencyScreen(),
+      ),
+
+      GoRoute(
+        path: AppRoutes.transportScreen,
+        builder: (context, state) => TransportScreen(),
+      ),
+
+      GoRoute(
+        path: AppRoutes.simCardScreen,
+        builder: (context, state) => SimCardScreen(),
+      ),
+
+      GoRoute(
+        path: AppRoutes.weatherScreen,
+        builder: (context, state) => WeatherScreen(),
+      ),
+
+      GoRoute(
+        path: AppRoutes.currencyScreen,
+        builder: (context, state) => CurrencyScreen(),
+      ),
+
 
       GoRoute(
         path: AppRoutes.navigationScreen,
@@ -164,6 +210,6 @@ class AppRoutes {
         ),
       ),
     ],
-    errorBuilder: (context, state) => HomeScreen(), //fix here
+    errorBuilder: (context, state) => ErrorPageFeatureScreen(), // Temporary Page, you can edit it to follow the flow
   );
 }
