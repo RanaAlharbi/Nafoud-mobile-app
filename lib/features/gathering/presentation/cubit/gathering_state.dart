@@ -11,14 +11,26 @@ class GatheringInitial extends GatheringState {}
 
 class GatheringLoading extends GatheringState {}
 
-class GatheringLoaded extends GatheringState {
-  final List events;
+class GatheringLoadingWithCategory extends GatheringState {
+  final String selectedCategory;
 
-  const GatheringLoaded(this.events);
+  const GatheringLoadingWithCategory(this.selectedCategory);
 
   @override
-  List<Object?> get props => [events];
+  List<Object?> get props => [selectedCategory];
 }
+
+
+class GatheringLoaded extends GatheringState {
+  final List events;
+  final String selectedCategory;
+
+  const GatheringLoaded(this.events, {this.selectedCategory = 'All'});
+
+  @override
+  List<Object?> get props => [events, selectedCategory];
+}
+
 
 class GatheringError extends GatheringState {
   final String message;

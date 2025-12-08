@@ -18,9 +18,6 @@ class GatheringRemoteDataSource implements BaseGatheringRemoteDataSource {
 
   GatheringRemoteDataSource(this._supabase);
 
-
-
-
 //overide methods 
   @override
   Future<Result<void, String>> createUserEvent(GatheringModel event) async {

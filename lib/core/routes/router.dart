@@ -6,6 +6,8 @@ import 'package:final_project/features/authentication/presentation_layer/pages/a
 import 'package:final_project/features/authentication/presentation_layer/pages/sign_in_screen.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/sign_up_screen.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/otp_screen.dart';
+import 'package:final_project/features/gathering/presentation/cubit/gathering_cubit.dart';
+import 'package:final_project/features/gathering/presentation/pages/add_events.dart';
 import 'package:final_project/features/home/presentation_layer/pages/home_screen.dart';
 import 'package:final_project/features/navigation/presentation_layer/cubit/navigation_cubit.dart';
 import 'package:final_project/features/navigation/presentation_layer/pages/navigation.dart';
@@ -45,6 +47,8 @@ class AppRoutes {
 
   static const onboardingScreen = '/onboarding_screen';
 
+  static const addEventScreen = '/add-event';
+
   static String getInitialRoute() {
     final session = GetIt.I.get<SupabaseClient>().auth.currentSession;
     final box = GetIt.I.get<GetStorage>();
@@ -58,7 +62,7 @@ class AppRoutes {
   }
 
   static final GoRouter appRouter = GoRouter(
-    initialLocation: AppRoutes.onboardingScreen,
+    initialLocation: AppRoutes.authenticationLandingScreen,
     /* GetIt.I.get<SupabaseClient>().auth.currentSession != null ? '/navigation_screen'
         : '/sign-in',*/
     routes: [
@@ -149,6 +153,14 @@ class AppRoutes {
         builder: (context, state) => BlocProvider(
           create: (_) => OnboardingCubit(),
           child: const OnboardingScreen(),
+        ),
+      ),
+
+      GoRoute(
+        path: AppRoutes.addEventScreen,
+        builder: (context, state) => BlocProvider.value(
+          value: GetIt.I.get<GatheringCubit>(),
+          child: const AddEventScreen(),
         ),
       ),
     ],

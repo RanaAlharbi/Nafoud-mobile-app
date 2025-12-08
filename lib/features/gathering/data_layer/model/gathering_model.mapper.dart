@@ -21,7 +21,7 @@ class GatheringModelMapper extends ClassMapperBase<GatheringModel> {
   @override
   final String id = 'GatheringModel';
 
-  static String? _$id(GatheringModel v) => v.id;
+  static String _$id(GatheringModel v) => v.id;
   static const Field<GatheringModel, String> _f$id = Field('id', _$id);
   static String _$userId(GatheringModel v) => v.userId;
   static const Field<GatheringModel, String> _f$userId = Field(
@@ -172,7 +172,7 @@ class _GatheringModelCopyWithImpl<$R, $Out>
       GatheringModelMapper.ensureInitialized();
   @override
   $R call({
-    Object? id = $none,
+    String? id,
     String? userId,
     String? title,
     String? description,
@@ -183,7 +183,7 @@ class _GatheringModelCopyWithImpl<$R, $Out>
     String? category,
   }) => $apply(
     FieldCopyWithData({
-      if (id != $none) #id: id,
+      if (id != null) #id: id,
       if (userId != null) #userId: userId,
       if (title != null) #title: title,
       if (description != null) #description: description,

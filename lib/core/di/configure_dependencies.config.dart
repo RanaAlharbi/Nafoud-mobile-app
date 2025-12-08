@@ -16,14 +16,12 @@ import 'package:google_generative_ai/google_generative_ai.dart' as _i656;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:supabase_flutter/supabase_flutter.dart' as _i454;
 
-import '../../features/AI_Chatbot/data_layer/datasource/chatbot_datasource.dart'
-    as _i504;
-import '../../features/AI_Chatbot/data_layer/repository/chatbot_repository_data.dart'
-    as _i181;
-import '../../features/AI_Chatbot/domain_layer/repository/chatbot_repository_domain.dart'
-    as _i351;
-import '../../features/AI_Chatbot/domain_layer/usecase/chatbot_usecase.dart'
-    as _i274;
+import '../../features/ai_chatbot/data_layer/datasource/chatbot_datasource.dart'
+    as _i482;
+import '../../features/ai_chatbot/data_layer/repository/chatbot_repository_data.dart'
+    as _i545;
+import '../../features/ai_chatbot/domain_layer/usecase/chatbot_usecase.dart'
+    as _i865;
 import '../../features/ai_image_analysis/data_layer/datasource/ai_image_analysis_datasource.dart'
     as _i11;
 import '../../features/ai_image_analysis/data_layer/datasource/ai_local_storage_datasource.dart'

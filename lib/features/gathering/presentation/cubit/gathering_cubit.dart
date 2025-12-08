@@ -22,22 +22,26 @@ class GatheringCubit extends Cubit<GatheringState> {
     this.deleteGatheringUseCase,
   ) : super(GatheringInitial());
 
-
-
-//to get all events in user_events table 
-  Future<void> fetchEvents({String category = 'All'}) async {
-    emit(GatheringLoading());
-    final result = await gatheringUsecase.call();
-    result.when(
-      (events) {
-        final filtered = category == 'All'
-            ? events
-            : events.where((e) => e.category == category).toList();
-        emit(GatheringLoaded(filtered));
-      },
-      (error) => emit(GatheringError(error)),
-    );
+Future<void> fetchEvents({String category = 'All'}) async {
+  // إذا كنا في حالة Loaded احتفظ بالفئة الحالية وأظهر Loading
+  if (state is GatheringLoaded) {
+    final currentState = state as GatheringLoaded;
+    emit(GatheringLoadingWithCategory(currentState.selectedCategory));
+  } else {
+    emit(GatheringLoadingWithCategory(category));
   }
+
+  final result = await gatheringUsecase.call();
+  result.when(
+    (events) {
+      final filtered = category == 'All'
+          ? events
+          : events.where((e) => e.category == category).toList();
+      emit(GatheringLoaded(filtered, selectedCategory: category));
+    },
+    (error) => emit(GatheringError(error)),
+  );
+}
 
 //to add events 
   Future<void> addEvent(GatheringModel event) async {
