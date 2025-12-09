@@ -12,15 +12,22 @@ import 'chip_group.dart';
 
 class Step1TripInformation extends StatelessWidget {
   final TripEntity prefs;
-  final String Function(TravelerType?) travelerTypeToUiString;
-  final TravelerType Function(String) uiStringToTravelerType;
 
   const Step1TripInformation({
     super.key,
     required this.prefs,
-    required this.travelerTypeToUiString,
-    required this.uiStringToTravelerType,
   });
+  String _travelerTypeToUiString(TravelerType? type) {
+    if (type == null) return '';
+    return type.name[0].toUpperCase() + type.name.substring(1);
+  }
+
+  TravelerType _uiStringToTravelerType(String uiString) {
+    return TravelerType.values.firstWhere(
+      (e) => e.name.toLowerCase() == uiString.toLowerCase(),
+      orElse: () => TravelerType.solo,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +49,9 @@ class Step1TripInformation extends StatelessWidget {
         const CustomLabel("Who's Going?"),
         ChipGroup(
           options: const ["Solo", "Partner", "Family", "Friends"],
-          selectedItem: travelerTypeToUiString(prefs.travelerType),
+          selectedItem: _travelerTypeToUiString(prefs.travelerType),
           onSelect: (val) {
-            final type = uiStringToTravelerType(val);
+            final type = _uiStringToTravelerType(val);
             bloc.add(TripPreferencesUpdated(prefs.copy(travelerType: type)));
           },
         ),
@@ -119,9 +126,7 @@ class Step1TripInformation extends StatelessWidget {
                       ? "Select your travel dates"
                       : "${DateFormat('MMM dd').format(prefs.dateRange!.start)} - ${DateFormat('MMM dd').format(prefs.dateRange!.end)}",
                   style: GoogleFonts.cairo(
-                    color: prefs.dateRange == null
-                        ? Colors.grey
-                        : Colors.black87,
+                    color: prefs.dateRange == null ? Colors.grey : Colors.black87,
                   ),
                 ),
                 const Icon(

@@ -24,7 +24,6 @@ class TripPlannerBloc extends Bloc<TripPlannerEvent, TripPlannerState> {
     TripPlanSubmitted event,
     Emitter<TripPlannerState> emit,
   ) async {
-    // 1. Enter Loading state
     emit(state.copyWith(status: TripStatus.loading));
 
     try {

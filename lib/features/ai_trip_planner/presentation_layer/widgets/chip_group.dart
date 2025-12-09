@@ -24,9 +24,8 @@ class ChipGroup extends StatelessWidget {
       spacing: 8.w,
       runSpacing: 10.h,
       children: options.map((opt) {
-        bool isSelected = isMulti
-            ? (selectedItems?.contains(opt) ?? false)
-            : selectedItem == opt;
+        bool isSelected =
+            isMulti ? (selectedItems?.contains(opt) ?? false) : selectedItem == opt;
 
         return GestureDetector(
           onTap: () => onSelect(opt),
@@ -37,9 +36,7 @@ class ChipGroup extends StatelessWidget {
               color: Colors.white,
               borderRadius: BorderRadius.circular(12.r),
               border: Border.all(
-                color: isSelected
-                    ? const Color(0xFF656A53)
-                    : Colors.grey.shade300,
+                color: isSelected ? const Color(0xFF656A53) : Colors.grey.shade300,
                 width: 1.5,
               ),
             ),
