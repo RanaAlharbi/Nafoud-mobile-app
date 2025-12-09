@@ -58,7 +58,9 @@ class ProfileScreen extends StatelessWidget {
           await cubit.uploadAvatar(bytes, fileName);
         }
       }
-    } catch (e) {}
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override
