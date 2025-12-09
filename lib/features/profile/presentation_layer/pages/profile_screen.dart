@@ -14,7 +14,6 @@ import '../widgets/profile_avatar_widget.dart';
 import '../widgets/profile_info_widget.dart';
 import '../widgets/profile_settings_card_widget.dart';
 import '../widgets/language_selector_widget.dart';
-import '../widgets/notification_selector_widget.dart';
 import '../widgets/theme_selector_widget.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -183,9 +182,9 @@ class ProfileScreen extends StatelessWidget {
                       ProfileSettingsCardWidget(
                         children: [
                           ListTile(
-                            leading: Icon(RemixIcons.profile_line),
+                            leading: Icon(RemixIcons.user_line),
                             title: Text("Personal Info"),
-                            trailing: Icon(Icons.chevron_right),
+                            trailing: Icon(Icons.arrow_forward_ios, size: 16),
                             onTap: () async {
                               await context.push(AppRoutes.editProfileScreen);
                               if (context.mounted) {
@@ -193,107 +192,188 @@ class ProfileScreen extends StatelessWidget {
                               }
                             },
                           ),
-                          NotificationSelectorWidget(),
-                          LanguageSelectorWidget(),
+                          ListTile(
+                            leading: Icon(RemixIcons.calendar_check_line),
+                            title: Text("My Activity"),
+                            trailing: Icon(Icons.arrow_forward_ios, size: 16),
+                            onTap: () {},
+                          ),
+                          ListTile(
+                            leading: Icon(RemixIcons.bookmark_line),
+                            title: Text("Bookmark"),
+                            trailing: Icon(Icons.arrow_forward_ios, size: 16),
+                            onTap: () {},
+                          ),
                         ],
                       ),
                       const Gap(20),
-                
-                      // The Second Card
+
+                      // Accessibility settings section
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Accessibility settings",
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const Gap(12),
+
+                      // The Second Card - Accessibility
                       ProfileSettingsCardWidget(
                         children: [
+                          LanguageSelectorWidget(),
                           ThemeSelectorWidget(),
                           ListTile(
-                            leading: Icon(RemixIcons.chat_quote_line),
-                            title: Text("Contact us"),
-                            trailing: Icon(Icons.chevron_right),
-                          ),
-                          ListTile(
-                            leading: Icon(RemixIcons.lock_2_line),
-                            title: Text("Privacy policy"),
-                            trailing: Icon(Icons.chevron_right),
-                          ),
-                          ListTile(
-                            leading: Icon(RemixIcons.logout_box_r_line),
-                            title: Text("Sign Out"),
-                            trailing: Icon(Icons.chevron_right),
-                            onTap: () async {
-                              final shouldSignOut = await showDialog<bool>(
-                                context: context,
-                                builder: (dialogContext) => AlertDialog(
-                                  title: Text('Sign Out'),
-                                  content: Text(
-                                    'Are you sure you want to sign out?',
+                            leading: Icon(RemixIcons.font_size_2),
+                            title: Text("font size"),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                                  decoration: BoxDecoration(
+                                    color: const Color.fromARGB(255, 204, 204, 204),
+                                    borderRadius: BorderRadius.circular(4.r),
                                   ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.pop(dialogContext, false),
-                                      child: Text('Cancel'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.pop(dialogContext, true),
-                                      child: Text(
-                                        'Sign Out',
-                                        style: TextStyle(color: Colors.red),
-                                      ),
-                                    ),
-                                  ],
+                                  child: Text("Aa", style: TextStyle(fontSize: 12.sp)),
                                 ),
-                              );
-                
-                              if (shouldSignOut == true && context.mounted) {
-                                context.read<ProfileCubit>().signOut();
-                              }
-                            },
-                          ),
-                          ListTile(
-                            leading: Icon(
-                              RemixIcons.delete_bin_7_fill,
-                              color: Colors.red,
-                            ),
-                            title: Text(
-                              "Delete Account",
-                              style: TextStyle(color: Colors.red),
-                            ),
-                            trailing: Icon(
-                              Icons.chevron_right,
-                              color: Colors.red,
-                            ),
-                            onTap: () async {
-                              final shouldDelete = await showDialog<bool>(
-                                context: context,
-                                builder: (dialogContext) => AlertDialog(
-                                  title: Text('Delete Account'),
-                                  content: Text(
-                                    'Are you sure you want to delete your account?',
+                                Gap(4.w),
+                                Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                                  decoration: BoxDecoration(
+                                    color: const Color.fromARGB(255, 204, 204, 204),
+                                    borderRadius: BorderRadius.circular(4.r),
                                   ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.pop(dialogContext, false),
-                                      child: Text('Cancel'),
-                                    ),
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.pop(dialogContext, true),
-                                      child: Text(
-                                        'Delete Account',
-                                        style: TextStyle(color: Colors.red),
-                                      ),
-                                    ),
-                                  ],
+                                  child: Text("Aa", style: TextStyle(fontSize: 14.sp)),
                                 ),
-                              );
-                
-                              if (shouldDelete == true && context.mounted) {
-                                context.read<ProfileCubit>().deleteAccount();
-                                await context.push(AppRoutes.signInScreen);
-                              }
-                            },
+                                Gap(4.w),
+                                Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                                  decoration: BoxDecoration(
+                                    color: const Color.fromARGB(255, 204, 204, 204),
+                                    borderRadius: BorderRadius.circular(4.r),
+                                  ),
+                                  child: Text("Aa", style: TextStyle(fontSize: 16.sp)),
+                                ),
+                              ],
+                            ),
+                            onTap: () {},
                           ),
                         ],
+                      ),
+                      const Gap(20),
+
+                      /// Old Delete Logic, DO NOT DELETE IT. the logic was hard.
+                      /// We gonna remove it later on when UI/UX team choose to finish edit_profile_screen.dart
+                      // ProfileSettingsCardWidget(
+                      //   children: [
+                      //     ListTile(
+                      //       leading: Icon(
+                      //         RemixIcons.delete_bin_7_fill,
+                      //         color: Colors.red,
+                      //       ),
+                      //       title: Text(
+                      //         "Delete Account",
+                      //         style: TextStyle(color: Colors.red),
+                      //       ),
+                      //       trailing: Icon(
+                      //         Icons.arrow_forward_ios,
+                      //         color: Colors.red,
+                      //         size: 16,
+                      //       ),
+                      //       onTap: () async {
+                      //         final shouldDelete = await showDialog<bool>(
+                      //           context: context,
+                      //           builder: (dialogContext) => AlertDialog(
+                      //             title: Text('Delete Account'),
+                      //             content: Text(
+                      //               'Are you sure you want to delete your account?',
+                      //             ),
+                      //             actions: [
+                      //               TextButton(
+                      //                 onPressed: () =>
+                      //                     Navigator.pop(dialogContext, false),
+                      //                 child: Text('Cancel'),
+                      //               ),
+                      //               TextButton(
+                      //                 onPressed: () =>
+                      //                     Navigator.pop(dialogContext, true),
+                      //                 child: Text(
+                      //                   'Delete Account',
+                      //                   style: TextStyle(color: Colors.red),
+                      //                 ),
+                      //               ),
+                      //             ],
+                      //           ),
+                      //         );
+
+                      //         if (shouldDelete == true && context.mounted) {
+                      //           context.read<ProfileCubit>().deleteAccount();
+                      //           await context.push(AppRoutes.signInScreen);
+                      //         }
+                      //       },
+                      //     ),
+                      //   ],
+                      // ),
+                      // const Gap(20),
+
+                      // Logout Button
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: OutlinedButton(
+                          onPressed: () async {
+                            final shouldSignOut = await showDialog<bool>(
+                              context: context,
+                              builder: (dialogContext) => AlertDialog(
+                                title: Text('Sign Out'),
+                                content: Text(
+                                  'Are you sure you want to sign out?',
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(dialogContext, false),
+                                    child: Text('Cancel'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(dialogContext, true),
+                                    child: Text(
+                                      'Sign Out',
+                                      style: TextStyle(color: Colors.red),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+
+                            if (shouldSignOut == true && context.mounted) {
+                              context.read<ProfileCubit>().signOut();
+                            }
+                          },
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: Colors.red,
+                            side: BorderSide(color: Colors.red, width: 1),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.r),
+                            ),
+                            padding: EdgeInsets.symmetric(vertical: 12.h),
+                            minimumSize: Size(double.infinity, 48.h),
+                          ),
+                          child: Text(
+                            'Logout',
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
                       ),
                       const Gap(20),
                     ],
