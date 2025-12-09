@@ -19,7 +19,7 @@ class AuthenticationLandingScreen extends StatelessWidget {
             bottom: 0,
             right: 0,
             child: SvgPicture.asset(
-              'Assets/authentication/BackgroundLetters.svg',
+              'assets/authentication/BackgroundLetters.svg',
               width: 419.w,
               height: 774.h,
               fit: BoxFit.contain,
@@ -33,7 +33,7 @@ class AuthenticationLandingScreen extends StatelessWidget {
                 children: [
                   115.verticalSpace,
                   SvgPicture.asset(
-                    'Assets/logo/NafoudLogo.svg',
+                    'assets/logo/NafoudLogo.svg',
                     width: 267.87.w,
                     height: 273.h,
                   ),

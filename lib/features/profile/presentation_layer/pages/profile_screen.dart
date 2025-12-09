@@ -184,7 +184,7 @@ class ProfileScreen extends StatelessWidget {
                         children: [
                           ListTile(
                             leading: Icon(RemixIcons.profile_line),
-                            title: Text("Edit Profile Information"),
+                            title: Text("Personal Info"),
                             trailing: Icon(Icons.chevron_right),
                             onTap: () async {
                               await context.push(AppRoutes.editProfileScreen);

@@ -127,7 +127,7 @@ class HomeScreen extends StatelessWidget {
                               IconButton(
                                 onPressed: () {},
                                 icon: SvgPicture.asset(
-                                  "./Assets/icons/Bell.svg",
+                                  "./assets/icons/Bell.svg",
                                 ),
                               ),
                             ],
@@ -260,7 +260,7 @@ class HomeScreen extends StatelessWidget {
                           },
                           blendMode: BlendMode.dstIn,
                           child: Image.asset(
-                            'Assets/Images/home/saudi_male_template.png',
+                            'assets/Images/home/saudi_male_template.png',
                             width: 230.w,
                             height: 300.h,
                             fit: BoxFit.contain,
@@ -292,35 +292,35 @@ class HomeScreen extends StatelessWidget {
                     child: Row(
                       children: [
                         BuildQuickGuideItemWidget(
-                          svgPath: './Assets/icons/Tram.svg',
+                          svgPath: './assets/icons/Tram.svg',
                           label: 'Transport',
                           onTap: () {
                             context.push(AppRoutes.transportScreen);
                           },
                         ),
                         BuildQuickGuideItemWidget(
-                          svgPath: './Assets/icons/SimCard.svg',
+                          svgPath: './assets/icons/SimCard.svg',
                           label: 'SIM Card',
                           onTap: () {
                             context.push(AppRoutes.simCardScreen);
                           },
                         ),
                         BuildQuickGuideItemWidget(
-                          svgPath: './Assets/icons/Emergency.svg',
+                          svgPath: './assets/icons/Emergency.svg',
                           label: 'Emergency',
                           onTap: () {
                             context.push(AppRoutes.emergencyScreen);
                           },
                         ),
                         BuildQuickGuideItemWidget(
-                          svgPath: './Assets/icons/Cloud.svg',
+                          svgPath: './assets/icons/Cloud.svg',
                           label: 'Weather',
                           onTap: () {
                             context.push(AppRoutes.weatherScreen);
                           },
                         ),
                         BuildQuickGuideItemWidget(
-                          svgPath: './Assets/icons/Currency.svg',
+                          svgPath: './assets/icons/Currency.svg',
                           label: 'Currency',
                           onTap: () {
                             context.push(AppRoutes.currencyScreen);

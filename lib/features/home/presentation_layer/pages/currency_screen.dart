@@ -18,7 +18,7 @@ class CurrencyScreen extends StatelessWidget {
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: SvgPicture.asset('Assets/icons/arrow_left.svg'),
+          icon: SvgPicture.asset('assets/icons/arrow_left.svg'),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),

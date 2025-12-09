@@ -21,7 +21,7 @@ void main() async {
   //       Locale('hi'),
   //       Locale('ur'),
   //     ],
-  //     path: 'Assets/translations',
+  //     path: 'assets/translations',
   //     fallbackLocale: const Locale('en'),
   //     child: const MyApp(),
   //   ),

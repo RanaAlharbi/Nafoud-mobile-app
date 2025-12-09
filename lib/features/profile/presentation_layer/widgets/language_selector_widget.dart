@@ -15,7 +15,7 @@ class _LanguageSelectorWidgetState extends State<LanguageSelectorWidget> {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Icon(RemixIcons.translate_2),
-      title: Text("Language"),
+      title: Text("Bookmark"),
       trailing: PopupMenuButton<String>(
         offset: Offset(0, 8),
         child: Row(

@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             308.verticalSpace,
             SvgPicture.asset(
-              'Assets/splash/top.svg',
+              'assets/splash/top.svg',
             ).animate().slideY(begin: -1, end: 0, duration: 800.ms),
 
             // .rotate(
@@ -31,11 +31,11 @@ class _SplashScreenState extends State<SplashScreen> {
             // .scale(duration: 2.seconds, curve: Curves.easeInOut),
             39.31.verticalSpace,
             SvgPicture.asset(
-              'Assets/splash/middle.svg',
+              'assets/splash/middle.svg',
             ).animate().fadeIn(duration: 500.ms),
 
             SvgPicture.asset(
-              'Assets/splash/Vector 2.svg',
+              'assets/splash/Vector 2.svg',
             ).animate().slideY(begin: 1, end: 0, duration: 800.ms),
           ],
         ),

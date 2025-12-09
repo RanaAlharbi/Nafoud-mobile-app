@@ -35,7 +35,7 @@ class SignInScreen extends StatelessWidget {
                 bottom: 0,
                 right: 0,
                 child: SvgPicture.asset(
-                  'Assets/authentication/BackgroundLetters.svg',
+                  'assets/authentication/BackgroundLetters.svg',
                   width: 419.w,
                   height: 774.h,
                   fit: BoxFit.contain,
@@ -52,7 +52,7 @@ class SignInScreen extends StatelessWidget {
                         Align(
                           alignment: Alignment.topRight,
                           child: SvgPicture.asset(
-                            'Assets/logo/NafoudLogo.svg',
+                            'assets/logo/NafoudLogo.svg',
                             width: 67.87.w,
                             height: 69.17.h,
                           ),
@@ -115,7 +115,7 @@ class SignInScreen extends StatelessWidget {
                           suffix: Padding(
                             padding: EdgeInsets.only(right: 12.w),
                             child: SvgPicture.asset(
-                              'Assets/icons/envelope_icon.svg',
+                              'assets/icons/envelope_icon.svg',
                               width: 24.w,
                               height: 24.h,
                             ),
@@ -170,8 +170,8 @@ class SignInScreen extends StatelessWidget {
                                   },
                                   child: SvgPicture.asset(
                                     isObscured
-                                        ? 'Assets/icons/eye_icon.svg'
-                                        : 'Assets/icons/open_eye.svg',
+                                        ? 'assets/icons/eye_icon.svg'
+                                        : 'assets/icons/open_eye.svg',
                                     width: 24.w,
                                     height: 24.h,
                                   ),
@@ -196,7 +196,7 @@ class SignInScreen extends StatelessWidget {
                                     height: 20.h,
                                     child: isRemembered
                                         ? SvgPicture.asset(
-                                            'Assets/icons/filled_checkbox.svg',
+                                            'assets/icons/filled_checkbox.svg',
                                             fit: BoxFit.contain,
                                           )
                                         : Container(

@@ -90,7 +90,7 @@ class ChatScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      SvgPicture.asset('Assets/icons/location_icon.svg'),
+                      SvgPicture.asset('assets/icons/location_icon.svg'),
                       10.horizontalSpace,
                       Text(
                         "Plan My Trip",

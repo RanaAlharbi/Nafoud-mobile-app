@@ -15,7 +15,7 @@ class _NotificationSelectorWidgetState extends State<NotificationSelectorWidget>
   Widget build(BuildContext context) {
     return ListTile(
       leading: Icon(RemixIcons.notification_3_line),
-      title: Text("Notifications"),
+      title: Text("My Activity"),
       trailing: PopupMenuButton<String>(
         offset: Offset(0, 8),
         child: Row(

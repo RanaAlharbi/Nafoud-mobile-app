@@ -48,7 +48,7 @@ class AIImageAnalysisScreen extends StatelessWidget {
 
                     Row(
                       children: [
-                        SvgPicture.asset('Assets/icons/murshid_trip.svg'),
+                        SvgPicture.asset('assets/icons/murshid_trip.svg'),
                         const Gap(18),
                         Text(
                           'Identify The Image',
@@ -109,7 +109,7 @@ class AIImageAnalysisScreen extends StatelessWidget {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Image.asset('Assets/Images/Upload_image.png'),
+                                  Image.asset('assets/Images/Upload_image.png'),
                                   const Gap(32),
                                   Text("Take or Upload Your Image Here", 
                                   style: GoogleFonts.cairo(

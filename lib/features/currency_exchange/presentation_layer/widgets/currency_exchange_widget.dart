@@ -161,7 +161,7 @@ class CurrencyExchangeWidget extends StatelessWidget {
                                   color: Colors.black,
                                 ),
                                 icon: SvgPicture.asset(
-                                  'Assets/icons/down_arrow.svg',
+                                  'assets/icons/down_arrow.svg',
                                   width: 9.sp,
                                   height: 9.sp,
                                 ),
@@ -191,7 +191,7 @@ class CurrencyExchangeWidget extends StatelessWidget {
                 child: IconButton(
                   onPressed: state.toCurrency != null ? () => cubit.swapCurrencies() : null,
                   icon: SvgPicture.asset(
-                    'Assets/icons/Transfer.svg',
+                    'assets/icons/Transfer.svg',
                     width: 35.sp,
                     height: 35.sp,
                   ),
@@ -257,7 +257,7 @@ class CurrencyExchangeWidget extends StatelessWidget {
                                   color: Colors.black,
                                 ),
                                 icon: SvgPicture.asset(
-                                  'Assets/icons/down_arrow.svg',
+                                  'assets/icons/down_arrow.svg',
                                   width: 9.sp,
                                   height: 9.sp,
                                 ),

@@ -46,7 +46,7 @@ class OTPScreen extends StatelessWidget {
                 bottom: 0,
                 right: 0,
                 child: SvgPicture.asset(
-                  'Assets/authentication/BackgroundLetters.svg',
+                  'assets/authentication/BackgroundLetters.svg',
                   width: 419.w,
                   height: 774.h,
                   fit: BoxFit.contain,
@@ -63,7 +63,7 @@ class OTPScreen extends StatelessWidget {
                         Align(
                           alignment: Alignment.topRight,
                           child: SvgPicture.asset(
-                            'Assets/logo/NafoudLogo.svg',
+                            'assets/logo/NafoudLogo.svg',
                             width: 67.87.w,
                             height: 69.17.h,
                           ),

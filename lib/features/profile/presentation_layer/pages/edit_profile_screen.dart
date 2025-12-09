@@ -26,7 +26,7 @@ class EditProfileScreen extends StatelessWidget {
   // Load country codes from asset
   Future<List<CountryCodeEntity>> _loadCountryCodesFromAsset() async {
     final String response = await rootBundle.loadString(
-      'Assets/jsons/country_code.json',
+      'assets/jsons/country_code.json',
     );
     final List<dynamic> data = json.decode(response);
     return data.map((json) => CountryCodeEntity.fromJson(json)).toList();

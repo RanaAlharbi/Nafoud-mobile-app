@@ -128,7 +128,7 @@ class Step1TripInformation extends StatelessWidget {
                   ),
                 ),
                 SvgPicture.asset(
-                  'Assets/icons/calendar_icon.svg',
+                  'assets/icons/calendar_icon.svg',
                   height: 24.h,
                   width: 24.w,
                 ),
