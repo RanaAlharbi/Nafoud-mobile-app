@@ -185,7 +185,12 @@ class AppRoutes {
 
       GoRoute(
         path: AppRoutes.weatherScreen,
-        builder: (context, state) => WeatherScreen(),
+        builder: (context, state) {
+          return BlocProvider<WeatherCubit>(
+            create: (context) => GetIt.I.get<WeatherCubit>(),
+            child: const WeatherScreen(),
+          );
+        },
       ),
 
       GoRoute(

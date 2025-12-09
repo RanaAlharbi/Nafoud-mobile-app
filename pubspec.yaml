@@ -78,25 +78,18 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - .env
-    - assets/
-    - assets/icons/
-    - assets/images/transports/
     - assets/authentication/
     - assets/icons/    
     - assets/logo/
-    - assets/images/
-    - assets/images/home/
-    - assets/images/transports/careem.svg
-    - assets/images/home/saudi_male_template.png
-
-    - assets/images/Sign_In_Screen/
-    - assets/images/Sign_Up_Screen/
-    - assets/images/home/
+    - assets/Images/
+    - assets/Images/Sign_In_Screen/
+    - assets/Images/Sign_Up_Screen/
+    - assets/Images/home/
     - assets/translations/
-    - assets/images/onboarding/onboarding_1.png
     - assets/jsons/
-    - assets/images/onboarding/
-
+    - assets/Images/onboarding/onboarding_1.png
+    - assets/Images/onboarding/onboarding_2.png
+    - assets/Images/onboarding/onboarding_3.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
