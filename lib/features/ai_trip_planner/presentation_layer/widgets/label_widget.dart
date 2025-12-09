@@ -8,16 +8,19 @@ class CustomLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 8.h),
-      child: Text(
-        text,
-        style: GoogleFonts.cairo(
-          fontSize: 14.sp,
-          fontWeight: FontWeight.bold,
-          color: Colors.black87,
+    return Column(
+      children: [
+        Text(
+          text,
+          style: GoogleFonts.cairo(
+            fontSize: 18.sp,
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF3D4032),
+          ),
         ),
-      ),
+
+        4.verticalSpace,
+      ],
     );
   }
 }

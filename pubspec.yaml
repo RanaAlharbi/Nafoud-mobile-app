@@ -47,6 +47,7 @@ dependencies:
   flutter_timer_countdown: ^1.0.7
   jumping_dot: ^0.0.7
   dashed_border: ^1.0.2
+  flutter_animate: ^4.5.2
   
 
 dev_dependencies:
@@ -88,6 +89,7 @@ flutter:
     - Assets/Images/onboarding/onboarding_1.png
     - Assets/Images/onboarding/onboarding_2.png
     - Assets/Images/onboarding/onboarding_3.png
+    - Assets/splash/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
