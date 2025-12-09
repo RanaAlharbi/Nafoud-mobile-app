@@ -9,25 +9,19 @@ class CustomStepper extends StatelessWidget {
 
   Widget _dot(int index, int currentStep) {
     bool isActive = index <= currentStep;
-    final color = isActive ? const Color(0xFF656A53) : Colors.grey.shade300;
+    final color = isActive ? const Color(0xFF6C62A5) : Color(0xFFB6B6B6);
 
     return Container(
-      width: 24.w,
-      height: 24.w,
+      width: 22.w,
+      height: 22.w,
       decoration: BoxDecoration(shape: BoxShape.circle, color: color),
-      child: Center(
-        child: Text(
-          "${index + 1}",
-          style: TextStyle(color: Colors.white, fontSize: 12.sp),
-        ),
-      ),
     );
   }
 
   Widget _line(int index, int currentStep) {
     final color = index < currentStep
-        ? const Color(0xFF656A53)
-        : Colors.grey.shade300;
+        ? const Color(0xFF6C62A5)
+        : Color(0xFFB6B6B6);
 
     return Expanded(
       child: Container(height: 2.h, color: color),
@@ -35,20 +29,17 @@ class CustomStepper extends StatelessWidget {
   }
 
   Widget _stepText(String text, int index, int currentStep, TextAlign align) {
-    final color = index == currentStep ? const Color(0xFF656A53) : Colors.grey;
+    final color = index == currentStep
+        ? const Color(0xFF6C62A5)
+        : Color(0xFFB6B6B6);
 
-    return SizedBox(
-      width: 100.w,
-      child: Text(
-        text,
-        textAlign: align,
-        style: GoogleFonts.cairo(
-          fontSize: 11.sp,
-          color: color,
-          fontWeight: index == currentStep
-              ? FontWeight.bold
-              : FontWeight.normal,
-        ),
+    return Text(
+      text,
+      textAlign: align,
+      style: GoogleFonts.cairo(
+        fontSize: 18.sp,
+        color: color,
+        fontWeight: index == currentStep ? FontWeight.bold : FontWeight.normal,
       ),
     );
   }
@@ -66,7 +57,7 @@ class CustomStepper extends StatelessWidget {
             _dot(2, currentStep),
           ],
         ),
-        SizedBox(height: 8.h),
+        12.verticalSpace,
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

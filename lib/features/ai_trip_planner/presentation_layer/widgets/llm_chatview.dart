@@ -11,20 +11,6 @@ class LlmChatView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
-        title: Text(
-          "Murshid",
-          style: GoogleFonts.cairo(
-            fontWeight: FontWeight.bold,
-            color: const Color(0xFF3D4032),
-          ),
-        ),
-        leading: const Icon(Icons.arrow_back, color: Color(0xFF3D4032)),
-        actions: const [Icon(Icons.menu, color: Color(0xFF3D4032))],
-      ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: Column(
