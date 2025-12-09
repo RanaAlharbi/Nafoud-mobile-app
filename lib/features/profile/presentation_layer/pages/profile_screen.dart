@@ -1,3 +1,4 @@
+import 'package:final_project/core/app_theme/app_colors/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,7 +26,7 @@ class ProfileScreen extends StatelessWidget {
     final ImageSource? source = await showDialog<ImageSource>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: Text('Choose Image Source', style: TextStyle(fontSize: 23.h),),
+        title: Text('Choose Image Source', style: TextStyle(fontSize: 23.h)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -69,18 +70,16 @@ class ProfileScreen extends StatelessWidget {
       create: (context) =>
           ProfileCubit(GetIt.I.get<ProfileUsecase>())..loadProfile(),
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Color.fromRGBO(240, 240, 238, 1),
         extendBodyBehindAppBar: true,
 
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          elevation: 0,
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: Icon(RemixIcons.notification_3_line),
-            ),
-          ],
+          title: Text(
+            "Profile",
+            style: TextStyle(color: Color.fromRGBO(61, 64, 50, 1), fontWeight: .bold, fontSize: 25.h),
+          ),
+          centerTitle: true,
         ),
 
         body: BlocListener<ProfileCubit, ProfileState>(
@@ -90,10 +89,10 @@ class ProfileScreen extends StatelessWidget {
             }
           },
           child: BlocBuilder<ProfileCubit, ProfileState>(
-            buildWhen: (previous, current) => ( 
-              // (It's like saying "Don't rebuild for avatar-only changes")
-              current is! AvatarUploading && current is! AvatarUploaded
-            ),
+            buildWhen: (previous, current) =>
+                (
+                // (It's like saying "Don't rebuild for avatar-only changes")
+                current is! AvatarUploading && current is! AvatarUploaded),
             builder: (context, state) {
               if (state is ProfileLoading) {
                 return Center(child: CircularProgressIndicator());
@@ -142,168 +141,163 @@ class ProfileScreen extends StatelessWidget {
 
               final profile = state is ProfileLoaded ? state.profile : null;
 
-              return SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    // Add top padding for AppBar and safe area (for the design)
-                    Gap(kToolbarHeight + 40.h + ScreenUtil().statusBarHeight),
-
-                    // Avatar widget
-                    BlocBuilder<ProfileCubit, ProfileState>(
-                      buildWhen: (previous, current) {
-                        // Only rebuild when avatar changes
-                        return current is AvatarUploading ||
-                               current is AvatarUploaded ||
-                               current is ProfileLoaded;
-                      },
-                      builder: (context, avatarState) {
-                        final avatarUrl = avatarState is ProfileLoaded
-                            ? avatarState.profile.avatarUrl
-                            : (avatarState is AvatarUploaded
-                                ? avatarState.profile.avatarUrl
-                                : profile?.avatarUrl);
-
-                        return ProfileAvatarWidget(
-                          avatarUrl: avatarUrl,
-                          isUploading: avatarState is AvatarUploading,
-                          onEditTap: () => _pickAndUploadAvatar(context),
-                        );
-                      },
-                    ),
-
-                    const Gap(40),
-
-                    // Profile info
-                    ProfileInfoWidget(
-                      fullName: profile?.fullName,
-                      username: profile?.username,
-                      email: profile?.email,
-                      phoneNumber: profile != null
-                          ? (profile.phoneNumber?.isEmpty ?? true ? '' : profile.phoneNumber)
-                          : null,
-                    ),
-
-                    const Gap(20),
-
-                    // First Card
-                    ProfileSettingsCardWidget(
-                      children: [
-                        ListTile(
-                          leading: Icon(RemixIcons.profile_line),
-                          title: Text("Edit Profile Information"),
-                          trailing: Icon(Icons.chevron_right),
-                          onTap: () async {
-                            await context.push(AppRoutes.editProfileScreen);
-                            if (context.mounted) {
-                              context.read<ProfileCubit>().loadProfile();
-                            }
-                          },
-                        ),
-                        NotificationSelectorWidget(),
-                        LanguageSelectorWidget(),
-                      ],
-                    ),
-                    const Gap(20),
-
-                    // The Second Card
-                    ProfileSettingsCardWidget(
-                      children: [
-                        ThemeSelectorWidget(),
-                        ListTile(
-                          leading: Icon(RemixIcons.chat_quote_line),
-                          title: Text("Contact us"),
-                          trailing: Icon(Icons.chevron_right),
-                        ),
-                        ListTile(
-                          leading: Icon(RemixIcons.lock_2_line),
-                          title: Text("Privacy policy"),
-                          trailing: Icon(Icons.chevron_right),
-                        ),
-                        ListTile(
-                          leading: Icon(RemixIcons.logout_box_r_line),
-                          title: Text("Sign Out"),
-                          trailing: Icon(Icons.chevron_right),
-                          onTap: () async {
-                            final shouldSignOut = await showDialog<bool>(
-                              context: context,
-                              builder: (dialogContext) => AlertDialog(
-                                title: Text('Sign Out'),
-                                content: Text(
-                                  'Are you sure you want to sign out?',
-                                ),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () =>
-                                        Navigator.pop(dialogContext, false),
-                                    child: Text('Cancel'),
+              return SafeArea(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [          
+                      Gap(8.h),      
+                      // Avatar widget
+                      BlocBuilder<ProfileCubit, ProfileState>(
+                        buildWhen: (previous, current) {
+                          // Only rebuild when avatar changes
+                          return current is AvatarUploading ||
+                              current is AvatarUploaded ||
+                              current is ProfileLoaded;
+                        },
+                        builder: (context, avatarState) {
+                          final avatarUrl = avatarState is ProfileLoaded
+                              ? avatarState.profile.avatarUrl
+                              : (avatarState is AvatarUploaded
+                                    ? avatarState.profile.avatarUrl
+                                    : profile?.avatarUrl);
+                
+                          return ProfileAvatarWidget(
+                            avatarUrl: avatarUrl,
+                            isUploading: avatarState is AvatarUploading,
+                            onEditTap: () => _pickAndUploadAvatar(context),
+                          );
+                        },
+                      ),
+                
+                      const Gap(5),
+                
+                      // Profile info
+                      ProfileInfoWidget(
+                        fullName: profile?.fullName,
+                      ),
+                
+                      const Gap(20),
+                
+                      // First Card
+                      ProfileSettingsCardWidget(
+                        children: [
+                          ListTile(
+                            leading: Icon(RemixIcons.profile_line),
+                            title: Text("Edit Profile Information"),
+                            trailing: Icon(Icons.chevron_right),
+                            onTap: () async {
+                              await context.push(AppRoutes.editProfileScreen);
+                              if (context.mounted) {
+                                context.read<ProfileCubit>().loadProfile();
+                              }
+                            },
+                          ),
+                          NotificationSelectorWidget(),
+                          LanguageSelectorWidget(),
+                        ],
+                      ),
+                      const Gap(20),
+                
+                      // The Second Card
+                      ProfileSettingsCardWidget(
+                        children: [
+                          ThemeSelectorWidget(),
+                          ListTile(
+                            leading: Icon(RemixIcons.chat_quote_line),
+                            title: Text("Contact us"),
+                            trailing: Icon(Icons.chevron_right),
+                          ),
+                          ListTile(
+                            leading: Icon(RemixIcons.lock_2_line),
+                            title: Text("Privacy policy"),
+                            trailing: Icon(Icons.chevron_right),
+                          ),
+                          ListTile(
+                            leading: Icon(RemixIcons.logout_box_r_line),
+                            title: Text("Sign Out"),
+                            trailing: Icon(Icons.chevron_right),
+                            onTap: () async {
+                              final shouldSignOut = await showDialog<bool>(
+                                context: context,
+                                builder: (dialogContext) => AlertDialog(
+                                  title: Text('Sign Out'),
+                                  content: Text(
+                                    'Are you sure you want to sign out?',
                                   ),
-                                  TextButton(
-                                    onPressed: () =>
-                                        Navigator.pop(dialogContext, true),
-                                    child: Text(
-                                      'Sign Out',
-                                      style: TextStyle(color: Colors.red),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(dialogContext, false),
+                                      child: Text('Cancel'),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            );
-
-                            if (shouldSignOut == true && context.mounted) {
-                              context.read<ProfileCubit>().signOut();
-                            }
-                          },
-                        ),
-                        ListTile(
-                          leading: Icon(
-                            RemixIcons.delete_bin_7_fill,
-                            color: Colors.red,
-                          ),
-                          title: Text(
-                            "Delete Account",
-                            style: TextStyle(color: Colors.red),
-                          ),
-                          trailing: Icon(
-                            Icons.chevron_right,
-                            color: Colors.red,
-                          ),
-                          onTap: () async {
-                            final shouldDelete = await showDialog<bool>(
-                              context: context,
-                              builder: (dialogContext) => AlertDialog(
-                                title: Text('Delete Account'),
-                                content: Text(
-                                  'Are you sure you want to delete your account?',
-                                ),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () =>
-                                        Navigator.pop(dialogContext, false),
-                                    child: Text('Cancel'),
-                                  ),
-                                  TextButton(
-                                    onPressed: () =>
-                                        Navigator.pop(dialogContext, true),
-                                    child: Text(
-                                      'Delete Account',
-                                      style: TextStyle(color: Colors.red),
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(dialogContext, true),
+                                      child: Text(
+                                        'Sign Out',
+                                        style: TextStyle(color: Colors.red),
+                                      ),
                                     ),
+                                  ],
+                                ),
+                              );
+                
+                              if (shouldSignOut == true && context.mounted) {
+                                context.read<ProfileCubit>().signOut();
+                              }
+                            },
+                          ),
+                          ListTile(
+                            leading: Icon(
+                              RemixIcons.delete_bin_7_fill,
+                              color: Colors.red,
+                            ),
+                            title: Text(
+                              "Delete Account",
+                              style: TextStyle(color: Colors.red),
+                            ),
+                            trailing: Icon(
+                              Icons.chevron_right,
+                              color: Colors.red,
+                            ),
+                            onTap: () async {
+                              final shouldDelete = await showDialog<bool>(
+                                context: context,
+                                builder: (dialogContext) => AlertDialog(
+                                  title: Text('Delete Account'),
+                                  content: Text(
+                                    'Are you sure you want to delete your account?',
                                   ),
-                                ],
-                              ),
-                            );
-
-                            if (shouldDelete == true && context.mounted) {
-                              context.read<ProfileCubit>().deleteAccount();
-                              await context.push(AppRoutes.signInScreen);
-                            }
-                          },
-                        ),
-                      ],
-                    ),
-                    const Gap(20),
-                  ],
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(dialogContext, false),
+                                      child: Text('Cancel'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.pop(dialogContext, true),
+                                      child: Text(
+                                        'Delete Account',
+                                        style: TextStyle(color: Colors.red),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                
+                              if (shouldDelete == true && context.mounted) {
+                                context.read<ProfileCubit>().deleteAccount();
+                                await context.push(AppRoutes.signInScreen);
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                      const Gap(20),
+                    ],
+                  ),
                 ),
               );
             },
