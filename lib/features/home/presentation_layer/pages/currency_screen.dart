@@ -1,3 +1,4 @@
+import 'package:final_project/features/currency_exchange/presentation_layer/widgets/currency_exchange_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -24,7 +25,7 @@ class CurrencyScreen extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(16),
-          child: Column(children: []),
+          child: Column(children: [CurrencyExchangeWidget()]),
         ),
       ),
     );

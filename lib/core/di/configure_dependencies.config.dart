@@ -16,12 +16,6 @@ import 'package:google_generative_ai/google_generative_ai.dart' as _i656;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:supabase_flutter/supabase_flutter.dart' as _i454;
 
-import '../../features/ai_chatbot/data_layer/datasource/chatbot_datasource.dart'
-    as _i482;
-import '../../features/ai_chatbot/data_layer/repository/chatbot_repository_data.dart'
-    as _i545;
-import '../../features/ai_chatbot/domain_layer/usecase/chatbot_usecase.dart'
-    as _i865;
 import '../../features/ai_image_analysis/data_layer/datasource/ai_image_analysis_datasource.dart'
     as _i11;
 import '../../features/ai_image_analysis/data_layer/datasource/ai_local_storage_datasource.dart'
@@ -32,6 +26,14 @@ import '../../features/ai_image_analysis/domain_layer/repository/ai_image_analys
     as _i855;
 import '../../features/ai_image_analysis/domain_layer/usecase/ai_image_analysis_usecase.dart'
     as _i754;
+import '../../features/ai_trip_planner/data_layer/data_source/ai_trip_datasource.dart'
+    as _i39;
+import '../../features/ai_trip_planner/data_layer/repository/ai_trip_data_repository.dart'
+    as _i557;
+import '../../features/ai_trip_planner/domain_layer/repository/ai_trip_domain_repository.dart'
+    as _i106;
+import '../../features/ai_trip_planner/domain_layer/usecase/ai_trip_usecase.dart'
+    as _i1040;
 import '../../features/authentication/data_layer/datasource/authentication_datasource.dart'
     as _i517;
 import '../../features/authentication/data_layer/repository/authentication_repository.dart'
@@ -121,6 +123,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i158.ProfileCacheService>(
       () => _i158.ProfileCacheService(),
     );
+    gh.lazySingleton<_i39.TripDataSource>(() => _i39.TripRemoteDataSource());
     gh.lazySingleton<_i987.BaseEventsRemoteDatasource>(
       () => _i987.EventsRemoteDatasource(gh<_i454.SupabaseClient>()),
     );
@@ -136,9 +139,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i105.CurrencyCacheDatasource>(
       () => _i105.GetStorageCurrencyCacheDatasource(gh<_i792.GetStorage>()),
     );
-    // gh.lazySingleton<_i545.ChatbotRepositoryData>(
-    //   () => _i545.ChatbotRepositoryData(gh<InvalidType>()),
-    // );
     gh.lazySingleton<_i781.BaseErrorPageRemoteDataSource>(
       () => _i781.ErrorPageRemoteDataSource(),
     );
@@ -150,7 +150,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i971.BaseGatheringRemoteDataSource>(),
       ),
     );
-    gh.lazySingleton<_i482.ChatDataSource>(() => _i482.ChatRemoteDataSource());
     gh.lazySingleton<_i626.ErrorPageRepositoryDomain>(
       () => _i639.ErrorPageRepositoryData(
         gh<_i781.BaseErrorPageRemoteDataSource>(),
@@ -166,14 +165,14 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i157.BaseAiLocalStorageDataSource>(),
       ),
     );
-    // gh.lazySingleton<_i865.GetChatSessionUseCase>(
-    //   () => _i865.GetChatSessionUseCase(gh<InvalidType>()),
-    // );
     gh.lazySingleton<_i18.ProfileDatasource>(
       () => _i18.SupabaseProfileDatasource(
         gh<_i454.SupabaseClient>(),
         gh<_i158.ProfileCacheService>(),
       ),
+    );
+    gh.lazySingleton<_i106.TripDomainRepository>(
+      () => _i557.TripDataRepository(gh<_i39.TripDataSource>()),
     );
     gh.lazySingleton<_i998.ProfileRepository>(
       () => _i121.ProfileRepositoryImpl(gh<_i18.ProfileDatasource>()),
@@ -208,6 +207,9 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i11.AuthenticationUsecases(
         authRepo: gh<_i725.AuthenticationRepositoryDomain>(),
       ),
+    );
+    gh.lazySingleton<_i1040.GenerateTripUseCase>(
+      () => _i1040.GenerateTripUseCase(gh<_i106.TripDomainRepository>()),
     );
     gh.lazySingleton<_i752.ErrorPageUseCase>(
       () => _i752.ErrorPageUseCase(gh<_i626.ErrorPageRepositoryDomain>()),
