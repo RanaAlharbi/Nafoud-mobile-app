@@ -248,7 +248,7 @@ class CurrencyExchangeWidget extends StatelessWidget {
                             DropdownButtonHideUnderline(
                               child: DropdownButton<String>(
                                 value: state.toCurrency,
-                                hint: const Text('Select'),
+                                hint: const Text('Select  '),
                                 style: TextStyle(
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w600,
