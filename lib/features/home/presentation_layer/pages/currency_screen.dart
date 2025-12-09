@@ -23,9 +23,11 @@ class CurrencyScreen extends StatelessWidget {
         ),
       ),
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.all(16),
-          child: Column(children: [CurrencyExchangeWidget()]),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(16),
+            child: Column(children: [CurrencyExchangeWidget()]),
+          ),
         ),
       ),
     );
