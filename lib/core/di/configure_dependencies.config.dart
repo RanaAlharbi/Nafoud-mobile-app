@@ -130,15 +130,27 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1022.BaseErrorPageLocalDataSource>(
       () => _i1022.ErrorPageLocalDataSource(),
     );
+    gh.lazySingleton<_i971.BaseGatheringRemoteDataSource>(
+      () => _i971.GatheringRemoteDataSource(gh<_i454.SupabaseClient>()),
+    );
     gh.lazySingleton<_i105.CurrencyCacheDatasource>(
       () => _i105.GetStorageCurrencyCacheDatasource(gh<_i792.GetStorage>()),
     );
+    // gh.lazySingleton<_i545.ChatbotRepositoryData>(
+    //   () => _i545.ChatbotRepositoryData(gh<InvalidType>()),
+    // );
     gh.lazySingleton<_i781.BaseErrorPageRemoteDataSource>(
       () => _i781.ErrorPageRemoteDataSource(),
     );
     gh.lazySingleton<_i157.BaseAiLocalStorageDataSource>(
       () => _i157.AiLocalStorageDataSource(gh<_i792.GetStorage>()),
     );
+    gh.lazySingleton<_i1007.GatheringDomainRepository>(
+      () => _i445.GatheringRepoDatasource(
+        gh<_i971.BaseGatheringRemoteDataSource>(),
+      ),
+    );
+    gh.lazySingleton<_i482.ChatDataSource>(() => _i482.ChatRemoteDataSource());
     gh.lazySingleton<_i626.ErrorPageRepositoryDomain>(
       () => _i639.ErrorPageRepositoryData(
         gh<_i781.BaseErrorPageRemoteDataSource>(),
@@ -199,9 +211,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i752.ErrorPageUseCase>(
       () => _i752.ErrorPageUseCase(gh<_i626.ErrorPageRepositoryDomain>()),
-    );
-    gh.lazySingleton<_i351.ChatbotRepositoryDomain>(
-      () => _i181.ChatbotRepositoryData(gh<_i504.ChatDataSource>()),
     );
     gh.factory<_i892.AuthenticationBloc>(
       () => _i892.AuthenticationBloc(gh<_i11.AuthenticationUsecases>()),

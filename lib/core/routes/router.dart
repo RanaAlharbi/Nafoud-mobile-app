@@ -12,7 +12,7 @@ import 'package:final_project/features/home/presentation_layer/pages/currency_sc
 import 'package:final_project/features/home/presentation_layer/pages/emergency_screen.dart';
 import 'package:final_project/features/home/presentation_layer/pages/home_screen.dart';
 import 'package:final_project/features/home/presentation_layer/pages/sim_card_screen.dart';
-import 'package:final_project/features/home/presentation_layer/pages/transport_screen.dart';
+import 'package:final_project/features/transport/presentation_layer/pages/transport_screen.dart';
 import 'package:final_project/features/home/presentation_layer/pages/weather_screen.dart';
 import 'package:final_project/features/navigation/presentation_layer/cubit/navigation_cubit.dart';
 import 'package:final_project/features/navigation/presentation_layer/pages/navigation.dart';
@@ -75,9 +75,7 @@ class AppRoutes {
   }
 
   static final GoRouter appRouter = GoRouter(
-    initialLocation: AppRoutes.authenticationLandingScreen,
-    /* GetIt.I.get<SupabaseClient>().auth.currentSession != null ? '/navigation_screen'
-        : '/sign-in',*/
+    initialLocation: AppRoutes.onboardingScreen,
     routes: [
       GoRoute(
         path: AppRoutes.chatScreen,
@@ -202,13 +200,7 @@ class AppRoutes {
         ),
       ),
 
-      GoRoute(
-        path: AppRoutes.addEventScreen,
-        builder: (context, state) => BlocProvider.value(
-          value: GetIt.I.get<GatheringCubit>(),
-          child: const AddEventScreen(),
-        ),
-      ),
+ 
     ],
     errorBuilder: (context, state) => ErrorPageFeatureScreen(), // Temporary Page, you can edit it to follow the flow
   );
