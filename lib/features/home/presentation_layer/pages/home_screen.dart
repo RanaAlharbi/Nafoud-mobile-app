@@ -31,6 +31,7 @@ class HomeScreen extends StatelessWidget {
         ),
       ],
       child: Scaffold(
+        backgroundColor: Color.fromRGBO(241,241,241, 1),
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
