@@ -54,11 +54,11 @@ class GatheringScreen extends StatelessWidget {
                             const Expanded(child: SearchBarWidget()),
                             const Gap(13),
                             CircleButtonWidget(
-                              iconPath: 'Assets/icons/murshid_image.svg',
+                              iconPath: 'assets/icons/murshid_image.svg',
                             ),
                             const Gap(13),
                             CircleButtonWidget(
-                              iconPath: 'Assets/icons/filter-horizontal.svg',
+                              iconPath: 'assets/icons/filter-horizontal.svg',
                             ),
                           ],
                         ),

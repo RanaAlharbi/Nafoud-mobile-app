@@ -79,22 +79,24 @@ flutter:
   assets:
     - .env
     - assets/
-    # - assets/images/transports
-    # - assets/images/transports/jenny.png
+    - assets/icons/
+    - assets/images/transports/
     - assets/authentication/
-    - Assets/icons/    
+    - assets/icons/    
     - assets/logo/
     - assets/images/
+    - assets/images/home/
     - assets/images/transports/careem.svg
+    - assets/images/home/saudi_male_template.png
 
     - assets/images/Sign_In_Screen/
     - assets/images/Sign_Up_Screen/
     - assets/images/home/
     - assets/translations/
-    - assets/jsons/
     - assets/images/onboarding/onboarding_1.png
-    - assets/images/onboarding/onboarding_2.png
-    - assets/images/onboarding/onboarding_3.png
+    - assets/jsons/
+    - assets/images/onboarding/
+
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

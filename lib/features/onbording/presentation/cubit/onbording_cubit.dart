@@ -6,9 +6,9 @@ class OnboardingCubit extends Cubit<int> {
   final PageController pageController = PageController();
 
   final List<String> images = [
-    "Assets/Images/onboarding/onboarding_1.png",
-    "Assets/Images/onboarding/onboarding_2.png",
-    "Assets/Images/onboarding/onboarding_3.png",
+    "assets/images/onboarding/onboarding_1.png",
+    "assets/images/onboarding/onboarding_2.png",
+    "assets/images/onboarding/onboarding_3.png",
   ];
 
   final List<String> titles = [

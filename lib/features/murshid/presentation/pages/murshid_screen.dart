@@ -79,7 +79,7 @@ class MurshidScreen extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    SvgPicture.asset('Assets/icons/murshid_trip.svg'),
+                    SvgPicture.asset('assets/icons/murshid_trip.svg'),
                     Gap(10),
                     Text(
                       'Plan My Trip',
@@ -109,7 +109,7 @@ class MurshidScreen extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    SvgPicture.asset('Assets/icons/murshid_image.svg'),
+                    SvgPicture.asset('assets/icons/murshid_image.svg'),
                     Gap(10),
                     Text(
                       'Identify The Image',

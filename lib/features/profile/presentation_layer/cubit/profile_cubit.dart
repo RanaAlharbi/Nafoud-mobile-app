@@ -100,7 +100,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     if (_cachedCountryCodes != null) return _cachedCountryCodes!;
 
     final String response = await rootBundle.loadString(
-      'Assets/jsons/country_code.json',
+      'assets/jsons/country_code.json',
     );
     final List<dynamic> data = json.decode(response);
     _cachedCountryCodes = data.map((json) => CountryCodeEntity.fromJson(json)).toList();
