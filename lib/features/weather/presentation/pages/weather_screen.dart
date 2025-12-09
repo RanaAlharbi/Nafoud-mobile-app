@@ -1,4 +1,6 @@
+import 'package:final_project/features/weather/presentation/cubit/weather_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class WeatherScreen extends StatelessWidget {
@@ -6,6 +8,7 @@ class WeatherScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _ = context.read<WeatherCubit>();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -21,6 +24,8 @@ class WeatherScreen extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
+      
+      // Here's the body starts
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(16),

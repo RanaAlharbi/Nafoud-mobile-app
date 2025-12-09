@@ -15,7 +15,8 @@ import 'package:final_project/features/home/presentation_layer/pages/emergency_s
 import 'package:final_project/features/home/presentation_layer/pages/home_screen.dart';
 import 'package:final_project/features/home/presentation_layer/pages/sim_card_screen.dart';
 import 'package:final_project/features/home/presentation_layer/pages/transport_screen.dart';
-import 'package:final_project/features/home/presentation_layer/pages/weather_screen.dart';
+import 'package:final_project/features/weather/presentation/pages/weather_screen.dart';
+import 'package:final_project/features/weather/presentation/cubit/weather_cubit.dart';
 import 'package:final_project/features/navigation/presentation_layer/cubit/navigation_cubit.dart';
 import 'package:final_project/features/navigation/presentation_layer/pages/navigation.dart';
 import 'package:final_project/features/onbording/presentation/cubit/onbording_cubit.dart';
@@ -183,7 +184,12 @@ class AppRoutes {
 
       GoRoute(
         path: AppRoutes.weatherScreen,
-        builder: (context, state) => WeatherScreen(),
+        builder: (context, state) {
+          return BlocProvider<WeatherCubit>(
+            create: (context) => GetIt.I.get<WeatherCubit>(),
+            child: const WeatherScreen(),
+          );
+        },
       ),
 
       GoRoute(
