@@ -63,7 +63,7 @@ class NavigationScreen extends StatelessWidget {
                   height: 32.h,
                 ),
                 activeIcon: SvgPicture.asset(
-                  'aicons/nav_ai.svg',
+                  'assets/icons/nav_ai.svg',
                   width: 32.h,
                   height: 32.h,
                   colorFilter: ColorFilter.mode(

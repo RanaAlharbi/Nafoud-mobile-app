@@ -260,7 +260,7 @@ class HomeScreen extends StatelessWidget {
                           },
                           blendMode: BlendMode.dstIn,
                           child: Image.asset(
-                            'assets/images/home/saudi_male_template.png',
+                            'assets/Images/home/saudi_male_template.png',
                             width: 230.w,
                             height: 300.h,
                             fit: BoxFit.contain,

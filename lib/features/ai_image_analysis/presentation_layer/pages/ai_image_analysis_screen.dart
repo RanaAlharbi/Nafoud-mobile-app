@@ -109,7 +109,7 @@ class AIImageAnalysisScreen extends StatelessWidget {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Image.asset('assets/images/Upload_image.png'),
+                                  Image.asset('assets/Images/Upload_image.png'),
                                   const Gap(32),
                                   Text("Take or Upload Your Image Here", 
                                   style: GoogleFonts.cairo(

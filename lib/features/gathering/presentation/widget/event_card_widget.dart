@@ -30,7 +30,7 @@ class EventCardWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ================= IMAGE ==================
+        
           ClipRRect(
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(22),
@@ -44,7 +44,7 @@ class EventCardWidget extends StatelessWidget {
             ),
           ),
 
-          // ================= CONTENT ==================
+      
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
             child: Column(

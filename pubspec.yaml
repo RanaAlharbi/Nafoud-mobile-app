@@ -49,6 +49,7 @@ dependencies:
   dashed_border: ^1.0.2
   multiple_result: ^5.2.0
   google_maps_flutter: ^2.14.0
+  url_launcher: ^6.3.2
   
 
 dev_dependencies:
@@ -81,15 +82,14 @@ flutter:
     - assets/authentication/
     - assets/icons/    
     - assets/logo/
+    - assets/Images/transports/
     - assets/Images/
     - assets/Images/Sign_In_Screen/
     - assets/Images/Sign_Up_Screen/
     - assets/Images/home/
     - assets/translations/
     - assets/jsons/
-    - assets/Images/onboarding/onboarding_1.png
-    - assets/Images/onboarding/onboarding_2.png
-    - assets/Images/onboarding/onboarding_3.png
+    - assets/Images/onboarding/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
