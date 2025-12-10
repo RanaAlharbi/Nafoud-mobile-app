@@ -37,7 +37,7 @@ class CurrencyExchangeCubit extends Cubit<CurrencyExchangeState> {
 
   Future<void> loadCurrencies() async {
     try {
-      final String response = await rootBundle.loadString('Assets/jsons/country_code.json');
+      final String response = await rootBundle.loadString('assets/jsons/country_code.json');
       final List<dynamic> data = json.decode(response);
 
       final allCurrencies = data

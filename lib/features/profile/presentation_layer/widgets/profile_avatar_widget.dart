@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:remixicon/remixicon.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ProfileAvatarWidget extends StatelessWidget {
   final String? avatarUrl;
@@ -23,21 +23,6 @@ class ProfileAvatarWidget extends StatelessWidget {
       child: Stack(
         clipBehavior: Clip.none,
         children: [
-          // Background Circle
-          Positioned(
-            top: -280.h,
-            left: (1.sw - 445.w) / 2,
-            child: Container(
-              height: 390.sp,
-              clipBehavior: Clip.none,
-              width: 445.w,
-              decoration: BoxDecoration(
-                color: const Color.fromRGBO(255, 248, 232, 1),
-                borderRadius: BorderRadius.circular(445.w),
-              ),
-            ),
-          ),
-
           // Avatar
           Positioned(
             top: 0,
@@ -103,7 +88,10 @@ class ProfileAvatarWidget extends StatelessWidget {
               left: (1.sw - 140.r) / 2 + 96.r,
               child: CircleAvatar(
                 radius: 20.r,
-                backgroundColor: Colors.white,
+                // It's not usable rigth now cus the UI/UX team choosed not to. 
+                // But we can change this thing here incase if we want it
+                // const Color.fromRGBO(240, 240, 238, 1)
+                backgroundColor: Colors.white, 
               ),
             ),
 
@@ -116,11 +104,11 @@ class ProfileAvatarWidget extends StatelessWidget {
                 onTap: onEditTap,
                 child: CircleAvatar(
                   radius: 18.r,
-                  backgroundColor: const Color.fromRGBO(245, 245, 245, 1),
-                  child: Icon(
-                    RemixIcons.edit_line,
-                    color: Colors.black,
-                    size: 23.sp,
+                  backgroundColor: Colors.white  ,
+                  child: SvgPicture.asset(
+                    'assets/icons/edit-user-02.svg',
+                    width: 23.sp,
+                    height: 23.sp,
                   ),
                 ),
               ),

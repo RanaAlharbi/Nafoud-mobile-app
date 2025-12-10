@@ -21,6 +21,7 @@ import 'package:final_project/features/onbording/presentation/cubit/onbording_cu
 import 'package:final_project/features/onbording/presentation/pages/onboarding_screen.dart';
 import 'package:final_project/features/profile/presentation_layer/pages/edit_profile_screen.dart';
 import 'package:final_project/features/profile/presentation_layer/pages/profile_screen.dart';
+import 'package:final_project/features/splash/splash_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:get_storage/get_storage.dart';
@@ -28,6 +29,7 @@ import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AppRoutes {
+  static const splashScreen = '/splash-screen';
   //Auth
   static const authenticationLandingScreen = '/authentication-landing';
   static const signInScreen = '/sign-in';
@@ -73,6 +75,7 @@ class AppRoutes {
     }
 
     return AppRoutes.onboardingScreen;
+  
   }
 
   static final GoRouter appRouter = GoRouter(
@@ -89,6 +92,11 @@ class AppRoutes {
             child: const ChatScreen(),
           );
         },
+      ),
+
+      GoRoute(
+        path: AppRoutes.splashScreen,
+        builder: (context, state) => SplashScreen(),
       ),
 
       GoRoute(

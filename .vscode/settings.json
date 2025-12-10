@@ -2,6 +2,7 @@
     "deno.enable": true,
     "cSpell.words": [
         "careem",
+        "cupertino",
         "Jeddah",
         "jeeny",
         "KAEC",
@@ -10,6 +11,7 @@
         "SAPTCO",
         "Sixt",
         "Theeb",
+        "usecase",
         "Yelo"
     ]
 }
