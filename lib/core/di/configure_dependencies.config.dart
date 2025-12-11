@@ -148,14 +148,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i105.CurrencyCacheDatasource>(
       () => _i105.GetStorageCurrencyCacheDatasource(gh<_i792.GetStorage>()),
     );
-    gh.lazySingleton<_i97.BaseWeatherRemoteDataSource>(
-      () => _i97.WeatherRemoteDataSource(),
-    );
     gh.lazySingleton<_i781.BaseErrorPageRemoteDataSource>(
       () => _i781.ErrorPageRemoteDataSource(),
     );
     gh.lazySingleton<_i157.BaseAiLocalStorageDataSource>(
       () => _i157.AiLocalStorageDataSource(gh<_i792.GetStorage>()),
+    );
+    gh.lazySingleton<_i609.BaseWeatherLocalDataSource>(
+      () => _i609.WeatherLocalDataSource(gh<_i454.SupabaseClient>()),
     );
     gh.lazySingleton<_i1007.GatheringDomainRepository>(
       () => _i445.GatheringRepoDatasource(
@@ -177,8 +177,8 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i157.BaseAiLocalStorageDataSource>(),
       ),
     );
-    gh.lazySingleton<_i609.BaseWeatherLocalDataSource>(
-      () => _i609.WeatherLocalDataSource(),
+    gh.lazySingleton<_i97.BaseWeatherRemoteDataSource>(
+      () => _i97.WeatherRemoteDataSource(gh<_i361.Dio>()),
     );
     gh.lazySingleton<_i18.ProfileDatasource>(
       () => _i18.SupabaseProfileDatasource(

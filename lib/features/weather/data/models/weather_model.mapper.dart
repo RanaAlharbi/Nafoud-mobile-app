@@ -21,14 +21,82 @@ class WeatherModelMapper extends ClassMapperBase<WeatherModel> {
   @override
   final String id = 'WeatherModel';
 
-  static String _$id(WeatherModel v) => v.id;
-  static const Field<WeatherModel, String> _f$id = Field('id', _$id);
+  static double _$lon(WeatherModel v) => v.lon;
+  static const Field<WeatherModel, double> _f$lon = Field('lon', _$lon);
+  static double _$lat(WeatherModel v) => v.lat;
+  static const Field<WeatherModel, double> _f$lat = Field('lat', _$lat);
+  static int _$weatherId(WeatherModel v) => v.weatherId;
+  static const Field<WeatherModel, int> _f$weatherId = Field(
+    'weatherId',
+    _$weatherId,
+  );
+  static String _$weatherMain(WeatherModel v) => v.weatherMain;
+  static const Field<WeatherModel, String> _f$weatherMain = Field(
+    'weatherMain',
+    _$weatherMain,
+  );
+  static String _$weatherDescription(WeatherModel v) => v.weatherDescription;
+  static const Field<WeatherModel, String> _f$weatherDescription = Field(
+    'weatherDescription',
+    _$weatherDescription,
+  );
+  static String _$weatherIcon(WeatherModel v) => v.weatherIcon;
+  static const Field<WeatherModel, String> _f$weatherIcon = Field(
+    'weatherIcon',
+    _$weatherIcon,
+  );
+  static double _$temp(WeatherModel v) => v.temp;
+  static const Field<WeatherModel, double> _f$temp = Field('temp', _$temp);
+  static double _$feelsLike(WeatherModel v) => v.feelsLike;
+  static const Field<WeatherModel, double> _f$feelsLike = Field(
+    'feelsLike',
+    _$feelsLike,
+  );
+  static double _$tempMin(WeatherModel v) => v.tempMin;
+  static const Field<WeatherModel, double> _f$tempMin = Field(
+    'tempMin',
+    _$tempMin,
+  );
+  static double _$tempMax(WeatherModel v) => v.tempMax;
+  static const Field<WeatherModel, double> _f$tempMax = Field(
+    'tempMax',
+    _$tempMax,
+  );
+  static DateTime _$savedAt(WeatherModel v) => v.savedAt;
+  static const Field<WeatherModel, DateTime> _f$savedAt = Field(
+    'savedAt',
+    _$savedAt,
+  );
 
   @override
-  final MappableFields<WeatherModel> fields = const {#id: _f$id};
+  final MappableFields<WeatherModel> fields = const {
+    #lon: _f$lon,
+    #lat: _f$lat,
+    #weatherId: _f$weatherId,
+    #weatherMain: _f$weatherMain,
+    #weatherDescription: _f$weatherDescription,
+    #weatherIcon: _f$weatherIcon,
+    #temp: _f$temp,
+    #feelsLike: _f$feelsLike,
+    #tempMin: _f$tempMin,
+    #tempMax: _f$tempMax,
+    #savedAt: _f$savedAt,
+  };
 
   static WeatherModel _instantiate(DecodingData data) {
-    return WeatherModel(id: data.dec(_f$id));
+    return WeatherModel(
+      lon: data.dec(_f$lon),
+      lat: data.dec(_f$lat),
+      weatherId: data.dec(_f$weatherId),
+      weatherMain: data.dec(_f$weatherMain),
+      weatherDescription: data.dec(_f$weatherDescription),
+      weatherIcon: data.dec(_f$weatherIcon),
+      temp: data.dec(_f$temp),
+      feelsLike: data.dec(_f$feelsLike),
+      tempMin: data.dec(_f$tempMin),
+      tempMax: data.dec(_f$tempMax),
+      savedAt: data.dec(_f$savedAt),
+    );
   }
 
   @override
@@ -93,7 +161,19 @@ extension WeatherModelValueCopy<$R, $Out>
 
 abstract class WeatherModelCopyWith<$R, $In extends WeatherModel, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
-  $R call({String? id});
+  $R call({
+    double? lon,
+    double? lat,
+    int? weatherId,
+    String? weatherMain,
+    String? weatherDescription,
+    String? weatherIcon,
+    double? temp,
+    double? feelsLike,
+    double? tempMin,
+    double? tempMax,
+    DateTime? savedAt,
+  });
   WeatherModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -106,10 +186,50 @@ class _WeatherModelCopyWithImpl<$R, $Out>
   late final ClassMapperBase<WeatherModel> $mapper =
       WeatherModelMapper.ensureInitialized();
   @override
-  $R call({String? id}) => $apply(FieldCopyWithData({if (id != null) #id: id}));
+  $R call({
+    double? lon,
+    double? lat,
+    int? weatherId,
+    String? weatherMain,
+    String? weatherDescription,
+    String? weatherIcon,
+    double? temp,
+    double? feelsLike,
+    double? tempMin,
+    double? tempMax,
+    DateTime? savedAt,
+  }) => $apply(
+    FieldCopyWithData({
+      if (lon != null) #lon: lon,
+      if (lat != null) #lat: lat,
+      if (weatherId != null) #weatherId: weatherId,
+      if (weatherMain != null) #weatherMain: weatherMain,
+      if (weatherDescription != null) #weatherDescription: weatherDescription,
+      if (weatherIcon != null) #weatherIcon: weatherIcon,
+      if (temp != null) #temp: temp,
+      if (feelsLike != null) #feelsLike: feelsLike,
+      if (tempMin != null) #tempMin: tempMin,
+      if (tempMax != null) #tempMax: tempMax,
+      if (savedAt != null) #savedAt: savedAt,
+    }),
+  );
   @override
-  WeatherModel $make(CopyWithData data) =>
-      WeatherModel(id: data.get(#id, or: $value.id));
+  WeatherModel $make(CopyWithData data) => WeatherModel(
+    lon: data.get(#lon, or: $value.lon),
+    lat: data.get(#lat, or: $value.lat),
+    weatherId: data.get(#weatherId, or: $value.weatherId),
+    weatherMain: data.get(#weatherMain, or: $value.weatherMain),
+    weatherDescription: data.get(
+      #weatherDescription,
+      or: $value.weatherDescription,
+    ),
+    weatherIcon: data.get(#weatherIcon, or: $value.weatherIcon),
+    temp: data.get(#temp, or: $value.temp),
+    feelsLike: data.get(#feelsLike, or: $value.feelsLike),
+    tempMin: data.get(#tempMin, or: $value.tempMin),
+    tempMax: data.get(#tempMax, or: $value.tempMax),
+    savedAt: data.get(#savedAt, or: $value.savedAt),
+  );
 
   @override
   WeatherModelCopyWith<$R2, WeatherModel, $Out2> $chain<$R2, $Out2>(
