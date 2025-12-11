@@ -66,6 +66,8 @@ import '../../features/error_page/domain/repositories/error_page_repository_doma
     as _i626;
 import '../../features/error_page/domain/use_cases/error_page_use_case.dart'
     as _i752;
+import '../../features/error_page/presentation/cubit/error_page_cubit.dart'
+    as _i1002;
 import '../../features/events/data_layer/datasorce/events_datasorce.dart'
     as _i987;
 import '../../features/events/data_layer/repository/events_repository.dart'
@@ -137,9 +139,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i987.BaseEventsRemoteDatasource>(
       () => _i987.EventsRemoteDatasource(gh<_i454.SupabaseClient>()),
     );
-    gh.lazySingleton<_i517.AuthenticationDatasource>(
-      () => _i517.SupabaseDatasource(gh<_i454.SupabaseClient>()),
-    );
     gh.lazySingleton<_i1022.BaseErrorPageLocalDataSource>(
       () => _i1022.ErrorPageLocalDataSource(),
     );
@@ -193,9 +192,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i998.ProfileRepository>(
       () => _i121.ProfileRepositoryImpl(gh<_i18.ProfileDatasource>()),
     );
-    gh.lazySingleton<_i725.AuthenticationRepositoryDomain>(
-      () => _i933.DataRepository(gh<_i517.AuthenticationDatasource>()),
-    );
     gh.lazySingleton<_i586.EventsDomainRepostiory>(
       () => _i442.EventsRepositoryData(gh<_i987.BaseEventsRemoteDatasource>()),
     );
@@ -208,6 +204,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i754.AnalyzeImageUseCase>(
       () => _i754.AnalyzeImageUseCase(gh<_i855.AiImageAnalysisRepository>()),
     );
+    gh.lazySingleton<_i517.AuthenticationDatasource>(
+      () => _i517.SupabaseDatasource(
+        gh<_i454.SupabaseClient>(),
+        gh<_i792.GetStorage>(),
+      ),
+    );
     gh.lazySingleton<_i753.CreateGatheringUseCase>(
       () =>
           _i753.CreateGatheringUseCase(gh<_i1007.GatheringDomainRepository>()),
@@ -218,11 +220,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i547.GatheringUsecase>(
       () => _i547.GatheringUsecase(gh<_i1007.GatheringDomainRepository>()),
-    );
-    gh.lazySingleton<_i11.AuthenticationUsecases>(
-      () => _i11.AuthenticationUsecases(
-        authRepo: gh<_i725.AuthenticationRepositoryDomain>(),
-      ),
     );
     gh.lazySingleton<_i1040.GenerateTripUseCase>(
       () => _i1040.GenerateTripUseCase(gh<_i106.TripDomainRepository>()),
@@ -235,9 +232,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i752.ErrorPageUseCase>(
       () => _i752.ErrorPageUseCase(gh<_i626.ErrorPageRepositoryDomain>()),
-    );
-    gh.factory<_i892.AuthenticationBloc>(
-      () => _i892.AuthenticationBloc(gh<_i11.AuthenticationUsecases>()),
     );
     gh.lazySingleton<_i710.EventsUsecase>(
       () => _i710.EventsUsecase(gh<_i586.EventsDomainRepostiory>()),
@@ -257,6 +251,9 @@ extension GetItInjectableX on _i174.GetIt {
       () =>
           _i235.CurrencyExchangeUsecase(gh<_i629.CurrencyExchangeRepository>()),
     );
+    gh.lazySingleton<_i725.AuthenticationRepositoryDomain>(
+      () => _i933.DataRepository(gh<_i517.AuthenticationDatasource>()),
+    );
     gh.factory<_i142.GatheringCubit>(
       () => _i142.GatheringCubit(
         gh<_i547.GatheringUsecase>(),
@@ -270,14 +267,28 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i105.CurrencyCacheDatasource>(),
       ),
     );
+    gh.lazySingleton<_i11.AuthenticationUsecases>(
+      () => _i11.AuthenticationUsecases(
+        authRepo: gh<_i725.AuthenticationRepositoryDomain>(),
+      ),
+    );
     gh.factory<_i695.WeatherCubit>(
       () => _i695.WeatherCubit(gh<_i324.WeatherUseCase>()),
     );
     gh.factory<_i197.ProfileCubit>(
       () => _i197.ProfileCubit(gh<_i680.ProfileUsecase>()),
     );
+    gh.factory<_i892.AuthenticationBloc>(
+      () => _i892.AuthenticationBloc(gh<_i11.AuthenticationUsecases>()),
+    );
     gh.factory<_i680.HomeUserInfoCubit>(
       () => _i680.HomeUserInfoCubit(gh<_i680.ProfileUsecase>()),
+    );
+    gh.factory<_i1002.ErrorPageCubit>(
+      () => _i1002.ErrorPageCubit(
+        gh<_i752.ErrorPageUseCase>(),
+        gh<_i680.ProfileUsecase>(),
+      ),
     );
     return this;
   }

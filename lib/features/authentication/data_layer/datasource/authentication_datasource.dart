@@ -1,4 +1,5 @@
 import 'package:final_project/features/authentication/data_layer/model/authentication_model.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -28,14 +29,18 @@ abstract class AuthenticationDatasource {
 @LazySingleton(as: AuthenticationDatasource)
 class SupabaseDatasource implements AuthenticationDatasource {
   final SupabaseClient supabase;
+  final GetStorage _storage;
 
-  SupabaseDatasource(this.supabase);
+  SupabaseDatasource(this.supabase, this._storage);
 
   @override
   Future<AuthenticationModel> signIn({
     required String email,
     required String password,
   }) async {
+    // Clear any cached profile data from previous user before signing in (made by Mohammed)
+    await _storage.remove('cached_profile');
+
     final response = await supabase.auth.signInWithPassword(
       email: email,
       password: password,
@@ -101,6 +106,8 @@ class SupabaseDatasource implements AuthenticationDatasource {
 
   @override
   Future<void> signOut() async {
+    // Clear profile cache before signing out (made by Mohammed)
+    await _storage.remove('cached_profile');
     await supabase.auth.signOut();
   }
 

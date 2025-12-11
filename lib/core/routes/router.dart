@@ -9,6 +9,9 @@ import 'package:final_project/features/authentication/presentation_layer/pages/s
 import 'package:final_project/features/authentication/presentation_layer/pages/sign_up_screen.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/otp_screen.dart';
 import 'package:final_project/features/error_page/presentation/pages/error_page_feature_screen.dart';
+import 'package:final_project/features/error_page/presentation/cubit/error_page_cubit.dart';
+import 'package:final_project/features/error_page/domain/use_cases/error_page_use_case.dart';
+import 'package:final_project/features/profile/domain_layer/usecase/profile_usecase.dart';
 import 'package:final_project/features/home/presentation_layer/pages/all_activities_screen.dart';
 import 'package:final_project/features/home/presentation_layer/pages/currency_screen.dart';
 import 'package:final_project/features/home/presentation_layer/pages/emergency_screen.dart';
@@ -223,7 +226,12 @@ class AppRoutes {
 
  
     ],
-    errorBuilder: (context, state) =>
-        ErrorPageFeatureScreen(), // Temporary Page, you can edit it to follow the flow
+    errorBuilder: (context, state) => BlocProvider(
+      create: (context) => ErrorPageCubit(
+        GetIt.I.get<ErrorPageUseCase>(),
+        GetIt.I.get<ProfileUsecase>(),
+      ),
+      child: const ErrorPageFeatureScreen(),
+    ), // Temporary Page, you can edit it to follow the flow
   );
 }

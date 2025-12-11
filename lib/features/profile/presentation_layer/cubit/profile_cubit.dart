@@ -89,9 +89,11 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> signOut() async {
     if (isClosed) return;
 
-    emit(SignedOut());
-
+    // Clear cache and sign out FIRST, then emit the state
     await _usecase.signOut();
+
+    if (isClosed) return;
+    emit(SignedOut());
   }
 
   // Method to load country codes from JSON (with caching)
