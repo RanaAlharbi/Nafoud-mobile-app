@@ -1,5 +1,6 @@
 import 'package:final_project/core/app_theme/app_colors/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProfileInfoWidget extends StatelessWidget {
   final String? fullName;
@@ -22,8 +23,8 @@ class ProfileInfoWidget extends StatelessWidget {
         // Full name
         Text(
           fullName ?? 'Loading the name...',
-          style: const TextStyle(
-            fontSize: 20,
+          style: TextStyle(
+            fontSize: 20.sp,
             fontWeight: FontWeight.bold,
             color: AppColors.primaryColor,
           ),

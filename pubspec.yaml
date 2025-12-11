@@ -88,6 +88,7 @@ flutter:
     - assets/Images/Sign_In_Screen/
     - assets/Images/Sign_Up_Screen/
     - assets/Images/home/
+    - assets/Images/profile/
     - assets/translations/
     - assets/jsons/
     - assets/Images/onboarding/onboarding_1.png

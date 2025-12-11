@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -14,6 +15,7 @@ import '../widgets/profile_info_widget.dart';
 import '../widgets/profile_settings_card_widget.dart';
 import '../widgets/language_selector_widget.dart';
 import '../widgets/theme_selector_widget.dart';
+import '../widgets/font_size_selector_widget.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -75,7 +77,11 @@ class ProfileScreen extends StatelessWidget {
           backgroundColor: Colors.transparent,
           title: Text(
             "Profile",
-            style: TextStyle(color: Color.fromRGBO(61, 64, 50, 1), fontWeight: .bold, fontSize: 25.h),
+            style: TextStyle(
+              color: Color.fromRGBO(61, 64, 50, 1),
+              fontWeight: .bold,
+              fontSize: 25.h,
+            ),
           ),
           centerTitle: true,
         ),
@@ -101,17 +107,17 @@ class ProfileScreen extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.error_outline, size: 64, color: Colors.red),
-                      Gap(16),
+                      Icon(Icons.error_outline, size: 64.r, color: Colors.red),
+                      Gap(16.h),
                       Text('Error loading profile'),
-                      Gap(8),
+                      Gap(8.h),
                       Center(
                         child: Text(
                           state.message,
                           style: TextStyle(color: Colors.grey),
                         ),
                       ),
-                      Gap(16),
+                      Gap(16.h),
                       Row(
                         spacing: 20.w,
                         mainAxisAlignment: .center,
@@ -143,8 +149,8 @@ class ProfileScreen extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    children: [          
-                      Gap(8.h),      
+                    children: [
+                      Gap(8.h),
                       // Avatar widget
                       BlocBuilder<ProfileCubit, ProfileState>(
                         buildWhen: (previous, current) {
@@ -159,31 +165,53 @@ class ProfileScreen extends StatelessWidget {
                               : (avatarState is AvatarUploaded
                                     ? avatarState.profile.avatarUrl
                                     : profile?.avatarUrl);
-                
+
+                          final fullName = avatarState is ProfileLoaded
+                              ? avatarState.profile.fullName
+                              : (avatarState is AvatarUploaded
+                                    ? avatarState.profile.fullName
+                                    : profile?.fullName);
+
                           return ProfileAvatarWidget(
                             avatarUrl: avatarUrl,
+                            fullName: fullName,
                             isUploading: avatarState is AvatarUploading,
                             onEditTap: () => _pickAndUploadAvatar(context),
                           );
                         },
                       ),
-                
-                      const Gap(5),
-                
+
+                      Gap(5.h),
+
                       // Profile info
-                      ProfileInfoWidget(
-                        fullName: profile?.fullName,
+                      ProfileInfoWidget(fullName: profile?.fullName),
+
+                      Gap(5.h),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Account Settings",
+                            style: TextStyle(
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
                       ),
-                
-                      const Gap(20),
-                
+                      Gap(15.h),
+
                       // First Card
                       ProfileSettingsCardWidget(
                         children: [
                           ListTile(
                             leading: Icon(RemixIcons.user_line),
-                            title: Text("Personal Info"),
-                            trailing: Icon(Icons.arrow_forward_ios, size: 16),
+                            title: Text("Personal Info", style: TextStyle(fontSize: 16.h, fontWeight: .bold),),
+                            trailing: SvgPicture.asset(
+                              'assets/Images/profile/arrow-right-01.svg',
+                              height: 20.h,
+                            ),
                             onTap: () async {
                               await context.push(AppRoutes.editProfileScreen);
                               if (context.mounted) {
@@ -193,19 +221,25 @@ class ProfileScreen extends StatelessWidget {
                           ),
                           ListTile(
                             leading: Icon(RemixIcons.calendar_check_line),
-                            title: Text("My Activity"),
-                            trailing: Icon(Icons.arrow_forward_ios, size: 16),
+                            title: Text("My Activity", style: TextStyle(fontSize: 16.h, fontWeight: .bold),),
+                            trailing: SvgPicture.asset(
+                              'assets/Images/profile/arrow-right-01.svg',
+                              height: 20.h,
+                            ),
                             onTap: () {},
                           ),
                           ListTile(
                             leading: Icon(RemixIcons.bookmark_line),
-                            title: Text("Bookmark"),
-                            trailing: Icon(Icons.arrow_forward_ios, size: 16),
+                            title: Text("Bookmark", style: TextStyle(fontSize: 16.h, fontWeight: .bold),),
+                            trailing: SvgPicture.asset(
+                              'assets/Images/profile/arrow-right-01.svg',
+                              height: 20.h,
+                            ),
                             onTap: () {},
                           ),
                         ],
                       ),
-                      const Gap(20),
+                      Gap(25.h),
 
                       // Accessibility settings section
                       Padding(
@@ -215,58 +249,23 @@ class ProfileScreen extends StatelessWidget {
                           child: Text(
                             "Accessibility settings",
                             style: TextStyle(
-                              fontSize: 16.sp,
+                              fontSize: 18.sp,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
                       ),
-                      const Gap(12),
+                      Gap(15.h),
 
                       // The Second Card - Accessibility
                       ProfileSettingsCardWidget(
                         children: [
                           LanguageSelectorWidget(),
                           ThemeSelectorWidget(),
-                          ListTile(
-                            leading: Icon(RemixIcons.font_size_2),
-                            title: Text("font size"),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-                                  decoration: BoxDecoration(
-                                    color: const Color.fromARGB(255, 204, 204, 204),
-                                    borderRadius: BorderRadius.circular(4.r),
-                                  ),
-                                  child: Text("Aa", style: TextStyle(fontSize: 12.sp)),
-                                ),
-                                Gap(4.w),
-                                Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-                                  decoration: BoxDecoration(
-                                    color: const Color.fromARGB(255, 204, 204, 204),
-                                    borderRadius: BorderRadius.circular(4.r),
-                                  ),
-                                  child: Text("Aa", style: TextStyle(fontSize: 14.sp)),
-                                ),
-                                Gap(4.w),
-                                Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-                                  decoration: BoxDecoration(
-                                    color: const Color.fromARGB(255, 204, 204, 204),
-                                    borderRadius: BorderRadius.circular(4.r),
-                                  ),
-                                  child: Text("Aa", style: TextStyle(fontSize: 16.sp)),
-                                ),
-                              ],
-                            ),
-                            onTap: () {},
-                          ),
+                          FontSizeSelectorWidget(),
                         ],
                       ),
-                      const Gap(20),
+                      Gap(27.h),
 
                       /// Old Delete Logic, DO NOT DELETE IT. the logic was hard.
                       /// We gonna remove it later on when UI/UX team choose to finish edit_profile_screen.dart
@@ -284,7 +283,7 @@ class ProfileScreen extends StatelessWidget {
                       //       trailing: Icon(
                       //         Icons.arrow_forward_ios,
                       //         color: Colors.red,
-                      //         size: 16,
+                      //         size: 16.sp,
                       //       ),
                       //       onTap: () async {
                       //         final shouldDelete = await showDialog<bool>(
@@ -324,13 +323,13 @@ class ProfileScreen extends StatelessWidget {
 
                       // Logout Button
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        padding: EdgeInsets.symmetric(horizontal: 35.w),
                         child: OutlinedButton(
                           onPressed: () async {
                             final shouldSignOut = await showDialog<bool>(
                               context: context,
                               builder: (dialogContext) => AlertDialog(
-                                title: Text('Sign Out'),
+                                title: Text('Sign Out', style: TextStyle(fontSize: 25.h),),
                                 content: Text(
                                   'Are you sure you want to sign out?',
                                 ),
@@ -338,14 +337,14 @@ class ProfileScreen extends StatelessWidget {
                                   TextButton(
                                     onPressed: () =>
                                         Navigator.pop(dialogContext, false),
-                                    child: Text('Cancel'),
+                                    child: Text('Cancel',style: TextStyle(fontSize: 15.h)),
                                   ),
                                   TextButton(
                                     onPressed: () =>
                                         Navigator.pop(dialogContext, true),
                                     child: Text(
                                       'Sign Out',
-                                      style: TextStyle(color: Colors.red),
+                                      style: TextStyle(color: Colors.red, fontSize: 15.h),
                                     ),
                                   ),
                                 ],
@@ -357,24 +356,24 @@ class ProfileScreen extends StatelessWidget {
                             }
                           },
                           style: OutlinedButton.styleFrom(
+                            backgroundColor: Colors.white,
                             foregroundColor: Colors.red,
-                            side: BorderSide(color: Colors.red, width: 1),
+                            side: BorderSide(color: Colors.red, width: 1.w),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.r),
                             ),
-                            padding: EdgeInsets.symmetric(vertical: 12.h),
                             minimumSize: Size(double.infinity, 48.h),
                           ),
                           child: Text(
                             'Logout',
                             style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w500,
+                              fontSize: 20.sp,
+                              fontWeight: FontWeight.bold,
                             ),
-                          ),
+                          ),  
                         ),
                       ),
-                      const Gap(20),
+                      Gap(25.h),
                     ],
                   ),
                 ),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:remixicon/remixicon.dart';
 
 class ThemeSelectorWidget extends StatefulWidget {
@@ -9,38 +11,38 @@ class ThemeSelectorWidget extends StatefulWidget {
 }
 
 class _ThemeSelectorWidgetState extends State<ThemeSelectorWidget> {
-  String selectedTheme = "Light mode";
+  String selectedTheme = "light";
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       leading: Icon(RemixIcons.mental_health_line),
-      title: Text("Theme"),
+      title: Text("Appearance", style: TextStyle(fontSize: 16.h, fontWeight: FontWeight.bold),),
       trailing: PopupMenuButton<String>(
-        offset: Offset(0, 8),
+        offset: Offset(0, 8.h),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              selectedTheme,
-              style: TextStyle(color: Color.fromRGBO(103, 70, 54, 1)),
+              '$selectedTheme ',
+              style: TextStyle(color: Color.fromRGBO(109, 109, 109, 1), fontSize: 12.h),
             ),
-            Icon(Icons.arrow_drop_down, color: Color.fromRGBO(103, 70, 54, 1)),
+            SvgPicture.asset('assets/Images/profile/arrow-right-01.svg', height: 20.h,),
           ],
         ),
         itemBuilder: (context) => [
           PopupMenuItem(
-            value: "Light mode",
+            value: "light",
             child: Text(
-              "Light mode",
-              style: TextStyle(color: Color.fromRGBO(103, 70, 54, 1)),
+              "light",
+              style: TextStyle(color: Color.fromRGBO(109, 109, 109, 1)),
             ),
           ),
           PopupMenuItem(
-            value: "Dark mode",
+            value: "dark",
             child: Text(
-              "Dark mode",
-              style: TextStyle(color: Color.fromRGBO(103, 70, 54, 1)),
+              "dark",
+              style: TextStyle(color: Color.fromRGBO(109, 109, 109, 1)),
             ),
           ),
         ],
