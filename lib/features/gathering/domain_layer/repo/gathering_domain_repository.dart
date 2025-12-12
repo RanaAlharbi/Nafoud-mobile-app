@@ -9,5 +9,6 @@ abstract class GatheringDomainRepository {
   Future<Result<List<GatheringEntity>, String>> getEventsForMap();
   Future<Result<void, String>> addBookmark(String eventId);
   Future<Result<void, String>> removeBookmark(String eventId);
+  Future<Result<String, String>> uploadImage(String filePath);
 
 }

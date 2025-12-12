@@ -46,7 +46,7 @@ class GatheringRepoDatasource implements GatheringDomainRepository {
       category: event.category,
       latitude: event.latitude,
       longitude: event.longitude,
-      isBookmarked: event.isBookmarked,
+    
     );
 
     return remoteDataSource.createUserEvent(model);
@@ -68,6 +68,13 @@ class GatheringRepoDatasource implements GatheringDomainRepository {
     return remoteDataSource.removeBookmark(eventId);
   }
 
+  @override
+  Future<Result<String, String>> uploadImage(String filePath) {
+    return remoteDataSource.uploadImage(filePath);
+  }
+}
+
+
 
   
-}
+

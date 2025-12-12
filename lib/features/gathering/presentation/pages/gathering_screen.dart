@@ -44,7 +44,7 @@ class GatheringScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         const Gap(20),
-                    
+
                         // SEARCH + BUTTONS
                         Row(
                           children: [
@@ -59,39 +59,39 @@ class GatheringScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                    
+
                         const Gap(16),
-                    
+
                         // CATEGORY CHIPS
                         CategoryChipsWidget(categories: cubit.categories),
-                    
+
                         const Gap(20),
-                    
-                    
+
                         Expanded(
                           child: () {
                             if (state is GatheringLoading ||
                                 state is GatheringLoadingWithCategory) {
                               return const Center(
-                                  child: CupertinoActivityIndicator());
+                                child: CupertinoActivityIndicator(),
+                              );
                             }
-                    
+
                             if (state is GatheringError) {
                               return Center(child: Text(state.message));
                             }
-                    
+
                             if (state is GatheringLoaded) {
                               if (state.events.isEmpty) {
                                 return const Center(
-                                    child: Text("No events found"));
+                                  child: Text("No events found"),
+                                );
                               }
-                    
+
                               return ListView.builder(
-                           
                                 itemCount: state.events.length,
                                 itemBuilder: (_, i) {
                                   final e = state.events[i];
-                    
+
                                   return EventCardWidget(
                                     title: e.title,
                                     city: e.city,
@@ -102,17 +102,16 @@ class GatheringScreen extends StatelessWidget {
                                     onToggleBookmark: () {
                                       context
                                           .read<GatheringCubit>()
-                                          .toggleBookmark(e.id);
+                                          .toggleBookmark(e.id!);
                                     },
                                     onViewDetails: () {
-                                      context
-                                          .push("/eventDetails", extra: e);
+                                      context.push("/eventDetails", extra: e);
                                     },
                                   );
                                 },
                               );
                             }
-                    
+
                             return const SizedBox();
                           }(),
                         ),
@@ -137,7 +136,12 @@ class GatheringScreen extends StatelessWidget {
                           color: CupertinoColors.white,
                           size: 26,
                         ),
-                        onPressed: () => context.push("/addEvent"),
+                        onPressed: () {
+                          context.push(
+                            "/addEvent",
+                            extra: context.read<GatheringCubit>(),
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -150,4 +154,3 @@ class GatheringScreen extends StatelessWidget {
     );
   }
 }
-

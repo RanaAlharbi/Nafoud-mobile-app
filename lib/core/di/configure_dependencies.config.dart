@@ -94,6 +94,8 @@ import '../../features/gathering/domain_layer/usecase/remove_bookmark_usecase.da
     as _i601;
 import '../../features/gathering/domain_layer/usecase/search_event_usecase.dart'
     as _i1059;
+import '../../features/gathering/domain_layer/usecase/upload_image_usecase.dart'
+    as _i827;
 import '../../features/gathering/presentation/cubit/gathering_cubit.dart'
     as _i142;
 import '../../features/home/presentation_layer/cubit/home_user_info_cubit.dart'
@@ -222,6 +224,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i754.AnalyzeImageUseCase>(
       () => _i754.AnalyzeImageUseCase(gh<_i855.AiImageAnalysisRepository>()),
     );
+    gh.factory<_i827.UploadImageUseCase>(
+      () => _i827.UploadImageUseCase(gh<_i1007.GatheringDomainRepository>()),
+    );
     gh.lazySingleton<_i753.CreateGatheringUseCase>(
       () =>
           _i753.CreateGatheringUseCase(gh<_i1007.GatheringDomainRepository>()),
@@ -244,6 +249,9 @@ extension GetItInjectableX on _i174.GetIt {
         authRepo: gh<_i725.AuthenticationRepositoryDomain>(),
       ),
     );
+    gh.lazySingleton<_i1040.GenerateTripUseCase>(
+      () => _i1040.GenerateTripUseCase(gh<_i106.TripDomainRepository>()),
+    );
     gh.factory<_i142.GatheringCubit>(
       () => _i142.GatheringCubit(
         gh<_i547.GatheringUsecase>(),
@@ -253,10 +261,8 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1066.GetMapEventsUseCase>(),
         gh<_i462.AddBookmarkUseCase>(),
         gh<_i601.RemoveBookmarkUseCase>(),
+        gh<_i827.UploadImageUseCase>(),
       ),
-    );
-    gh.lazySingleton<_i1040.GenerateTripUseCase>(
-      () => _i1040.GenerateTripUseCase(gh<_i106.TripDomainRepository>()),
     );
     gh.lazySingleton<_i46.WeatherRepositoryDomain>(
       () => _i122.WeatherRepositoryData(

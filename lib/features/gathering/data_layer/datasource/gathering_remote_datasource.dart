@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:final_project/features/gathering/data_layer/model/gathering_model.dart';
 import 'package:injectable/injectable.dart';
 import 'package:multiple_result/multiple_result.dart'; //multiple result package
@@ -12,6 +14,7 @@ abstract class BaseGatheringRemoteDataSource {
   Future<Result<List<GatheringModel>, String>> getEventsForMap();
   Future<Result<void, String>> addBookmark(String eventId);
   Future<Result<void, String>> removeBookmark(String eventId);
+  Future<Result<String, String>> uploadImage(String filePath);
 }
 
 @LazySingleton(as: BaseGatheringRemoteDataSource)
@@ -139,7 +142,30 @@ class GatheringRemoteDataSource implements BaseGatheringRemoteDataSource {
       return Error(e.toString());
     }
   }
-
-
   
+@override
+Future<Result<String, String>> uploadImage(String filePath) async {
+  try {
+    final file = File(filePath);
+    final ext = file.path.split('.').last;
+    final fileName = "${DateTime.now().millisecondsSinceEpoch}.$ext";
+
+    final bucket = _supabase.storage.from("events");
+
+
+    await bucket.upload(
+      fileName,
+      file,
+      fileOptions: const FileOptions(upsert: true),
+    );
+
+    final publicUrl = bucket.getPublicUrl(fileName);
+
+    return Success(publicUrl);
+  } catch (e) {
+    return Error(e.toString());
+  }
+}
+
+ 
 }

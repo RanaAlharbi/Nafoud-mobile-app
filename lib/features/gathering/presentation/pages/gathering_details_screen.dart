@@ -1,10 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:final_project/features/gathering/domain_layer/entity/gathering_entity.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:final_project/features/gathering/domain_layer/entity/gathering_entity.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class GatheringDetailsScreen extends StatelessWidget {
   final GatheringEntity event;

@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class GatheringEntity extends Equatable {
-  final String id;
+  final String? id;
   final String userId;
   final String title;
   final String description;
@@ -13,11 +13,11 @@ class GatheringEntity extends Equatable {
   final String category;
   final double? latitude;
   final double? longitude;
-
   final bool isBookmarked;
+  
 
   const GatheringEntity({
-    required this.id,
+    this.id,
     required this.userId,
     required this.title,
     required this.description,
@@ -46,6 +46,5 @@ class GatheringEntity extends Equatable {
     category,
     latitude,
     longitude,
-    isBookmarked,
   ];
 }

@@ -21,8 +21,12 @@ class GatheringModelMapper extends ClassMapperBase<GatheringModel> {
   @override
   final String id = 'GatheringModel';
 
-  static String _$id(GatheringModel v) => v.id;
-  static const Field<GatheringModel, String> _f$id = Field('id', _$id);
+  static String? _$id(GatheringModel v) => v.id;
+  static const Field<GatheringModel, String> _f$id = Field(
+    'id',
+    _$id,
+    opt: true,
+  );
   static String _$userId(GatheringModel v) => v.userId;
   static const Field<GatheringModel, String> _f$userId = Field(
     'userId',
@@ -74,14 +78,6 @@ class GatheringModelMapper extends ClassMapperBase<GatheringModel> {
     _$longitude,
     opt: true,
   );
-  static bool _$isBookmarked(GatheringModel v) => v.isBookmarked;
-  static const Field<GatheringModel, bool> _f$isBookmarked = Field(
-    'isBookmarked',
-    _$isBookmarked,
-    key: r'is_bookmarked',
-    opt: true,
-    def: false,
-  );
 
   @override
   final MappableFields<GatheringModel> fields = const {
@@ -97,7 +93,6 @@ class GatheringModelMapper extends ClassMapperBase<GatheringModel> {
     #category: _f$category,
     #latitude: _f$latitude,
     #longitude: _f$longitude,
-    #isBookmarked: _f$isBookmarked,
   };
 
   static GatheringModel _instantiate(DecodingData data) {
@@ -114,7 +109,6 @@ class GatheringModelMapper extends ClassMapperBase<GatheringModel> {
       category: data.dec(_f$category),
       latitude: data.dec(_f$latitude),
       longitude: data.dec(_f$longitude),
-      isBookmarked: data.dec(_f$isBookmarked),
     );
   }
 
@@ -137,11 +131,17 @@ mixin GatheringModelMappable {
     );
   }
 
-  Map<String, dynamic> toMap() {
-    return GatheringModelMapper.ensureInitialized().encodeMap<GatheringModel>(
-      this as GatheringModel,
-    );
-  }
+Map<String, dynamic> toMap() {
+  final map = GatheringModelMapper.ensureInitialized().encodeMap<GatheringModel>(
+    this as GatheringModel,
+  );
+
+  // Remove null id so Supabase generates UUID automatically
+  map.removeWhere((key, value) =>
+      key == 'id' && (value == null || value == ''));
+
+  return map;
+}
 
   GatheringModelCopyWith<GatheringModel, GatheringModel, GatheringModel>
   get copyWith => _GatheringModelCopyWithImpl<GatheringModel, GatheringModel>(
@@ -193,7 +193,6 @@ abstract class GatheringModelCopyWith<$R, $In extends GatheringModel, $Out>
     String? category,
     double? latitude,
     double? longitude,
-    bool? isBookmarked,
   });
   GatheringModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
     Then<$Out2, $R2> t,
@@ -210,7 +209,7 @@ class _GatheringModelCopyWithImpl<$R, $Out>
       GatheringModelMapper.ensureInitialized();
   @override
   $R call({
-    String? id,
+    Object? id = $none,
     String? userId,
     String? title,
     String? description,
@@ -222,10 +221,9 @@ class _GatheringModelCopyWithImpl<$R, $Out>
     String? category,
     Object? latitude = $none,
     Object? longitude = $none,
-    bool? isBookmarked,
   }) => $apply(
     FieldCopyWithData({
-      if (id != null) #id: id,
+      if (id != $none) #id: id,
       if (userId != null) #userId: userId,
       if (title != null) #title: title,
       if (description != null) #description: description,
@@ -237,7 +235,6 @@ class _GatheringModelCopyWithImpl<$R, $Out>
       if (category != null) #category: category,
       if (latitude != $none) #latitude: latitude,
       if (longitude != $none) #longitude: longitude,
-      if (isBookmarked != null) #isBookmarked: isBookmarked,
     }),
   );
   @override
@@ -254,7 +251,6 @@ class _GatheringModelCopyWithImpl<$R, $Out>
     category: data.get(#category, or: $value.category),
     latitude: data.get(#latitude, or: $value.latitude),
     longitude: data.get(#longitude, or: $value.longitude),
-    isBookmarked: data.get(#isBookmarked, or: $value.isBookmarked),
   );
 
   @override

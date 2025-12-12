@@ -10,7 +10,10 @@ import 'package:final_project/features/authentication/presentation_layer/pages/s
 import 'package:final_project/features/authentication/presentation_layer/pages/otp_screen.dart';
 import 'package:final_project/features/error_page/presentation/pages/error_page_feature_screen.dart';
 import 'package:final_project/features/gathering/domain_layer/entity/gathering_entity.dart';
+import 'package:final_project/features/gathering/presentation/cubit/gathering_cubit.dart';
+import 'package:final_project/features/gathering/presentation/pages/add_events.dart';
 import 'package:final_project/features/gathering/presentation/pages/gathering_details_screen.dart';
+import 'package:final_project/features/gathering/presentation/pages/select_location_screen.dart';
 import 'package:final_project/features/home/presentation_layer/pages/all_activities_screen.dart';
 import 'package:final_project/features/home/presentation_layer/pages/currency_screen.dart';
 import 'package:final_project/features/home/presentation_layer/pages/emergency_screen.dart';
@@ -66,10 +69,12 @@ class AppRoutes {
   static const onboardingScreen = '/onboarding_screen';
 
   //add screen
-  static const addEventScreen = '/add-event';
+  static const addEventScreen = '/addEvent';
 
   //details page
   static const eventDetails = '/eventDetails';
+
+  static const selectLocation = '/select-location';
 
   //remember_me
   static String getInitialRoute() {
@@ -118,6 +123,25 @@ class AppRoutes {
                 AuthenticationBloc(GetIt.I.get<AuthenticationUsecases>()),
             child: SignInScreen(),
           );
+        },
+      ),
+
+      GoRoute(
+        path: "/selectLocation",
+        builder: (context, state) {
+          final cubit = state.extra as GatheringCubit;
+          return BlocProvider.value(
+            value: cubit,
+            child: const SelectLocationScreen(),
+          );
+        },
+      ),
+
+      GoRoute(
+        path: "/addEvent",
+        builder: (context, state) {
+          final cubit = state.extra as GatheringCubit;
+          return BlocProvider.value(value: cubit, child: AddEventScreen());
         },
       ),
 
