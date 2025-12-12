@@ -80,12 +80,20 @@ import '../../features/gathering/data_layer/repo/gathering_repo_datasorce.dart'
     as _i445;
 import '../../features/gathering/domain_layer/repo/gathering_domain_repository.dart'
     as _i1007;
+import '../../features/gathering/domain_layer/usecase/add_bookmark_usecase.dart'
+    as _i462;
 import '../../features/gathering/domain_layer/usecase/create_gathering_usecase.dart'
     as _i753;
 import '../../features/gathering/domain_layer/usecase/delete_gathering_usecase.dart'
     as _i390;
 import '../../features/gathering/domain_layer/usecase/get_gatherings_usecase.dart'
     as _i547;
+import '../../features/gathering/domain_layer/usecase/get_map_events_usecase.dart'
+    as _i1066;
+import '../../features/gathering/domain_layer/usecase/remove_bookmark_usecase.dart'
+    as _i601;
+import '../../features/gathering/domain_layer/usecase/search_event_usecase.dart'
+    as _i1059;
 import '../../features/gathering/presentation/cubit/gathering_cubit.dart'
     as _i142;
 import '../../features/home/presentation_layer/cubit/home_user_info_cubit.dart'
@@ -190,6 +198,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i106.TripDomainRepository>(
       () => _i557.TripDataRepository(gh<_i39.TripDataSource>()),
     );
+    gh.lazySingleton<_i462.AddBookmarkUseCase>(
+      () => _i462.AddBookmarkUseCase(gh<_i1007.GatheringDomainRepository>()),
+    );
+    gh.lazySingleton<_i601.RemoveBookmarkUseCase>(
+      () => _i601.RemoveBookmarkUseCase(gh<_i1007.GatheringDomainRepository>()),
+    );
     gh.lazySingleton<_i998.ProfileRepository>(
       () => _i121.ProfileRepositoryImpl(gh<_i18.ProfileDatasource>()),
     );
@@ -219,9 +233,26 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i547.GatheringUsecase>(
       () => _i547.GatheringUsecase(gh<_i1007.GatheringDomainRepository>()),
     );
+    gh.lazySingleton<_i1066.GetMapEventsUseCase>(
+      () => _i1066.GetMapEventsUseCase(gh<_i1007.GatheringDomainRepository>()),
+    );
+    gh.lazySingleton<_i1059.SearchEventsUseCase>(
+      () => _i1059.SearchEventsUseCase(gh<_i1007.GatheringDomainRepository>()),
+    );
     gh.lazySingleton<_i11.AuthenticationUsecases>(
       () => _i11.AuthenticationUsecases(
         authRepo: gh<_i725.AuthenticationRepositoryDomain>(),
+      ),
+    );
+    gh.factory<_i142.GatheringCubit>(
+      () => _i142.GatheringCubit(
+        gh<_i547.GatheringUsecase>(),
+        gh<_i753.CreateGatheringUseCase>(),
+        gh<_i390.DeleteGatheringUseCase>(),
+        gh<_i1059.SearchEventsUseCase>(),
+        gh<_i1066.GetMapEventsUseCase>(),
+        gh<_i462.AddBookmarkUseCase>(),
+        gh<_i601.RemoveBookmarkUseCase>(),
       ),
     );
     gh.lazySingleton<_i1040.GenerateTripUseCase>(
@@ -256,13 +287,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i235.CurrencyExchangeUsecase>(
       () =>
           _i235.CurrencyExchangeUsecase(gh<_i629.CurrencyExchangeRepository>()),
-    );
-    gh.factory<_i142.GatheringCubit>(
-      () => _i142.GatheringCubit(
-        gh<_i547.GatheringUsecase>(),
-        gh<_i753.CreateGatheringUseCase>(),
-        gh<_i390.DeleteGatheringUseCase>(),
-      ),
     );
     gh.factory<_i1000.CurrencyExchangeCubit>(
       () => _i1000.CurrencyExchangeCubit(

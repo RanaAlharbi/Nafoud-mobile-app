@@ -7,6 +7,19 @@ part 'gathering_model.mapper.dart';
 
 @MappableClass(caseStyle: CaseStyle.snakeCase)
 class GatheringModel extends GatheringEntity with GatheringModelMappable {
-  GatheringModel(super.id, super.userId, super.title, super.description, super.city, super.date, super.address, super.imageUrl, super.category);
- 
+  GatheringModel({
+    required super.id,
+    required super.userId,
+    required super.title,
+    required super.description,
+    required super.city,
+    required super.date,
+    required super.eventTime,
+    required super.address,
+    required super.imageUrl,
+    required super.category,
+    super.latitude,
+    super.longitude,
+    super.isBookmarked,
+  });
 }

@@ -1,31 +1,33 @@
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../cubit/gathering_cubit.dart';
 class SearchBarWidget extends StatelessWidget {
   const SearchBarWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 278,
       height: 52,
       child: CupertinoTextField(
-        padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 9),
-        placeholder: 'Search here...',
+        onChanged: (text) => context.read<GatheringCubit>().search(text),
+        placeholder: "Search here...",
         placeholderStyle: GoogleFonts.cairo(
-          color: const Color(0xFFB6B6B6),
+          color: Color(0xFFB6B6B6),
           fontSize: 18,
         ),
-
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         prefix: const Padding(
-          padding: EdgeInsets.only(left: 10, right: 5),
-          child: Icon(CupertinoIcons.search, color: Color(0xFF656A53)),
+          padding: EdgeInsets.symmetric(horizontal: 8),
+          child: Icon(
+            CupertinoIcons.search,
+            color: Color(0xFF656A53),
+          ),
         ),
-
         decoration: BoxDecoration(
-          color: const Color(0xFF656A53).withValues(alpha: 0.1),
+          color: Color(0xFF656A53).withOpacity(0.1),
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: const Color(0xFF656A53), width: 1),
+          border: Border.all(color: Color(0xFF656A53)),
         ),
       ),
     );

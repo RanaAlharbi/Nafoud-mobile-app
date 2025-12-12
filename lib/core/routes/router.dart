@@ -9,6 +9,8 @@ import 'package:final_project/features/authentication/presentation_layer/pages/s
 import 'package:final_project/features/authentication/presentation_layer/pages/sign_up_screen.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/otp_screen.dart';
 import 'package:final_project/features/error_page/presentation/pages/error_page_feature_screen.dart';
+import 'package:final_project/features/gathering/domain_layer/entity/gathering_entity.dart';
+import 'package:final_project/features/gathering/presentation/pages/gathering_details_screen.dart';
 import 'package:final_project/features/home/presentation_layer/pages/all_activities_screen.dart';
 import 'package:final_project/features/home/presentation_layer/pages/currency_screen.dart';
 import 'package:final_project/features/home/presentation_layer/pages/emergency_screen.dart';
@@ -30,6 +32,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AppRoutes {
   static const splashScreen = '/splash-screen';
+
   //Auth
   static const authenticationLandingScreen = '/authentication-landing';
   static const signInScreen = '/sign-in';
@@ -56,15 +59,19 @@ class AppRoutes {
   //ai image analysis
   static const aiImageAnalysisScreen = '/ai-image-analysis-screen';
 
-  // Navigationbar
+  // Navigation
   static const navigationScreen = '/navigation_screen';
 
   //onboarding screen
-
   static const onboardingScreen = '/onboarding_screen';
 
+  //add screen
   static const addEventScreen = '/add-event';
 
+  //details page
+  static const eventDetails = '/eventDetails';
+
+  //remember_me
   static String getInitialRoute() {
     final session = GetIt.I.get<SupabaseClient>().auth.currentSession;
     final box = GetIt.I.get<GetStorage>();
@@ -75,7 +82,6 @@ class AppRoutes {
     }
 
     return AppRoutes.onboardingScreen;
-  
   }
 
   static final GoRouter appRouter = GoRouter(
@@ -199,7 +205,6 @@ class AppRoutes {
       //     );
       //   },
       // ),
-
       GoRoute(
         path: AppRoutes.currencyScreen,
         builder: (context, state) => CurrencyScreen(),
@@ -221,7 +226,13 @@ class AppRoutes {
         ),
       ),
 
- 
+      GoRoute(
+        path: AppRoutes.eventDetails,
+        builder: (context, state) {
+          final event = state.extra as GatheringEntity;
+          return GatheringDetailsScreen(event: event);
+        },
+      ),
     ],
     errorBuilder: (context, state) =>
         ErrorPageFeatureScreen(), // Temporary Page, you can edit it to follow the flow
