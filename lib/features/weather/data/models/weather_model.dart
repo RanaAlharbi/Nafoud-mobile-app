@@ -81,5 +81,41 @@ class WeatherModel extends WeatherEntity with WeatherModelMappable {
           : DateTime.now(),
     );
   }
+
+  // Convert to JSON Map for GetStorage
+  Map<String, dynamic> toJsonMap() {
+    return {
+      'lon': lon,
+      'lat': lat,
+      'weatherId': weatherId,
+      'weatherMain': weatherMain,
+      'weatherDescription': weatherDescription,
+      'weatherIcon': weatherIcon,
+      'temp': temp,
+      'feelsLike': feelsLike,
+      'tempMin': tempMin,
+      'tempMax': tempMax,
+      'savedAt': savedAt.toIso8601String(),
+    };
+  }
+
+  // Factory to create from JSON Map (GetStorage)
+  factory WeatherModel.fromJsonMap(Map<String, dynamic> json) {
+    return WeatherModel(
+      lon: _toDouble(json['lon'], 0.0),
+      lat: _toDouble(json['lat'], 0.0),
+      weatherId: json['weatherId'] ?? 0,
+      weatherMain: json['weatherMain'] ?? 'Unknown',
+      weatherDescription: json['weatherDescription'] ?? '',
+      weatherIcon: json['weatherIcon'] ?? '01d',
+      temp: _toDouble(json['temp'], 0.0),
+      feelsLike: _toDouble(json['feelsLike'], 0.0),
+      tempMin: _toDouble(json['tempMin'], 0.0),
+      tempMax: _toDouble(json['tempMax'], 0.0),
+      savedAt: json['savedAt'] != null
+          ? DateTime.parse(json['savedAt'])
+          : DateTime.now(),
+    );
+  }
 }
 

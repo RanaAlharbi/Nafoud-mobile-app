@@ -1,6 +1,6 @@
 part of 'currency_exchange_cubit.dart';
 
-class CurrencyExchangeState {
+class CurrencyExchangeState extends Equatable {
   final List<CountryCurrencyEntity>? currencies;
   final String fromCurrency;
   final String? toCurrency;
@@ -9,7 +9,7 @@ class CurrencyExchangeState {
   final String? errorMessage;
   final bool isLoading;
 
-  CurrencyExchangeState({
+  const CurrencyExchangeState({
     this.currencies,
     this.fromCurrency = 'SAR',
     this.toCurrency,
@@ -18,6 +18,17 @@ class CurrencyExchangeState {
     this.errorMessage,
     this.isLoading = false,
   });
+
+  @override
+  List<Object?> get props => [
+        currencies,
+        fromCurrency,
+        toCurrency,
+        amount,
+        convertedAmount,
+        errorMessage,
+        isLoading,
+      ];
 
   CurrencyExchangeState copyWith({
     List<CountryCurrencyEntity>? currencies,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:remixicon/remixicon.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LanguageSelectorWidget extends StatefulWidget {
   const LanguageSelectorWidget({super.key});
@@ -15,10 +15,13 @@ class _LanguageSelectorWidgetState extends State<LanguageSelectorWidget> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(RemixIcons.translate_2),
+      leading: SvgPicture.asset(
+        'assets/icons/translation.svg',
+        height: 27.h,
+      ),
       title: Text("Language", style: TextStyle(fontSize: 16.h, fontWeight: FontWeight.bold),),
       trailing: PopupMenuButton<String>(
-        offset: Offset(0, 8.h),
+        offset: Offset(0, 30.h),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

@@ -19,71 +19,58 @@ class CountryCodeDropdownWidget extends StatelessWidget {
     this.errorSpace = false,
   });
 
-  // Build country code dropdown item with cached image
-  DropdownMenuItem<String> _buildCountryCodeItem(CountryCodeEntity country) {
-    return DropdownMenuItem(
-      value: country.code,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          CachedNetworkImage(
-            imageUrl: country.flagUrl,
-            width: 24,
-            height: 16,
-            fit: BoxFit.cover,
-            placeholder: (context, url) => Container(
-              width: 24,
-              height: 16,
-              color: Colors.grey,
-              child: const SizedBox(
-                width: 12,
-                height: 12,
-                child: Center(
-                  child: CircularProgressIndicator(
-                    strokeWidth: 1.5,
-                    color: Colors.grey,
-                  ),
-                ),
-              ),
-            ),
-            errorWidget: (context, url, error) {
-              return Container(
-                width: 24,
-                height: 16,
-                color: Colors.grey,
-                child: const Icon(Icons.flag, size: 16, color: Colors.grey),
-              );
-            },
-            fadeInDuration: const Duration(milliseconds: 300),
-            fadeOutDuration: const Duration(milliseconds: 100),
-          ),
-          const SizedBox(width: 8),
-          Text(country.dialCode),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    final selected = countryCodes.firstWhere(
+      (c) => c.code == (selectedCode ?? 'sa'),
+      orElse: () => countryCodes.first,
+    );
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
           decoration: BoxDecoration(
             color: const Color.fromRGBO(255, 248, 232, 1),
             borderRadius: BorderRadius.circular(8),
             border: Border.all(color: Colors.grey, width: 2),
           ),
-          child: DropdownButtonHideUnderline(
-            child: DropdownButton<String>(
-              value: selectedCode ?? 'sa',
-              isExpanded: false,
-              menuMaxHeight: 350.h,
-              items: countryCodes.map(_buildCountryCodeItem).toList(),
-              onChanged: isSubmitting ? null : onChanged,
+          child: PopupMenuButton<String>(
+            offset: Offset(0, 30.h),
+            enabled: !isSubmitting,
+            constraints: BoxConstraints(maxHeight: 350.h),
+            itemBuilder: (context) => countryCodes
+                .map(
+                  (country) => PopupMenuItem<String>(
+                    value: country.code,
+                    child: Text(country.dialCode),
+                  ),
+                )
+                .toList(),
+            onSelected: onChanged,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CachedNetworkImage(
+                  imageUrl: selected.flagUrl,
+                  width: 24,
+                  height: 16,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) =>
+                      Container(width: 24, height: 16, color: Colors.grey),
+                  errorWidget: (context, url, error) => Container(
+                    width: 24,
+                    height: 16,
+                    color: Colors.grey,
+                    child: const Icon(Icons.flag, size: 16),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Text(selected.dialCode),
+                const Icon(Icons.arrow_drop_down, color: Colors.grey),
+              ],
             ),
           ),
         ),

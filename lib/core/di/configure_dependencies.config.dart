@@ -56,6 +56,15 @@ import '../../features/currency_exchange/domain_layer/usecase/currency_exchange_
     as _i235;
 import '../../features/currency_exchange/presentation_layer/cubit/currency_exchange_cubit.dart'
     as _i1000;
+import '../../features/emergency/data_layer/datasource/emergency_datasource.dart'
+    as _i300;
+import '../../features/emergency/di/emergency_module.dart' as _i313;
+import '../../features/emergency/domain_layer/repository/emergency_repository.dart'
+    as _i569;
+import '../../features/emergency/domain_layer/usecase/emergency_usecase.dart'
+    as _i449;
+import '../../features/emergency/presentation_layer/cubit/emergency_cubit.dart'
+    as _i697;
 import '../../features/error_page/data/datasources/error_page_local_data_source.dart'
     as _i1022;
 import '../../features/error_page/data/datasources/error_page_remote_data_source.dart'
@@ -120,6 +129,8 @@ import '../../features/profile/domain_layer/usecase/profile_usecase.dart'
     as _i680;
 import '../../features/profile/presentation_layer/cubit/profile_cubit.dart'
     as _i197;
+import '../../features/weather/data/datasources/weather_get_storage_data_source.dart'
+    as _i362;
 import '../../features/weather/data/datasources/weather_local_data_source.dart'
     as _i609;
 import '../../features/weather/data/datasources/weather_remote_data_source.dart'
@@ -140,6 +151,7 @@ extension GetItInjectableX on _i174.GetIt {
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final thirdPartySetup = _$ThirdPartySetup();
+    final emergencyModule = _$EmergencyModule();
     gh.lazySingleton<_i792.GetStorage>(() => thirdPartySetup.storage);
     gh.lazySingleton<_i454.SupabaseClient>(
       () => thirdPartySetup.supabaseClient,
@@ -147,6 +159,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i361.Dio>(() => thirdPartySetup.dio);
     gh.lazySingleton<_i656.GenerativeModel>(
       () => thirdPartySetup.generativeModel,
+    );
+    gh.lazySingleton<_i300.EmergencyDataSource>(
+      () => emergencyModule.emergencyDataSource,
     );
     gh.lazySingleton<_i158.ProfileCacheService>(
       () => _i158.ProfileCacheService(),
@@ -201,6 +216,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i454.SupabaseClient>(),
         gh<_i158.ProfileCacheService>(),
       ),
+    );
+    gh.lazySingleton<_i362.BaseWeatherGetStorageDataSource>(
+      () => _i362.WeatherGetStorageDataSource(gh<_i792.GetStorage>()),
     );
     gh.lazySingleton<_i106.TripDomainRepository>(
       () => _i557.TripDataRepository(gh<_i39.TripDataSource>()),
@@ -263,17 +281,22 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1059.SearchEventsUseCase>(
       () => _i1059.SearchEventsUseCase(gh<_i1007.GatheringDomainRepository>()),
     );
+    gh.lazySingleton<_i569.EmergencyRepository>(
+      () =>
+          emergencyModule.emergencyRepository(gh<_i300.EmergencyDataSource>()),
+    );
     gh.lazySingleton<_i1040.GenerateTripUseCase>(
       () => _i1040.GenerateTripUseCase(gh<_i106.TripDomainRepository>()),
+    );
+    gh.lazySingleton<_i752.ErrorPageUseCase>(
+      () => _i752.ErrorPageUseCase(gh<_i626.ErrorPageRepositoryDomain>()),
     );
     gh.lazySingleton<_i46.WeatherRepositoryDomain>(
       () => _i122.WeatherRepositoryData(
         gh<_i97.BaseWeatherRemoteDataSource>(),
         gh<_i609.BaseWeatherLocalDataSource>(),
+        gh<_i362.BaseWeatherGetStorageDataSource>(),
       ),
-    );
-    gh.lazySingleton<_i752.ErrorPageUseCase>(
-      () => _i752.ErrorPageUseCase(gh<_i626.ErrorPageRepositoryDomain>()),
     );
     gh.lazySingleton<_i710.EventsUsecase>(
       () => _i710.EventsUsecase(gh<_i586.EventsDomainRepostiory>()),
@@ -322,6 +345,15 @@ extension GetItInjectableX on _i174.GetIt {
         authRepo: gh<_i725.AuthenticationRepositoryDomain>(),
       ),
     );
+    gh.lazySingleton<_i449.EmergencyUseCase>(
+      () => emergencyModule.emergencyUseCase(
+        gh<_i569.EmergencyRepository>(),
+        gh<_i680.ProfileUsecase>(),
+      ),
+    );
+    gh.factory<_i697.EmergencyCubit>(
+      () => _i697.EmergencyCubit(gh<_i449.EmergencyUseCase>()),
+    );
     gh.factory<_i695.WeatherCubit>(
       () => _i695.WeatherCubit(gh<_i324.WeatherUseCase>()),
     );
@@ -345,3 +377,5 @@ extension GetItInjectableX on _i174.GetIt {
 }
 
 class _$ThirdPartySetup extends _i479.ThirdPartySetup {}
+
+class _$EmergencyModule extends _i313.EmergencyModule {}

@@ -16,6 +16,9 @@ class WeatherCubit extends Cubit<WeatherState> {
     'Jeddah, Saudi Arabia': {'lat': 21.5433, 'lon': 39.1728},
     'Dammam, Saudi Arabia': {'lat': 26.4207, 'lon': 50.0888},
     'Abha, Saudi Arabia': {'lat': 18.2164, 'lon': 42.5053},
+    'Taif, Saudi Arabia': {'lat': 21.2703, 'lon': 40.4150},
+    'Medina, Saudi Arabia': {'lat': 24.5247, 'lon': 39.5692},
+    'Al-Ula, Saudi Arabia': {'lat': 26.6087, 'lon': 37.9267},
   };
 
   Future<void> loadAllCitiesWeather() async {

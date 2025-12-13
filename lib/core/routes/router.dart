@@ -11,6 +11,9 @@ import 'package:final_project/features/authentication/presentation_layer/pages/o
 import 'package:final_project/features/error_page/domain/use_cases/error_page_use_case.dart';
 import 'package:final_project/features/error_page/presentation/cubit/error_page_cubit.dart';
 import 'package:final_project/features/error_page/presentation/pages/error_page_feature_screen.dart';
+import 'package:final_project/features/error_page/presentation/cubit/error_page_cubit.dart';
+import 'package:final_project/features/error_page/domain/use_cases/error_page_use_case.dart';
+import 'package:final_project/features/profile/domain_layer/usecase/profile_usecase.dart';
 import 'package:final_project/features/gathering/domain_layer/entity/gathering_entity.dart';
 import 'package:final_project/features/gathering/presentation/cubit/gathering_cubit.dart';
 import 'package:final_project/features/gathering/presentation/pages/add_events.dart';
@@ -18,17 +21,20 @@ import 'package:final_project/features/gathering/presentation/pages/gathering_de
 import 'package:final_project/features/gathering/presentation/pages/select_location_screen.dart';
 import 'package:final_project/features/home/presentation_layer/pages/all_activities_screen.dart';
 import 'package:final_project/features/home/presentation_layer/pages/currency_screen.dart';
-import 'package:final_project/features/home/presentation_layer/pages/emergency_screen.dart';
+import 'package:final_project/features/emergency/presentation_layer/pages/emergency_screen.dart';
 import 'package:final_project/features/home/presentation_layer/pages/home_screen.dart';
 import 'package:final_project/features/home/presentation_layer/pages/sim_card_screen.dart';
 import 'package:final_project/features/profile/domain_layer/usecase/profile_usecase.dart';
 import 'package:final_project/features/transport/presentation_layer/pages/transport_screen.dart';
 import 'package:final_project/features/weather/presentation/cubit/weather_cubit.dart';
 import 'package:final_project/features/weather/presentation/pages/weather_screen.dart';
+import 'package:final_project/features/weather/presentation/cubit/weather_cubit.dart';
+import 'package:final_project/features/weather/presentation/pages/weather_screen.dart';
 import 'package:final_project/features/navigation/presentation_layer/cubit/navigation_cubit.dart';
 import 'package:final_project/features/navigation/presentation_layer/pages/navigation.dart';
 import 'package:final_project/features/onbording/presentation/cubit/onbording_cubit.dart';
 import 'package:final_project/features/onbording/presentation/pages/onboarding_screen.dart';
+import 'package:final_project/features/profile/presentation_layer/pages/bookmark_screen.dart';
 import 'package:final_project/features/profile/presentation_layer/pages/edit_profile_screen.dart';
 import 'package:final_project/features/profile/presentation_layer/pages/profile_screen.dart';
 import 'package:final_project/features/splash/splash_screen.dart';
@@ -60,6 +66,7 @@ class AppRoutes {
   //profile
   static const profileScreen = '/profile-screen';
   static const editProfileScreen = '/edit-profile-screen';
+  static const bookmarkScreen = '/bookmark-screen';
 
   //chat bot
   static const chatScreen = '/chat';
@@ -196,6 +203,10 @@ GoRoute(
         path: AppRoutes.editProfileScreen,
         builder: (context, state) => EditProfileScreen(),
       ),
+      GoRoute(
+        path: AppRoutes.bookmarkScreen,
+        builder: (context, state) => BookmarkScreen(),
+      ),
 
       GoRoute(
         path: AppRoutes.aiImageAnalysisScreen,
@@ -227,6 +238,9 @@ GoRoute(
         path: AppRoutes.simCardScreen,
         builder: (context, state) => SimCardScreen(),
       ),
+
+
+
       GoRoute(
         path: AppRoutes.weatherScreen,
         builder: (context, state) {
@@ -257,6 +271,9 @@ GoRoute(
         ),
       ),
 
+ 
+    ],
+ // Temporary Page, you can edit it to follow the flow
       GoRoute(
         path: "/eventDetails",
         builder: (context, state) {

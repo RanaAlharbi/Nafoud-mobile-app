@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
-import 'package:remixicon/remixicon.dart';
 
 
 // Q/ Why Stateful here? 
@@ -19,7 +19,10 @@ class _FontSizeSelectorWidgetState extends State<FontSizeSelectorWidget> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(RemixIcons.font_size_2),
+      leading: SvgPicture.asset(
+        'assets/icons/text-font.svg',
+        height: 27.h,
+      ),
       title: Text("Font Size", style: TextStyle(fontSize: 16.h, fontWeight: FontWeight.bold),),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
