@@ -15,10 +15,10 @@ class SignInScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _emailController = TextEditingController(text: 'ranaalherabi@gmail.com');
-    final TextEditingController _passwordController = TextEditingController(text: '131312');
-    final ValueNotifier<bool> _obscurePasswordNotifier = ValueNotifier(true);
-    final ValueNotifier<bool> _rememberMeNotifier = ValueNotifier(false);
+    final TextEditingController emailController = TextEditingController(text: 'ranaalherabi@gmail.com');
+    final TextEditingController passwordController = TextEditingController(text: '131312');
+    final ValueNotifier<bool> obscurePasswordNotifier = ValueNotifier(true);
+    final ValueNotifier<bool> rememberMeNotifier = ValueNotifier(false);
 
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
@@ -93,7 +93,7 @@ class SignInScreen extends StatelessWidget {
                           ),
                         ),
                         CupertinoTextField(
-                          controller: _emailController,
+                          controller: emailController,
                           placeholder: "Nafoud@Example.com",
                           placeholderStyle: GoogleFonts.cairo(
                             fontSize: 18.sp,
@@ -137,10 +137,10 @@ class SignInScreen extends StatelessWidget {
                         ),
 
                         ValueListenableBuilder<bool>(
-                          valueListenable: _obscurePasswordNotifier,
+                          valueListenable: obscurePasswordNotifier,
                           builder: (context, isObscured, child) {
                             return CupertinoTextField(
-                              controller: _passwordController,
+                              controller: passwordController,
                               placeholder: "*********",
                               placeholderStyle: GoogleFonts.cairo(
                                 fontSize: 18.sp,
@@ -165,7 +165,7 @@ class SignInScreen extends StatelessWidget {
                                 padding: EdgeInsets.only(right: 12.w),
                                 child: GestureDetector(
                                   onTap: () {
-                                    _obscurePasswordNotifier.value =
+                                    obscurePasswordNotifier.value =
                                         !isObscured;
                                   },
                                   child: SvgPicture.asset(
@@ -185,13 +185,13 @@ class SignInScreen extends StatelessWidget {
                         Row(
                           children: [
                             ValueListenableBuilder<bool>(
-                              valueListenable: _rememberMeNotifier,
+                              valueListenable: rememberMeNotifier,
                               builder: (context, isRemembered, child) {
                                 return GestureDetector(
                                   onTap: () {
-                                    _rememberMeNotifier.value = !isRemembered;
+                                    rememberMeNotifier.value = !isRemembered;
                                   },
-                                  child: Container(
+                                  child: SizedBox(
                                     width: 20.w,
                                     height: 20.h,
                                     child: isRemembered
@@ -260,9 +260,9 @@ class SignInScreen extends StatelessWidget {
                               : () {
                                   context.read<AuthenticationBloc>().add(
                                     SignInSubmitted(
-                                      email: _emailController.text,
-                                      password: _passwordController.text,
-                                      rememberMe: _rememberMeNotifier.value,
+                                      email: emailController.text,
+                                      password: passwordController.text,
+                                      rememberMe: rememberMeNotifier.value,
                                     ),
                                   );
                                 },

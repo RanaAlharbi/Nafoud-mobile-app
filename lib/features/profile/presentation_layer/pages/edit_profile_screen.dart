@@ -64,7 +64,7 @@ class EditProfileScreen extends StatelessWidget {
       create: (context) =>
           ProfileCubit(GetIt.I.get<ProfileUsecase>())..loadProfile(),
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Color.fromRGBO(240, 240, 238, 1),
 
         appBar: AppBar(
           backgroundColor: Colors.transparent,

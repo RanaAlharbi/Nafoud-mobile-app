@@ -15,20 +15,20 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _nameController = TextEditingController();
-    final TextEditingController _emailController = TextEditingController();
-    final TextEditingController _passwordController = TextEditingController();
-    final ValueNotifier<bool> _obscurePasswordNotifier = ValueNotifier(true);
-    final ValueNotifier<bool> _termsAcceptedNotifier = ValueNotifier(false);
-    final ValueNotifier<String?> _errorNotifier = ValueNotifier(null);
+    final TextEditingController nameController = TextEditingController();
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+    final ValueNotifier<bool> obscurePasswordNotifier = ValueNotifier(true);
+    final ValueNotifier<bool> termsAcceptedNotifier = ValueNotifier(false);
+    final ValueNotifier<String?> errorNotifier = ValueNotifier(null);
 
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         if (state is AuthenticationSuccess) {
-          context.go(AppRoutes.otpScreen, extra: _emailController.text);
+          context.go(AppRoutes.otpScreen, extra: emailController.text);
         }
         if (state is AuthenticationFailure) {
-          _errorNotifier.value = state.message;
+          errorNotifier.value = state.message;
         }
       },
       builder: (context, state) {
@@ -98,7 +98,7 @@ class SignUpScreen extends StatelessWidget {
                           ),
                         ),
                         CupertinoTextField(
-                          controller: _nameController,
+                          controller: nameController,
                           placeholder: "Mohammed",
                           placeholderStyle: GoogleFonts.cairo(
                             fontSize: 18.sp,
@@ -136,7 +136,7 @@ class SignUpScreen extends StatelessWidget {
                           ),
                         ),
                         CupertinoTextField(
-                          controller: _emailController,
+                          controller: emailController,
                           placeholder: "Nafoud@Example.com",
                           placeholderStyle: GoogleFonts.cairo(
                             fontSize: 18.sp,
@@ -175,10 +175,10 @@ class SignUpScreen extends StatelessWidget {
                           ),
                         ),
                         ValueListenableBuilder<bool>(
-                          valueListenable: _obscurePasswordNotifier,
+                          valueListenable: obscurePasswordNotifier,
                           builder: (context, isObscured, child) {
                             return CupertinoTextField(
-                              controller: _passwordController,
+                              controller: passwordController,
                               placeholder: "*********",
                               placeholderStyle: GoogleFonts.cairo(
                                 fontSize: 18.sp,
@@ -199,7 +199,7 @@ class SignUpScreen extends StatelessWidget {
                                 padding: const EdgeInsets.only(right: 8.0),
                                 child: GestureDetector(
                                   onTap: () {
-                                    _obscurePasswordNotifier.value =
+                                    obscurePasswordNotifier.value =
                                         !isObscured;
                                   },
                                   child: SvgPicture.asset(
@@ -223,15 +223,15 @@ class SignUpScreen extends StatelessWidget {
                             Padding(
                               padding: EdgeInsets.only(top: 3.h),
                               child: ValueListenableBuilder<bool>(
-                                valueListenable: _termsAcceptedNotifier,
+                                valueListenable: termsAcceptedNotifier,
                                 builder: (context, isAccepted, child) {
                                   return GestureDetector(
                                     onTap: () {
-                                      _termsAcceptedNotifier.value =
+                                      termsAcceptedNotifier.value =
                                           !isAccepted;
-                                      if (_errorNotifier.value ==
+                                      if (errorNotifier.value ==
                                           "You must agree to the Terms & Conditions.") {
-                                        _errorNotifier.value = null;
+                                        errorNotifier.value = null;
                                       }
                                     },
                                     child: isAccepted
@@ -299,7 +299,7 @@ class SignUpScreen extends StatelessWidget {
                         ),
 
                         ValueListenableBuilder<String?>(
-                          valueListenable: _errorNotifier,
+                          valueListenable: errorNotifier,
                           builder: (context, errorMsg, child) {
                             if (errorMsg == null) return SizedBox.shrink();
                             return Padding(
@@ -325,19 +325,19 @@ class SignUpScreen extends StatelessWidget {
                           onPressed: state is AuthenticationLoading
                               ? null
                               : () {
-                                  if (!_termsAcceptedNotifier.value) {
-                                    _errorNotifier.value =
+                                  if (!termsAcceptedNotifier.value) {
+                                    errorNotifier.value =
                                         "You must agree to the Terms & Conditions.";
                                     return;
                                   }
 
-                                  _errorNotifier.value = null;
+                                  errorNotifier.value = null;
 
                                   context.read<AuthenticationBloc>().add(
                                     SignUpSubmitted(
-                                      username: _nameController.text,
-                                      email: _emailController.text,
-                                      password: _passwordController.text,
+                                      username: nameController.text,
+                                      email: emailController.text,
+                                      password: passwordController.text,
                                     ),
                                   );
                                 },

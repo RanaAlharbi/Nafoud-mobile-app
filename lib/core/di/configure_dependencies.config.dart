@@ -104,6 +104,8 @@ import '../../features/profile/domain_layer/usecase/profile_usecase.dart'
     as _i680;
 import '../../features/profile/presentation_layer/cubit/profile_cubit.dart'
     as _i197;
+import '../../features/weather/data/datasources/weather_get_storage_data_source.dart'
+    as _i362;
 import '../../features/weather/data/datasources/weather_local_data_source.dart'
     as _i609;
 import '../../features/weather/data/datasources/weather_remote_data_source.dart'
@@ -186,6 +188,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i158.ProfileCacheService>(),
       ),
     );
+    gh.lazySingleton<_i362.BaseWeatherGetStorageDataSource>(
+      () => _i362.WeatherGetStorageDataSource(gh<_i792.GetStorage>()),
+    );
     gh.lazySingleton<_i106.TripDomainRepository>(
       () => _i557.TripDataRepository(gh<_i39.TripDataSource>()),
     );
@@ -224,14 +229,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1040.GenerateTripUseCase>(
       () => _i1040.GenerateTripUseCase(gh<_i106.TripDomainRepository>()),
     );
+    gh.lazySingleton<_i752.ErrorPageUseCase>(
+      () => _i752.ErrorPageUseCase(gh<_i626.ErrorPageRepositoryDomain>()),
+    );
     gh.lazySingleton<_i46.WeatherRepositoryDomain>(
       () => _i122.WeatherRepositoryData(
         gh<_i97.BaseWeatherRemoteDataSource>(),
         gh<_i609.BaseWeatherLocalDataSource>(),
+        gh<_i362.BaseWeatherGetStorageDataSource>(),
       ),
-    );
-    gh.lazySingleton<_i752.ErrorPageUseCase>(
-      () => _i752.ErrorPageUseCase(gh<_i626.ErrorPageRepositoryDomain>()),
     );
     gh.lazySingleton<_i710.EventsUsecase>(
       () => _i710.EventsUsecase(gh<_i586.EventsDomainRepostiory>()),

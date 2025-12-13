@@ -23,7 +23,7 @@ const  LoadedEvents(this.events);
 final class EventsError extends EventState{
  final String messsage;
 
-  EventsError(this.messsage);
+  const EventsError(this.messsage);
 
   @override
   List<Object> get props => [messsage];

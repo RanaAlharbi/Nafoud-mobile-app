@@ -8,22 +8,16 @@ part 'trip_planner_model.mapper.dart';
 @MappableClass()
 class TripModel extends TripEntity with TripModelMappable {
   const TripModel({
-    String? destination,
-    TravelerType? travelerType,
-    int? adults,
-    int? kids,
-    DateTimeRange? dateRange,
+    super.destination,
+    super.travelerType,
+    super.adults,
+    super.kids,
+    super.dateRange,
     List<String>? assistanceNeeded,
-    BudgetTier? budget,
+    super.budget,
     List<String>? interests,
   }) : super(
-         destination: destination,
-         travelerType: travelerType,
-         adults: adults,
-         kids: kids,
-         dateRange: dateRange,
          assistanceNeeded: assistanceNeeded ?? const [],
-         budget: budget,
          interests: interests ?? const [],
        );
 

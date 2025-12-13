@@ -207,7 +207,13 @@ class ProfileScreen extends StatelessWidget {
                         children: [
                           ListTile(
                             leading: Icon(RemixIcons.user_line),
-                            title: Text("Personal Info", style: TextStyle(fontSize: 16.h, fontWeight: .bold),),
+                            title: Text(
+                              "Personal Info",
+                              style: TextStyle(
+                                fontSize: 16.h,
+                                fontWeight: .bold,
+                              ),
+                            ),
                             trailing: SvgPicture.asset(
                               'assets/Images/profile/arrow-right-01.svg',
                               height: 20.h,
@@ -221,7 +227,13 @@ class ProfileScreen extends StatelessWidget {
                           ),
                           ListTile(
                             leading: Icon(RemixIcons.calendar_check_line),
-                            title: Text("My Activity", style: TextStyle(fontSize: 16.h, fontWeight: .bold),),
+                            title: Text(
+                              "My Activity",
+                              style: TextStyle(
+                                fontSize: 16.h,
+                                fontWeight: .bold,
+                              ),
+                            ),
                             trailing: SvgPicture.asset(
                               'assets/Images/profile/arrow-right-01.svg',
                               height: 20.h,
@@ -230,7 +242,13 @@ class ProfileScreen extends StatelessWidget {
                           ),
                           ListTile(
                             leading: Icon(RemixIcons.bookmark_line),
-                            title: Text("Bookmark", style: TextStyle(fontSize: 16.h, fontWeight: .bold),),
+                            title: Text(
+                              "Bookmark",
+                              style: TextStyle(
+                                fontSize: 16.h,
+                                fontWeight: .bold,
+                              ),
+                            ),
                             trailing: SvgPicture.asset(
                               'assets/Images/profile/arrow-right-01.svg',
                               height: 20.h,
@@ -269,108 +287,135 @@ class ProfileScreen extends StatelessWidget {
 
                       /// Old Delete Logic, DO NOT DELETE IT. the logic was hard.
                       /// We gonna remove it later on when UI/UX team choose to finish edit_profile_screen.dart
-                      // ProfileSettingsCardWidget(
-                      //   children: [
-                      //     ListTile(
-                      //       leading: Icon(
-                      //         RemixIcons.delete_bin_7_fill,
-                      //         color: Colors.red,
-                      //       ),
-                      //       title: Text(
-                      //         "Delete Account",
-                      //         style: TextStyle(color: Colors.red),
-                      //       ),
-                      //       trailing: Icon(
-                      //         Icons.arrow_forward_ios,
-                      //         color: Colors.red,
-                      //         size: 16.sp,
-                      //       ),
-                      //       onTap: () async {
-                      //         final shouldDelete = await showDialog<bool>(
-                      //           context: context,
-                      //           builder: (dialogContext) => AlertDialog(
-                      //             title: Text('Delete Account'),
-                      //             content: Text(
-                      //               'Are you sure you want to delete your account?',
-                      //             ),
-                      //             actions: [
-                      //               TextButton(
-                      //                 onPressed: () =>
-                      //                     Navigator.pop(dialogContext, false),
-                      //                 child: Text('Cancel'),
-                      //               ),
-                      //               TextButton(
-                      //                 onPressed: () =>
-                      //                     Navigator.pop(dialogContext, true),
-                      //                 child: Text(
-                      //                   'Delete Account',
-                      //                   style: TextStyle(color: Colors.red),
-                      //                 ),
-                      //               ),
-                      //             ],
-                      //           ),
-                      //         );
-
-                      //         if (shouldDelete == true && context.mounted) {
-                      //           context.read<ProfileCubit>().deleteAccount();
-                      //           await context.push(AppRoutes.signInScreen);
-                      //         }
-                      //       },
-                      //     ),
-                      //   ],
-                      // ),
-                      // const Gap(20),
-
-                      // Logout Button
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 35.w),
-                        child: OutlinedButton(
-                          onPressed: () async {
-                            final shouldSignOut = await showDialog<bool>(
-                              context: context,
-                              builder: (dialogContext) => AlertDialog(
-                                title: Text('Sign Out', style: TextStyle(fontSize: 25.h),),
-                                content: Text(
-                                  'Are you sure you want to sign out?',
-                                ),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () =>
-                                        Navigator.pop(dialogContext, false),
-                                    child: Text('Cancel',style: TextStyle(fontSize: 15.h)),
+                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 8.w),
+                                child: OutlinedButton(
+                                  onPressed: () async {
+                                    final shouldDelete = await showDialog<bool>(
+                                      context: context,
+                                      builder: (dialogContext) => AlertDialog(
+                                        title: Text('Delete Account'),
+                                        content: Text(
+                                          'Are you sure you want to delete your account?',
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () => Navigator.pop(
+                                              dialogContext,
+                                              false,
+                                            ),
+                                            child: Text('Cancel'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () => Navigator.pop(
+                                              dialogContext,
+                                              true,
+                                            ),
+                                            child: Text(
+                                              'Delete Account',
+                                              style: TextStyle(color: Colors.red),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+
+                                    if (shouldDelete == true && context.mounted) {
+                                      context
+                                          .read<ProfileCubit>()
+                                          .deleteAccount();
+                                      await context.push(AppRoutes.signInScreen);
+                                    }
+                                  },
+                                  style: OutlinedButton.styleFrom(
+                                    backgroundColor: Colors.red,
+                                    foregroundColor: Colors.white,
+                                    side: BorderSide(color: Colors.red, width: 1.w),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.r),
+                                    ),
+                                    minimumSize: Size(double.infinity, 48.h),
                                   ),
-                                  TextButton(
-                                    onPressed: () =>
-                                        Navigator.pop(dialogContext, true),
-                                    child: Text(
-                                      'Sign Out',
-                                      style: TextStyle(color: Colors.red, fontSize: 15.h),
+                                  child: Text(
+                                    'Delete Account',
+                                    style: TextStyle(
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                ],
+                                ),
                               ),
-                            );
+                            ),
+                            Gap(8.w),
+                          // Logout Button
+                          Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 8.w),
+                              child: OutlinedButton(
+                                onPressed: () async {
+                                  final shouldSignOut = await showDialog<bool>(
+                                    context: context,
+                                    builder: (dialogContext) => AlertDialog(
+                                      title: Text(
+                                        'Sign Out',
+                                        style: TextStyle(fontSize: 25.h),
+                                      ),
+                                      content: Text(
+                                        'Are you sure you want to sign out?',
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(dialogContext, false),
+                                          child: Text(
+                                            'Cancel',
+                                            style: TextStyle(fontSize: 15.h),
+                                          ),
+                                        ),
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(dialogContext, true),
+                                          child: Text(
+                                            'Sign Out',
+                                            style: TextStyle(
+                                              color: Colors.red,
+                                              fontSize: 15.h,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
 
-                            if (shouldSignOut == true && context.mounted) {
-                              context.read<ProfileCubit>().signOut();
-                            }
-                          },
-                          style: OutlinedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            foregroundColor: Colors.red,
-                            side: BorderSide(color: Colors.red, width: 1.w),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.r),
+                                  if (shouldSignOut == true && context.mounted) {
+                                    context.read<ProfileCubit>().signOut();
+                                  }
+                                },
+                                style: OutlinedButton.styleFrom(
+                                  backgroundColor: Colors.white,
+                                  foregroundColor: Colors.red,
+                                  side: BorderSide(color: Colors.red, width: 1.w),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.r),
+                                  ),
+                                  minimumSize: Size(double.infinity, 48.h),
+                                ),
+                                child: Text(
+                                  'Logout',
+                                  style: TextStyle(
+                                    fontSize: 20.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
                             ),
-                            minimumSize: Size(double.infinity, 48.h),
                           ),
-                          child: Text(
-                            'Logout',
-                            style: TextStyle(
-                              fontSize: 20.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),  
+                          ],
                         ),
                       ),
                       Gap(25.h),
