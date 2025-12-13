@@ -13,29 +13,6 @@ import 'package:gap/gap.dart';
 class EmergencyScreen extends StatelessWidget {
   const EmergencyScreen({super.key});
 
-  String _getIconUrl(String contactName) {
-    // Map contact names to images
-    final iconMap = {
-      // Local Assets
-      'Police': 'assets/Images/emergency/police.png',
-      'Traffic Police': 'assets/Images/emergency/Traffic_Police.png',
-      'Traffic patrols': 'assets/Images/emergency/Traffic_Patrols.png',
-      'Civil Defence': 'assets/Images/emergency/Civil_Defense.png',
-      'Roads Security': 'assets/Images/emergency/Road_Security.png',
-      'CPVPV': 'assets/Images/emergency/CPVPV.png',
-      'Ministry of Health': 'assets/Images/emergency/Ministry_of_Health.png',
-
-      // Fallback to default for unmapped contacts
-      'Police (Riyadh, Makkah, Medina, and East of Saudi Arabia)': 'assets/Images/emergency/police.png',
-      'Police other countries': 'assets/Images/emergency/police.png',
-      'Public Security': 'assets/Images/emergency/police.png',
-      'Traffic': 'assets/Images/emergency/Traffic_Police.png',
-      'Traffic Violation Inquiries': 'assets/Images/emergency/Traffic_Police.png',
-    };
-
-    return iconMap[contactName] ?? '';
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +93,7 @@ class EmergencyScreen extends StatelessWidget {
                               title: contact.name,
                               number: contact.number,
                               description: state.descriptions[contact.name],
-                              iconUrl: _getIconUrl(contact.name),
+                              iconUrl: state.iconMap[contact.name] ?? '',
                             );
                           },
                         ),

@@ -262,7 +262,9 @@ class ProfileScreen extends StatelessWidget {
                               'assets/Images/profile/arrow-right-01.svg',
                               height: 20.h,
                             ),
-                            onTap: () {},
+                            onTap: () {
+                              context.push(AppRoutes.bookmarkScreen);
+                            },
                           ),
                         ],
                       ),

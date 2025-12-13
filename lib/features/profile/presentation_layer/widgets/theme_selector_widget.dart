@@ -21,7 +21,7 @@ class _ThemeSelectorWidgetState extends State<ThemeSelectorWidget> {
       ),
       title: Text("Appearance", style: TextStyle(fontSize: 16.h, fontWeight: FontWeight.bold),),
       trailing: PopupMenuButton<String>(
-        offset: Offset(0, 8.h),
+        offset: Offset(0, 30.h),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

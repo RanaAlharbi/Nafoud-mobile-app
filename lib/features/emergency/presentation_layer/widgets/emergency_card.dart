@@ -49,46 +49,49 @@ class EmergencyCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Icon Container with double frame
-            Container(
-              width: 70.w,
-              height: 70.w,
-              decoration: BoxDecoration(
-                color: AppColors.primaryColor,
-                shape: BoxShape.circle,
-              ),
-              child: Center(
-                child: Container(
-                  width: 67.w,
-                  height: 67.w,
-                  decoration: BoxDecoration(
-                    color: Color.fromRGBO(239, 240, 237, 1),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.all(8.w),
-                    child: iconUrl.startsWith('assets/')
-                        ? Image.asset(
-                            iconUrl,
-                            fit: BoxFit.contain,
-                            errorBuilder: (context, error, stackTrace) =>
-                                Icon(Icons.phone, size: 30.sp, color: Colors.grey),
-                          )
-                        : iconUrl.endsWith('.svg')
-                            ? SvgPicture.network(
-                                iconUrl,
-                                fit: BoxFit.contain,
-                                placeholderBuilder: (context) => Icon(
-                                  Icons.phone,
-                                  size: 30.sp,
-                                  color: Colors.grey,
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Container(
+                width: 70.w,
+                height: 70.w,
+                decoration: BoxDecoration(
+                  color: AppColors.primaryColor,
+                  shape: BoxShape.circle,
+                ),
+                child: Center(
+                  child: Container(
+                    width: 67.w,
+                    height: 67.w,
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(239, 240, 237, 1),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(8.w),
+                      child: iconUrl.startsWith('assets/')
+                          ? Image.asset(
+                              iconUrl,
+                              fit: BoxFit.contain,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Icon(Icons.phone, size: 30.sp, color: Colors.grey),
+                            )
+                          : iconUrl.endsWith('.svg')
+                              ? SvgPicture.network(
+                                  iconUrl,
+                                  fit: BoxFit.contain,
+                                  placeholderBuilder: (context) => Icon(
+                                    Icons.phone,
+                                    size: 30.sp,
+                                    color: Colors.grey,
+                                  ),
+                                )
+                              : Image.network(
+                                  iconUrl,
+                                  fit: BoxFit.contain,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      Icon(Icons.phone, size: 30.sp, color: Colors.grey),
                                 ),
-                              )
-                            : Image.network(
-                                iconUrl,
-                                fit: BoxFit.contain,
-                                errorBuilder: (context, error, stackTrace) =>
-                                    Icon(Icons.phone, size: 30.sp, color: Colors.grey),
-                              ),
+                    ),
                   ),
                 ),
               ),

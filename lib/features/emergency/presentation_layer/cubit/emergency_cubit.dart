@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:final_project/features/emergency/domain_layer/usecase/emergency_usecase.dart';
 import 'package:final_project/features/emergency/presentation_layer/cubit/emergency_state.dart';
@@ -8,15 +10,20 @@ import 'package:injectable/injectable.dart';
 class EmergencyCubit extends Cubit<EmergencyState> {
   final EmergencyUseCase useCase;
 
-  EmergencyCubit(this.useCase) : super(EmergencyInitialState());
+  EmergencyCubit(this.useCase) : super(const EmergencyInitialState());
 
   Future<void> loadEmergencyContacts() async {
     try {
-      emit(EmergencyLoadingState());
+      emit(const EmergencyLoadingState());
 
       final contacts = await useCase.getEmergencyContacts();
       final embassies = await useCase.getEmbassies();
       final descriptions = await useCase.getDescriptions();
+
+      // Load iconMap from JSON
+      final String jsonString = await rootBundle.loadString('assets/jsons/emergency_icons.json');
+      final Map<String, dynamic> jsonMap = json.decode(jsonString);
+      final Map<String, String> iconMap = Map<String, String>.from(jsonMap);
 
       // Get user's nationality and map it to embassy name
       final nationality = await useCase.getUserNationality();
@@ -32,6 +39,7 @@ class EmergencyCubit extends Cubit<EmergencyState> {
         filteredContacts: contacts,
         embassies: embassies,
         descriptions: descriptions,
+        iconMap: iconMap,
         selectedEmbassy: selectedEmbassy,
       ));
     } catch (e) {

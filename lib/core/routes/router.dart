@@ -24,6 +24,7 @@ import 'package:final_project/features/navigation/presentation_layer/cubit/navig
 import 'package:final_project/features/navigation/presentation_layer/pages/navigation.dart';
 import 'package:final_project/features/onbording/presentation/cubit/onbording_cubit.dart';
 import 'package:final_project/features/onbording/presentation/pages/onboarding_screen.dart';
+import 'package:final_project/features/profile/presentation_layer/pages/bookmark_screen.dart';
 import 'package:final_project/features/profile/presentation_layer/pages/edit_profile_screen.dart';
 import 'package:final_project/features/profile/presentation_layer/pages/profile_screen.dart';
 import 'package:final_project/features/splash/splash_screen.dart';
@@ -54,6 +55,7 @@ class AppRoutes {
   //profile
   static const profileScreen = '/profile-screen';
   static const editProfileScreen = '/edit-profile-screen';
+  static const bookmarkScreen = '/bookmark-screen';
 
   //chat bot
   static const chatScreen = '/chat';
@@ -162,6 +164,10 @@ class AppRoutes {
       GoRoute(
         path: AppRoutes.editProfileScreen,
         builder: (context, state) => EditProfileScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.bookmarkScreen,
+        builder: (context, state) => BookmarkScreen(),
       ),
 
       GoRoute(

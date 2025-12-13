@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
@@ -15,7 +16,7 @@ class CurrencyExchangeCubit extends Cubit<CurrencyExchangeState> {
   final CurrencyCacheDatasource _cacheDatasource;
   CurrencyExchangeEntity? _cachedRates;
 
-  CurrencyExchangeCubit(this._usecase, this._cacheDatasource) : super(CurrencyExchangeState()) {
+  CurrencyExchangeCubit(this._usecase, this._cacheDatasource) : super(const CurrencyExchangeState()) {
     loadCurrencies();
     _initializeWithFreshData();
   }

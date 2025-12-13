@@ -1,3 +1,4 @@
+import 'package:final_project/core/app_theme/app_colors/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -47,31 +48,47 @@ class EmbassyDropdownCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Icon Container
-            Container(
-              width: 60.w,
-              height: 60.w,
-              decoration: BoxDecoration(
-                color: Colors.grey,
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                Icons.language,
-                size: 30.sp,
-                color: Colors.white70,
+            // Icon Container with double frame
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Container(
+                width: 70.w,
+                height: 70.w,
+                decoration: BoxDecoration(
+                  color: AppColors.primaryColor,
+                  shape: BoxShape.circle,
+                ),
+                child: Center(
+                  child: Container(
+                    width: 67.w,
+                    height: 67.w,
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(239, 240, 237, 1),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.language,
+                      size: 30.sp,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
               ),
             ),
             SizedBox(height: 12.h),
 
             // Title
-            Text(
-              'Embassies',
-              style: TextStyle(
-                fontSize: 14.sp,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Embassies',
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+                textAlign: TextAlign.left,
               ),
-              textAlign: TextAlign.center,
             ),
             SizedBox(height: 8.h),
 
