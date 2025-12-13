@@ -1,0 +1,65 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:final_project/features/emergency/domain_layer/usecase/emergency_usecase.dart';
+import 'package:final_project/features/emergency/presentation_layer/cubit/emergency_state.dart';
+import 'package:final_project/features/emergency/presentation_layer/utils/country_code_to_embassy_mapper.dart';
+import 'package:injectable/injectable.dart';
+
+@injectable
+class EmergencyCubit extends Cubit<EmergencyState> {
+  final EmergencyUseCase useCase;
+
+  EmergencyCubit(this.useCase) : super(EmergencyInitialState());
+
+  Future<void> loadEmergencyContacts() async {
+    try {
+      emit(EmergencyLoadingState());
+
+      final contacts = await useCase.getEmergencyContacts();
+      final embassies = await useCase.getEmbassies();
+      final descriptions = await useCase.getDescriptions();
+
+      // Get user's nationality and map it to embassy name
+      final nationality = await useCase.getUserNationality();
+      final defaultEmbassy = CountryCodeToEmbassyMapper.getEmbassyName(nationality);
+
+      // Verify that the embassy exists in the embassies map
+      final selectedEmbassy = defaultEmbassy != null && embassies.containsKey(defaultEmbassy)
+          ? defaultEmbassy
+          : null;
+
+      emit(EmergencyLoadedState(
+        contacts: contacts,
+        filteredContacts: contacts,
+        embassies: embassies,
+        descriptions: descriptions,
+        selectedEmbassy: selectedEmbassy,
+      ));
+    } catch (e) {
+      emit(EmergencyErrorState(e.toString()));
+    }
+  }
+
+  void filterContacts(String query) {
+    if (state is EmergencyLoadedState) {
+      final currentState = state as EmergencyLoadedState;
+
+      if (query.isEmpty) {
+        emit(currentState.copyWith(filteredContacts: currentState.contacts));
+      } else {
+        final filtered = currentState.contacts.where((contact) {
+          return contact.name.toLowerCase().contains(query.toLowerCase()) ||
+              contact.number.toLowerCase().contains(query.toLowerCase());
+        }).toList();
+
+        emit(currentState.copyWith(filteredContacts: filtered));
+      }
+    }
+  }
+
+  void selectEmbassy(String? embassy) {
+    if (state is EmergencyLoadedState) {
+      final currentState = state as EmergencyLoadedState;
+      emit(currentState.copyWith(selectedEmbassy: embassy));
+    }
+  }
+}

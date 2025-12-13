@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:remixicon/remixicon.dart';
 
 class ThemeSelectorWidget extends StatefulWidget {
   const ThemeSelectorWidget({super.key});
@@ -16,7 +15,10 @@ class _ThemeSelectorWidgetState extends State<ThemeSelectorWidget> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(RemixIcons.mental_health_line),
+      leading: SvgPicture.asset(
+        'assets/icons/paint-brush-02.svg',
+        height: 27.h,
+      ),
       title: Text("Appearance", style: TextStyle(fontSize: 16.h, fontWeight: FontWeight.bold),),
       trailing: PopupMenuButton<String>(
         offset: Offset(0, 8.h),

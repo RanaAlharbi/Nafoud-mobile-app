@@ -14,7 +14,7 @@ import 'package:final_project/features/error_page/domain/use_cases/error_page_us
 import 'package:final_project/features/profile/domain_layer/usecase/profile_usecase.dart';
 import 'package:final_project/features/home/presentation_layer/pages/all_activities_screen.dart';
 import 'package:final_project/features/home/presentation_layer/pages/currency_screen.dart';
-import 'package:final_project/features/home/presentation_layer/pages/emergency_screen.dart';
+import 'package:final_project/features/emergency/presentation_layer/pages/emergency_screen.dart';
 import 'package:final_project/features/home/presentation_layer/pages/home_screen.dart';
 import 'package:final_project/features/home/presentation_layer/pages/sim_card_screen.dart';
 import 'package:final_project/features/transport/presentation_layer/pages/transport_screen.dart';

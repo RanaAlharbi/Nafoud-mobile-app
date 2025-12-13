@@ -6,7 +6,6 @@ import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:remixicon/remixicon.dart';
 import '../../../../core/routes/router.dart';
 import '../../domain_layer/usecase/profile_usecase.dart';
 import '../cubit/profile_cubit.dart';
@@ -16,6 +15,7 @@ import '../widgets/profile_settings_card_widget.dart';
 import '../widgets/language_selector_widget.dart';
 import '../widgets/theme_selector_widget.dart';
 import '../widgets/font_size_selector_widget.dart';
+import '../widgets/pulsing_red_shadow_container_widget.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -206,7 +206,10 @@ class ProfileScreen extends StatelessWidget {
                       ProfileSettingsCardWidget(
                         children: [
                           ListTile(
-                            leading: Icon(RemixIcons.user_line),
+                            leading: SvgPicture.asset(
+                              'assets/icons/Personal_Info.svg',
+                              height: 27.h,
+                            ),
                             title: Text(
                               "Personal Info",
                               style: TextStyle(
@@ -226,7 +229,10 @@ class ProfileScreen extends StatelessWidget {
                             },
                           ),
                           ListTile(
-                            leading: Icon(RemixIcons.calendar_check_line),
+                            leading: SvgPicture.asset(
+                              'assets/icons/ticket.svg',
+                              height: 27.h,
+                            ),
                             title: Text(
                               "My Activity",
                               style: TextStyle(
@@ -241,7 +247,10 @@ class ProfileScreen extends StatelessWidget {
                             onTap: () {},
                           ),
                           ListTile(
-                            leading: Icon(RemixIcons.bookmark_line),
+                            leading: SvgPicture.asset(
+                              'assets/icons/Bookmark.svg',
+                              height: 24.h,
+                            ),
                             title: Text(
                               "Bookmark",
                               style: TextStyle(
@@ -295,17 +304,7 @@ class ProfileScreen extends StatelessWidget {
                               child: Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 8.w),
                                 // Red light that comes out of the button
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8.r),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.red.withValues(alpha: 0.6),
-                                        blurRadius: 8,
-                                        spreadRadius: 4,
-                                      ),
-                                    ],
-                                  ),
+                                child: PulsingRedShadowContainer(
                                   child: OutlinedButton(
                                     onPressed: () async {
                                       final shouldDelete = await showDialog<bool>(
