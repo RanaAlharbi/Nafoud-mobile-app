@@ -148,6 +148,7 @@ class EditProfileScreen extends StatelessWidget {
                               hintText: formState.fullName,
                               hintStyle: TextStyle(color: Colors.grey, fontSize: 16.sp),
                               border: InputBorder.none,
+                              contentPadding: EdgeInsets.symmetric(vertical: 14.h),
                             ),
                             onChanged: (value) =>
                                 cubit.updateFormField('fullName', value),
