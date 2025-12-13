@@ -119,10 +119,17 @@ class EditProfileScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              hintText: formState.fullName.isEmpty ? 'Enter Your Full Name' : formState.fullName,
-                              hintStyle: TextStyle(color: Colors.grey, fontSize: 16.sp),
+                              hintText: formState.fullName.isEmpty
+                                  ? 'Enter Your Full Name'
+                                  : formState.fullName,
+                              hintStyle: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 16.sp,
+                              ),
                               border: InputBorder.none,
-                              contentPadding: EdgeInsets.symmetric(vertical: 14.h),
+                              contentPadding: EdgeInsets.symmetric(
+                                vertical: 14.h,
+                              ),
                             ),
                             onChanged: (value) =>
                                 cubit.updateFormField('fullName', value),
@@ -164,14 +171,25 @@ class EditProfileScreen extends StatelessWidget {
                             border: Border.all(color: Colors.grey, width: 1.5),
                           ),
                           child: TextField(
-                            controller: TextEditingController(text: formState.username),
+                            controller: TextEditingController(
+                              text: formState.username,
+                            ),
                             enabled: false,
                             decoration: InputDecoration(
-                              suffixIcon: Icon(Icons.alternate_email, color: AppColors.primaryColor, size: 25.sp),
+                              suffixIcon: Icon(
+                                Icons.alternate_email,
+                                color: AppColors.primaryColor,
+                                size: 25.sp,
+                              ),
                               hintText: 'puerto_rico (without @)',
-                              hintStyle: TextStyle(color: Colors.grey, fontSize: 16.sp),
+                              hintStyle: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 16.sp,
+                              ),
                               border: InputBorder.none,
-                              contentPadding: EdgeInsets.symmetric(vertical: 14.h),
+                              contentPadding: EdgeInsets.symmetric(
+                                vertical: 14.h,
+                              ),
                             ),
                           ),
                         ),
@@ -228,10 +246,17 @@ class EditProfileScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              hintText: formState.email.isEmpty ? 'youremail@domain.com' : formState.email,
-                              hintStyle: TextStyle(color: Colors.grey, fontSize: 16.sp),
+                              hintText: formState.email.isEmpty
+                                  ? 'youremail@domain.com'
+                                  : formState.email,
+                              hintStyle: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 16.sp,
+                              ),
                               border: InputBorder.none,
-                              contentPadding: EdgeInsets.symmetric(vertical: 14.h),
+                              contentPadding: EdgeInsets.symmetric(
+                                vertical: 14.h,
+                              ),
                             ),
                             onChanged: (value) =>
                                 cubit.updateFormField('email', value),
@@ -304,20 +329,36 @@ class EditProfileScreen extends StatelessWidget {
                                   const SizedBox(width: 12),
                                   Expanded(
                                     child: Container(
-                                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 16.w,
+                                      ),
                                       decoration: BoxDecoration(
                                         color: Colors.transparent,
-                                        borderRadius: BorderRadius.circular(12.r),
-                                        border: Border.all(color: Colors.grey, width: 1.5),
+                                        borderRadius: BorderRadius.circular(
+                                          12.r,
+                                        ),
+                                        border: Border.all(
+                                          color: Colors.grey,
+                                          width: 1.5,
+                                        ),
                                       ),
                                       child: TextField(
                                         enabled: false,
                                         decoration: InputDecoration(
-                                          suffixIcon: Icon(Icons.phone_outlined, color: AppColors.primaryColor, size: 20.sp),
+                                          suffixIcon: Icon(
+                                            Icons.phone_outlined,
+                                            color: AppColors.primaryColor,
+                                            size: 20.sp,
+                                          ),
                                           hintText: '123-456-7890',
-                                          hintStyle: TextStyle(color: Colors.grey, fontSize: 16.sp),
+                                          hintStyle: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 16.sp,
+                                          ),
                                           border: InputBorder.none,
-                                          contentPadding: EdgeInsets.symmetric(vertical: 14.h),
+                                          contentPadding: EdgeInsets.symmetric(
+                                            vertical: 14.h,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -336,7 +377,10 @@ class EditProfileScreen extends StatelessWidget {
                                   selectedCode: formState.phoneCountryCode,
                                   countryCodes: countryCodes,
                                   isSubmitting: formState.isSubmitting,
-                                  errorSpace: formState.validationErrors['phoneNumber'] != null,
+                                  errorSpace:
+                                      formState
+                                          .validationErrors['phoneNumber'] !=
+                                      null,
                                   onChanged: (value) {
                                     if (value != null) {
                                       // Find the country and get its dial code
@@ -360,25 +404,44 @@ class EditProfileScreen extends StatelessWidget {
                                 // Phone number field
                                 Expanded(
                                   child: Container(
-                                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 16.w,
+                                    ),
                                     decoration: BoxDecoration(
                                       color: Colors.transparent,
                                       borderRadius: BorderRadius.circular(12.r),
-                                      border: Border.all(color: Colors.grey, width: 1.5),
+                                      border: Border.all(
+                                        color: Colors.grey,
+                                        width: 1.5,
+                                      ),
                                     ),
                                     child: TextField(
                                       key: const ValueKey('phoneNumber'),
                                       enabled: !formState.isSubmitting,
                                       keyboardType: TextInputType.phone,
                                       decoration: InputDecoration(
-                                        suffixIcon: Icon(Icons.phone_outlined, color: AppColors.primaryColor, size: 20.sp),
-                                        hintText: formState.phoneNumber.isEmpty ? '123-456-7890' : formState.phoneNumber,
-                                        hintStyle: TextStyle(color: Colors.grey, fontSize: 16.sp),
+                                        suffixIcon: Icon(
+                                          Icons.phone_outlined,
+                                          color: AppColors.primaryColor,
+                                          size: 20.sp,
+                                        ),
+                                        hintText: formState.phoneNumber.isEmpty
+                                            ? '123-456-7890'
+                                            : formState.phoneNumber,
+                                        hintStyle: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 16.sp,
+                                        ),
                                         border: InputBorder.none,
-                                        contentPadding: EdgeInsets.symmetric(vertical: 14.h),
+                                        contentPadding: EdgeInsets.symmetric(
+                                          vertical: 14.h,
+                                        ),
                                       ),
                                       onChanged: (value) =>
-                                          cubit.updateFormField('phoneNumber', value),
+                                          cubit.updateFormField(
+                                            'phoneNumber',
+                                            value,
+                                          ),
                                     ),
                                   ),
                                 ),
@@ -432,7 +495,9 @@ class EditProfileScreen extends StatelessWidget {
                                           ),
                                           decoration: BoxDecoration(
                                             color: Colors.transparent,
-                                            borderRadius: BorderRadius.circular(12.r),
+                                            borderRadius: BorderRadius.circular(
+                                              12.r,
+                                            ),
                                             border: Border.all(
                                               color: Colors.grey,
                                               width: 1.5,
@@ -444,9 +509,10 @@ class EditProfileScreen extends StatelessWidget {
                                               child: SizedBox(
                                                 width: 16,
                                                 height: 16,
-                                                child: CircularProgressIndicator(
-                                                  strokeWidth: 2,
-                                                ),
+                                                child:
+                                                    CircularProgressIndicator(
+                                                      strokeWidth: 2,
+                                                    ),
                                               ),
                                             ),
                                           ),
@@ -458,7 +524,8 @@ class EditProfileScreen extends StatelessWidget {
                                           isSubmitting: formState.isSubmitting,
                                           onChanged: (value) =>
                                               cubit.updateNationality(value),
-                                          errorText: formState.validationErrors['nationality'],
+                                          errorText: formState
+                                              .validationErrors['nationality'],
                                         ),
                                 ],
                               ),
@@ -487,7 +554,10 @@ class EditProfileScreen extends StatelessWidget {
                                       color: Colors.transparent,
                                       borderRadius: BorderRadius.circular(12.r),
                                       border: Border.all(
-                                        color: formState.validationErrors['gender'] != null
+                                        color:
+                                            formState
+                                                    .validationErrors['gender'] !=
+                                                null
                                             ? Colors.red
                                             : Colors.grey,
                                         width: 1.5,
@@ -508,23 +578,33 @@ class EditProfileScreen extends StatelessWidget {
                                               ),
                                             ),
                                           ),
-                                          const Icon(Icons.arrow_drop_down, color: Colors.grey),
+                                          const Icon(
+                                            Icons.arrow_drop_down,
+                                            color: Colors.grey,
+                                          ),
                                         ],
                                       ),
-                                      itemBuilder: (context) => ['Male', 'Female']
-                                          .map(
-                                            (gender) => PopupMenuItem<String>(
-                                              value: gender,
-                                              child: Text(gender),
-                                            ),
-                                          )
-                                          .toList(),
-                                      onSelected: (value) => cubit.updateGender(value),
+                                      itemBuilder: (context) =>
+                                          ['Male', 'Female']
+                                              .map(
+                                                (gender) =>
+                                                    PopupMenuItem<String>(
+                                                      value: gender,
+                                                      child: Text(gender),
+                                                    ),
+                                              )
+                                              .toList(),
+                                      onSelected: (value) =>
+                                          cubit.updateGender(value),
                                     ),
                                   ),
-                                  if (formState.validationErrors['gender'] != null)
+                                  if (formState.validationErrors['gender'] !=
+                                      null)
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 12, top: 8),
+                                      padding: const EdgeInsets.only(
+                                        left: 12,
+                                        top: 8,
+                                      ),
                                       child: Text(
                                         formState.validationErrors['gender']!,
                                         style: const TextStyle(
@@ -566,11 +646,22 @@ class EditProfileScreen extends StatelessWidget {
                             key: const ValueKey('address'),
                             enabled: !formState.isSubmitting,
                             decoration: InputDecoration(
-                              suffixIcon: Icon(Icons.location_on_outlined, color: AppColors.primaryColor, size: 28.sp),
-                              hintText: formState.address.isEmpty ? '45 New Avenue, New York' : formState.address,
-                              hintStyle: TextStyle(color: Colors.grey, fontSize: 16.sp),
+                              suffixIcon: Icon(
+                                Icons.location_on_outlined,
+                                color: AppColors.primaryColor,
+                                size: 28.sp,
+                              ),
+                              hintText: formState.address.isEmpty
+                                  ? '45 New Avenue, New York'
+                                  : formState.address,
+                              hintStyle: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 16.sp,
+                              ),
                               border: InputBorder.none,
-                              contentPadding: EdgeInsets.symmetric(vertical: 14.h),
+                              contentPadding: EdgeInsets.symmetric(
+                                vertical: 14.h,
+                              ),
                             ),
                             onChanged: (value) =>
                                 cubit.updateFormField('address', value),

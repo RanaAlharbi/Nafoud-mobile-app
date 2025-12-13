@@ -22,7 +22,11 @@ class HomeScreen extends StatelessWidget {
   String _getInitials(String? name) {
     if (name == null || name.isEmpty) return '';
 
-    final words = name.trim().split(' ').where((word) => word.isNotEmpty).toList();
+    final words = name
+        .trim()
+        .split(' ')
+        .where((word) => word.isNotEmpty)
+        .toList();
 
     if (words.isEmpty) return '';
     if (words.length == 1) return words[0][0].toUpperCase();
@@ -43,7 +47,7 @@ class HomeScreen extends StatelessWidget {
         ),
       ],
       child: Scaffold(
-        backgroundColor: Color.fromRGBO(241,241,241, 1),
+        backgroundColor: Color.fromRGBO(241, 241, 241, 1),
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
@@ -73,66 +77,113 @@ class HomeScreen extends StatelessWidget {
                                   shape: BoxShape.circle,
                                   border: Border.all(
                                     color: avatarUrl != null
-                                        ? const Color.fromRGBO(101, 106, 83, 1) // 656A53 hex
-                                        : const Color.fromRGBO(194, 164, 128, 1),
+                                        ? const Color.fromRGBO(
+                                            101,
+                                            106,
+                                            83,
+                                            1,
+                                          ) // 656A53 hex
+                                        : const Color.fromRGBO(
+                                            194,
+                                            164,
+                                            128,
+                                            1,
+                                          ),
                                     width: 2.5.w,
                                   ),
                                 ),
                                 child: CircleAvatar(
-                                  backgroundColor: const Color.fromRGBO(237, 234, 231, 1), // EDEAE7 hex
+                                  backgroundColor: const Color.fromRGBO(
+                                    237,
+                                    234,
+                                    231,
+                                    1,
+                                  ), // EDEAE7 hex
                                   radius: 40.h,
 
                                   // The image itself (PFP)
                                   child: avatarUrl != null
                                       ? CachedNetworkImage(
                                           imageUrl: avatarUrl,
-                                          imageBuilder: (context, imageProvider) => Container(
-                                            width: 80.h,
-                                            height: 80.h,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              image: DecorationImage(
-                                                image: imageProvider,
-                                                fit: BoxFit.cover,
+                                          imageBuilder:
+                                              (context, imageProvider) =>
+                                                  Container(
+                                                    width: 80.h,
+                                                    height: 80.h,
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      image: DecorationImage(
+                                                        image: imageProvider,
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    ),
+                                                  ),
+                                          placeholder: (context, url) =>
+                                              CircularProgressIndicator(
+                                                strokeWidth: 2.w,
+                                                color: const Color.fromRGBO(
+                                                  194,
+                                                  164,
+                                                  128,
+                                                  1,
+                                                ),
                                               ),
-                                            ),
-                                          ),
-                                          placeholder: (context, url) => CircularProgressIndicator(
-                                            strokeWidth: 2.w,
-                                            color: const Color.fromRGBO(194, 164, 128, 1),
-                                          ),
                                           errorWidget: (context, url, error) {
-                                            final initials = _getInitials(fullName);
+                                            final initials = _getInitials(
+                                              fullName,
+                                            );
                                             return initials.isNotEmpty
                                                 ? Text(
                                                     initials,
                                                     style: TextStyle(
-                                                      color: const Color.fromRGBO(194, 164, 128, 1), // C2A480 hex
+                                                      color:
+                                                          const Color.fromRGBO(
+                                                            194,
+                                                            164,
+                                                            128,
+                                                            1,
+                                                          ), // C2A480 hex
                                                       fontSize: 35.sp,
-                                                      fontWeight: FontWeight.bold,
+                                                      fontWeight:
+                                                          FontWeight.bold,
                                                     ),
                                                   )
                                                 : Icon(
                                                     Icons.person,
                                                     size: 40.h,
-                                                    color: const Color.fromRGBO(194, 164, 128, 1),
+                                                    color: const Color.fromRGBO(
+                                                      194,
+                                                      164,
+                                                      128,
+                                                      1,
+                                                    ),
                                                   );
                                           },
                                         )
                                       : _getInitials(fullName).isNotEmpty
-                                          ? Text(
-                                              _getInitials(fullName),
-                                              style: TextStyle(
-                                                color: const Color.fromRGBO(194, 164, 128, 1), // C2A480 hex
-                                                fontSize: 35.sp,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            )
-                                          : Icon(
-                                              Icons.person,
-                                              size: 40.h,
-                                              color: const Color.fromRGBO(194, 164, 128, 1),
-                                            ),
+                                      ? Text(
+                                          _getInitials(fullName),
+                                          style: TextStyle(
+                                            color: const Color.fromRGBO(
+                                              194,
+                                              164,
+                                              128,
+                                              1,
+                                            ), // C2A480 hex
+                                            fontSize: 35.sp,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        )
+                                      : Icon(
+                                          Icons.person,
+                                          size: 40.h,
+                                          color: const Color.fromRGBO(
+                                            194,
+                                            164,
+                                            128,
+                                            1,
+                                          ),
+                                        ),
                                 ),
                               ),
                               Expanded(
@@ -200,10 +251,7 @@ class HomeScreen extends StatelessWidget {
                           return LinearGradient(
                             begin: Alignment.centerLeft,
                             end: Alignment.centerRight,
-                            colors: [
-                              Colors.white,
-                              Colors.transparent,
-                            ],
+                            colors: [Colors.white, Colors.transparent],
                             stops: [0.65, 1],
                           ).createShader(bounds);
                         },
@@ -212,13 +260,16 @@ class HomeScreen extends StatelessWidget {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(16.r),
                             color: AppColors.primaryColor,
-                            border: Border.all(color: AppColors.khuzamaColor, width: 2),
+                            border: Border.all(
+                              color: AppColors.khuzamaColor,
+                              width: 2,
+                            ),
                           ),
                           width: double.infinity,
                           height: 200.h,
                         ),
                       ),
-                      // Content 
+                      // Content
                       Container(
                         width: double.infinity,
                         padding: EdgeInsets.all(24.w),
@@ -300,10 +351,7 @@ class HomeScreen extends StatelessWidget {
                             return LinearGradient(
                               begin: Alignment.centerLeft,
                               end: Alignment.centerRight,
-                              colors: [
-                                Colors.transparent,
-                                Colors.white,
-                              ],
+                              colors: [Colors.transparent, Colors.white],
                               stops: [0.2, 1],
                             ).createShader(bounds);
                           },
