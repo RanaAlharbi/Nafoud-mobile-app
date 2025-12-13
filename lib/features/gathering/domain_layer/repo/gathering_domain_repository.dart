@@ -10,5 +10,8 @@ abstract class GatheringDomainRepository {
   Future<Result<void, String>> addBookmark(String eventId);
   Future<Result<void, String>> removeBookmark(String eventId);
   Future<Result<String, String>> uploadImage(String filePath);
+  Future<Result<List<String>, String>> getUserBookmarks();
+  Future<Result<void, String>> joinEvent(String eventId);
+  Future<Result<List<String>, String>> getParticipants(String eventId);
 
 }

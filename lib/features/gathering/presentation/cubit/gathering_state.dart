@@ -8,11 +8,52 @@ abstract class GatheringState extends Equatable {
   @override
   List<Object?> get props => [];
 }
+class GatheringFormUpdated extends GatheringState {
+  final String? selectedCategory;
+  final String? selectedImageUrl;
+  final DateTime? selectedDate;
+  final TimeOfDay? selectedTime;
+  final double? selectedLat;
+  final double? selectedLng;
 
-class GatheringFormUpdated extends GatheringState {}
+  const GatheringFormUpdated({
+    this.selectedCategory,
+    this.selectedImageUrl,
+    this.selectedDate,
+    this.selectedTime,
+    this.selectedLat,
+    this.selectedLng,
+  });
+
+  @override
+  List<Object?> get props => [
+    selectedCategory,
+    selectedImageUrl,
+    selectedDate,
+    selectedTime,
+    selectedLat,
+    selectedLng,
+  ];
+}
+
 class GatheringInitial extends GatheringState {}
 
 class GatheringLoading extends GatheringState {}
+
+
+class GatheringParticipantsLoaded extends GatheringState {
+  final List<String> avatars;
+
+  GatheringParticipantsLoaded(this.avatars);
+
+  @override
+  List<Object?> get props => [avatars];
+}
+
+class GatheringMessage extends GatheringState {
+  final String message;
+  GatheringMessage(this.message);
+}
 
 class GatheringLoadingWithCategory extends GatheringState {
   final String selectedCategory;

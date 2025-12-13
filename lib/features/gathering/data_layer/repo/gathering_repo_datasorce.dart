@@ -34,7 +34,6 @@ class GatheringRepoDatasource implements GatheringDomainRepository {
   @override
   Future<Result<void, String>> createUserEvent(GatheringEntity event) {
     final model = GatheringModel(
-      id: event.id,
       userId: event.userId,
       title: event.title,
       description: event.description,
@@ -46,7 +45,6 @@ class GatheringRepoDatasource implements GatheringDomainRepository {
       category: event.category,
       latitude: event.latitude,
       longitude: event.longitude,
-    
     );
 
     return remoteDataSource.createUserEvent(model);
@@ -57,7 +55,6 @@ class GatheringRepoDatasource implements GatheringDomainRepository {
     return remoteDataSource.deleteUserEvent(id, userId);
   }
 
-  
   @override
   Future<Result<void, String>> addBookmark(String eventId) {
     return remoteDataSource.addBookmark(eventId);
@@ -72,9 +69,19 @@ class GatheringRepoDatasource implements GatheringDomainRepository {
   Future<Result<String, String>> uploadImage(String filePath) {
     return remoteDataSource.uploadImage(filePath);
   }
+
+  @override
+  Future<Result<List<String>, String>> getUserBookmarks() {
+    return remoteDataSource.getUserBookmarks();
+  }
+
+  @override
+  Future<Result<void, String>> joinEvent(String eventId) {
+    return remoteDataSource.joinEvent(eventId);
+  }
+
+  @override
+  Future<Result<List<String>, String>> getParticipants(String eventId) {
+    return remoteDataSource.getParticipants(eventId);
+  }
 }
-
-
-
-  
-

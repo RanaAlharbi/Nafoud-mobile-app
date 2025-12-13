@@ -32,19 +32,21 @@ class GatheringEntity extends Equatable {
     this.isBookmarked = false,
   });
 
-  @override
-  List<Object?> get props => [
-    id,
-    userId,
-    title,
-    description,
-    city,
-    date,
-    eventTime,
-    address,
-    imageUrl,
-    category,
-    latitude,
-    longitude,
-  ];
+ @override
+List<Object?> get props => [
+  id,
+  userId,
+  title,
+  description,
+  city,
+  date,
+  eventTime,
+  address,
+  imageUrl,
+  category,
+  latitude,
+  longitude,
+  isBookmarked,  
+];
+
 }

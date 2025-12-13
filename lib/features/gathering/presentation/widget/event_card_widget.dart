@@ -93,7 +93,7 @@ class EventCardWidget extends StatelessWidget {
                 ),
               ),
 
-              // bookmark 
+              // bookmark
               Positioned(
                 top: 12,
                 right: 12,
@@ -111,7 +111,9 @@ class EventCardWidget extends StatelessWidget {
                       isBookmarked
                           ? CupertinoIcons.bookmark_solid
                           : CupertinoIcons.bookmark,
-                      color: const Color(0xFF3D4032),
+                      color: isBookmarked
+                          ? const Color(0xFF656A53) 
+                          : const Color(0xFF3D4032), 
                       size: 20,
                     ),
                   ),

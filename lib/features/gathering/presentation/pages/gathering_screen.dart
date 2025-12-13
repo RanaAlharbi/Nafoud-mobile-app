@@ -37,6 +37,7 @@ class GatheringScreen extends StatelessWidget {
           child: BlocBuilder<GatheringCubit, GatheringState>(
             builder: (context, state) {
               final cubit = context.read<GatheringCubit>();
+
               return Stack(
                 children: [
                   Padding(
@@ -45,7 +46,6 @@ class GatheringScreen extends StatelessWidget {
                       children: [
                         const Gap(20),
 
-                        // SEARCH + BUTTONS
                         Row(
                           children: [
                             const Expanded(child: SearchBarWidget()),
@@ -62,7 +62,7 @@ class GatheringScreen extends StatelessWidget {
 
                         const Gap(16),
 
-                        // CATEGORY CHIPS
+                      
                         CategoryChipsWidget(categories: cubit.categories),
 
                         const Gap(20),
@@ -91,7 +91,6 @@ class GatheringScreen extends StatelessWidget {
                                 itemCount: state.events.length,
                                 itemBuilder: (_, i) {
                                   final e = state.events[i];
-
                                   return EventCardWidget(
                                     title: e.title,
                                     city: e.city,
@@ -100,12 +99,17 @@ class GatheringScreen extends StatelessWidget {
                                     image: e.imageUrl,
                                     isBookmarked: e.isBookmarked,
                                     onToggleBookmark: () {
-                                      context
-                                          .read<GatheringCubit>()
-                                          .toggleBookmark(e.id!);
+                                      cubit.toggleBookmark(e.id!);
                                     },
-                                    onViewDetails: () {
-                                      context.push("/eventDetails", extra: e);
+                                    onViewDetails: () async {
+                                      final result = await context.push(
+                                        "/eventDetails",
+                                        extra: {"event": e, "cubit": cubit},
+                                      );
+
+                                      if (result == "refresh") {
+                                        cubit.fetchEvents();
+                                      }
                                     },
                                   );
                                 },
@@ -119,6 +123,7 @@ class GatheringScreen extends StatelessWidget {
                     ),
                   ),
 
+            
                   Positioned(
                     bottom: 10,
                     right: 20,
@@ -136,11 +141,15 @@ class GatheringScreen extends StatelessWidget {
                           color: CupertinoColors.white,
                           size: 26,
                         ),
-                        onPressed: () {
-                          context.push(
+                        onPressed: () async {
+                          final result = await context.push(
                             "/addEvent",
-                            extra: context.read<GatheringCubit>(),
+                            extra: cubit,
                           );
+
+                          if (result == "refresh") {
+                            cubit.fetchEvents();
+                          }
                         },
                       ),
                     ),
