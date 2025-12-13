@@ -33,9 +33,9 @@ class CountryCodeDropdownWidget extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
           decoration: BoxDecoration(
-            color: const Color.fromRGBO(255, 248, 232, 1),
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: Colors.grey, width: 2),
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(12.r),
+            border: Border.all(color: Colors.grey, width: 1.5),
           ),
           child: PopupMenuButton<String>(
             offset: Offset(0, 30.h),

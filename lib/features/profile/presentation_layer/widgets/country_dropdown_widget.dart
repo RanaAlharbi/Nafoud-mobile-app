@@ -37,11 +37,11 @@ class CountryDropdownWidget extends StatelessWidget {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
           decoration: BoxDecoration(
-            color: const Color.fromRGBO(250, 244, 230, 1),
-            borderRadius: BorderRadius.circular(8),
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(12.r),
             border: Border.all(
               color: errorText != null ? Colors.red : Colors.grey,
-              width: 2,
+              width: 1.5,
             ),
           ),
           child: PopupMenuButton<String>(

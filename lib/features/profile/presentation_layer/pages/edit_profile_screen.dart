@@ -119,7 +119,7 @@ class EditProfileScreen extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              hintText: formState.fullName,
+                              hintText: formState.fullName.isEmpty ? 'Enter Your Full Name' : formState.fullName,
                               hintStyle: TextStyle(color: Colors.grey, fontSize: 16.sp),
                               border: InputBorder.none,
                               contentPadding: EdgeInsets.symmetric(vertical: 14.h),
@@ -167,7 +167,7 @@ class EditProfileScreen extends StatelessWidget {
                             controller: TextEditingController(text: formState.username),
                             enabled: false,
                             decoration: InputDecoration(
-                              suffixIcon: Icon(Icons.alternate_email, color: Colors.grey, size: 20.sp),
+                              suffixIcon: Icon(Icons.alternate_email, color: AppColors.primaryColor, size: 25.sp),
                               hintText: 'puerto_rico (without @)',
                               hintStyle: TextStyle(color: Colors.grey, fontSize: 16.sp),
                               border: InputBorder.none,
@@ -212,11 +212,22 @@ class EditProfileScreen extends StatelessWidget {
                           ),
                           child: TextField(
                             key: const ValueKey('email'),
-                            controller: TextEditingController(text: formState.email),
                             enabled: !formState.isSubmitting,
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
-                              suffixIcon: Icon(Icons.email_outlined, color: Colors.grey, size: 20.sp),
+                              suffixIcon: Padding(
+                                padding: EdgeInsets.all(12.w),
+                                child: SvgPicture.asset(
+                                  'assets/icons/Mail.svg',
+                                  width: 20.w,
+                                  height: 20.h,
+                                  fit: BoxFit.contain,
+                                  colorFilter: ColorFilter.mode(
+                                    AppColors.primaryColor,
+                                    BlendMode.srcIn,
+                                  ),
+                                ),
+                              ),
                               hintText: formState.email.isEmpty ? 'youremail@domain.com' : formState.email,
                               hintStyle: TextStyle(color: Colors.grey, fontSize: 16.sp),
                               border: InputBorder.none,
@@ -269,11 +280,11 @@ class EditProfileScreen extends StatelessWidget {
                                       vertical: 14,
                                     ),
                                     decoration: BoxDecoration(
-                                      color: const Color.fromRGBO(255, 248, 232, 1),
-                                      borderRadius: BorderRadius.circular(8),
+                                      color: Colors.transparent,
+                                      borderRadius: BorderRadius.circular(12.r),
                                       border: Border.all(
                                         color: Colors.grey,
-                                        width: 2,
+                                        width: 1.5,
                                       ),
                                     ),
                                     child: const SizedBox(
@@ -302,7 +313,7 @@ class EditProfileScreen extends StatelessWidget {
                                       child: TextField(
                                         enabled: false,
                                         decoration: InputDecoration(
-                                          suffixIcon: Icon(Icons.phone_outlined, color: Colors.grey, size: 20.sp),
+                                          suffixIcon: Icon(Icons.phone_outlined, color: AppColors.primaryColor, size: 20.sp),
                                           hintText: '123-456-7890',
                                           hintStyle: TextStyle(color: Colors.grey, fontSize: 16.sp),
                                           border: InputBorder.none,
@@ -357,11 +368,10 @@ class EditProfileScreen extends StatelessWidget {
                                     ),
                                     child: TextField(
                                       key: const ValueKey('phoneNumber'),
-                                      controller: TextEditingController(text: formState.phoneNumber),
                                       enabled: !formState.isSubmitting,
                                       keyboardType: TextInputType.phone,
                                       decoration: InputDecoration(
-                                        suffixIcon: Icon(Icons.phone_outlined, color: Colors.grey, size: 20.sp),
+                                        suffixIcon: Icon(Icons.phone_outlined, color: AppColors.primaryColor, size: 20.sp),
                                         hintText: formState.phoneNumber.isEmpty ? '123-456-7890' : formState.phoneNumber,
                                         hintStyle: TextStyle(color: Colors.grey, fontSize: 16.sp),
                                         border: InputBorder.none,
@@ -421,11 +431,11 @@ class EditProfileScreen extends StatelessWidget {
                                             vertical: 14,
                                           ),
                                           decoration: BoxDecoration(
-                                            color: const Color.fromRGBO(250, 244, 230, 1),
-                                            borderRadius: BorderRadius.circular(8),
+                                            color: Colors.transparent,
+                                            borderRadius: BorderRadius.circular(12.r),
                                             border: Border.all(
                                               color: Colors.grey,
-                                              width: 2,
+                                              width: 1.5,
                                             ),
                                           ),
                                           child: const SizedBox(
@@ -474,13 +484,13 @@ class EditProfileScreen extends StatelessWidget {
                                       vertical: 14,
                                     ),
                                     decoration: BoxDecoration(
-                                      color: const Color.fromRGBO(250, 244, 230, 1),
-                                      borderRadius: BorderRadius.circular(8),
+                                      color: Colors.transparent,
+                                      borderRadius: BorderRadius.circular(12.r),
                                       border: Border.all(
                                         color: formState.validationErrors['gender'] != null
                                             ? Colors.red
                                             : Colors.grey,
-                                        width: 2,
+                                        width: 1.5,
                                       ),
                                     ),
                                     child: PopupMenuButton<String>(
@@ -554,10 +564,9 @@ class EditProfileScreen extends StatelessWidget {
                           ),
                           child: TextField(
                             key: const ValueKey('address'),
-                            controller: TextEditingController(text: formState.address),
                             enabled: !formState.isSubmitting,
                             decoration: InputDecoration(
-                              suffixIcon: Icon(Icons.location_on_outlined, color: Colors.grey, size: 20.sp),
+                              suffixIcon: Icon(Icons.location_on_outlined, color: AppColors.primaryColor, size: 28.sp),
                               hintText: formState.address.isEmpty ? '45 New Avenue, New York' : formState.address,
                               hintStyle: TextStyle(color: Colors.grey, fontSize: 16.sp),
                               border: InputBorder.none,
@@ -577,7 +586,7 @@ class EditProfileScreen extends StatelessWidget {
                       height: 48,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color.fromRGBO(45, 41, 38, 1),
+                          backgroundColor: AppColors.primaryColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(6),
                           ),
@@ -599,7 +608,7 @@ class EditProfileScreen extends StatelessWidget {
                                 ),
                               )
                             : const Text(
-                                'SUBMIT',
+                                'Information Update',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
