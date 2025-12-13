@@ -45,7 +45,7 @@ class CountryDropdownWidget extends StatelessWidget {
             ),
           ),
           child: PopupMenuButton<String>(
-            constraints: BoxConstraints(maxHeight: 350.h),
+            constraints: BoxConstraints(maxHeight: 190.h),
             offset: Offset(0, 30.h),
             enabled: !isSubmitting,
             itemBuilder: (context) => countries

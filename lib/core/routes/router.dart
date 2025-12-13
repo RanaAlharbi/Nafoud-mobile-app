@@ -26,6 +26,7 @@ import 'package:final_project/features/onbording/presentation/cubit/onbording_cu
 import 'package:final_project/features/onbording/presentation/pages/onboarding_screen.dart';
 import 'package:final_project/features/profile/presentation_layer/pages/bookmark_screen.dart';
 import 'package:final_project/features/profile/presentation_layer/pages/edit_profile_screen.dart';
+import 'package:final_project/features/profile/presentation_layer/pages/my_activity_screen.dart';
 import 'package:final_project/features/profile/presentation_layer/pages/profile_screen.dart';
 import 'package:final_project/features/splash/splash_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,7 +56,11 @@ class AppRoutes {
   //profile
   static const profileScreen = '/profile-screen';
   static const editProfileScreen = '/edit-profile-screen';
+  static const myActivityScreen = '/my-activity-screen';
   static const bookmarkScreen = '/bookmark-screen';
+
+  //error page (for testing)
+  static const errorPageScreen = '/error-page-screen';
 
   //chat bot
   static const chatScreen = '/chat';
@@ -166,8 +171,24 @@ class AppRoutes {
         builder: (context, state) => EditProfileScreen(),
       ),
       GoRoute(
+        path: AppRoutes.myActivityScreen,
+        builder: (context, state) => MyActivityScreen(),
+      ),
+      GoRoute(
         path: AppRoutes.bookmarkScreen,
         builder: (context, state) => BookmarkScreen(),
+      ),
+
+      // Error Page (for testing)
+      GoRoute(
+        path: AppRoutes.errorPageScreen,
+        builder: (context, state) => BlocProvider(
+          create: (context) => ErrorPageCubit(
+            GetIt.I.get<ErrorPageUseCase>(),
+            GetIt.I.get<ProfileUsecase>(),
+          ),
+          child: const ErrorPageFeatureScreen(),
+        ),
       ),
 
       GoRoute(

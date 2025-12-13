@@ -26,6 +26,7 @@ class DiscoverWidget extends StatelessWidget {
             underline: SizedBox(),
             icon: Icon(Icons.keyboard_arrow_down),
             iconEnabledColor: AppColors.primaryColor,
+            menuMaxHeight: 190.h,
             style: TextStyle(
               fontSize: 25.sp,
               color: AppColors.primaryColor,

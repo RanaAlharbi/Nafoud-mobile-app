@@ -13,7 +13,6 @@ import '../widgets/profile_avatar_widget.dart';
 import '../widgets/profile_info_widget.dart';
 import '../widgets/profile_settings_card_widget.dart';
 import '../widgets/language_selector_widget.dart';
-import '../widgets/theme_selector_widget.dart';
 import '../widgets/font_size_selector_widget.dart';
 import '../widgets/pulsing_red_shadow_container_widget.dart';
 
@@ -244,7 +243,9 @@ class ProfileScreen extends StatelessWidget {
                               'assets/Images/profile/arrow-right-01.svg',
                               height: 20.h,
                             ),
-                            onTap: () {},
+                            onTap: () {
+                              context.push(AppRoutes.myActivityScreen);
+                            },
                           ),
                           ListTile(
                             leading: SvgPicture.asset(
@@ -290,7 +291,6 @@ class ProfileScreen extends StatelessWidget {
                       ProfileSettingsCardWidget(
                         children: [
                           LanguageSelectorWidget(),
-                          ThemeSelectorWidget(),
                           FontSizeSelectorWidget(),
                         ],
                       ),

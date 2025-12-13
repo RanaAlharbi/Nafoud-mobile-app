@@ -67,7 +67,7 @@ class HomeScreen extends StatelessWidget {
                           return Row(
                             spacing: 15.w,
                             children: [
-                              // Image Area
+                              // Image Area (PFP)
                               Container(
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
@@ -82,7 +82,7 @@ class HomeScreen extends StatelessWidget {
                                   backgroundColor: const Color.fromRGBO(237, 234, 231, 1), // EDEAE7 hex
                                   radius: 40.h,
 
-                                  // The image itself
+                                  // The image itself (PFP)
                                   child: avatarUrl != null
                                       ? CachedNetworkImage(
                                           imageUrl: avatarUrl,
@@ -294,7 +294,7 @@ class HomeScreen extends StatelessWidget {
                       // Saudi Male on the home screen
                       Positioned(
                         right: 0,
-                        top: -55,
+                        top: -64.h,
                         child: ShaderMask(
                           shaderCallback: (Rect bounds) {
                             return LinearGradient(

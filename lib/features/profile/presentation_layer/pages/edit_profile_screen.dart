@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'package:final_project/core/app_theme/app_colors/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/routes/router.dart';
@@ -106,17 +109,62 @@ class EditProfileScreen extends StatelessWidget {
                   padding: EdgeInsets.all(16),
                   children: [
                     // Full name
-                    TextFormField(
-                      key: const ValueKey('fullName'),
-                      initialValue: formState.fullName,
-                      enabled: !formState.isSubmitting,
-                      decoration: _buildInputDecoration(
-                        labelText: "Full name",
-                        hintText: "Puerto Rico",
-                        errorText: formState.validationErrors['fullName'],
-                      ),
-                      onChanged: (value) =>
-                          cubit.updateFormField('fullName', value),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Name',
+                          style: TextStyle(
+                            fontSize: 18.sp,
+                            fontWeight: .bold,
+                            color: Colors.black87,
+                          ),
+                        ),
+                        SizedBox(height: 8.h),
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(12.r),
+                            border: Border.all(color: Colors.grey, width: 1.5),
+                          ),
+                          child: TextField(
+                            key: const ValueKey('fullName'),
+                            enabled: !formState.isSubmitting,
+                            decoration: InputDecoration(
+                              suffixIcon: Padding(
+                                padding: EdgeInsets.all(12.w),
+                                child: SvgPicture.asset(
+                                  'assets/icons/profile_icon.svg',
+                                  width: 20.w,
+                                  height: 20.h,
+                                  fit: BoxFit.contain,
+                                  colorFilter: ColorFilter.mode(
+                                    AppColors.primaryColor,
+                                    BlendMode.srcIn,
+                                  ),
+                                ),
+                              ),
+                              hintText: formState.fullName,
+                              hintStyle: TextStyle(color: Colors.grey, fontSize: 16.sp),
+                              border: InputBorder.none,
+                            ),
+                            onChanged: (value) =>
+                                cubit.updateFormField('fullName', value),
+                          ),
+                        ),
+                        if (formState.validationErrors['fullName'] != null)
+                          Padding(
+                            padding: EdgeInsets.only(left: 12.w, top: 8.h),
+                            child: Text(
+                              formState.validationErrors['fullName']!,
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 12.sp,
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
                     const SizedBox(height: 16),
 
