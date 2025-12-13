@@ -288,70 +288,83 @@ class ProfileScreen extends StatelessWidget {
                       /// Old Delete Logic, DO NOT DELETE IT. the logic was hard.
                       /// We gonna remove it later on when UI/UX team choose to finish edit_profile_screen.dart
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                        padding: EdgeInsets.symmetric(horizontal: 20.w),
                         child: Row(
                           children: [
                             Expanded(
                               child: Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 8.w),
-                                child: OutlinedButton(
-                                  onPressed: () async {
-                                    final shouldDelete = await showDialog<bool>(
-                                      context: context,
-                                      builder: (dialogContext) => AlertDialog(
-                                        title: Text('Delete Account'),
-                                        content: Text(
-                                          'Are you sure you want to delete your account?',
-                                        ),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () => Navigator.pop(
-                                              dialogContext,
-                                              false,
-                                            ),
-                                            child: Text('Cancel'),
-                                          ),
-                                          TextButton(
-                                            onPressed: () => Navigator.pop(
-                                              dialogContext,
-                                              true,
-                                            ),
-                                            child: Text(
-                                              'Delete Account',
-                                              style: TextStyle(color: Colors.red),
-                                            ),
-                                          ),
-                                        ],
+                                // Red light that comes out of the button
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8.r),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.red.withValues(alpha: 0.6),
+                                        blurRadius: 8,
+                                        spreadRadius: 4,
                                       ),
-                                    );
-
-                                    if (shouldDelete == true && context.mounted) {
-                                      context
-                                          .read<ProfileCubit>()
-                                          .deleteAccount();
-                                      await context.push(AppRoutes.signInScreen);
-                                    }
-                                  },
-                                  style: OutlinedButton.styleFrom(
-                                    backgroundColor: Colors.red,
-                                    foregroundColor: Colors.white,
-                                    side: BorderSide(color: Colors.red, width: 1.w),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8.r),
-                                    ),
-                                    minimumSize: Size(double.infinity, 48.h),
+                                    ],
                                   ),
-                                  child: Text(
-                                    'Delete Account',
-                                    style: TextStyle(
-                                      fontSize: 18.sp,
-                                      fontWeight: FontWeight.bold,
+                                  child: OutlinedButton(
+                                    onPressed: () async {
+                                      final shouldDelete = await showDialog<bool>(
+                                        context: context,
+                                        builder: (dialogContext) => AlertDialog(
+                                          title: Text('Delete Account'),
+                                          content: Text(
+                                            'Are you sure you want to delete your account?',
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () => Navigator.pop(
+                                                dialogContext,
+                                                false,
+                                              ),
+                                              child: Text('Cancel'),
+                                            ),
+                                            TextButton(
+                                              onPressed: () => Navigator.pop(
+                                                dialogContext,
+                                                true,
+                                              ),
+                                              child: Text(
+                                                'Delete Account',
+                                                style: TextStyle(color: Colors.red),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+
+                                      if (shouldDelete == true && context.mounted) {
+                                        context
+                                            .read<ProfileCubit>()
+                                            .deleteAccount();
+                                        await context.push(AppRoutes.signInScreen);
+                                      }
+                                    },
+                                    style: OutlinedButton.styleFrom(
+                                      backgroundColor: Colors.red,
+                                      foregroundColor: Colors.white,
+                                      side: BorderSide(color: Colors.red, width: 1.w),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8.r),
+                                      ),
+                                      minimumSize: Size(double.infinity, 48.h),
+                                    ),
+                                    child: Text(
+                                      'Delete Account',
+                                      style: TextStyle(
+                                        fontSize: 18.sp,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                            Gap(8.w),
+                            Gap(3.w),
                           // Logout Button
                           Expanded(
                             child: Padding(
