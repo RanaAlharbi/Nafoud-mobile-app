@@ -73,6 +73,7 @@ class GatheringCubit extends Cubit<GatheringState> {
     this.getParticipantsUseCase,
   ) : super(const GatheringInitial());
 
+
   // upload image
   Future<void> uploadImage(String filePath) async {
     final result = await uploadImageUseCase(filePath);

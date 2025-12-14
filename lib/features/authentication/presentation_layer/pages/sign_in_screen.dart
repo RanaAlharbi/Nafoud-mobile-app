@@ -15,8 +15,8 @@ class SignInScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController emailController = TextEditingController(text: 'ranaalherabi@gmail.com');
-    final TextEditingController passwordController = TextEditingController(text: '131312');
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
     final ValueNotifier<bool> obscurePasswordNotifier = ValueNotifier(true);
     final ValueNotifier<bool> rememberMeNotifier = ValueNotifier(false);
 

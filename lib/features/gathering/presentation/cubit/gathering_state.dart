@@ -94,6 +94,9 @@ class GatheringFormUpdated extends GatheringState {
       ];
 }
 
+class GatheringParticipantsLoading extends GatheringState {
+  const GatheringParticipantsLoading({required super.selectedCategory});
+}
 
 class GatheringError extends GatheringState {
   final String message;
