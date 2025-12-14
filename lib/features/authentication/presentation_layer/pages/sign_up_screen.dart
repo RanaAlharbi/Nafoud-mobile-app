@@ -15,20 +15,23 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController nameController = TextEditingController();
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
-    final ValueNotifier<bool> obscurePasswordNotifier = ValueNotifier(true);
-    final ValueNotifier<bool> termsAcceptedNotifier = ValueNotifier(false);
-    final ValueNotifier<String?> errorNotifier = ValueNotifier(null);
+    final TextEditingController _nameController = TextEditingController();
+    final TextEditingController _emailController = TextEditingController();
+    final TextEditingController _passwordController = TextEditingController();
+    final ValueNotifier<bool> _obscurePasswordNotifier = ValueNotifier(true);
+    final ValueNotifier<bool> _termsAcceptedNotifier = ValueNotifier(false);
+    final ValueNotifier<String?> _errorNotifier = ValueNotifier(null);
 
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         if (state is AuthenticationSuccess) {
-          context.go(AppRoutes.otpScreen, extra: emailController.text);
+          context.go(
+            AppRoutes.otpScreen,
+            extra: {'email': _emailController.text, 'type': 'signup'},
+          );
         }
         if (state is AuthenticationFailure) {
-          errorNotifier.value = state.message;
+          _errorNotifier.value = state.message;
         }
       },
       builder: (context, state) {
@@ -98,7 +101,7 @@ class SignUpScreen extends StatelessWidget {
                           ),
                         ),
                         CupertinoTextField(
-                          controller: nameController,
+                          controller: _nameController,
                           placeholder: "Mohammed",
                           placeholderStyle: GoogleFonts.cairo(
                             fontSize: 18.sp,
@@ -136,7 +139,7 @@ class SignUpScreen extends StatelessWidget {
                           ),
                         ),
                         CupertinoTextField(
-                          controller: emailController,
+                          controller: _emailController,
                           placeholder: "Nafoud@Example.com",
                           placeholderStyle: GoogleFonts.cairo(
                             fontSize: 18.sp,
@@ -175,10 +178,10 @@ class SignUpScreen extends StatelessWidget {
                           ),
                         ),
                         ValueListenableBuilder<bool>(
-                          valueListenable: obscurePasswordNotifier,
+                          valueListenable: _obscurePasswordNotifier,
                           builder: (context, isObscured, child) {
                             return CupertinoTextField(
-                              controller: passwordController,
+                              controller: _passwordController,
                               placeholder: "*********",
                               placeholderStyle: GoogleFonts.cairo(
                                 fontSize: 18.sp,
@@ -199,7 +202,7 @@ class SignUpScreen extends StatelessWidget {
                                 padding: const EdgeInsets.only(right: 8.0),
                                 child: GestureDetector(
                                   onTap: () {
-                                    obscurePasswordNotifier.value =
+                                    _obscurePasswordNotifier.value =
                                         !isObscured;
                                   },
                                   child: SvgPicture.asset(
@@ -223,15 +226,15 @@ class SignUpScreen extends StatelessWidget {
                             Padding(
                               padding: EdgeInsets.only(top: 3.h),
                               child: ValueListenableBuilder<bool>(
-                                valueListenable: termsAcceptedNotifier,
+                                valueListenable: _termsAcceptedNotifier,
                                 builder: (context, isAccepted, child) {
                                   return GestureDetector(
                                     onTap: () {
-                                      termsAcceptedNotifier.value =
+                                      _termsAcceptedNotifier.value =
                                           !isAccepted;
-                                      if (errorNotifier.value ==
+                                      if (_errorNotifier.value ==
                                           "You must agree to the Terms & Conditions.") {
-                                        errorNotifier.value = null;
+                                        _errorNotifier.value = null;
                                       }
                                     },
                                     child: isAccepted
@@ -258,40 +261,45 @@ class SignUpScreen extends StatelessWidget {
                             ),
                             6.horizontalSpace,
                             Expanded(
-                              child: RichText(
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: "I agree to the ",
-                                      style: GoogleFonts.cairo(
-                                        color: const Color(0xFF919191),
-                                        fontSize: 15.sp,
+                              child: GestureDetector(
+                                onTap: () {
+                                  context.go('/terms-and-conditions');
+                                },
+                                child: RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: "I agree to the ",
+                                        style: GoogleFonts.cairo(
+                                          color: const Color(0xFF919191),
+                                          fontSize: 15.sp,
+                                        ),
                                       ),
-                                    ),
-                                    TextSpan(
-                                      text: "Terms & Conditions",
-                                      style: GoogleFonts.cairo(
-                                        color: const Color(0xFF656A53),
-                                        fontSize: 15.sp,
-                                        fontWeight: FontWeight.bold,
+                                      TextSpan(
+                                        text: "Terms & Conditions",
+                                        style: GoogleFonts.cairo(
+                                          color: const Color(0xFF656A53),
+                                          fontSize: 15.sp,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    ),
-                                    TextSpan(
-                                      text: " and ",
-                                      style: GoogleFonts.cairo(
-                                        color: const Color(0xFF919191),
-                                        fontSize: 15.sp,
+                                      TextSpan(
+                                        text: " and ",
+                                        style: GoogleFonts.cairo(
+                                          color: const Color(0xFF919191),
+                                          fontSize: 15.sp,
+                                        ),
                                       ),
-                                    ),
-                                    TextSpan(
-                                      text: "Privacy Policy",
-                                      style: GoogleFonts.cairo(
-                                        color: const Color(0xFF656A53),
-                                        fontSize: 15.sp,
-                                        fontWeight: FontWeight.bold,
+                                      TextSpan(
+                                        text: "Privacy Policy",
+                                        style: GoogleFonts.cairo(
+                                          color: const Color(0xFF656A53),
+                                          fontSize: 15.sp,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -299,7 +307,7 @@ class SignUpScreen extends StatelessWidget {
                         ),
 
                         ValueListenableBuilder<String?>(
-                          valueListenable: errorNotifier,
+                          valueListenable: _errorNotifier,
                           builder: (context, errorMsg, child) {
                             if (errorMsg == null) return SizedBox.shrink();
                             return Padding(
@@ -325,19 +333,19 @@ class SignUpScreen extends StatelessWidget {
                           onPressed: state is AuthenticationLoading
                               ? null
                               : () {
-                                  if (!termsAcceptedNotifier.value) {
-                                    errorNotifier.value =
+                                  if (!_termsAcceptedNotifier.value) {
+                                    _errorNotifier.value =
                                         "You must agree to the Terms & Conditions.";
                                     return;
                                   }
 
-                                  errorNotifier.value = null;
+                                  _errorNotifier.value = null;
 
                                   context.read<AuthenticationBloc>().add(
                                     SignUpSubmitted(
-                                      username: nameController.text,
-                                      email: emailController.text,
-                                      password: passwordController.text,
+                                      username: _nameController.text,
+                                      email: _emailController.text,
+                                      password: _passwordController.text,
                                     ),
                                   );
                                 },
@@ -394,9 +402,7 @@ class SignUpScreen extends StatelessWidget {
                     children: [
                       BackdropFilter(
                         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                        child: Container(
-                          color: Colors.black.withValues(alpha: .2),
-                        ),
+                        child: Container(color: Colors.black.withOpacity(.2)),
                       ),
                       Center(
                         child: JumpingDots(

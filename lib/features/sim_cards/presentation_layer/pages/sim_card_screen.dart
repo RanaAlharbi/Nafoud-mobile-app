@@ -16,17 +16,17 @@ class SimCardScreen extends StatelessWidget {
     SimProvider(
       'STC',
       'assets/sim_cards/Logo-4.svg',
-      'https://www.stc.com.sa/',
+      'https://www.stc.com.sa/content/stc/sa/en/personal/mobile/self-activation-sim.html',
     ),
     SimProvider(
       'Mobily',
       'assets/sim_cards/mobily.svg',
-      'https://www.mobily.com.sa/',
+      'https://mobily.com.sa/web/en/personal/self-service-activation',
     ),
     SimProvider(
       'Zain',
       'assets/sim_cards/zain.svg',
-      'https://www.sa.zain.com/',
+      'https://self.sa.zain.com/new//',
     ),
   ];
 

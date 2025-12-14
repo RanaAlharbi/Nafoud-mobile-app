@@ -70,3 +70,13 @@ class VerifyEmailSubmitted extends AuthenticationEvent {
   @override
   List<Object?> get props => [email, otp];
 }
+
+class VerifyResetCodeSubmitted extends AuthenticationEvent {
+  final String email;
+  final String code;
+
+  const VerifyResetCodeSubmitted({required this.email, required this.code});
+
+  @override
+  List<Object?> get props => [email, code];
+}
