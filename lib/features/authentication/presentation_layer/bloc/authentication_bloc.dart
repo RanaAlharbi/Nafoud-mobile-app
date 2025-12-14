@@ -3,12 +3,10 @@ import 'package:equatable/equatable.dart';
 import 'package:final_project/features/authentication/domain_layer/usecase/authentication_usecase.dart';
 import 'package:get_it/get_it.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:injectable/injectable.dart';
 
 part 'authentication_event.dart';
 part 'authentication_state.dart';
 
-@injectable
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   final AuthenticationUsecases _usecases;
@@ -19,6 +17,7 @@ class AuthenticationBloc
     on<ResetPasswordEmailRequested>(_onResetPasswordEmailRequested);
     on<UpdatePasswordSubmitted>(_onUpdatePasswordSubmitted);
     on<VerifyEmailSubmitted>(_onVerifyEmailSubmitted);
+    on<VerifyResetCodeSubmitted>(_onVerifyResetCodeSubmitted);
   }
 
   Future<void> _onSignUpSubmitted(
@@ -82,7 +81,6 @@ class AuthenticationBloc
   ) async {
     emit(AuthenticationLoading());
     try {
-      await _usecases.verifyResetCode(email: event.email, code: event.code);
       await _usecases.updatePassword(
         email: event.email,
         newPassword: event.newPassword,
@@ -108,6 +106,24 @@ class AuthenticationBloc
       emit(
         const AuthenticationSuccess(
           'Email verified successfully. You can now sign in.',
+        ),
+      );
+    } catch (e) {
+      emit(AuthenticationFailure(e.toString()));
+    }
+  }
+
+  Future<void> _onVerifyResetCodeSubmitted(
+    VerifyResetCodeSubmitted event,
+    Emitter<AuthenticationState> emit,
+  ) async {
+    emit(AuthenticationLoading());
+    try {
+      await _usecases.verifyResetCode(email: event.email, code: event.code);
+
+      emit(
+        const AuthenticationSuccess(
+          'Code verified successfully. Proceed to update your password.',
         ),
       );
     } catch (e) {

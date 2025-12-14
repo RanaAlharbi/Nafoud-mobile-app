@@ -15,10 +15,10 @@ class SignInScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController emailController = TextEditingController(text: 'ranaalherabi@gmail.com');
-    final TextEditingController passwordController = TextEditingController(text: '131312');
-    final ValueNotifier<bool> obscurePasswordNotifier = ValueNotifier(true);
-    final ValueNotifier<bool> rememberMeNotifier = ValueNotifier(false);
+    final TextEditingController _emailController = TextEditingController();
+    final TextEditingController _passwordController = TextEditingController();
+    final ValueNotifier<bool> _obscurePasswordNotifier = ValueNotifier(true);
+    final ValueNotifier<bool> _rememberMeNotifier = ValueNotifier(false);
 
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
@@ -52,7 +52,7 @@ class SignInScreen extends StatelessWidget {
                         Align(
                           alignment: Alignment.topRight,
                           child: SvgPicture.asset(
-                            'assets/logo/NafoudLogo.svg',
+                            'Assets/logo/NafoudLogo.svg',
                             width: 67.87.w,
                             height: 69.17.h,
                           ),
@@ -93,7 +93,7 @@ class SignInScreen extends StatelessWidget {
                           ),
                         ),
                         CupertinoTextField(
-                          controller: emailController,
+                          controller: _emailController,
                           placeholder: "Nafoud@Example.com",
                           placeholderStyle: GoogleFonts.cairo(
                             fontSize: 18.sp,
@@ -137,10 +137,10 @@ class SignInScreen extends StatelessWidget {
                         ),
 
                         ValueListenableBuilder<bool>(
-                          valueListenable: obscurePasswordNotifier,
+                          valueListenable: _obscurePasswordNotifier,
                           builder: (context, isObscured, child) {
                             return CupertinoTextField(
-                              controller: passwordController,
+                              controller: _passwordController,
                               placeholder: "*********",
                               placeholderStyle: GoogleFonts.cairo(
                                 fontSize: 18.sp,
@@ -165,7 +165,7 @@ class SignInScreen extends StatelessWidget {
                                 padding: EdgeInsets.only(right: 12.w),
                                 child: GestureDetector(
                                   onTap: () {
-                                    obscurePasswordNotifier.value =
+                                    _obscurePasswordNotifier.value =
                                         !isObscured;
                                   },
                                   child: SvgPicture.asset(
@@ -185,13 +185,13 @@ class SignInScreen extends StatelessWidget {
                         Row(
                           children: [
                             ValueListenableBuilder<bool>(
-                              valueListenable: rememberMeNotifier,
+                              valueListenable: _rememberMeNotifier,
                               builder: (context, isRemembered, child) {
                                 return GestureDetector(
                                   onTap: () {
-                                    rememberMeNotifier.value = !isRemembered;
+                                    _rememberMeNotifier.value = !isRemembered;
                                   },
-                                  child: SizedBox(
+                                  child: Container(
                                     width: 20.w,
                                     height: 20.h,
                                     child: isRemembered
@@ -223,7 +223,8 @@ class SignInScreen extends StatelessWidget {
                             ),
                             Spacer(),
                             GestureDetector(
-                              onTap: () => context.go(AppRoutes.otpScreen),
+                              onTap: () =>
+                                  context.go(AppRoutes.forgotPasswordScreen),
                               child: Text(
                                 "Forget Password?",
                                 style: GoogleFonts.cairo(
@@ -260,9 +261,9 @@ class SignInScreen extends StatelessWidget {
                               : () {
                                   context.read<AuthenticationBloc>().add(
                                     SignInSubmitted(
-                                      email: emailController.text,
-                                      password: passwordController.text,
-                                      rememberMe: rememberMeNotifier.value,
+                                      email: _emailController.text,
+                                      password: _passwordController.text,
+                                      rememberMe: _rememberMeNotifier.value,
                                     ),
                                   );
                                 },

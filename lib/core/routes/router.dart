@@ -5,9 +5,12 @@ import 'package:final_project/features/ai_trip_planner/presentation_layer/page/a
 import 'package:final_project/features/authentication/domain_layer/usecase/authentication_usecase.dart';
 import 'package:final_project/features/authentication/presentation_layer/bloc/authentication_bloc.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/authentication_landing_screen.dart';
+import 'package:final_project/features/authentication/presentation_layer/pages/forget_password_screen.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/sign_in_screen.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/sign_up_screen.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/otp_screen.dart';
+import 'package:final_project/features/authentication/presentation_layer/pages/terms_and_conditions_screen.dart';
+import 'package:final_project/features/authentication/presentation_layer/pages/update_password_screen.dart';
 import 'package:final_project/features/error_page/presentation/pages/error_page_feature_screen.dart';
 import 'package:final_project/features/error_page/presentation/cubit/error_page_cubit.dart';
 import 'package:final_project/features/error_page/domain/use_cases/error_page_use_case.dart';
@@ -16,7 +19,7 @@ import 'package:final_project/features/home/presentation_layer/pages/all_activit
 import 'package:final_project/features/home/presentation_layer/pages/currency_screen.dart';
 import 'package:final_project/features/emergency/presentation_layer/pages/emergency_screen.dart';
 import 'package:final_project/features/home/presentation_layer/pages/home_screen.dart';
-import 'package:final_project/features/home/presentation_layer/pages/sim_card_screen.dart';
+import 'package:final_project/features/sim_cards/presentation_layer/pages/sim_card_screen.dart';
 import 'package:final_project/features/transport/presentation_layer/pages/transport_screen.dart';
 import 'package:final_project/features/weather/presentation/cubit/weather_cubit.dart';
 import 'package:final_project/features/weather/presentation/pages/weather_screen.dart';
@@ -43,13 +46,15 @@ class AppRoutes {
   static const signUpScreen = '/sign-up';
   static const forgotPasswordScreen = '/forgot-password';
   static const otpScreen = '/otp-password';
+  static const updatePasswordScreen = '/update-password';
+  static const termsAndConditionsScreen = '/terms-and-conditions';
 
   // Home & Home Related things
   static const homeScreen = '/home';
   static const allActivitiesScreen = '/all-activities';
   static const emergencyScreen = '/emergency';
   static const transportScreen = '/transport';
-  static const simCardScreen = '/sim-card';
+  static const simCardScreen = '/sim-cards';
   static const weatherScreen = '/weather';
   static const currencyScreen = '/currency';
 
@@ -87,30 +92,13 @@ class AppRoutes {
     }
 
     return AppRoutes.onboardingScreen;
-  
   }
 
   static final GoRouter appRouter = GoRouter(
-    initialLocation: AppRoutes.onboardingScreen,
+    initialLocation: getInitialRoute(), //AppRoutes.onboardingScreen,
     /* GetIt.I.get<SupabaseClient>().auth.currentSession != null ? '/navigation_screen'
         : '/sign-in',*/
     routes: [
-      GoRoute(
-        path: AppRoutes.chatScreen,
-        builder: (context, state) {
-          return BlocProvider<TripPlannerBloc>(
-            create: (context) =>
-                TripPlannerBloc(GetIt.I.get<GenerateTripUseCase>()),
-            child: const ChatScreen(),
-          );
-        },
-      ),
-
-      GoRoute(
-        path: AppRoutes.splashScreen,
-        builder: (context, state) => SplashScreen(),
-      ),
-
       GoRoute(
         path: AppRoutes.authenticationLandingScreen,
         builder: (context, state) => AuthenticationLandingScreen(),
@@ -138,27 +126,62 @@ class AppRoutes {
         },
       ),
 
-      // GoRoute(
-      //   path: AppRoutes.forgotPasswordScreen,
-      //   builder: (context, state) {
-      //     return BlocProvider<AuthenticationBloc>(
-      //       create: (context) =>
-      //           AuthenticationBloc(GetIt.I.get<AuthenticationUsecases>()),
-      //       child: ForgotPasswordScreen(),
-      //     );
-      //   },
-      // ),
       GoRoute(
-        path: AppRoutes.otpScreen,
+        path: AppRoutes.updatePasswordScreen,
         builder: (context, state) {
-          final email = state.extra as String;
-
+          final extraData = state.extra as Map<String, dynamic>;
+          final email = extraData['email'] as String;
+          final code = extraData['code'] as String;
           return BlocProvider<AuthenticationBloc>(
             create: (context) =>
                 AuthenticationBloc(GetIt.I.get<AuthenticationUsecases>()),
-            child: OTPScreen(email: email),
+            child: UpdatePasswordScreen(email: email, code: code),
           );
         },
+      ),
+
+      GoRoute(
+        path: AppRoutes.termsAndConditionsScreen,
+        builder: (context, state) => const TermsAndConditionsScreen(),
+      ),
+
+      GoRoute(
+        path: AppRoutes.forgotPasswordScreen,
+        builder: (context, state) {
+          return BlocProvider<AuthenticationBloc>(
+            create: (context) =>
+                AuthenticationBloc(GetIt.I.get<AuthenticationUsecases>()),
+            child: ForgotPasswordScreen(),
+          );
+        },
+      ),
+
+      GoRoute(
+        path: AppRoutes.otpScreen,
+        builder: (context, state) {
+          final extraData = state.extra as Map<String, dynamic>;
+          return BlocProvider<AuthenticationBloc>(
+            create: (context) =>
+                AuthenticationBloc(GetIt.I.get<AuthenticationUsecases>()),
+            child: OTPScreen(extraData: extraData),
+          );
+        },
+      ),
+
+      GoRoute(
+        path: AppRoutes.chatScreen,
+        builder: (context, state) {
+          return BlocProvider<TripPlannerBloc>(
+            create: (context) =>
+                TripPlannerBloc(GetIt.I.get<GenerateTripUseCase>()),
+            child: const ChatScreen(),
+          );
+        },
+      ),
+
+      GoRoute(
+        path: AppRoutes.splashScreen,
+        builder: (context, state) => SplashScreen(),
       ),
 
       // Profile & Edit Profile
@@ -252,8 +275,6 @@ class AppRoutes {
           child: const OnboardingScreen(),
         ),
       ),
-
- 
     ],
     errorBuilder: (context, state) => BlocProvider(
       create: (context) => ErrorPageCubit(
