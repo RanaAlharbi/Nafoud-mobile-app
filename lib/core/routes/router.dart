@@ -8,6 +8,8 @@ import 'package:final_project/features/authentication/presentation_layer/pages/a
 import 'package:final_project/features/authentication/presentation_layer/pages/sign_in_screen.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/sign_up_screen.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/otp_screen.dart';
+import 'package:final_project/features/authentication/presentation_layer/pages/terms_and_conditions_screen.dart';
+import 'package:final_project/features/authentication/presentation_layer/pages/update_password_screen.dart';
 import 'package:final_project/features/error_page/presentation/pages/error_page_feature_screen.dart';
 import 'package:final_project/features/error_page/presentation/cubit/error_page_cubit.dart';
 import 'package:final_project/features/error_page/domain/use_cases/error_page_use_case.dart';
@@ -42,6 +44,8 @@ class AppRoutes {
   static const signUpScreen = '/sign-up';
   static const forgotPasswordScreen = '/forgot-password';
   static const otpScreen = '/otp-password';
+  static const updatePasswordScreen = '/update-password';
+  static const termsAndConditionsScreen = '/terms-and-conditions';
 
   // Home & Home Related things
   static const homeScreen = '/home';
@@ -90,22 +94,6 @@ class AppRoutes {
         : '/sign-in',*/
     routes: [
       GoRoute(
-        path: AppRoutes.chatScreen,
-        builder: (context, state) {
-          return BlocProvider<TripPlannerBloc>(
-            create: (context) =>
-                TripPlannerBloc(GetIt.I.get<GenerateTripUseCase>()),
-            child: const ChatScreen(),
-          );
-        },
-      ),
-
-      GoRoute(
-        path: AppRoutes.splashScreen,
-        builder: (context, state) => SplashScreen(),
-      ),
-
-      GoRoute(
         path: AppRoutes.authenticationLandingScreen,
         builder: (context, state) => AuthenticationLandingScreen(),
       ),
@@ -132,27 +120,62 @@ class AppRoutes {
         },
       ),
 
-      // GoRoute(
-      //   path: AppRoutes.forgotPasswordScreen,
-      //   builder: (context, state) {
-      //     return BlocProvider<AuthenticationBloc>(
-      //       create: (context) =>
-      //           AuthenticationBloc(GetIt.I.get<AuthenticationUsecases>()),
-      //       child: ForgotPasswordScreen(),
-      //     );
-      //   },
-      // ),
       GoRoute(
-        path: AppRoutes.otpScreen,
+        path: AppRoutes.updatePasswordScreen,
         builder: (context, state) {
-          final email = state.extra as String;
-
+          final extraData = state.extra as Map<String, dynamic>;
+          final email = extraData['email'] as String;
+          final code = extraData['code'] as String;
           return BlocProvider<AuthenticationBloc>(
             create: (context) =>
                 AuthenticationBloc(GetIt.I.get<AuthenticationUsecases>()),
-            child: OTPScreen(email: email),
+            child: UpdatePasswordScreen(email: email, code: code),
           );
         },
+      ),
+
+      GoRoute(
+        path: AppRoutes.termsAndConditionsScreen,
+        builder: (context, state) => const TermsAndConditionsScreen(),
+      ),
+
+      GoRoute(
+        path: AppRoutes.forgotPasswordScreen,
+        builder: (context, state) {
+          return BlocProvider<AuthenticationBloc>(
+            create: (context) =>
+                AuthenticationBloc(GetIt.I.get<AuthenticationUsecases>()),
+            child: ForgotPasswordScreen(),
+          );
+        },
+      ),
+
+      GoRoute(
+        path: AppRoutes.otpScreen,
+        builder: (context, state) {
+          final extraData = state.extra as Map<String, dynamic>;
+          return BlocProvider<AuthenticationBloc>(
+            create: (context) =>
+                AuthenticationBloc(GetIt.I.get<AuthenticationUsecases>()),
+            child: OTPScreen(extraData: extraData),
+          );
+        },
+      ),
+
+      GoRoute(
+        path: AppRoutes.chatScreen,
+        builder: (context, state) {
+          return BlocProvider<TripPlannerBloc>(
+            create: (context) =>
+                TripPlannerBloc(GetIt.I.get<GenerateTripUseCase>()),
+            child: const ChatScreen(),
+          );
+        },
+      ),
+
+      GoRoute(
+        path: AppRoutes.splashScreen,
+        builder: (context, state) => SplashScreen(),
       ),
 
       // Profile & Edit Profile
