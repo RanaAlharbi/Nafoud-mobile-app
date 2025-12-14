@@ -93,11 +93,16 @@ flutter:
     - assets/Images/Sign_In_Screen/
     - assets/Images/Sign_Up_Screen/
     - assets/Images/home/
+    - assets/Images/profile/
+    - assets/Images/emergency/
     - assets/translations/
     - assets/jsons/
     - assets/Images/onboarding/onboarding_1.png
     - assets/Images/onboarding/onboarding_2.png
     - assets/Images/onboarding/onboarding_3.png
+    - assets/sim_cards/mobily.svg
+    - assets/sim_cards/stc.svg
+    - assets/sim_cards/zain.svg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

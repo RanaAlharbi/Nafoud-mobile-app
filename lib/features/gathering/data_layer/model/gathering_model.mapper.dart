@@ -131,17 +131,11 @@ mixin GatheringModelMappable {
     );
   }
 
-Map<String, dynamic> toMap() {
-  final map = GatheringModelMapper.ensureInitialized().encodeMap<GatheringModel>(
-    this as GatheringModel,
-  );
-
-  // Remove null id so Supabase generates UUID automatically
-  map.removeWhere((key, value) =>
-      key == 'id' && (value == null || value == ''));
-
-  return map;
-}
+  Map<String, dynamic> toMap() {
+    return GatheringModelMapper.ensureInitialized().encodeMap<GatheringModel>(
+      this as GatheringModel,
+    );
+  }
 
   GatheringModelCopyWith<GatheringModel, GatheringModel, GatheringModel>
   get copyWith => _GatheringModelCopyWithImpl<GatheringModel, GatheringModel>(

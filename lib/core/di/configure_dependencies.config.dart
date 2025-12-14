@@ -56,6 +56,15 @@ import '../../features/currency_exchange/domain_layer/usecase/currency_exchange_
     as _i235;
 import '../../features/currency_exchange/presentation_layer/cubit/currency_exchange_cubit.dart'
     as _i1000;
+import '../../features/emergency/data_layer/datasource/emergency_datasource.dart'
+    as _i300;
+import '../../features/emergency/di/emergency_module.dart' as _i313;
+import '../../features/emergency/domain_layer/repository/emergency_repository.dart'
+    as _i569;
+import '../../features/emergency/domain_layer/usecase/emergency_usecase.dart'
+    as _i449;
+import '../../features/emergency/presentation_layer/cubit/emergency_cubit.dart'
+    as _i697;
 import '../../features/error_page/data/datasources/error_page_local_data_source.dart'
     as _i1022;
 import '../../features/error_page/data/datasources/error_page_remote_data_source.dart'
@@ -66,6 +75,8 @@ import '../../features/error_page/domain/repositories/error_page_repository_doma
     as _i626;
 import '../../features/error_page/domain/use_cases/error_page_use_case.dart'
     as _i752;
+import '../../features/error_page/presentation/cubit/error_page_cubit.dart'
+    as _i1002;
 import '../../features/events/data_layer/datasorce/events_datasorce.dart'
     as _i987;
 import '../../features/events/data_layer/repository/events_repository.dart'
@@ -112,6 +123,8 @@ import '../../features/profile/domain_layer/usecase/profile_usecase.dart'
     as _i680;
 import '../../features/profile/presentation_layer/cubit/profile_cubit.dart'
     as _i197;
+import '../../features/weather/data/datasources/weather_get_storage_data_source.dart'
+    as _i362;
 import '../../features/weather/data/datasources/weather_local_data_source.dart'
     as _i609;
 import '../../features/weather/data/datasources/weather_remote_data_source.dart'
@@ -132,6 +145,7 @@ extension GetItInjectableX on _i174.GetIt {
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final thirdPartySetup = _$ThirdPartySetup();
+    final emergencyModule = _$EmergencyModule();
     gh.lazySingleton<_i792.GetStorage>(() => thirdPartySetup.storage);
     gh.lazySingleton<_i454.SupabaseClient>(
       () => thirdPartySetup.supabaseClient,
@@ -140,15 +154,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i656.GenerativeModel>(
       () => thirdPartySetup.generativeModel,
     );
+    gh.lazySingleton<_i300.EmergencyDataSource>(
+      () => emergencyModule.emergencyDataSource,
+    );
     gh.lazySingleton<_i158.ProfileCacheService>(
       () => _i158.ProfileCacheService(),
     );
     gh.lazySingleton<_i39.TripDataSource>(() => _i39.TripRemoteDataSource());
     gh.lazySingleton<_i987.BaseEventsRemoteDatasource>(
       () => _i987.EventsRemoteDatasource(gh<_i454.SupabaseClient>()),
-    );
-    gh.lazySingleton<_i517.AuthenticationDatasource>(
-      () => _i517.SupabaseDatasource(gh<_i454.SupabaseClient>()),
     );
     gh.lazySingleton<_i1022.BaseErrorPageLocalDataSource>(
       () => _i1022.ErrorPageLocalDataSource(),
@@ -159,14 +173,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i105.CurrencyCacheDatasource>(
       () => _i105.GetStorageCurrencyCacheDatasource(gh<_i792.GetStorage>()),
     );
-    gh.lazySingleton<_i97.BaseWeatherRemoteDataSource>(
-      () => _i97.WeatherRemoteDataSource(),
-    );
     gh.lazySingleton<_i781.BaseErrorPageRemoteDataSource>(
       () => _i781.ErrorPageRemoteDataSource(),
     );
     gh.lazySingleton<_i157.BaseAiLocalStorageDataSource>(
       () => _i157.AiLocalStorageDataSource(gh<_i792.GetStorage>()),
+    );
+    gh.lazySingleton<_i609.BaseWeatherLocalDataSource>(
+      () => _i609.WeatherLocalDataSource(gh<_i454.SupabaseClient>()),
     );
     gh.lazySingleton<_i1007.GatheringDomainRepository>(
       () => _i445.GatheringRepoDatasource(
@@ -188,14 +202,17 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i157.BaseAiLocalStorageDataSource>(),
       ),
     );
-    gh.lazySingleton<_i609.BaseWeatherLocalDataSource>(
-      () => _i609.WeatherLocalDataSource(),
+    gh.lazySingleton<_i97.BaseWeatherRemoteDataSource>(
+      () => _i97.WeatherRemoteDataSource(gh<_i361.Dio>()),
     );
     gh.lazySingleton<_i18.ProfileDatasource>(
       () => _i18.SupabaseProfileDatasource(
         gh<_i454.SupabaseClient>(),
         gh<_i158.ProfileCacheService>(),
       ),
+    );
+    gh.lazySingleton<_i362.BaseWeatherGetStorageDataSource>(
+      () => _i362.WeatherGetStorageDataSource(gh<_i792.GetStorage>()),
     );
     gh.lazySingleton<_i106.TripDomainRepository>(
       () => _i557.TripDataRepository(gh<_i39.TripDataSource>()),
@@ -209,9 +226,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i998.ProfileRepository>(
       () => _i121.ProfileRepositoryImpl(gh<_i18.ProfileDatasource>()),
     );
-    gh.lazySingleton<_i725.AuthenticationRepositoryDomain>(
-      () => _i933.DataRepository(gh<_i517.AuthenticationDatasource>()),
-    );
     gh.lazySingleton<_i586.EventsDomainRepostiory>(
       () => _i442.EventsRepositoryData(gh<_i987.BaseEventsRemoteDatasource>()),
     );
@@ -223,6 +237,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i754.AnalyzeImageUseCase>(
       () => _i754.AnalyzeImageUseCase(gh<_i855.AiImageAnalysisRepository>()),
+    );
+    gh.lazySingleton<_i517.AuthenticationDatasource>(
+      () => _i517.SupabaseDatasource(
+        gh<_i454.SupabaseClient>(),
+        gh<_i792.GetStorage>(),
+      ),
     );
     gh.factory<_i827.UploadImageUseCase>(
       () => _i827.UploadImageUseCase(gh<_i1007.GatheringDomainRepository>()),
@@ -244,10 +264,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1059.SearchEventsUseCase>(
       () => _i1059.SearchEventsUseCase(gh<_i1007.GatheringDomainRepository>()),
     );
-    gh.lazySingleton<_i11.AuthenticationUsecases>(
-      () => _i11.AuthenticationUsecases(
-        authRepo: gh<_i725.AuthenticationRepositoryDomain>(),
-      ),
+    gh.lazySingleton<_i569.EmergencyRepository>(
+      () =>
+          emergencyModule.emergencyRepository(gh<_i300.EmergencyDataSource>()),
     );
     gh.lazySingleton<_i1040.GenerateTripUseCase>(
       () => _i1040.GenerateTripUseCase(gh<_i106.TripDomainRepository>()),
@@ -264,17 +283,15 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i827.UploadImageUseCase>(),
       ),
     );
+    gh.lazySingleton<_i752.ErrorPageUseCase>(
+      () => _i752.ErrorPageUseCase(gh<_i626.ErrorPageRepositoryDomain>()),
+    );
     gh.lazySingleton<_i46.WeatherRepositoryDomain>(
       () => _i122.WeatherRepositoryData(
         gh<_i97.BaseWeatherRemoteDataSource>(),
         gh<_i609.BaseWeatherLocalDataSource>(),
+        gh<_i362.BaseWeatherGetStorageDataSource>(),
       ),
-    );
-    gh.lazySingleton<_i752.ErrorPageUseCase>(
-      () => _i752.ErrorPageUseCase(gh<_i626.ErrorPageRepositoryDomain>()),
-    );
-    gh.factory<_i892.AuthenticationBloc>(
-      () => _i892.AuthenticationBloc(gh<_i11.AuthenticationUsecases>()),
     );
     gh.lazySingleton<_i710.EventsUsecase>(
       () => _i710.EventsUsecase(gh<_i586.EventsDomainRepostiory>()),
@@ -294,11 +311,28 @@ extension GetItInjectableX on _i174.GetIt {
       () =>
           _i235.CurrencyExchangeUsecase(gh<_i629.CurrencyExchangeRepository>()),
     );
+    gh.lazySingleton<_i725.AuthenticationRepositoryDomain>(
+      () => _i933.DataRepository(gh<_i517.AuthenticationDatasource>()),
+    );
     gh.factory<_i1000.CurrencyExchangeCubit>(
       () => _i1000.CurrencyExchangeCubit(
         gh<_i235.CurrencyExchangeUsecase>(),
         gh<_i105.CurrencyCacheDatasource>(),
       ),
+    );
+    gh.lazySingleton<_i11.AuthenticationUsecases>(
+      () => _i11.AuthenticationUsecases(
+        authRepo: gh<_i725.AuthenticationRepositoryDomain>(),
+      ),
+    );
+    gh.lazySingleton<_i449.EmergencyUseCase>(
+      () => emergencyModule.emergencyUseCase(
+        gh<_i569.EmergencyRepository>(),
+        gh<_i680.ProfileUsecase>(),
+      ),
+    );
+    gh.factory<_i697.EmergencyCubit>(
+      () => _i697.EmergencyCubit(gh<_i449.EmergencyUseCase>()),
     );
     gh.factory<_i695.WeatherCubit>(
       () => _i695.WeatherCubit(gh<_i324.WeatherUseCase>()),
@@ -306,11 +340,22 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i197.ProfileCubit>(
       () => _i197.ProfileCubit(gh<_i680.ProfileUsecase>()),
     );
+    gh.factory<_i892.AuthenticationBloc>(
+      () => _i892.AuthenticationBloc(gh<_i11.AuthenticationUsecases>()),
+    );
     gh.factory<_i680.HomeUserInfoCubit>(
       () => _i680.HomeUserInfoCubit(gh<_i680.ProfileUsecase>()),
+    );
+    gh.factory<_i1002.ErrorPageCubit>(
+      () => _i1002.ErrorPageCubit(
+        gh<_i752.ErrorPageUseCase>(),
+        gh<_i680.ProfileUsecase>(),
+      ),
     );
     return this;
   }
 }
 
 class _$ThirdPartySetup extends _i479.ThirdPartySetup {}
+
+class _$EmergencyModule extends _i313.EmergencyModule {}

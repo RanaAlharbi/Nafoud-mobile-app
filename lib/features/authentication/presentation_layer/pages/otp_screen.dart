@@ -17,12 +17,12 @@ class OTPScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final int _otpLength = 6;
-    final List<FocusNode> _focusNodes = List.generate(
+    final int otpLength = 6;
+    final List<FocusNode> focusNodes = List.generate(
       6,
       (index) => FocusNode(),
     );
-    final List<TextEditingController> _otpControllers = List.generate(
+    final List<TextEditingController> otpControllers = List.generate(
       6,
       (index) => TextEditingController(),
     );
@@ -95,13 +95,13 @@ class OTPScreen extends StatelessWidget {
 
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: List.generate(_otpLength, (index) {
+                          children: List.generate(otpLength, (index) {
                             return SizedBox(
                               width: 52.w,
                               height: 62.h,
                               child: CupertinoTextField(
-                                controller: _otpControllers[index],
-                                focusNode: _focusNodes[index],
+                                controller: otpControllers[index],
+                                focusNode: focusNodes[index],
                                 keyboardType: TextInputType.number,
                                 maxLength: 1,
                                 textAlign: TextAlign.center,
@@ -120,16 +120,16 @@ class OTPScreen extends StatelessWidget {
                                 onChanged: (value) {
                                   // 1. Focus Logic
                                   if (value.isNotEmpty) {
-                                    if (index < _otpLength - 1) {
-                                      _focusNodes[index + 1].requestFocus();
+                                    if (index < otpLength - 1) {
+                                      focusNodes[index + 1].requestFocus();
                                     } else {
-                                      _focusNodes[index].unfocus();
+                                      focusNodes[index].unfocus();
                                     }
                                   } else if (value.isEmpty && index > 0) {
-                                    _focusNodes[index - 1].requestFocus();
+                                    focusNodes[index - 1].requestFocus();
                                   }
 
-                                  final code = _otpControllers
+                                  final code = otpControllers
                                       .map((e) => e.text)
                                       .join();
                                   if (code.length == 6) {

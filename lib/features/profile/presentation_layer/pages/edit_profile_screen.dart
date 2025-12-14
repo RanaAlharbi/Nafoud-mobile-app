@@ -64,7 +64,7 @@ class EditProfileScreen extends StatelessWidget {
       create: (context) =>
           ProfileCubit(GetIt.I.get<ProfileUsecase>())..loadProfile(),
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Color.fromRGBO(240, 240, 238, 1),
 
         appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -313,6 +313,7 @@ class EditProfileScreen extends StatelessWidget {
                                   Container(
                                     padding: const EdgeInsets.symmetric(
                                       horizontal: 12,
+                                      vertical: 14,
                                     ),
                                     decoration: BoxDecoration(
                                       color: const Color.fromRGBO(250, 244, 230, 1),
@@ -324,23 +325,33 @@ class EditProfileScreen extends StatelessWidget {
                                         width: 2,
                                       ),
                                     ),
-                                    child: DropdownButtonHideUnderline(
-                                      child: DropdownButton<String>(
-                                        hint: const Text('Gender'),
-                                        value: formState.gender,
-                                        isExpanded: true,
-                                        items: ['Male', 'Female']
-                                            .map(
-                                              (gender) => DropdownMenuItem(
-                                                value: gender,
-                                                child: Text(gender),
+                                    child: PopupMenuButton<String>(
+                                      offset: const Offset(0, 30),
+                                      enabled: !formState.isSubmitting,
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              formState.gender ?? 'Gender',
+                                              style: TextStyle(
+                                                color: formState.gender == null
+                                                    ? Colors.grey
+                                                    : Colors.black,
                                               ),
-                                            )
-                                            .toList(),
-                                        onChanged: formState.isSubmitting
-                                            ? null
-                                            : (value) => cubit.updateGender(value),
+                                            ),
+                                          ),
+                                          const Icon(Icons.arrow_drop_down, color: Colors.grey),
+                                        ],
                                       ),
+                                      itemBuilder: (context) => ['Male', 'Female']
+                                          .map(
+                                            (gender) => PopupMenuItem<String>(
+                                              value: gender,
+                                              child: Text(gender),
+                                            ),
+                                          )
+                                          .toList(),
+                                      onSelected: (value) => cubit.updateGender(value),
                                     ),
                                   ),
                                   if (formState.validationErrors['gender'] != null)

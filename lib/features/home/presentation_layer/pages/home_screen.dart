@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:final_project/core/app_theme/app_colors/app_colors.dart';
 import 'package:final_project/core/routes/router.dart';
 import 'package:final_project/features/home/presentation_layer/widgets/build_quick_guide_item_widget.dart';
@@ -17,6 +18,17 @@ import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
+
+  String _getInitials(String? name) {
+    if (name == null || name.isEmpty) return '';
+
+    final words = name.trim().split(' ').where((word) => word.isNotEmpty).toList();
+
+    if (words.isEmpty) return '';
+    if (words.length == 1) return words[0][0].toUpperCase();
+
+    return '${words[0][0]}${words[1][0]}'.toUpperCase();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,35 +68,71 @@ class HomeScreen extends StatelessWidget {
                             spacing: 15.w,
                             children: [
                               // Image Area
-                              CircleAvatar(
-                                // Cover Image
-                                backgroundColor: Color.fromRGBO(
-                                  101,
-                                  106,
-                                  83,
-                                  1,
-                                ),
-                                radius: 41.h,
-
-                                // The image itself
-                                child: CircleAvatar(
-                                  backgroundColor: Color.fromRGBO(
-                                    254,
-                                    254,
-                                    254,
-                                    1,
+                              Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: avatarUrl != null
+                                        ? const Color.fromRGBO(101, 106, 83, 1) // 656A53 hex
+                                        : const Color.fromRGBO(194, 164, 128, 1),
+                                    width: 2.5.w,
                                   ),
+                                ),
+                                child: CircleAvatar(
+                                  backgroundColor: const Color.fromRGBO(237, 234, 231, 1), // EDEAE7 hex
                                   radius: 40.h,
-                                  backgroundImage: avatarUrl != null
-                                      ? NetworkImage(avatarUrl)
-                                      : null,
-                                  child: avatarUrl == null
-                                      ? Icon(
-                                          Icons.person,
-                                          size: 40.h,
-                                          color: Colors.grey,
+
+                                  // The image itself
+                                  child: avatarUrl != null
+                                      ? CachedNetworkImage(
+                                          imageUrl: avatarUrl,
+                                          imageBuilder: (context, imageProvider) => Container(
+                                            width: 80.h,
+                                            height: 80.h,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(
+                                                image: imageProvider,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                          placeholder: (context, url) => CircularProgressIndicator(
+                                            strokeWidth: 2.w,
+                                            color: const Color.fromRGBO(194, 164, 128, 1),
+                                          ),
+                                          errorWidget: (context, url, error) {
+                                            final initials = _getInitials(fullName);
+                                            return initials.isNotEmpty
+                                                ? Text(
+                                                    initials,
+                                                    style: TextStyle(
+                                                      color: const Color.fromRGBO(194, 164, 128, 1), // C2A480 hex
+                                                      fontSize: 35.sp,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  )
+                                                : Icon(
+                                                    Icons.person,
+                                                    size: 40.h,
+                                                    color: const Color.fromRGBO(194, 164, 128, 1),
+                                                  );
+                                          },
                                         )
-                                      : null,
+                                      : _getInitials(fullName).isNotEmpty
+                                          ? Text(
+                                              _getInitials(fullName),
+                                              style: TextStyle(
+                                                color: const Color.fromRGBO(194, 164, 128, 1), // C2A480 hex
+                                                fontSize: 35.sp,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            )
+                                          : Icon(
+                                              Icons.person,
+                                              size: 40.h,
+                                              color: const Color.fromRGBO(194, 164, 128, 1),
+                                            ),
                                 ),
                               ),
                               Expanded(

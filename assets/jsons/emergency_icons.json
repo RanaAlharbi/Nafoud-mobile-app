@@ -1,0 +1,9 @@
+{
+  "Police": "assets/Images/emergency/police.png",
+  "Traffic Police": "assets/Images/emergency/Traffic_Police.png",
+  "Traffic patrols": "assets/Images/emergency/Traffic_Patrols.png",
+  "Civil Defence": "assets/Images/emergency/Civil_Defense.png",
+  "Roads Security": "assets/Images/emergency/Road_Security.png",
+  "CPVPV": "assets/Images/emergency/CPVPV.png",
+  "Ministry of Health": "assets/Images/emergency/Ministry_of_Health.png"
+}
