@@ -198,14 +198,6 @@ class OTPScreen extends StatelessWidget {
 
                         170.verticalSpace,
 
-                        Text(
-                          "The timer will be here",
-                          style: GoogleFonts.cairo(
-                            color: const Color(0xFF919191),
-                            fontSize: 16.sp,
-                          ),
-                        ),
-
                         250.verticalSpace,
                       ],
                     ),
