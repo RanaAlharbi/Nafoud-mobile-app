@@ -6,6 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class BaseGatheringRemoteDataSource {
   //all methods
+
   Future<Result<List<GatheringModel>, String>> getAllEvents({String? category});
   Future<Result<void, String>> createUserEvent(GatheringModel event);
   Future<Result<void, String>> deleteUserEvent(String id, String userId);
@@ -26,10 +27,66 @@ class GatheringRemoteDataSource implements BaseGatheringRemoteDataSource {
   GatheringRemoteDataSource(this._supabase);
 
   //override methods
+
+  /*Fetches all events from the 'user_events' table
+  if a category is provided, the query is filtered by category.
+  Returns a list of events on success, or an error message.*/
+
+  @override
+  Future<Result<List<GatheringModel>, String>> getAllEvents({
+    String? category,
+  }) async {
+    try {
+      var query = _supabase
+          .from('user_events')
+          .select('*'); //all events from table
+
+      if (category != null && category != "All") {
+        query = query.eq('category', category);
+      }
+
+      final response = await query.order(
+        'date',
+        ascending: false,
+      ); //order events descending
+
+      final events =
+          (response as List) //list of events
+              .map(
+                (e) => GatheringModel(
+                  id: e["id"],
+                  userId: e["user_id"],
+                  title: e["title"],
+                  description: e["description"],
+                  city: e["city"],
+                  date: e["date"],
+                  eventTime: e["event_time"],
+                  address: e["address"],
+                  imageUrl: e["image_url"],
+                  category: e["category"],
+                  latitude: e["latitude"],
+                  longitude: e["longitude"],
+                ),
+              )
+              .toList();
+
+      return Success(events); //return list of events if success
+    } catch (e) {
+      return Error(e.toString()); //return error message if wrong
+    }
+  }
+
+  /* insert a new event into the 'user_events' table
+the 'id' field is removed because Supabase auto-generates it- no need to add it so i removed it 
+*/
   @override
   Future<Result<void, String>> createUserEvent(GatheringModel event) async {
     try {
-      await _supabase.from('user_events').insert(event.toMap()..remove('id'));
+      await _supabase
+          .from('user_events')
+          .insert(
+            event.toMap()..remove('id'),
+          ); // cascade operator remove id from it
 
       return Success(null);
     } catch (e) {
@@ -37,6 +94,8 @@ class GatheringRemoteDataSource implements BaseGatheringRemoteDataSource {
     }
   }
 
+  //I might need it --------------go back here (!) important don't forget about it--------------------
+  // deletes user-owned event from the database
   @override
   Future<Result<void, String>> deleteUserEvent(String id, String userId) async {
     try {
@@ -51,36 +110,22 @@ class GatheringRemoteDataSource implements BaseGatheringRemoteDataSource {
     }
   }
 
+  // Returns events whose titles contain the search keyword for used in search bar
   @override
-  Future<Result<List<GatheringModel>, String>> getAllEvents({
-    String? category,
-  }) async {
+  Future<Result<List<GatheringModel>, String>> searchEvents(
+    String keyword,
+  ) async {
     try {
-      var query = _supabase.from('user_events').select('*');
+      final response = await _supabase
+          .from('user_events')
+          .select('*')
+          .ilike('title', '%$keyword%'); //look for the keyword in title column
+      //important notes
+      //ilike is case-insensitive doesn't need toLowerCase()
 
-      if (category != null && category != "All") {
-        query = query.eq('category', category);
-      }
-
-      final response = await query.order('date', ascending: false);
-
+      //return the event with the keyword
       final events = (response as List)
-          .map(
-            (e) => GatheringModel(
-              id: e["id"],
-              userId: e["user_id"],
-              title: e["title"],
-              description: e["description"],
-              city: e["city"],
-              date: e["date"],
-              eventTime: e["event_time"],
-              address: e["address"],
-              imageUrl: e["image_url"],
-              category: e["category"],
-              latitude: e["latitude"],
-              longitude: e["longitude"],
-            ),
-          )
+          .map((e) => GatheringModelMapper.fromMap(e))
           .toList();
 
       return Success(events);
@@ -89,6 +134,36 @@ class GatheringRemoteDataSource implements BaseGatheringRemoteDataSource {
     }
   }
 
+  //return events with map-method used for displaying events on the map
+  @override
+  Future<Result<List<GatheringModel>, String>> getEventsForMap() async {
+    try {
+      final response = await _supabase
+          .from('user_events')
+          .select('*')
+          .not(
+            'latitude',
+            'is',
+            null,
+          ) // Filters out events without latitude value
+          .not(
+            'longitude',
+            'is',
+            null,
+          ); // Filters out events without longitude value
+
+      final events =
+          (response as List) //list of events
+              .map((e) => GatheringModelMapper.fromMap(e))
+              .toList();
+
+      return Success(events);
+    } catch (e) {
+      return Error(e.toString());
+    }
+  }
+
+//needs it in profile screen 
   @override
   Future<Result<List<String>, String>> getUserBookmarks() async {
     try {
@@ -108,53 +183,17 @@ class GatheringRemoteDataSource implements BaseGatheringRemoteDataSource {
     }
   }
 
-  @override
-  Future<Result<List<GatheringModel>, String>> searchEvents(
-    String keyword,
-  ) async {
-    try {
-      final response = await _supabase
-          .from('user_events')
-          .select('*')
-          .ilike('title', '%$keyword%');
-
-      final events = (response as List)
-          .map((e) => GatheringModelMapper.fromMap(e))
-          .toList();
-
-      return Success(events);
-    } catch (e) {
-      return Error(e.toString());
-    }
-  }
-
-  @override
-  Future<Result<List<GatheringModel>, String>> getEventsForMap() async {
-    try {
-      final response = await _supabase
-          .from('user_events')
-          .select('*')
-          .not('latitude', 'is', null)
-          .not('longitude', 'is', null);
-
-      final events = (response as List)
-          .map((e) => GatheringModelMapper.fromMap(e))
-          .toList();
-
-      return Success(events);
-    } catch (e) {
-      return Error(e.toString());
-    }
-  }
-
+// Adds a bookmark - linked to user 
   @override
   Future<Result<void, String>> addBookmark(String eventId) async {
     try {
       final userId = _supabase.auth.currentUser!.id;
 
-      await _supabase.from("bookmarks").insert({
-        "user_id": userId,
-        "event_id": eventId,
+      await _supabase
+      .from("bookmarks")
+      .insert({
+      "user_id": userId, //like it to a user
+      "event_id": eventId,
       });
 
       return const Success(null);
@@ -163,12 +202,16 @@ class GatheringRemoteDataSource implements BaseGatheringRemoteDataSource {
     }
   }
 
+// Removes a bookmark from the bookmarks table
   @override
   Future<Result<void, String>> removeBookmark(String eventId) async {
     try {
       final userId = _supabase.auth.currentUser!.id;
 
-      await _supabase.from("bookmarks").delete().match({
+      await _supabase
+      .from("bookmarks")
+      .delete()
+      .match({
         "user_id": userId,
         "event_id": eventId,
       });
@@ -179,21 +222,26 @@ class GatheringRemoteDataSource implements BaseGatheringRemoteDataSource {
     }
   }
 
+
+ //Uploads image to Supabase
   @override
   Future<Result<String, String>> uploadImage(String filePath) async {
     try {
-      final file = File(filePath);
-      final ext = file.path.split('.').last;
-      final fileName = "${DateTime.now().millisecondsSinceEpoch}.$ext";
-
+      final file = File(filePath); // Convert file path into a File object for uploading
+      final ext = file.path.split('.').last; // Extract file extension (jpg, png,....)
+      final fileName = "${DateTime.now().millisecondsSinceEpoch}.$ext"; // Generate a unique filename 
+      
+      // events bucket in Supabase storage
       final bucket = _supabase.storage.from("events");
-
+      
+      // Upload to Supabase bucket
       await bucket.upload(
         fileName,
         file,
-        fileOptions: const FileOptions(upsert: true),
+        fileOptions: const FileOptions(upsert: true), // upsert allows overwriting if it is needed
       );
 
+      // retrieve URL for the file so it can be displayed in the ui
       final publicUrl = bucket.getPublicUrl(fileName);
 
       return Success(publicUrl);
@@ -202,6 +250,8 @@ class GatheringRemoteDataSource implements BaseGatheringRemoteDataSource {
     }
   }
 
+
+// Adding current user as a participant in an event - if he click on joining button
   @override
   Future<Result<void, String>> joinEvent(String eventId) async {
     try {
@@ -218,24 +268,26 @@ class GatheringRemoteDataSource implements BaseGatheringRemoteDataSource {
     }
   }
 
+
+// Retrieves avatar of the participants of specific event
   @override
   Future<Result<List<String>, String>> getParticipants(String eventId) async {
     try {
-      final res = await _supabase
+      final response = await _supabase
           .from("event_participants")
-          .select("profiles(avatar_url)")
+          .select("profiles(avatar_url)") // avatar_url fro profiles table--FK relation
           .eq("event_id", eventId);
 
-      final avatars = <String>[];
+      final avatars = <String>[]; // to store avatar images
 
-      for (final row in res as List) {
+      for (final row in response as List) {
         final profile = row["profiles"];
 
-    
         if (profile != null && profile["avatar_url"] != null) {
           avatars.add(profile["avatar_url"]);
         } else {
-          avatars.add("https://via.placeholder.com/150"); 
+          //if there is no image put image placeholder
+          avatars.add("https://cdn.vectorstock.com/i/500p/66/69/default-profile-picture-avatar-photo-placeholder-vector-32286669.jpg");
         }
       }
 

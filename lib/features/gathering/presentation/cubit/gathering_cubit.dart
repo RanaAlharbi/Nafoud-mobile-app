@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:final_project/features/gathering/domain_layer/entity/gathering_entity.dart';
+import 'package:final_project/core/shared/gathering_entity/gathering_entity.dart';
 import 'package:final_project/features/gathering/domain_layer/usecase/add_bookmark_usecase.dart';
 import 'package:final_project/features/gathering/domain_layer/usecase/get_participants_usecase.dart';
 import 'package:final_project/features/gathering/domain_layer/usecase/get_user_bookmark.dart';
@@ -17,17 +17,21 @@ import 'gathering_state.dart';
 
 @injectable
 class GatheringCubit extends Cubit<GatheringState> {
-  String? selectedCategory;
+  // form state
+  String selectedCategory = "All";
   String? selectedImageUrl;
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
   double? selectedLat;
   double? selectedLng;
+
+  // text fields
   String title = "";
   String description = "";
   String city = "";
   String address = "";
 
+  // event categories
   final categories = const [
     "All",
     "Cultural",
@@ -35,11 +39,14 @@ class GatheringCubit extends Cubit<GatheringState> {
     "Arts",
     "Entertainment",
   ];
+
+  // bookmarks
   List<String> userBookmarks = [];
 
+  // participants
   List<String> participants = [];
 
-  //use cases
+  // use cases
   final GatheringUsecase getEventsUsecase;
   final CreateGatheringUseCase createGatheringUsecase;
   final DeleteGatheringUseCase deleteGatheringUsecase;
@@ -64,44 +71,48 @@ class GatheringCubit extends Cubit<GatheringState> {
     this.userBookmarkUsecase,
     this.joinEventUseCase,
     this.getParticipantsUseCase,
-  ) : super(GatheringInitial());
+  ) : super(const GatheringInitial());
 
+  // upload image
   Future<void> uploadImage(String filePath) async {
     final result = await uploadImageUseCase(filePath);
-
     result.when(
       (url) {
         selectedImageUrl = url;
-        emit(GatheringFormUpdated());
+        emit(
+          GatheringFormUpdated(
+            selectedCategory: selectedCategory,
+            selectedImageUrl: selectedImageUrl,
+            selectedDate: selectedDate,
+            selectedTime: selectedTime,
+            selectedLat: selectedLat,
+            selectedLng: selectedLng,
+          ),
+        );
       },
-      (err) {
-        emit(GatheringError(err));
-      },
+      (err) => emit(GatheringError(message: err, selectedCategory: selectedCategory)),
     );
   }
 
+  void updateField(String key, String value) {
+    if (key == "title") title = value;
+    if (key == "description") description = value;
+    if (key == "city") city = value;
+    if (key == "address") address = value;
 
-  void setTitle(String value) {
-  title = value;
-  emit(GatheringFormUpdated());
-}
+    emit(
+      GatheringFormUpdated(
+        selectedCategory: selectedCategory,
+        selectedImageUrl: selectedImageUrl,
+        selectedDate: selectedDate,
+        selectedTime: selectedTime,
+        selectedLat: selectedLat,
+        selectedLng: selectedLng,
+      ),
+    );
+  }
 
-void setDescription(String value) {
-  description = value;
-  emit(GatheringFormUpdated());
-}
-
-void setCity(String value) {
-  city = value;
-  emit(GatheringFormUpdated());
-}
-
-void setAddress(String value) {
-  address = value;
-  emit(GatheringFormUpdated());
-}
-
-
+// Updates map position before confirming using done button
   void updateTempLocation(double lat, double lng) {
     selectedLat = lat;
     selectedLng = lng;
@@ -117,7 +128,7 @@ void setAddress(String value) {
       ),
     );
   }
-
+// Sets event location after confirm the pin point
   void setLocation(double lat, double lng) {
     selectedLat = lat;
     selectedLng = lng;
@@ -136,11 +147,21 @@ void setAddress(String value) {
 
   void setImage(String url) {
     selectedImageUrl = url;
-    emit(GatheringFormUpdated());
+    emit(
+      GatheringFormUpdated(
+        selectedCategory: selectedCategory,
+        selectedImageUrl: selectedImageUrl,
+        selectedDate: selectedDate,
+        selectedTime: selectedTime,
+        selectedLat: selectedLat,
+        selectedLng: selectedLng,
+      ),
+    );
   }
 
   void setCategory(String category) {
     selectedCategory = category;
+
     emit(
       GatheringFormUpdated(
         selectedCategory: selectedCategory,
@@ -155,108 +176,141 @@ void setAddress(String value) {
 
   void setDate(DateTime date) {
     selectedDate = date;
-    emit(GatheringFormUpdated());
+    emit(
+      GatheringFormUpdated(
+        selectedCategory: selectedCategory,
+        selectedImageUrl: selectedImageUrl,
+        selectedDate: selectedDate,
+        selectedTime: selectedTime,
+        selectedLat: selectedLat,
+        selectedLng: selectedLng,
+      ),
+    );
   }
 
   void setTime(TimeOfDay time) {
     selectedTime = time;
-    emit(GatheringFormUpdated());
+    emit(
+      GatheringFormUpdated(
+        selectedCategory: selectedCategory,
+        selectedImageUrl: selectedImageUrl,
+        selectedDate: selectedDate,
+        selectedTime: selectedTime,
+        selectedLat: selectedLat,
+        selectedLng: selectedLng,
+      ),
+    );
   }
 
+  // fetch events
   Future<void> fetchEvents({String category = "All"}) async {
-    emit(GatheringLoading());
+    selectedCategory = category;
 
-    
+    emit(GatheringLoading(selectedCategory: selectedCategory));
+
     final bookmarksResult = await userBookmarkUsecase();
-
     bookmarksResult.when(
       (ids) => userBookmarks = ids,
-      (err) => userBookmarks = [],
+      (_) => userBookmarks = [],
     );
 
-   
     final result = await getEventsUsecase();
+    result.when(
+      (events) {
+        final filtered = category == "All"
+            ? events
+            : events.where((e) => e.category == category).toList();
 
-    result.when((events) {
-      final filtered = category == "All"
-          ? events
-          : events.where((e) => e.category == category).toList();
+        final updated = filtered.map((e) {
+          return GatheringEntity(
+            id: e.id,
+            userId: e.userId,
+            title: e.title,
+            description: e.description,
+            city: e.city,
+            date: e.date,
+            eventTime: e.eventTime,
+            address: e.address,
+            imageUrl: e.imageUrl,
+            category: e.category,
+            latitude: e.latitude,
+            longitude: e.longitude,
+            isBookmarked: userBookmarks.contains(e.id),
+          );
+        }).toList();
 
-      final updated = filtered.map((e) {
-        return GatheringEntity(
-          id: e.id,
-          userId: e.userId,
-          title: e.title,
-          description: e.description,
-          city: e.city,
-          date: e.date,
-          eventTime: e.eventTime,
-          address: e.address,
-          imageUrl: e.imageUrl,
-          category: e.category,
-          latitude: e.latitude,
-          longitude: e.longitude,
-          isBookmarked: userBookmarks.contains(e.id),
+        emit(
+          GatheringLoaded(
+            events: updated,
+            selectedCategory: selectedCategory,
+          ),
         );
-      }).toList();
-
-      emit(GatheringLoaded(updated, selectedCategory: category));
-    }, (error) => emit(GatheringError(error)));
+      },
+      (error) => emit(GatheringError(message: error, selectedCategory: selectedCategory)),
+    );
   }
 
+  // add event
+  Future<void> addEvent(GatheringEntity entity) async {
+    final result = await createGatheringUsecase(entity);
+    result.when(
+      (_) => fetchEvents(category: selectedCategory),
+      (err) => emit(GatheringError(message: err, selectedCategory: selectedCategory)),
+    );
+  }
+
+  // search
   Future<void> search(String keyword) async {
     if (keyword.isEmpty) {
-      fetchEvents();
+      fetchEvents(category: selectedCategory);
       return;
     }
 
-    emit(GatheringLoading());
+    emit(GatheringLoading(selectedCategory: selectedCategory));
 
     final result = await searchEventsUseCase(keyword);
-
     result.when(
-      (events) => emit(GatheringLoaded(events, selectedCategory: "All")),
-      (error) => emit(GatheringError(error)),
+      (events) => emit(
+        GatheringLoaded(events: events, selectedCategory: selectedCategory),
+      ),
+      (err) => emit(GatheringError(message: err, selectedCategory: selectedCategory)),
     );
   }
 
+  // map events
   Future<void> fetchMapEvents() async {
-    emit(GatheringLoading());
+    emit(GatheringLoading(selectedCategory: selectedCategory));
 
     final result = await getMapEventsUseCase();
 
     result.when(
-      (events) => emit(GatheringLoaded(events, selectedCategory: "All")),
-      (error) => emit(GatheringError(error)),
+      (events) => emit(
+        GatheringLoaded(events: events, selectedCategory: selectedCategory),
+      ),
+      (err) => emit(GatheringError(message: err, selectedCategory: selectedCategory)),
     );
   }
 
-  Future<void> addEvent(GatheringEntity entity) async {
-    final result = await createGatheringUsecase(entity);
-
-    result.when(
-      (_) {
-        fetchEvents();
-      },
-      (error) {
-        emit(GatheringError(error));
-      },
-    );
-  }
-
+  // method that's allows the user to join an event
   Future<void> joinEvent(String eventId) async {
     final result = await joinEventUseCase(eventId);
 
     result.when(
       (_) {
         loadParticipants(eventId);
-        emit(GatheringMessage("You joined this event successfully"));
+        emit(GatheringMessage(
+          message: "You have joined this event successfully",
+          selectedCategory: selectedCategory,
+        ));
       },
       (err) {
         if (err.contains("duplicate key") || err.contains("unique")) {
-          emit(GatheringMessage("You already joined this event"));
+          emit(GatheringMessage(
+            message: "You already joined this event",
+            selectedCategory: selectedCategory,
+          ));
         } else {
-          emit(GatheringError(err));
+          emit(GatheringError(message: err, selectedCategory: selectedCategory));
         }
       },
     );
@@ -266,19 +320,29 @@ void setAddress(String value) {
     final result = await getParticipantsUseCase(eventId);
 
     result.when(
-      (imgs) => emit(GatheringParticipantsLoaded(imgs)),
-      (err) => emit(GatheringError(err)),
+      (success) => emit(
+        GatheringParticipantsLoaded(
+          avatars: success,
+          selectedCategory: selectedCategory,
+        ),
+      ),
+      (err) => emit(GatheringError(message: err, selectedCategory: selectedCategory)),
     );
   }
 
+  // delete
   Future<void> deleteEvent(String id, String userId) async {
-    emit(GatheringLoading());
+    emit(GatheringLoading(selectedCategory: selectedCategory));
 
     final result = await deleteGatheringUsecase(id, userId);
 
-    result.when((_) => fetchEvents(), (err) => emit(GatheringError(err)));
+    result.when(
+      (_) => fetchEvents(category: selectedCategory),
+      (err) => emit(GatheringError(message: err, selectedCategory: selectedCategory)),
+    );
   }
 
+  // toggle bookmark
   Future<void> toggleBookmark(String eventId) async {
     final isSaved = userBookmarks.contains(eventId);
 
@@ -315,7 +379,12 @@ void setAddress(String value) {
         );
       }).toList();
 
-      emit(GatheringLoaded(updated, selectedCategory: s.selectedCategory));
+      emit(
+        GatheringLoaded(
+          events: updated,
+          selectedCategory: selectedCategory,
+        ),
+      );
     }
   }
 }

@@ -1,26 +1,34 @@
 import 'package:final_project/features/gathering/data_layer/datasource/gathering_remote_datasource.dart';
 import 'package:final_project/features/gathering/data_layer/model/gathering_model.dart';
-import 'package:final_project/features/gathering/domain_layer/entity/gathering_entity.dart';
+import 'package:final_project/core/shared/gathering_entity/gathering_entity.dart';
 import 'package:final_project/features/gathering/domain_layer/repo/gathering_domain_repository.dart';
 import 'package:injectable/injectable.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 @LazySingleton(as: GatheringDomainRepository)
 class GatheringRepoDatasource implements GatheringDomainRepository {
-  final BaseGatheringRemoteDataSource remoteDataSource;
+  final BaseGatheringRemoteDataSource remoteDataSource; 
 
   GatheringRepoDatasource(this.remoteDataSource);
+
+
+//list of override methods 
 
   @override
   Future<Result<List<GatheringEntity>, String>> getUsersEvents() async {
     final result = await remoteDataSource.getAllEvents();
-    return result.when((models) => Success(models), (error) => Error(error));
+    return 
+    result.when(
+      (events) => Success(events),
+      (error) => Error(error));
   }
 
   @override
   Future<Result<List<GatheringEntity>, String>> getEventsForMap() async {
     final result = await remoteDataSource.getEventsForMap();
-    return result.when((models) => Success(models), (error) => Error(error));
+    return result.when(
+      (events) => Success(events),
+      (error) => Error(error));
   }
 
   @override
@@ -28,12 +36,15 @@ class GatheringRepoDatasource implements GatheringDomainRepository {
     String keyword,
   ) async {
     final result = await remoteDataSource.searchEvents(keyword);
-    return result.when((models) => Success(models), (error) => Error(error));
+    return result.when(
+      (events) => Success(events),
+      (error) => Error(error));
   }
+
 
   @override
   Future<Result<void, String>> createUserEvent(GatheringEntity event) {
-    final model = GatheringModel(
+    final events = GatheringModel(
       userId: event.userId,
       title: event.title,
       description: event.description,
@@ -47,7 +58,7 @@ class GatheringRepoDatasource implements GatheringDomainRepository {
       longitude: event.longitude,
     );
 
-    return remoteDataSource.createUserEvent(model);
+    return remoteDataSource.createUserEvent(events);
   }
 
   @override

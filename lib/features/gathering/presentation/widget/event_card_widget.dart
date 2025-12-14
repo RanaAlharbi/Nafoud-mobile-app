@@ -1,7 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gap/gap.dart';
+import 'package:shimmer/shimmer.dart';
 
 class EventCardWidget extends StatelessWidget {
   final String title;
@@ -29,10 +32,11 @@ class EventCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 23),
+      clipBehavior: Clip.antiAlias,
+      margin: EdgeInsets.only(bottom: 23.h),
       decoration: BoxDecoration(
         color: CupertinoColors.white,
-        borderRadius: BorderRadius.circular(22),
+        borderRadius: BorderRadius.circular(22.r),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,19 +45,24 @@ class EventCardWidget extends StatelessWidget {
             children: [
               // image
               ClipRRect(
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(22),
-                ),
+                borderRadius: BorderRadius.vertical(top: Radius.circular(22.r)),
                 child: CachedNetworkImage(
                   imageUrl: image,
-                  height: 195,
-                  width: double.infinity,
+                  height: 195.h,
+                  width: 410.w,
                   fit: BoxFit.cover,
-                  placeholder: (context, url) => Container(
-                    height: 195,
-                    width: double.infinity,
-                    color: const Color(0xFFEAEAEA),
-                    child: const Center(child: CupertinoActivityIndicator()),
+                  //shimmer
+                  placeholder: (context, url) => Shimmer.fromColors(
+                    baseColor: const Color(0xFFD6D6D6),
+                    highlightColor: const Color(0xFFF0F0F0),
+                    child: Container(
+                      height: 195.h,
+                      width: 410.w,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE0E0E0),
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
+                    ),
                   ),
                   errorWidget: (context, url, error) => Container(
                     height: 195,
@@ -69,39 +78,84 @@ class EventCardWidget extends StatelessWidget {
 
               // date
               Positioned(
-                top: 12,
-                left: 12,
-                child: Container(
-                  width: 55,
-                  height: 60,
-                  padding: const EdgeInsets.symmetric(vertical: 6),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF3D4032),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Center(
-                    child: Text(
-                      date,
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.cairo(
-                        color: CupertinoColors.white,
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
+                top: 0,
+                left: 0,
+                child: Builder(
+                  builder: (context) {
+                    final parts = date.split("-");
+                    final year = parts[0];
+                    final month = parts[1];
+                    final day = parts[2];
+
+                    const months = {
+                      "01": "Jan",
+                      "02": "Feb",
+                      "03": "Mar",
+                      "04": "Apr",
+                      "05": "May",
+                      "06": "Jun",
+                      "07": "Jul",
+                      "08": "Aug",
+                      "09": "Sep",
+                      "10": "Oct",
+                      "11": "Nov",
+                      "12": "Dec",
+                    };
+
+                    return Container(
+                      width: 56.w,
+                      height: 80.h,
+                      padding:  EdgeInsets.symmetric(vertical: 6.h),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF3C3C43).withValues(alpha: 0.6),
+                        borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(12.r),
+                          topLeft: Radius.circular(12.r),
+                        ),
                       ),
-                    ),
-                  ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            day,
+                            style: GoogleFonts.cairo(
+                              color: CupertinoColors.white,
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                          Text(
+                            months[month]!,
+                            style: GoogleFonts.cairo(
+                              color: CupertinoColors.white,
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                          Text(
+                            year,
+                            style: GoogleFonts.cairo(
+                              color: CupertinoColors.white,
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                 ),
               ),
 
               // bookmark
               Positioned(
-                top: 12,
-                right: 12,
+                top: 12.h,
+                right: 12.w,
                 child: Container(
-                  width: 38,
-                  height: 38,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFEBEBE9),
+                  width: 38.w,
+                  height: 38.h,
+                  decoration:  BoxDecoration(
+                    color: Color(0xFF3C3C43).withValues(alpha: 0.6),
                     shape: BoxShape.circle,
                   ),
                   child: CupertinoButton(
@@ -112,9 +166,9 @@ class EventCardWidget extends StatelessWidget {
                           ? CupertinoIcons.bookmark_solid
                           : CupertinoIcons.bookmark,
                       color: isBookmarked
-                          ? const Color(0xFF656A53) 
-                          : const Color(0xFF3D4032), 
-                      size: 20,
+                          ? const Color(0xFFF0F0EE)
+                          : const Color(0xFFF0F0EE),
+                      size: 20.sp,
                     ),
                   ),
                 ),
@@ -122,36 +176,31 @@ class EventCardWidget extends StatelessWidget {
             ],
           ),
 
-          // CONTENT
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+            padding:  EdgeInsets.symmetric(horizontal: 20.w, vertical: 14).h,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   "$title | $category",
                   style: GoogleFonts.cairo(
-                    fontSize: 17,
+                    fontSize: 17.sp,
                     fontWeight: FontWeight.bold,
                     color: const Color(0xFF5B5F4B),
                   ),
                 ),
 
-                const Gap(10),
+                12.verticalSpace,
 
                 Row(
                   children: [
-                    const Icon(
-                      CupertinoIcons.location_solid,
-                      size: 16,
-                      color: Color(0xFF6B6F52),
-                    ),
-                    const Gap(8),
+                    SvgPicture.asset('assets/icons/location_gather.svg'),
+                    8.horizontalSpace,
                     Text(
                       city,
                       style: GoogleFonts.cairo(
-                        fontSize: 15,
-                        color: const Color(0xFF1D1D1D).withOpacity(0.6),
+                        fontSize: 15.sp,
+                        color: const Color(0xFF1D1D1D).withValues(alpha: 0.6),
                       ),
                     ),
                   ],
@@ -159,21 +208,21 @@ class EventCardWidget extends StatelessWidget {
 
                 const Gap(18),
 
-                // VIEW DETAILS BUTTON (Cupertino)
+                // details button
                 SizedBox(
-                  width: 150,
-                  height: 40,
+                  width: 140.w,
+                  height: 40.h,
                   child: CupertinoButton(
                     color: const Color(0xFF656A53),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                     padding: EdgeInsets.zero,
                     onPressed: onViewDetails,
                     child: Text(
                       "View details",
                       style: GoogleFonts.cairo(
-                        color: CupertinoColors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 15,
+                        color: Color(0xFFF0F0EE),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
                       ),
                     ),
                   ),
@@ -186,82 +235,3 @@ class EventCardWidget extends StatelessWidget {
     );
   }
 }
-
-// class EventCardWidget extends StatelessWidget {
-//   final String title;
-//   final String city;
-//   final String date;
-//   final String category;
-//   final String image;
-
-//   const EventCardWidget({
-//     super.key,
-//     required this.title,
-//     required this.city,
-//     required this.date,
-//     required this.category,
-//     required this.image,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       margin: const EdgeInsets.only(bottom: 23),
-//       decoration: BoxDecoration(
-//         color: CupertinoColors.white,
-//         borderRadius: BorderRadius.circular(22),
-//       ),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.start,
-//         children: [
-//           ClipRRect(
-//             borderRadius: const BorderRadius.vertical(top: Radius.circular(22)),
-//             child: Image.network(
-//               image,
-//               height: 195,
-//               width: double.infinity,
-//               fit: BoxFit.cover,
-//             ),
-//           ),
-
-//           Padding(
-//             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-//             child: Column(
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               children: [
-//                 Text(
-//                   "$title | $category",
-//                   style: GoogleFonts.cairo(
-//                     fontSize: 18,
-//                     fontWeight: FontWeight.bold,
-//                     color: const Color(0xFF5B5F4B),
-//                   ),
-//                 ),
-
-//                 const Gap(12),
-
-//                 Row(
-//                   children: [
-//                     const Icon(
-//                       CupertinoIcons.location,
-//                       size: 16,
-//                       color: Color(0xFF6B6F52),
-//                     ),
-//                     const Gap(10),
-//                     Text(
-//                       city,
-//                       style: GoogleFonts.cairo(
-//                         fontSize: 15,
-//                         color: Color(0xFF1D1D1D).withOpacity(0.5),
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }

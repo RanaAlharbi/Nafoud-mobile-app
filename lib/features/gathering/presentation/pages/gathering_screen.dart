@@ -1,13 +1,15 @@
 import 'package:final_project/core/di/configure_dependencies.dart';
+import 'package:final_project/core/shared/Widgets/error_box.dart';
 import 'package:final_project/features/gathering/presentation/cubit/gathering_cubit.dart';
 import 'package:final_project/features/gathering/presentation/cubit/gathering_state.dart';
+import 'package:final_project/features/gathering/presentation/widget/add_button_widget.dart';
 import 'package:final_project/features/gathering/presentation/widget/category_chips_widget.dart';
 import 'package:final_project/features/gathering/presentation/widget/circle_button_widget.dart';
 import 'package:final_project/features/gathering/presentation/widget/event_card_widget.dart';
 import 'package:final_project/features/gathering/presentation/widget/search_bar_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gap/gap.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -17,10 +19,9 @@ class GatheringScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => getIt<GatheringCubit>()..fetchEvents(),
-      child: CupertinoPageScaffold(
+      create: (_) => getIt<GatheringCubit>()..fetchEvents(), //provider
+      child: CupertinoPageScaffold( 
         backgroundColor: const Color(0xFFF0F0EE),
-
         navigationBar: CupertinoNavigationBar(
           backgroundColor: const Color(0xFFF0F0EE),
           middle: Text(
@@ -37,53 +38,86 @@ class GatheringScreen extends StatelessWidget {
           child: BlocBuilder<GatheringCubit, GatheringState>(
             builder: (context, state) {
               final cubit = context.read<GatheringCubit>();
-
               return Stack(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(16),
+                    padding: EdgeInsets.all(16.w),
                     child: Column(
                       children: [
-                        const Gap(20),
-
+                        20.verticalSpace,
                         Row(
                           children: [
+                            //search bar
                             const Expanded(child: SearchBarWidget()),
-                            const Gap(13),
+                            13.horizontalSpace,
+
+                            //Map button
                             CircleButtonWidget(
                               iconPath: 'assets/icons/murshid_image.svg',
+                              onTap: () {
+                                context.push(
+                                  "/eventsMap",
+                                  extra: context.read<GatheringCubit>(),
+                                );
+                              },
                             ),
-                            const Gap(13),
+                            13.horizontalSpace,
+
+                            //Filter button
                             CircleButtonWidget(
                               iconPath: 'assets/icons/filter-horizontal.svg',
                             ),
                           ],
                         ),
 
-                        const Gap(16),
-
-                      
+                        23.verticalSpace,
+                        //categories chips widget
                         CategoryChipsWidget(categories: cubit.categories),
 
-                        const Gap(20),
+                        23.5.verticalSpace,
 
                         Expanded(
                           child: () {
                             if (state is GatheringLoading ||
                                 state is GatheringLoadingWithCategory) {
-                              return const Center(
-                                child: CupertinoActivityIndicator(),
+                              //loading indictor Cupertino style
+                              return Center(
+                                child: CupertinoActivityIndicator(
+                                  color: Color(0xff3D4032),
+                                  radius: 16.r,
+                                ),
                               );
                             }
 
                             if (state is GatheringError) {
-                              return Center(child: Text(state.message));
+                              return ErrorMessageWidget(
+                                message: state.message,
+                              ); //custom widget for error
                             }
 
                             if (state is GatheringLoaded) {
                               if (state.events.isEmpty) {
-                                return const Center(
-                                  child: Text("No events found"),
+                                //empty category - ui
+                                return Center(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Image.asset(
+                                        "assets/Images/no_events.jpg",
+                                        width: 160.w,
+                                        height: 160.h,
+                                      ),
+                                      15.verticalSpace,
+                                      Text(
+                                        "No events found",
+                                        style: GoogleFonts.cairo(
+                                          fontSize: 16.sp,
+                                          color: const Color(0xFF656A53),
+                                          fontWeight: .bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 );
                               }
 
@@ -116,43 +150,18 @@ class GatheringScreen extends StatelessWidget {
                               );
                             }
 
-                            return const SizedBox();
-                          }(),
+                            return const SizedBox.shrink();
+                          }(), //IIFE function
                         ),
                       ],
                     ),
                   ),
 
-            
+                  //Add button
                   Positioned(
-                    bottom: 10,
-                    right: 20,
-                    child: Container(
-                      width: 58,
-                      height: 58,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFF656A53),
-                        shape: BoxShape.circle,
-                      ),
-                      child: CupertinoButton(
-                        padding: EdgeInsets.zero,
-                        child: const Icon(
-                          CupertinoIcons.add,
-                          color: CupertinoColors.white,
-                          size: 26,
-                        ),
-                        onPressed: () async {
-                          final result = await context.push(
-                            "/addEvent",
-                            extra: cubit,
-                          );
-
-                          if (result == "refresh") {
-                            cubit.fetchEvents();
-                          }
-                        },
-                      ),
-                    ),
+                    bottom: 26.h,
+                    right: 18.w,
+                    child: AddButtonWidget(cubit: cubit), //custom widget for add button
                   ),
                 ],
               );

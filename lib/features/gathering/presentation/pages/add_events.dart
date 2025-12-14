@@ -1,4 +1,4 @@
-import 'package:final_project/features/gathering/domain_layer/entity/gathering_entity.dart';
+import 'package:final_project/core/shared/gathering_entity/gathering_entity.dart';
 import 'package:final_project/features/gathering/presentation/cubit/gathering_cubit.dart';
 import 'package:final_project/features/gathering/presentation/cubit/gathering_state.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +47,6 @@ class AddEventScreen extends StatelessWidget {
         ],
       ),
 
-    
       body: BlocListener<GatheringCubit, GatheringState>(
         listener: (context, state) {
           if (state is GatheringError) {
@@ -68,7 +67,7 @@ class AddEventScreen extends StatelessWidget {
               _input(
                 _titleCtrl,
                 "What’s your activity called?",
-                cubit.setTitle,
+                (value) => cubit.updateField("title", value),
                 cubit.title,
               ),
 
@@ -76,7 +75,7 @@ class AddEventScreen extends StatelessWidget {
               _multiInput(
                 _descCtrl,
                 "Describe your activity…",
-                cubit.setDescription,
+                (value) => cubit.updateField("description", value),
                 cubit.description,
               ),
 
@@ -89,7 +88,6 @@ class AddEventScreen extends StatelessWidget {
               _label("Activity Time"),
               _timePicker(context, cubit),
 
-       
               _label("Pick Location on Map"),
               cubit.selectedLat == null
                   ? GestureDetector(
@@ -106,13 +104,18 @@ class AddEventScreen extends StatelessWidget {
                     ),
 
               _label("City"),
-              _input(_cityCtrl, "Enter city", cubit.setCity, cubit.city),
+              _input(
+                _cityCtrl,
+                "Enter city",
+                (value) => cubit.updateField("city", value),
+                cubit.city,
+              ),
 
               _label("Full Address"),
               _input(
                 _addressCtrl,
                 "Enter full address",
-                cubit.setAddress,
+                (value) => cubit.updateField("address", value),
                 cubit.address,
               ),
             ],
@@ -126,7 +129,6 @@ class AddEventScreen extends StatelessWidget {
     if (cubit.selectedImageUrl == null ||
         _titleCtrl.text.isEmpty ||
         _descCtrl.text.isEmpty ||
-        cubit.selectedCategory == null ||
         cubit.selectedDate == null ||
         cubit.selectedTime == null ||
         cubit.selectedLat == null ||
@@ -146,7 +148,7 @@ class AddEventScreen extends StatelessWidget {
           "${cubit.selectedTime!.hour}:${cubit.selectedTime!.minute.toString().padLeft(2, '0')}",
 
       imageUrl: cubit.selectedImageUrl!,
-      category: cubit.selectedCategory!,
+      category: cubit.selectedCategory,
       latitude: cubit.selectedLat,
       longitude: cubit.selectedLng,
     );
@@ -156,7 +158,6 @@ class AddEventScreen extends StatelessWidget {
     await cubit.fetchEvents();
     context.pop("refresh");
   }
-
 
   Future<void> _pickLocation(BuildContext context, GatheringCubit cubit) async {
     final result = await context.push("/select-location", extra: cubit);
@@ -209,7 +210,6 @@ class AddEventScreen extends StatelessWidget {
     );
   }
 
-
   Widget _buildImagePicker(BuildContext context, GatheringCubit cubit) {
     return GestureDetector(
       onTap: () async {
@@ -236,7 +236,6 @@ class AddEventScreen extends StatelessWidget {
       ),
     );
   }
-
 
   Widget _categoryChips(GatheringCubit cubit) {
     return Wrap(

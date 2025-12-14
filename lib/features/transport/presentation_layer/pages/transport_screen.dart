@@ -67,13 +67,13 @@ class TransportScreen extends StatelessWidget {
                               const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
                                 mainAxisSpacing: 14,
-                                crossAxisSpacing: 14,
-                                childAspectRatio: 0.91,
+                                crossAxisSpacing:
+                                    12,
+                                childAspectRatio: 1.1,
                               ),
                           itemCount: state.data.length,
                           itemBuilder: (_, i) => TransportCard(
-                            name: state.data[i]["name"],
-                            subtitle: state.data[i]["subtitle"],
+                            name: state.data[i]["name"],                 
                             image: state.data[i]["image"],
                             url: state.data[i]["url"],
                           ),
