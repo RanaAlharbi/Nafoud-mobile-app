@@ -1,7 +1,8 @@
 import 'package:dashed_border/dashed_border.dart';
 import 'package:final_project/features/ai_image_analysis/domain_layer/usecase/ai_image_analysis_usecase.dart';
 import 'package:final_project/features/ai_image_analysis/presentation_layer/widgets/mark_down_card.dart';
-import 'package:final_project/features/murshid/presentation/widget/image_source_picker_sheet.dart';
+import 'package:final_project/features/ai_image_analysis/presentation_layer/widgets/image_source_picker_sheet.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:final_project/features/ai_image_analysis/presentation_layer/cubit/ai_cubit.dart';
@@ -45,7 +46,6 @@ class AIImageAnalysisScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Gap(21),
-
                     Row(
                       children: [
                         SvgPicture.asset('assets/icons/murshid_trip.svg'),
@@ -137,7 +137,7 @@ class AIImageAnalysisScreen extends StatelessWidget {
                       builder: (context, state) {
                         if (state is AIImageLoading) {
                           return const Center(
-                            child: CircularProgressIndicator(),
+                            child:  CupertinoActivityIndicator()
                           );
                         }
 

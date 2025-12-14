@@ -26,25 +26,25 @@ class TransportCubit extends Cubit<TransportState> {
   final List<Map<String, dynamic>> taxi = [
     {
       "name": "careem",
-      "subtitle": "",
+      // "subtitle": "",
       "image": "assets/Images/transports/careem.svg",
       "url": "https://www.careem.com/",
     },
     {
       "name": "Uber",
-      "subtitle": "",
+      // "subtitle": "",
       "image": "assets/Images/transports/uber.svg",
       "url": "https://www.uber.com/sa/en/",
     },
     {
       "name": "Jeeny",
-      "subtitle": "",
+      // "subtitle": "",
       "image": "assets/Images/transports/jeeny.svg",
       "url": "https://www.jeeny.me/en/",
     },
     {
       "name": "Bolt",
-      "subtitle": "",
+      // "subtitle": "",
       "image": "assets/Images/transports/bolt (1).svg",
       "url": "https://bolt.eu/en-sa/",
     },
@@ -53,19 +53,19 @@ class TransportCubit extends Cubit<TransportState> {
   final List<Map<String, dynamic>> trains = [
     {
       "name": "SAR",
-      "subtitle": "Train to connect northern and central cities",
+      // "subtitle": "Train to connect northern and central cities",
       "image": "assets/Images/transports/sar.jpg",
       "url": "https://www.sar.com.sa/",
     },
     {
       "name": "HHR",
-      "subtitle": "Train for Makkah, Madinah, Jeddah & KAEC.",
+      // "subtitle": "Train for Makkah, Madinah, Jeddah & KAEC.",
       "image": "assets/Images/transports/HHR.png",
       "url": "https://sar.hhr.sa/ar/home#",
     },
     {
       "name": "Riyadh Metro",
-      "subtitle": "City metro for fast travel within Riyadh",
+      // "subtitle": "City metro for fast travel within Riyadh",
       "image": "assets/Images/transports/riyadh_metro.png",
       "url": "https://riyadhmetrosa.com/",
     },
@@ -74,13 +74,13 @@ class TransportCubit extends Cubit<TransportState> {
   final List<Map<String, dynamic>> publicTransport = [
     {
       "name": "Riyadh Bus",
-      "subtitle": "",
+      // "subtitle": "",
       "image": "assets/Images/transports/riyadh_metro.png",
       "url": "https://riyadhmetrosa.com/",
     },
     {
       "name": "SAPTCO",
-      "subtitle": "",
+      // "subtitle": "",
       "image": "assets/Images/transports/SAPTCO.jpg",
       "url": "https://saptco.com.sa/en",
     },
@@ -89,45 +89,45 @@ class TransportCubit extends Cubit<TransportState> {
   final List<Map<String, dynamic>> carRentals = [
     {
       "name": "Theeb",
-      "subtitle": "",
+      // "subtitle": "",
       "image": "assets/Images/transports/theeb.png",
       "url": "https://www.theebonline.com/",
     },
     {
       "name": "Key",
-      "subtitle": "",
+      // "subtitle": "",
       "image": "assets/Images/transports/key.jpg",
       "url": "https://www.key.sa/",
     },
     {
       "name": "Budget",
-      "subtitle": "",
+      // "subtitle": "",
       "image": "assets/Images/transports/budget.png",
       "url": "https://www.budget.com/",
     },
 
     {
       "name": "Hertz",
-      "subtitle": "",
+      // "subtitle": "",
       "image": "assets/Images/transports/hertz.png",
       "url": "https://www.hertz.com/",
     },
 
     {
       "name": "Lumi",
-      "subtitle": "",
+ 
       "image": "assets/Images/transports/lumi.png",
       "url": "https://lumirental.com/",
     },
     {
       "name": "Yelo",
-      "subtitle": "",
+    
       "image": "assets/Images/transports/yelo.jpg",
       "url": "https://www.iyelo.com/en",
     },
     {
       "name": "Sixt",
-      "subtitle": "",
+     
       "image": "assets/Images/transports/sixt.png",
       "url": "https://www.sixt.com.sa/",
     },

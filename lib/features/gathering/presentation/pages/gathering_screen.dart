@@ -1,204 +1,175 @@
 import 'package:final_project/core/di/configure_dependencies.dart';
-import 'package:final_project/core/routes/router.dart';
+import 'package:final_project/core/shared/Widgets/error_box.dart';
 import 'package:final_project/features/gathering/presentation/cubit/gathering_cubit.dart';
+import 'package:final_project/features/gathering/presentation/cubit/gathering_state.dart';
+import 'package:final_project/features/gathering/presentation/widget/add_button_widget.dart';
+import 'package:final_project/features/gathering/presentation/widget/category_chips_widget.dart';
 import 'package:final_project/features/gathering/presentation/widget/circle_button_widget.dart';
 import 'package:final_project/features/gathering/presentation/widget/event_card_widget.dart';
 import 'package:final_project/features/gathering/presentation/widget/search_bar_widget.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gap/gap.dart';
 
 class GatheringScreen extends StatelessWidget {
   const GatheringScreen({super.key});
 
-  final List<String> categories = const [
-    'All',
-    'Cultural',
-    'Sports',
-    'Arts',
-    'Entertainment',
-  ];
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => getIt<GatheringCubit>()..fetchEvents(),
-      child: Builder(
-        builder: (providerContext) {
-          return CupertinoPageScaffold(
-            backgroundColor: const Color(0xFFF0F0EE),
-            navigationBar: CupertinoNavigationBar(
-              backgroundColor: const Color(0xFFF0F0EE),
-              middle: Text(
-                "Gather",
-                style: GoogleFonts.cairo(
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xff3D4032),
-                ),
-              ),
+      create: (_) => getIt<GatheringCubit>()..fetchEvents(), //provider
+      child: CupertinoPageScaffold(
+        backgroundColor: const Color(0xFFF0F0EE),
+        navigationBar: CupertinoNavigationBar(
+          backgroundColor: const Color(0xFFF0F0EE),
+          middle: Text(
+            "Gather",
+            style: GoogleFonts.cairo(
+              fontSize: 26,
+              fontWeight: FontWeight.bold,
+              color: const Color(0xff3D4032),
             ),
-            child: Stack(
-              children: [
-                SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
+          ),
+        ),
+
+        child: SafeArea(
+          child: BlocBuilder<GatheringCubit, GatheringState>(
+            builder: (context, state) {
+              final cubit = context.read<GatheringCubit>();
+              return Stack(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(16.w),
                     child: Column(
                       children: [
-                        const Gap(10),
+                        20.verticalSpace,
                         Row(
                           children: [
+                            //search bar
                             const Expanded(child: SearchBarWidget()),
-                            const Gap(13),
+                            13.horizontalSpace,
+
+                            //Map button
                             CircleButtonWidget(
                               iconPath: 'assets/icons/murshid_image.svg',
+                              onTap: () {
+                                context.push(
+                                  "/eventsMap",
+                                  extra: context.read<GatheringCubit>(),
+                                );
+                              },
                             ),
-                            const Gap(13),
+                            13.horizontalSpace,
+
+                            //Filter button
                             CircleButtonWidget(
                               iconPath: 'assets/icons/filter-horizontal.svg',
                             ),
                           ],
                         ),
-                        const Gap(23),
-                        BlocBuilder<GatheringCubit, GatheringState>(
-                          builder: (context, state) {
-                            String selectedCategory = 'All';
-                            if (state is GatheringLoaded) {
-                              selectedCategory = state.selectedCategory;
-                            } else if (state is GatheringLoadingWithCategory) {
-                              selectedCategory = state.selectedCategory;
+
+                        23.verticalSpace,
+                        //categories chips widget
+                        CategoryChipsWidget(categories: cubit.categories),
+
+                        23.5.verticalSpace,
+
+                        Expanded(
+                          child: () {
+                            if (state is GatheringLoading ||
+                                state is GatheringLoadingWithCategory) {
+                              //loading indictor Cupertino style
+                              return Center(
+                                child: CupertinoActivityIndicator(
+                                  color: Color(0xff3D4032),
+                                  radius: 16.r,
+                                ),
+                              );
                             }
 
-                            return SizedBox(
-                              height: 40,
-                              child: ListView.separated(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: categories.length,
-                                separatorBuilder: (_, _) => const Gap(8),
-                                itemBuilder: (context, index) {
-                                  final category = categories[index];
-                                  final isSelected =
-                                      category == selectedCategory;
+                            if (state is GatheringError) {
+                              return ErrorMessageWidget(
+                                message: state.message,
+                              ); //custom widget for error
+                            }
 
-                                  return GestureDetector(
-                                    onTap: () {
-                                      context
-                                          .read<GatheringCubit>()
-                                          .fetchEvents(category: category);
-                                    },
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 16,
+                            if (state is GatheringLoaded) {
+                              if (state.events.isEmpty) {
+                                //empty category - ui
+                                return Center(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Image.asset(
+                                        "assets/Images/no_events.jpg",
+                                        width: 160.w,
+                                        height: 160.h,
                                       ),
-                                      alignment: Alignment.center,
-                                      decoration: BoxDecoration(
-                                        color: isSelected
-                                            ? const Color(0xFF656A53)
-                                            : Colors.white,
-                                        border: Border.all(
-                                          color: isSelected
-                                              ? Colors.transparent
-                                              : const Color(0xFFBEBEBE),
-                                          width: 1.2,
-                                        ),
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                      child: Text(
-                                        category,
+                                      15.verticalSpace,
+                                      Text(
+                                        "No events found",
                                         style: GoogleFonts.cairo(
-                                          color: isSelected
-                                              ? Colors.white
-                                              : const Color(0xFF4A4A41),
-                                          fontWeight: FontWeight.w600,
+                                          fontSize: 16.sp,
+                                          color: const Color(0xFF656A53),
+                                          fontWeight: .bold,
                                         ),
                                       ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            );
-                          },
-                        ),
-                        const Gap(16),
-                        Expanded(
-                          child: BlocBuilder<GatheringCubit, GatheringState>(
-                            builder: (context, state) {
-                              List events = [];
-                              bool isLoading = false;
-
-                              if (state is GatheringLoaded) {
-                                events = state.events;
-                              } else if (state
-                                  is GatheringLoadingWithCategory) {
-                                isLoading = true;
-                              } else if (state is GatheringError) {
-                                return Center(child: Text(state.message));
-                              }
-
-                              if (isLoading) {
-                                return const Center(
-                                  child: CupertinoActivityIndicator(),
+                                    ],
+                                  ),
                                 );
                               }
 
-                              if (events.isEmpty) {
-                                return const Center(
-                                  child: Text('No events found'),
-                                );
-                              }
-
-                              return ListView.builder(                           
-                                itemCount: events.length,
-                                itemBuilder: (context, index) {
-                                  final event = events[index];
+                              return ListView.builder(
+                                itemCount: state.events.length,
+                                itemBuilder: (_, i) {
+                                  final e = state.events[i];
                                   return EventCardWidget(
-                                    title: event.title,
-                                    city: event.city,
-                                    date: event.date,
-                                    image: event.imageUrl,
-                                    category: event.category,
+                                    title: e.title,
+                                    city: e.city,
+                                    date: e.date,
+                                    category: e.category,
+                                    image: e.imageUrl,
+                                    isBookmarked: e.isBookmarked,
+                                    onToggleBookmark: () {
+                                      cubit.toggleBookmark(e.id!);
+                                    },
+                                    onViewDetails: () async {
+                                      final result = await context.push(
+                                        "/eventDetails",
+                                        extra: {"event": e, "cubit": cubit},
+                                      );
+
+                                      if (result == "refresh") {
+                                        cubit.fetchEvents();
+                                      }
+                                    },
                                   );
                                 },
                               );
-                            },
-                          ),
+                            }
+
+                            return const SizedBox.shrink();
+                          }(), //IIFE function
                         ),
                       ],
                     ),
                   ),
-                ),
 
-                //add button
-                Positioned(
-                  bottom: 100,
-                  right: 8,
-                  child: Container(
-                    width: 58,
-                    height: 58,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF656A53),
-                      shape: BoxShape.circle,
-                    ),
-                    child: CupertinoButton(
-                      padding: const EdgeInsets.all(20),
-                      child: const Icon(
-                        CupertinoIcons.add,
-                        color: CupertinoColors.white,
-                        size: 18.5,
-                      ),
-                      onPressed: () {
-                        providerContext.push(AppRoutes.addEventScreen);
-                      },
-                    ),
+                  //Add button
+                  Positioned(
+                    bottom: 26.h,
+                    right: 18.w,
+                    child: AddButtonWidget(
+                      cubit: cubit,
+                    ), //custom widget for add button
                   ),
-                ),
-              ],
-            ),
-          );
-        },
+                ],
+              );
+            },
+          ),
+        ),
       ),
     );
   }

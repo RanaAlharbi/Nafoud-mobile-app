@@ -1,4 +1,5 @@
 import 'package:final_project/features/onbording/presentation/cubit/onbording_cubit.dart';
+import 'package:final_project/features/onbording/presentation/widget/langauge_switch_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -91,7 +92,7 @@ class OnboardingScreen extends StatelessWidget {
                         children: List.generate(
                           cubit.images.length,
                           (dotIndex) => Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 4),
+                            margin:  EdgeInsets.symmetric(horizontal: 4.w),
                             width: state == dotIndex ? 10 : 6,
                             height: state == dotIndex ? 10 : 6,
                             decoration: BoxDecoration(
@@ -174,6 +175,17 @@ class OnboardingScreen extends StatelessWidget {
                             ),
                     ],
                   ),
+                ),
+              ),
+                      Positioned(
+                top: 60.h,
+                right: 20.w,
+                child: LanguageSwitchButton(
+                  languageCode: "EN",
+                  onTap: () {
+                    // TODO: change language here
+                  
+                  },
                 ),
               ),
             ],
