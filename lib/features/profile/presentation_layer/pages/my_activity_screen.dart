@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class BookmarkScreen extends StatelessWidget {
-  const BookmarkScreen({super.key});
+class MyActivityScreen extends StatelessWidget {
+  const MyActivityScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

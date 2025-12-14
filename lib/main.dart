@@ -4,10 +4,15 @@ import 'package:final_project/core/routes/router.dart';
 import 'package:final_project/core/setup.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp, // to make screen only vertical
+  ]);
+
   // await EasyLocalization.ensureInitialized();
   await setup();
   configureDependencies();

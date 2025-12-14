@@ -1,15 +1,15 @@
-import 'package:final_project/core/routes/router.dart';
-import 'package:final_project/features/gathering/domain_layer/entity/gathering_entity.dart';
+import 'package:final_project/core/shared/gathering_entity/gathering_entity.dart';
 import 'package:final_project/features/gathering/presentation/cubit/gathering_cubit.dart';
 import 'package:final_project/features/gathering/presentation/cubit/gathering_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 
 class AddEventScreen extends StatelessWidget {
   AddEventScreen({super.key});
@@ -18,11 +18,12 @@ class AddEventScreen extends StatelessWidget {
   final _descCtrl = TextEditingController();
   final _cityCtrl = TextEditingController();
   final _addressCtrl = TextEditingController();
+
   final picker = ImagePicker();
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<GatheringCubit>();
+    final cubit = context.watch<GatheringCubit>();
 
     return Scaffold(
       appBar: AppBar(
@@ -34,37 +35,7 @@ class AddEventScreen extends StatelessWidget {
         ),
         actions: [
           TextButton(
-            onPressed: () async {
-              if (cubit.selectedImageUrl == null ||
-                  _titleCtrl.text.isEmpty ||
-                  _descCtrl.text.isEmpty ||
-                  cubit.selectedCategory == null ||
-                  cubit.selectedDate == null ||
-                  cubit.selectedTime == null ||
-                  cubit.selectedLat == null ||
-                  cubit.selectedLng == null) {
-                _showError(context, "Please fill all fields");
-                return;
-              }
-
-              final entity = GatheringEntity(
-               userId: Supabase.instance.client.auth.currentUser!.id,
-                title: _titleCtrl.text.trim(),
-                description: _descCtrl.text.trim(),
-                city: _cityCtrl.text.trim(),
-                date: DateFormat("yyyy-MM-dd").format(cubit.selectedDate!),
-                eventTime:
-                    "${cubit.selectedTime!.hour}:${cubit.selectedTime!.minute.toString().padLeft(2, '0')}",
-                address: _addressCtrl.text.trim(),
-                imageUrl: cubit.selectedImageUrl!,
-                category: cubit.selectedCategory!,
-                latitude: cubit.selectedLat,
-                longitude: cubit.selectedLng,
-              );
-
-              cubit.addEvent(entity);
-              Navigator.pop(context);
-            },
+            onPressed: () => _publish(context, cubit),
             child: const Text(
               "Publish",
               style: TextStyle(
@@ -76,77 +47,174 @@ class AddEventScreen extends StatelessWidget {
         ],
       ),
 
-      body: SafeArea(
-        child: BlocBuilder<GatheringCubit, GatheringState>(
-          builder: (context, state) {
-            return SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildImagePicker(context, cubit),
+      body: BlocListener<GatheringCubit, GatheringState>(
+        listener: (context, state) {
+          if (state is GatheringError) {
+            _showError(context, state.message);
+          }
+        },
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _label("Activity Image"),
+              _buildImagePicker(context, cubit),
 
-                  const SizedBox(height: 20),
+              const SizedBox(height: 20),
 
-                  _label("Activity Title"),
-                  _input(_titleCtrl, "What’s your activity called?"),
-
-                  _label("About Activity"),
-                  _multiInput(_descCtrl, "Describe your activity…"),
-
-                  _label("Activity Category"),
-                  _categoryChips(cubit),
-
-                  _label("Activity Dates"),
-                  _datePicker(context, cubit),
-
-                  _label("Activity Time"),
-                  _timePicker(context, cubit),
-
-                  _label("Pick Location on Map"),
-                  InkWell(
-                    onTap: () async {
-                      final result = await context.push(
-                        "/selectLocation",
-                        extra: cubit,
-                      );
-
-                      if (result != null) {
-                        final data = result as Map<String, dynamic>;
-                        cubit.setLocation(data["lat"], data["lng"]);
-                      }
-                    },
-                    child: _pickerBox(
-                      cubit.selectedLat == null
-                          ? "Tap to choose location"
-                          : "Lat: ${cubit.selectedLat}, Lng: ${cubit.selectedLng}",
-                      Icons.map,
-                    ),
-                  ),
-
-                  _label("City"),
-                  _input(_cityCtrl, "Enter city"),
-
-                  _label("Full Address"),
-                  _input(_addressCtrl, "Enter full address"),
-                ],
+              _label("Activity Title"),
+              _input(
+                _titleCtrl,
+                "What’s your activity called?",
+                (value) => cubit.updateField("title", value),
+                cubit.title,
               ),
-            );
-          },
+
+              _label("About Activity"),
+              _multiInput(
+                _descCtrl,
+                "Describe your activity…",
+                (value) => cubit.updateField("description", value),
+                cubit.description,
+              ),
+
+              _label("Activity Category"),
+              _categoryChips(cubit),
+
+              _label("Activity Dates"),
+              _datePicker(context, cubit),
+
+              _label("Activity Time"),
+              _timePicker(context, cubit),
+
+              _label("Pick Location on Map"),
+              cubit.selectedLat == null
+                  ? GestureDetector(
+                      onTap: () => _pickLocation(context, cubit),
+                      child: _pickerBox("Tap to choose location", Icons.map),
+                    )
+                  : GestureDetector(
+                      onTap: () => _pickLocation(context, cubit),
+                      child: _miniMap(
+                        context,
+                        cubit.selectedLat!,
+                        cubit.selectedLng!,
+                      ),
+                    ),
+
+              _label("City"),
+              _input(
+                _cityCtrl,
+                "Enter city",
+                (value) => cubit.updateField("city", value),
+                cubit.city,
+              ),
+
+              _label("Full Address"),
+              _input(
+                _addressCtrl,
+                "Enter full address",
+                (value) => cubit.updateField("address", value),
+                cubit.address,
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  // ---------------- UI -------------------
+  void _publish(BuildContext context, GatheringCubit cubit) async {
+    if (cubit.selectedImageUrl == null ||
+        _titleCtrl.text.isEmpty ||
+        _descCtrl.text.isEmpty ||
+        cubit.selectedDate == null ||
+        cubit.selectedTime == null ||
+        cubit.selectedLat == null ||
+        cubit.selectedLng == null) {
+      _showError(context, "Please fill all fields");
+      return;
+    }
+
+    final entity = GatheringEntity(
+      userId: Supabase.instance.client.auth.currentUser!.id,
+      title: cubit.title.trim(),
+      description: cubit.description.trim(),
+      city: cubit.city.trim(),
+      address: cubit.address.trim(),
+      date: DateFormat("yyyy-MM-dd").format(cubit.selectedDate!),
+      eventTime:
+          "${cubit.selectedTime!.hour}:${cubit.selectedTime!.minute.toString().padLeft(2, '0')}",
+
+      imageUrl: cubit.selectedImageUrl!,
+      category: cubit.selectedCategory,
+      latitude: cubit.selectedLat,
+      longitude: cubit.selectedLng,
+    );
+
+    await cubit.addEvent(entity);
+
+    await cubit.fetchEvents();
+    context.pop("refresh");
+  }
+
+  Future<void> _pickLocation(BuildContext context, GatheringCubit cubit) async {
+    final result = await context.push("/select-location", extra: cubit);
+    if (result != null) {
+      final data = result as Map<String, dynamic>;
+      cubit.setLocation(data["lat"], data["lng"]);
+    }
+  }
+
+  Widget _miniMap(BuildContext context, double lat, double lng) {
+    return Container(
+      height: 150,
+      margin: const EdgeInsets.only(top: 6),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Color(0xFF656A53)),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: FlutterMap(
+          options: MapOptions(
+            initialCenter: LatLng(lat, lng),
+            initialZoom: 15,
+            interactionOptions: const InteractionOptions(
+              flags: InteractiveFlag.none,
+            ),
+          ),
+          children: [
+            TileLayer(
+              urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+              userAgentPackageName: "com.example.final_project",
+            ),
+            MarkerLayer(
+              markers: [
+                Marker(
+                  point: LatLng(lat, lng),
+                  width: 40,
+                  height: 40,
+                  child: const Icon(
+                    Icons.location_on,
+                    color: Colors.red,
+                    size: 40,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   Widget _buildImagePicker(BuildContext context, GatheringCubit cubit) {
     return GestureDetector(
       onTap: () async {
         final picked = await picker.pickImage(source: ImageSource.gallery);
-        if (picked != null) {
-       await cubit.uploadImage(picked.path);
-        }
+        if (picked != null) await cubit.uploadImage(picked.path);
       },
       child: Container(
         height: 180,
@@ -172,37 +240,33 @@ class AddEventScreen extends StatelessWidget {
   Widget _categoryChips(GatheringCubit cubit) {
     return Wrap(
       spacing: 10,
-      children: cubit.categories
-          .where((c) => c != "All")
-          .map(
-            (cat) => ChoiceChip(
-              label: Text(cat),
-              selected: cubit.selectedCategory == cat,
-              selectedColor: const Color(0xFF656A53),
-              backgroundColor: Colors.white,
-              onSelected: (_) => cubit.setCategory(cat),
-              labelStyle: TextStyle(
-                color: cubit.selectedCategory == cat
-                    ? Colors.white
-                    : const Color(0xFF656A53),
-              ),
-            ),
-          )
-          .toList(),
+      children: cubit.categories.where((c) => c != "All").map((cat) {
+        return ChoiceChip(
+          label: Text(cat),
+          selected: cubit.selectedCategory == cat,
+          selectedColor: const Color(0xFF656A53),
+          backgroundColor: Colors.white,
+          onSelected: (_) => cubit.setCategory(cat),
+          labelStyle: TextStyle(
+            color: cubit.selectedCategory == cat
+                ? Colors.white
+                : const Color(0xFF656A53),
+          ),
+        );
+      }).toList(),
     );
   }
 
   Widget _datePicker(BuildContext context, GatheringCubit cubit) {
-    return InkWell(
+    return GestureDetector(
       onTap: () async {
-        final pickedDate = await showDatePicker(
+        final picked = await showDatePicker(
           context: context,
           initialDate: DateTime.now(),
           firstDate: DateTime(2020),
           lastDate: DateTime(2035),
         );
-
-        if (pickedDate != null) cubit.setDate(pickedDate);
+        if (picked != null) cubit.setDate(picked);
       },
       child: _pickerBox(
         cubit.selectedDate == null
@@ -214,14 +278,13 @@ class AddEventScreen extends StatelessWidget {
   }
 
   Widget _timePicker(BuildContext context, GatheringCubit cubit) {
-    return InkWell(
+    return GestureDetector(
       onTap: () async {
-        final pickedTime = await showTimePicker(
+        final picked = await showTimePicker(
           context: context,
           initialTime: TimeOfDay.now(),
         );
-
-        if (pickedTime != null) cubit.setTime(pickedTime);
+        if (picked != null) cubit.setTime(picked);
       },
       child: _pickerBox(
         cubit.selectedTime == null
@@ -262,9 +325,20 @@ class AddEventScreen extends StatelessWidget {
     );
   }
 
-  Widget _input(TextEditingController c, String placeholder) {
+  Widget _input(
+    TextEditingController controller,
+    String placeholder,
+    Function(String) onChanged,
+    String initialValue,
+  ) {
+    controller.text = initialValue;
+    controller.selection = TextSelection.fromPosition(
+      TextPosition(offset: controller.text.length),
+    );
+
     return TextField(
-      controller: c,
+      controller: controller,
+      onChanged: onChanged,
       decoration: InputDecoration(
         hintText: placeholder,
         filled: true,
@@ -274,11 +348,22 @@ class AddEventScreen extends StatelessWidget {
     );
   }
 
-  Widget _multiInput(TextEditingController c, String placeholder) {
+  Widget _multiInput(
+    TextEditingController controller,
+    String placeholder,
+    Function(String) onChanged,
+    String initialValue,
+  ) {
+    controller.text = initialValue;
+    controller.selection = TextSelection.fromPosition(
+      TextPosition(offset: controller.text.length),
+    );
+
     return TextField(
-      controller: c,
+      controller: controller,
       minLines: 3,
       maxLines: 5,
+      onChanged: onChanged,
       decoration: InputDecoration(
         hintText: placeholder,
         filled: true,
@@ -304,111 +389,3 @@ class AddEventScreen extends StatelessWidget {
     );
   }
 }
-
-
-
-// import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:final_project/features/gathering/data_layer/model/gathering_model.dart';
-// import 'package:final_project/features/gathering/presentation/cubit/gathering_cubit.dart';
-// import 'package:supabase_flutter/supabase_flutter.dart';
-// import 'package:uuid/uuid.dart';
-
-
-// class AddEventScreen extends StatelessWidget {
-//   const AddEventScreen({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-   
-//     // Controllers
-//     final titleController = TextEditingController();
-//     final descriptionController = TextEditingController();
-//     final cityController = TextEditingController();
-//     final addressController = TextEditingController();
-//     final imageUrlController = TextEditingController();
-//     final dateController = TextEditingController();
-
-//     final categories = ['Cultural', 'Sports', 'Arts','Entertainment'];
-//     String selectedCategory = categories[0];
-
-//     //add events of a specific user 
-//     final userId = Supabase.instance.client.auth.currentUser?.id;
-
-//     return Scaffold(
-//       appBar: AppBar(title: const Text('Add Event')),
-//       body: Padding(
-//         padding: const EdgeInsets.all(16),
-//         child: SingleChildScrollView(
-//           child: Column(
-//             children: [
-//               TextField(
-//                 controller: titleController,
-//                 decoration: const InputDecoration(labelText: 'Activity Title'),
-//               ),
-//               const SizedBox(height: 10),
-//               TextField(
-//                 controller: descriptionController,
-//                 decoration: const InputDecoration(labelText: 'About Activity '),
-//               ),
-//               const SizedBox(height: 10),
-//               TextField(
-//                 controller: cityController,
-//                 decoration: const InputDecoration(labelText: 'Activity Category'),
-//               ),
-//               const SizedBox(height: 10),
-//               TextField(
-//                 controller: dateController,
-//                 decoration: const InputDecoration(labelText: 'Activity Dates'),
-//               ),
-//               const SizedBox(height: 10),
-//               TextField(
-//                 controller: addressController,
-//                 decoration: const InputDecoration(labelText: 'Activity Location'),
-//               ),
-//               TextField(
-//                 controller: imageUrlController,
-//                 decoration: const InputDecoration(labelText: 'Image URL'),
-//               ),
-//               const SizedBox(height: 10),
-          
-//               DropdownButtonFormField<String>(
-//                 initialValue: selectedCategory,
-//                 items: categories
-//                     .map((c) => DropdownMenuItem(value: c, child: Text(c)))
-//                     .toList(),
-//                 onChanged: (value) {
-//                   if (value != null) selectedCategory = value;
-//                 },
-//                 decoration: const InputDecoration(labelText: 'Category'),
-//               ),
-//               const SizedBox(height: 20),
-             
-             
-//               ElevatedButton(
-//                 onPressed: () {
-//                   final event = GatheringModel(
-//                     const Uuid().v4(), // ID
-//                     userId!,
-//                     titleController.text,
-//                     descriptionController.text,
-//                     cityController.text,
-//                     dateController.text,
-//                     addressController.text,
-//                     imageUrlController.text,
-//                     selectedCategory,
-//                   );
-//                   final cubit = context.read<GatheringCubit>();
-//                                   cubit.addEvent(event);
-
-//                   Navigator.pop(context);
-//                 },
-//                 child: const Text('Add Event'),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }

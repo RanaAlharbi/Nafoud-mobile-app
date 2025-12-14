@@ -153,7 +153,7 @@ class CurrencyExchangeWidget extends StatelessWidget {
                             SizedBox(width: 8.w),
                             PopupMenuButton<String>(
                               offset: Offset(0, 30.h),
-                              constraints: BoxConstraints(maxHeight: 350.h),
+                              constraints: BoxConstraints(maxHeight: 190.h),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -255,7 +255,7 @@ class CurrencyExchangeWidget extends StatelessWidget {
                             SizedBox(width: 8.w),
                             PopupMenuButton<String>(
                               offset: Offset(0, 30.h),
-                              constraints: BoxConstraints(maxHeight: 350.h),
+                              constraints: BoxConstraints(maxHeight: 190.h),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [

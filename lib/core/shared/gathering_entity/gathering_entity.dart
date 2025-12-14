@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class GatheringEntity extends Equatable {
+class GatheringEntity extends Equatable { //Equatable to compare value
   final String? id;
   final String userId;
   final String title;
@@ -14,7 +14,6 @@ class GatheringEntity extends Equatable {
   final double? latitude;
   final double? longitude;
   final bool isBookmarked;
-  
 
   const GatheringEntity({
     this.id,
@@ -46,5 +45,6 @@ class GatheringEntity extends Equatable {
     category,
     latitude,
     longitude,
+    isBookmarked,
   ];
 }

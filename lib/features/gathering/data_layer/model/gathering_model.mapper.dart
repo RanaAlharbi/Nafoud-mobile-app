@@ -94,6 +94,8 @@ class GatheringModelMapper extends ClassMapperBase<GatheringModel> {
     #latitude: _f$latitude,
     #longitude: _f$longitude,
   };
+  @override
+  final bool ignoreNull = true;
 
   static GatheringModel _instantiate(DecodingData data) {
     return GatheringModel(

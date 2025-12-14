@@ -1,7 +1,8 @@
-import 'package:final_project/features/gathering/domain_layer/entity/gathering_entity.dart';
+import 'package:final_project/core/shared/gathering_entity/gathering_entity.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 abstract class GatheringDomainRepository {
+  
   Future<Result<List<GatheringEntity>, String>> getUsersEvents();
   Future<Result<void, String>> createUserEvent(GatheringEntity event);
   Future<Result<void, String>> deleteUserEvent(String id, String userId);
@@ -10,5 +11,8 @@ abstract class GatheringDomainRepository {
   Future<Result<void, String>> addBookmark(String eventId);
   Future<Result<void, String>> removeBookmark(String eventId);
   Future<Result<String, String>> uploadImage(String filePath);
+  Future<Result<List<String>, String>> getUserBookmarks();
+  Future<Result<void, String>> joinEvent(String eventId);
+  Future<Result<List<String>, String>> getParticipants(String eventId);
 
 }

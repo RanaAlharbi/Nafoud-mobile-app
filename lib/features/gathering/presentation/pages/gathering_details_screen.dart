@@ -1,9 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:final_project/features/gathering/domain_layer/entity/gathering_entity.dart';
+import 'package:final_project/core/shared/gathering_entity/gathering_entity.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:final_project/features/gathering/presentation/cubit/gathering_cubit.dart';
+import 'package:final_project/features/gathering/presentation/cubit/gathering_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class GatheringDetailsScreen extends StatelessWidget {
@@ -13,9 +18,10 @@ class GatheringDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<GatheringCubit>().loadParticipants(event.id!);
+
     return CupertinoPageScaffold(
       backgroundColor: const Color(0xFFF9F9F9),
-
       navigationBar: CupertinoNavigationBar(
         backgroundColor: CupertinoColors.white,
         middle: Text(
@@ -29,7 +35,7 @@ class GatheringDetailsScreen extends StatelessWidget {
         leading: CupertinoButton(
           padding: EdgeInsets.zero,
           child: const Icon(CupertinoIcons.back, color: Color(0xFF3D4032)),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => context.pop("refresh"),
         ),
         trailing: CupertinoButton(
           padding: EdgeInsets.zero,
@@ -43,24 +49,141 @@ class GatheringDetailsScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // IMAGE
-              CachedNetworkImage(
-                imageUrl: event.imageUrl,
+              Container(
+                height: 300,
                 width: double.infinity,
-                height: 260,
-                fit: BoxFit.cover,
-                placeholder: (_, __) =>
-                    Container(height: 260, color: CupertinoColors.systemGrey4),
-                errorWidget: (_, __, ___) => Container(
-                  height: 260,
-                  color: CupertinoColors.systemGrey4,
-                  child: const Icon(CupertinoIcons.exclamationmark_triangle),
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Positioned.fill(
+                      child: CachedNetworkImage(
+                        imageUrl: event.imageUrl,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+
+                    // gradient
+                    Positioned.fill(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.transparent,
+                              Colors.black.withValues(alpha: 0.55),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    // Title + participants
+                    Positioned(
+                      left: 16,
+                      bottom: 20,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            event.title,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+
+                          const SizedBox(height: 10),
+
+                          BlocBuilder<GatheringCubit, GatheringState>(
+                            builder: (context, state) {
+                              if (state is GatheringParticipantsLoaded &&
+                                  state.avatars.isNotEmpty) {
+                                final avatars = state.avatars;
+                                final visible = avatars.take(5).toList();
+                                final remaining =
+                                    avatars.length - visible.length;
+
+                                return Row(
+                                  children: [
+                                    // avatars
+                                    for (int i = 0; i < visible.length; i++)
+                                      Container(
+                                        margin: const EdgeInsets.only(right: 6),
+                                        child: CircleAvatar(
+                                          radius: 18,
+                                          backgroundColor: Colors.white
+                                              .withValues(alpha: 0.85),
+                                          child: CircleAvatar(
+                                            radius: 16,
+                                            backgroundImage: NetworkImage(
+                                              visible[i],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+
+                                    if (remaining > 0)
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 10,
+                                          vertical: 6,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white.withValues(
+                                            alpha: 0.85,
+                                          ),
+                                          borderRadius: BorderRadius.circular(
+                                            16,
+                                          ),
+                                        ),
+                                        child: Text(
+                                          "+$remaining",
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                  ],
+                                );
+                              }
+                              return const SizedBox();
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    // category
+                    Positioned(
+                      right: 16,
+                      bottom: 20,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 6,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          event.category,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF3D4032),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
 
               const SizedBox(height: 20),
 
-              // TITLE
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
@@ -73,7 +196,6 @@ class GatheringDetailsScreen extends StatelessWidget {
                 ),
               ),
 
-              // DESCRIPTION
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 20,
@@ -91,7 +213,6 @@ class GatheringDetailsScreen extends StatelessWidget {
 
               const SizedBox(height: 10),
 
-              // INFO TITLE
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
@@ -106,7 +227,6 @@ class GatheringDetailsScreen extends StatelessWidget {
 
               const SizedBox(height: 16),
 
-              // INFORMATION ROWS
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
@@ -115,14 +235,13 @@ class GatheringDetailsScreen extends StatelessWidget {
                     const SizedBox(height: 12),
                     _infoRow(CupertinoIcons.time, event.eventTime),
                     const SizedBox(height: 12),
-                    _infoRow(CupertinoIcons.location, event.city),
+                    _infoRow(CupertinoIcons.location_solid, event.city),
                   ],
                 ),
               ),
 
               const SizedBox(height: 22),
 
-              // MAP SECTION
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: _buildMapSection(),
@@ -130,7 +249,6 @@ class GatheringDetailsScreen extends StatelessWidget {
 
               const SizedBox(height: 30),
 
-              // JOIN BUTTON
               Center(
                 child: CupertinoButton(
                   color: const Color(0xFF656A53),
@@ -146,7 +264,9 @@ class GatheringDetailsScreen extends StatelessWidget {
                       fontSize: 18,
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    context.read<GatheringCubit>().joinEvent(event.id!);
+                  },
                 ),
               ),
 
@@ -158,8 +278,6 @@ class GatheringDetailsScreen extends StatelessWidget {
     );
   }
 
-  // ---------------------------------------------
-  // SMALL INFO ROW
   Widget _infoRow(IconData icon, String text) {
     return Row(
       children: [
@@ -173,31 +291,26 @@ class GatheringDetailsScreen extends StatelessWidget {
     );
   }
 
-  // ---------------------------------------------
-  // MAP SECTION
   Widget _buildMapSection() {
     final lat = double.tryParse(event.latitude.toString());
     final lng = double.tryParse(event.longitude.toString());
 
     if (lat == null || lng == null) {
-      return const Padding(
-        padding: EdgeInsets.only(top: 20),
-        child: Text(
-          "Location not available",
-          style: TextStyle(color: CupertinoColors.systemGrey),
-        ),
+      return const Text(
+        "Location not available",
+        style: TextStyle(color: CupertinoColors.systemGrey),
       );
     }
 
     final point = LatLng(lat, lng);
 
-    return Stack(
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: SizedBox(
-            height: 300,
-            child: FlutterMap(
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: SizedBox(
+        height: 300,
+        child: Stack(
+          children: [
+            FlutterMap(
               options: MapOptions(initialCenter: point, initialZoom: 12),
               children: [
                 TileLayer(
@@ -220,77 +333,91 @@ class GatheringDetailsScreen extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-        ),
 
-        // FLOATING CARD
-        Positioned(
-          bottom: 12,
-          left: 20,
-          right: 20,
-          child: Container(
-            padding: const EdgeInsets.all(18),
-            decoration: BoxDecoration(
-              color: CupertinoColors.white,
-              borderRadius: BorderRadius.circular(18),
-              boxShadow: [
-                BoxShadow(
-                  color: CupertinoColors.black.withOpacity(0.1),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    const Icon(
-                      CupertinoIcons.location,
-                      color: Color(0xFF656A53),
+          
+            Positioned(
+              left: 16,
+              right: 16,
+              bottom: 16,
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(22),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 10,
+                      offset: Offset(0, 4),
                     ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        event.title,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xFF4A4A41),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          CupertinoIcons.location_solid,
+                          color: Color(0xFF656A53),
                         ),
+                        SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            event.title,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 14),
+
+                    SizedBox(
+                      width: double.infinity,
+                      child: CupertinoButton(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        color: const Color(0xFF656A53),
+                        borderRadius: BorderRadius.circular(16),
+                        child: Text(
+                          "Get Directions",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: CupertinoColors.white,
+                          ),
+                        ),
+                        onPressed: () {
+                          _openInGoogleMaps(lat, lng);
+                        },
                       ),
                     ),
                   ],
                 ),
-
-                const SizedBox(height: 16),
-
-                CupertinoButton.filled(
-                  borderRadius: BorderRadius.circular(12),
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  onPressed: _openInGoogleMaps,
-                  child: const Text(
-                    "Get Directions",
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
-  // ---------------------------------------------
-  // SHARE
+  void _openInGoogleMaps(double lat, double lng) async {
+    final url = Uri.parse(
+      "https://www.google.com/maps/search/?api=1&query=$lat,$lng",
+    );
+
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    }
+  }
+
   void _shareEvent() {
     final lat = event.latitude;
     final lng = event.longitude;
-
-    final appLink = "myapp://event/${event.id}";
-    final mapLink = "https://www.google.com/maps/search/?api=1&query=$lat,$lng";
 
     final text =
         """
@@ -300,26 +427,10 @@ ${event.title}
 ⏰ ${event.eventTime}
 📍 ${event.city}
 
-View this event in the app:
-$appLink
-
-Open location in Google Maps:
-$mapLink
+Open in Google Maps:
+https://www.google.com/maps/search/?api=1&query=$lat,$lng
 """;
 
     SharePlus.instance.share(ShareParams(text: text));
-  }
-
-  // ---------------------------------------------
-  // OPEN GOOGLE MAPS
-  void _openInGoogleMaps() async {
-    final lat = double.tryParse(event.latitude.toString());
-    final lng = double.tryParse(event.longitude.toString());
-    if (lat == null || lng == null) return;
-
-    final url = Uri.parse(
-      "https://www.google.com/maps/search/?api=1&query=$lat,$lng",
-    );
-    await launchUrl(url, mode: LaunchMode.externalApplication);
   }
 }

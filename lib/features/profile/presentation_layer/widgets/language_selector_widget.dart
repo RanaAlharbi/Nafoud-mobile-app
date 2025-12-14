@@ -15,13 +15,17 @@ class _LanguageSelectorWidgetState extends State<LanguageSelectorWidget> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: SvgPicture.asset(
-        'assets/icons/translation.svg',
-        height: 27.h,
+      leading: SvgPicture.asset('assets/icons/translation.svg', height: 27.h),
+      title: Text(
+        "Language",
+        style: TextStyle(fontSize: 16.h, fontWeight: FontWeight.bold),
       ),
-      title: Text("Language", style: TextStyle(fontSize: 16.h, fontWeight: FontWeight.bold),),
       trailing: PopupMenuButton<String>(
-        offset: Offset(0, 30.h),
+        constraints: BoxConstraints(maxHeight: 190.h),
+        offset: Offset(35.w, 30.h),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.r),
+        ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -29,7 +33,10 @@ class _LanguageSelectorWidgetState extends State<LanguageSelectorWidget> {
               selectedLanguage,
               style: TextStyle(color: Color.fromRGBO(109, 109, 109, 1)),
             ),
-            Icon(Icons.arrow_drop_down, color: Color.fromRGBO(109, 109, 109, 1)),
+            Icon(
+              Icons.arrow_drop_down,
+              color: Color.fromRGBO(109, 109, 109, 1),
+            ),
           ],
         ),
         itemBuilder: (context) => [

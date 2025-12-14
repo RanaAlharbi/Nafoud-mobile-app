@@ -1,3 +1,4 @@
+import 'package:final_project/core/di/configure_dependencies.dart';
 import 'package:final_project/features/ai_image_analysis/presentation_layer/pages/ai_image_analysis_screen.dart';
 import 'package:final_project/features/ai_trip_planner/domain_layer/usecase/ai_trip_usecase.dart';
 import 'package:final_project/features/ai_trip_planner/presentation_layer/bloc/ai_trip_planner_bloc.dart';
@@ -8,13 +9,17 @@ import 'package:final_project/features/authentication/presentation_layer/pages/a
 import 'package:final_project/features/authentication/presentation_layer/pages/sign_in_screen.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/sign_up_screen.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/otp_screen.dart';
-import 'package:final_project/features/error_page/presentation/pages/error_page_feature_screen.dart';
-import 'package:final_project/features/error_page/presentation/cubit/error_page_cubit.dart';
+import 'package:final_project/features/bookmarks/presentation/cubit/bookmarks_cubit.dart';
 import 'package:final_project/features/error_page/domain/use_cases/error_page_use_case.dart';
+import 'package:final_project/features/error_page/presentation/cubit/error_page_cubit.dart';
+import 'package:final_project/features/error_page/presentation/pages/error_page_feature_screen.dart';
+import 'package:final_project/features/gathering/presentation/pages/map_screen.dart';
+import 'package:final_project/features/profile/domain_layer/usecase/profile_usecase.dart';
+import 'package:final_project/core/shared/gathering_entity/gathering_entity.dart';
 import 'package:final_project/features/gathering/presentation/cubit/gathering_cubit.dart';
 import 'package:final_project/features/gathering/presentation/pages/add_events.dart';
+import 'package:final_project/features/gathering/presentation/pages/gathering_details_screen.dart';
 import 'package:final_project/features/gathering/presentation/pages/select_location_screen.dart';
-import 'package:final_project/features/profile/domain_layer/usecase/profile_usecase.dart';
 import 'package:final_project/features/home/presentation_layer/pages/all_activities_screen.dart';
 import 'package:final_project/features/home/presentation_layer/pages/currency_screen.dart';
 import 'package:final_project/features/emergency/presentation_layer/pages/emergency_screen.dart';
@@ -27,8 +32,9 @@ import 'package:final_project/features/navigation/presentation_layer/cubit/navig
 import 'package:final_project/features/navigation/presentation_layer/pages/navigation.dart';
 import 'package:final_project/features/onbording/presentation/cubit/onbording_cubit.dart';
 import 'package:final_project/features/onbording/presentation/pages/onboarding_screen.dart';
-import 'package:final_project/features/profile/presentation_layer/pages/bookmark_screen.dart';
+import 'package:final_project/features/bookmarks/presentation/pages/bookmark_screen.dart';
 import 'package:final_project/features/profile/presentation_layer/pages/edit_profile_screen.dart';
+import 'package:final_project/features/profile/presentation_layer/pages/my_activity_screen.dart';
 import 'package:final_project/features/profile/presentation_layer/pages/profile_screen.dart';
 import 'package:final_project/features/splash/splash_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -59,7 +65,11 @@ class AppRoutes {
   //profile
   static const profileScreen = '/profile-screen';
   static const editProfileScreen = '/edit-profile-screen';
+  static const myActivityScreen = '/my-activity-screen';
   static const bookmarkScreen = '/bookmark-screen';
+
+  //error page (for testing)
+  static const errorPageScreen = '/error-page-screen';
 
   //chat bot
   static const chatScreen = '/chat';
@@ -79,6 +89,7 @@ class AppRoutes {
   //details page
   static const eventDetails = '/eventDetails';
 
+  //select location
   static const selectLocation = '/select-location';
 
   //remember_me
@@ -95,31 +106,22 @@ class AppRoutes {
   }
 
   static final GoRouter appRouter = GoRouter(
-    initialLocation: getInitialRoute(), //AppRoutes.onboardingScreen,
-    /* GetIt.I.get<SupabaseClient>().auth.currentSession != null ? '/navigation_screen'
-        : '/sign-in',*/
-    routes: [
-      GoRoute(
-        path: AppRoutes.chatScreen,
-        builder: (context, state) {
-          return BlocProvider<TripPlannerBloc>(
-            create: (context) =>
-                TripPlannerBloc(GetIt.I.get<GenerateTripUseCase>()),
-            child: const ChatScreen(),
-          );
-        },
-      ),
 
+    initialLocation: AppRoutes.onboardingScreen,
+    routes: [
+      //splash screen
       GoRoute(
         path: AppRoutes.splashScreen,
         builder: (context, state) => SplashScreen(),
       ),
 
+      //auth landing screen
       GoRoute(
         path: AppRoutes.authenticationLandingScreen,
         builder: (context, state) => AuthenticationLandingScreen(),
       ),
 
+      //sign in screen
       GoRoute(
         path: AppRoutes.signInScreen,
         builder: (context, state) {
@@ -131,25 +133,7 @@ class AppRoutes {
         },
       ),
 
-      GoRoute(
-        path: "/selectLocation",
-        builder: (context, state) {
-          final cubit = state.extra as GatheringCubit;
-          return BlocProvider.value(
-            value: cubit,
-            child: const SelectLocationScreen(),
-          );
-        },
-      ),
-
-      GoRoute(
-        path: "/addEvent",
-        builder: (context, state) {
-          final cubit = state.extra as GatheringCubit;
-          return BlocProvider.value(value: cubit, child: AddEventScreen());
-        },
-      ),
-
+      //sign up screen
       GoRoute(
         path: AppRoutes.signUpScreen,
         builder: (context, state) {
@@ -171,6 +155,8 @@ class AppRoutes {
       //     );
       //   },
       // ),
+
+      //Otp screen
       GoRoute(
         path: AppRoutes.otpScreen,
         builder: (context, state) {
@@ -184,23 +170,106 @@ class AppRoutes {
         },
       ),
 
+      //navigation
+      GoRoute(
+        path: AppRoutes.navigationScreen,
+        builder: (context, state) => BlocProvider(
+          create: (context) => NavigationCubit(),
+          child: const NavigationScreen(),
+        ),
+      ),
+
+      //chat screen
+      GoRoute(
+        path: AppRoutes.chatScreen,
+        builder: (context, state) {
+          return BlocProvider<TripPlannerBloc>(
+            create: (context) =>
+                TripPlannerBloc(GetIt.I.get<GenerateTripUseCase>()),
+            child: const ChatScreen(),
+          );
+        },
+      ),
+
+      //Ai image analysis screen
+      GoRoute(
+        path: AppRoutes.aiImageAnalysisScreen,
+        builder: (context, state) => AIImageAnalysisScreen(),
+      ),
+
+      //map screen
+      GoRoute(
+        path: "/eventsMap",
+        builder: (context, state) {
+          final cubit = state.extra as GatheringCubit;
+
+          return BlocProvider.value(
+            value: cubit,
+            child: EventsMapScreen(cubit: cubit),
+          );
+        },
+      ),
+
+      //event details screen
+      GoRoute(
+        path: AppRoutes.eventDetails,
+        builder: (context, state) {
+          final data = state.extra as Map<String, dynamic>;
+          final event = data["event"] as GatheringEntity;
+          final cubit = data["cubit"] as GatheringCubit;
+
+          return BlocProvider.value(
+            value: cubit,
+            child: GatheringDetailsScreen(event: event),
+          );
+        },
+      ),
+
+      //location selection screen
+      GoRoute(
+        path: AppRoutes.selectLocation,
+        builder: (context, state) {
+          final cubit = state.extra as GatheringCubit;
+
+          return BlocProvider.value(
+            value: cubit,
+            child: SelectLocationScreen(),
+          );
+        },
+      ),
+
+      //Add event screen
+      GoRoute(
+        path: "/addEvent",
+        builder: (context, state) {
+          final cubit = state.extra as GatheringCubit;
+
+          return BlocProvider.value(value: cubit, child: AddEventScreen());
+        },
+      ),
+
       // Profile & Edit Profile
       GoRoute(
         path: AppRoutes.profileScreen,
         builder: (context, state) => ProfileScreen(),
       ),
+
       GoRoute(
         path: AppRoutes.editProfileScreen,
         builder: (context, state) => EditProfileScreen(),
       ),
       GoRoute(
-        path: AppRoutes.bookmarkScreen,
-        builder: (context, state) => BookmarkScreen(),
+        path: AppRoutes.myActivityScreen,
+        builder: (context, state) => MyActivityScreen(),
       ),
-
       GoRoute(
-        path: AppRoutes.aiImageAnalysisScreen,
-        builder: (context, state) => AIImageAnalysisScreen(),
+        path: AppRoutes.bookmarkScreen,
+        builder: (context, state) {
+          return BlocProvider<BookmarkCubit>(
+            create: (_) => getIt<BookmarkCubit>()..loadBookmarks(),
+            child: const BookmarkScreen(),
+          );
+        },
       ),
 
       // Home & Home Related things (Transport, SIM Card, Emergency, Weather, and Currency)
@@ -238,18 +307,9 @@ class AppRoutes {
           );
         },
       ),
-
       GoRoute(
         path: AppRoutes.currencyScreen,
         builder: (context, state) => CurrencyScreen(),
-      ),
-
-      GoRoute(
-        path: AppRoutes.navigationScreen,
-        builder: (context, state) => BlocProvider(
-          create: (context) => NavigationCubit(),
-          child: const NavigationScreen(),
-        ),
       ),
 
       GoRoute(
@@ -260,6 +320,8 @@ class AppRoutes {
         ),
       ),
     ],
+
+    // Temporary Page, you can edit it to follow the flow
     errorBuilder: (context, state) => BlocProvider(
       create: (context) => ErrorPageCubit(
         GetIt.I.get<ErrorPageUseCase>(),

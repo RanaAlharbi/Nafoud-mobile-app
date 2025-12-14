@@ -1,47 +1,108 @@
 import 'package:equatable/equatable.dart';
-import 'package:final_project/features/gathering/domain_layer/entity/gathering_entity.dart';
+import 'package:final_project/core/shared/gathering_entity/gathering_entity.dart';
 import 'package:flutter/material.dart';
 
 abstract class GatheringState extends Equatable {
-  const GatheringState();
-
-  @override
-  List<Object?> get props => [];
-}
-
-class GatheringFormUpdated extends GatheringState {}
-class GatheringInitial extends GatheringState {}
-
-class GatheringLoading extends GatheringState {}
-
-class GatheringLoadingWithCategory extends GatheringState {
   final String selectedCategory;
-  const GatheringLoadingWithCategory(this.selectedCategory);
+
+  const GatheringState({required this.selectedCategory});
 
   @override
   List<Object?> get props => [selectedCategory];
 }
 
+
+class GatheringInitial extends GatheringState {
+  const GatheringInitial() : super(selectedCategory: "All");
+}
+
+
+class GatheringLoading extends GatheringState {
+  const GatheringLoading({required super.selectedCategory});
+}
+
+
+class GatheringLoadingWithCategory extends GatheringState {
+  const GatheringLoadingWithCategory(String category)
+      : super(selectedCategory: category);
+}
+
+
 class GatheringLoaded extends GatheringState {
   final List<GatheringEntity> events;
-  final String selectedCategory;
 
-  const GatheringLoaded(this.events, {required this.selectedCategory});
+  const GatheringLoaded({
+    required this.events,
+    required String selectedCategory,
+  }) : super(selectedCategory: selectedCategory);
 
   @override
   List<Object?> get props => [events, selectedCategory];
 }
 
-class GatheringImageUploaded extends GatheringState {
-  final String imageUrl;
- const GatheringImageUploaded(this.imageUrl);
+
+class GatheringParticipantsLoaded extends GatheringState {
+  final List<String> avatars;
+
+  const GatheringParticipantsLoaded({
+    required this.avatars,
+    required super.selectedCategory,
+  });
+
+  @override
+  List<Object?> get props => [avatars, selectedCategory];
 }
+
+
+class GatheringMessage extends GatheringState {
+  final String message;
+
+  const GatheringMessage({
+    required this.message,
+    required super.selectedCategory,
+  });
+
+  @override
+  List<Object?> get props => [message, selectedCategory];
+}
+
+
+class GatheringFormUpdated extends GatheringState {
+  final String? selectedImageUrl;
+  final DateTime? selectedDate;
+  final TimeOfDay? selectedTime;
+  final double? selectedLat;
+  final double? selectedLng;
+
+  const GatheringFormUpdated({
+    required super.selectedCategory,
+    this.selectedImageUrl,
+    this.selectedDate,
+    this.selectedTime,
+    this.selectedLat,
+    this.selectedLng,
+  });
+
+  @override
+  List<Object?> get props => [
+        selectedCategory,
+        selectedImageUrl,
+        selectedDate,
+        selectedTime,
+        selectedLat,
+        selectedLng,
+      ];
+}
+
 
 class GatheringError extends GatheringState {
   final String message;
 
-  const GatheringError(this.message);
+  const GatheringError({
+    required this.message,
+    required super.selectedCategory,
+  });
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [message, selectedCategory];
 }
