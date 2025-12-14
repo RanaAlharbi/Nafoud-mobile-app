@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -56,7 +57,7 @@ class SimCardWidget extends StatelessWidget {
               SizedBox(
                 width: 60,
                 height: 40,
-                child: SvgPicture.asset(logoPath),
+                child: SvgPicture.asset(logoPath, width: 72.w, height: 72.h),
               ),
               const Spacer(),
               Row(
