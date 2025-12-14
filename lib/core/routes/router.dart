@@ -16,7 +16,7 @@ import 'package:final_project/features/home/presentation_layer/pages/all_activit
 import 'package:final_project/features/home/presentation_layer/pages/currency_screen.dart';
 import 'package:final_project/features/emergency/presentation_layer/pages/emergency_screen.dart';
 import 'package:final_project/features/home/presentation_layer/pages/home_screen.dart';
-import 'package:final_project/features/home/presentation_layer/pages/sim_card_screen.dart';
+import 'package:final_project/features/sim_cards/presentation_layer/pages/sim_card_screen.dart';
 import 'package:final_project/features/transport/presentation_layer/pages/transport_screen.dart';
 import 'package:final_project/features/weather/presentation/cubit/weather_cubit.dart';
 import 'package:final_project/features/weather/presentation/pages/weather_screen.dart';
@@ -48,7 +48,7 @@ class AppRoutes {
   static const allActivitiesScreen = '/all-activities';
   static const emergencyScreen = '/emergency';
   static const transportScreen = '/transport';
-  static const simCardScreen = '/sim-card';
+  static const simCardScreen = '/sim-cards';
   static const weatherScreen = '/weather';
   static const currencyScreen = '/currency';
 
@@ -82,11 +82,10 @@ class AppRoutes {
     }
 
     return AppRoutes.onboardingScreen;
-  
   }
 
   static final GoRouter appRouter = GoRouter(
-    initialLocation: AppRoutes.onboardingScreen,
+    initialLocation: getInitialRoute(), //AppRoutes.onboardingScreen,
     /* GetIt.I.get<SupabaseClient>().auth.currentSession != null ? '/navigation_screen'
         : '/sign-in',*/
     routes: [
@@ -231,8 +230,6 @@ class AppRoutes {
           child: const OnboardingScreen(),
         ),
       ),
-
- 
     ],
     errorBuilder: (context, state) => BlocProvider(
       create: (context) => ErrorPageCubit(
