@@ -1,6 +1,8 @@
 {
   "Police": "assets/Images/emergency/police.png",
   "Traffic Police": "assets/Images/emergency/Traffic_Police.png",
+  "Traffic Violation": "assets/Images/emergency/Traffic_Police.png",
+  "Traffic Violation Inquiries": "assets/Images/emergency/Traffic_Police.png",
   "Traffic patrols": "assets/Images/emergency/Traffic_Patrols.png",
   "Civil Defence": "assets/Images/emergency/Civil_Defense.png",
   "Ambulance": "assets/Images/emergency/Ambulance.png",
@@ -8,6 +10,7 @@
   "Narcotics Control": "assets/Images/emergency/Narcotics_Control.png",
   "Border Guard": "assets/Images/emergency/General_Directorate_of_Border_Guard_Logo.svg.png",
   "Command and Control Center": "assets/Images/emergency/command_and_control.svg.png",
+  "Ministry of Interior": "assets/Images/emergency/command_and_control.svg.png",
   "General Investigation": "assets/Images/emergency/general_investigation.png",
   "General Intelligence": "assets/Images/emergency/general_investigation.png",
   "Financial Investigation": "assets/Images/emergency/financial_investigation.png",
@@ -16,5 +19,11 @@
   "Corruption Reports": "assets/Images/emergency/corruption_report.png",
   "Meteorology": "assets/Images/emergency/meterolgy.png",
   "CPVPV": "assets/Images/emergency/CPVPV.png",
-  "Ministry of Health": "assets/Images/emergency/Ministry_of_Health.png"
+  "Ministry of Health": "assets/Images/emergency/Ministry_of_Health.png",
+  "Ministry of Foreign Affairs": "assets/Images/emergency/Ministry_of_Foreign.png",
+  "Ministry of Hajj": "assets/Images/emergency/Ministry_of_Hajj.png",
+  "Ministry of Labour": "assets/Images/emergency/Ministry_of_Labour.png",
+  "Electricity Emergency": "assets/Images/emergency/Electrcity_Emergency.png",
+  "Water Emergency": "assets/Images/emergency/Water_Emergency.png",
+  "Riyadh Municipality Emergency": "assets/Images/emergency/Riyadh_Municipality_Emergency.png"
 }

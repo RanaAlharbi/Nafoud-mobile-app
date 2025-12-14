@@ -164,14 +164,29 @@ class ProfileScreen extends StatelessWidget {
                               height: 140.r,
                               width: double.infinity,
                               child: Center(
-                                child: ClipOval(
-                                  child: Shimmer(
-                                    duration: Duration(milliseconds: 800),
-                                    color: AppColors.primaryColor,
-                                    child: Container(
-                                      width: 140.r,
-                                      height: 140.r,
-                                      color: Color.fromRGBO(241, 241, 241, 1),
+                                child: Container(
+                                  width: 140.r,
+                                  height: 140.r,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: const Color.fromRGBO(194, 164, 128, 1),
+                                      width: 3.w,
+                                    ),
+                                  ),
+                                  child: CircleAvatar(
+                                    radius: 70.r,
+                                    backgroundColor: const Color.fromRGBO(237, 234, 231, 1),
+                                    child: ClipOval(
+                                      child: Shimmer(
+                                        duration: Duration(milliseconds: 800),
+                                        color: AppColors.primaryColor,
+                                        child: Container(
+                                          width: 140.r,
+                                          height: 140.r,
+                                          color: Color.fromRGBO(241, 241, 241, 1),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
