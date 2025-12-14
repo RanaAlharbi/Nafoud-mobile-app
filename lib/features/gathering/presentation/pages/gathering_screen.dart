@@ -20,7 +20,7 @@ class GatheringScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => getIt<GatheringCubit>()..fetchEvents(), //provider
-      child: CupertinoPageScaffold( 
+      child: CupertinoPageScaffold(
         backgroundColor: const Color(0xFFF0F0EE),
         navigationBar: CupertinoNavigationBar(
           backgroundColor: const Color(0xFFF0F0EE),
@@ -161,7 +161,9 @@ class GatheringScreen extends StatelessWidget {
                   Positioned(
                     bottom: 26.h,
                     right: 18.w,
-                    child: AddButtonWidget(cubit: cubit), //custom widget for add button
+                    child: AddButtonWidget(
+                      cubit: cubit,
+                    ), //custom widget for add button
                   ),
                 ],
               );

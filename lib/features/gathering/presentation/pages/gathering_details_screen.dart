@@ -9,6 +9,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:final_project/features/gathering/presentation/cubit/gathering_cubit.dart';
 import 'package:final_project/features/gathering/presentation/cubit/gathering_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class GatheringDetailsScreen extends StatelessWidget {
   final GatheringEntity event;
@@ -70,7 +71,7 @@ class GatheringDetailsScreen extends StatelessWidget {
                             end: Alignment.bottomCenter,
                             colors: [
                               Colors.transparent,
-                              Colors.black.withOpacity(0.55),
+                              Colors.black.withValues(alpha: 0.55),
                             ],
                           ),
                         ),
@@ -113,7 +114,7 @@ class GatheringDetailsScreen extends StatelessWidget {
                                         child: CircleAvatar(
                                           radius: 18,
                                           backgroundColor: Colors.white
-                                              .withOpacity(0.85),
+                                              .withValues(alpha: 0.85),
                                           child: CircleAvatar(
                                             radius: 16,
                                             backgroundImage: NetworkImage(
@@ -130,7 +131,9 @@ class GatheringDetailsScreen extends StatelessWidget {
                                           vertical: 6,
                                         ),
                                         decoration: BoxDecoration(
-                                          color: Colors.white.withOpacity(0.85),
+                                          color: Colors.white.withValues(
+                                            alpha: 0.85,
+                                          ),
                                           borderRadius: BorderRadius.circular(
                                             16,
                                           ),
@@ -305,31 +308,111 @@ class GatheringDetailsScreen extends StatelessWidget {
       borderRadius: BorderRadius.circular(20),
       child: SizedBox(
         height: 300,
-        child: FlutterMap(
-          options: MapOptions(initialCenter: point, initialZoom: 12),
+        child: Stack(
           children: [
-            TileLayer(
-              urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-              userAgentPackageName: 'final_project_app',
-            ),
-            MarkerLayer(
-              markers: [
-                Marker(
-                  point: point,
-                  width: 40,
-                  height: 40,
-                  child: const Icon(
-                    CupertinoIcons.location_solid,
-                    size: 40,
-                    color: CupertinoColors.systemRed,
-                  ),
+            FlutterMap(
+              options: MapOptions(initialCenter: point, initialZoom: 12),
+              children: [
+                TileLayer(
+                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  userAgentPackageName: 'final_project_app',
+                ),
+                MarkerLayer(
+                  markers: [
+                    Marker(
+                      point: point,
+                      width: 40,
+                      height: 40,
+                      child: const Icon(
+                        CupertinoIcons.location_solid,
+                        size: 40,
+                        color: CupertinoColors.systemRed,
+                      ),
+                    ),
+                  ],
                 ),
               ],
+            ),
+
+          
+            Positioned(
+              left: 16,
+              right: 16,
+              bottom: 16,
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(22),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 10,
+                      offset: Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          CupertinoIcons.location_solid,
+                          color: Color(0xFF656A53),
+                        ),
+                        SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            event.title,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 14),
+
+                    SizedBox(
+                      width: double.infinity,
+                      child: CupertinoButton(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        color: const Color(0xFF656A53),
+                        borderRadius: BorderRadius.circular(16),
+                        child: Text(
+                          "Get Directions",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: CupertinoColors.white,
+                          ),
+                        ),
+                        onPressed: () {
+                          _openInGoogleMaps(lat, lng);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
       ),
     );
+  }
+
+  void _openInGoogleMaps(double lat, double lng) async {
+    final url = Uri.parse(
+      "https://www.google.com/maps/search/?api=1&query=$lat,$lng",
+    );
+
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    }
   }
 
   void _shareEvent() {

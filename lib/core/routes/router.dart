@@ -14,7 +14,6 @@ import 'package:final_project/features/error_page/domain/use_cases/error_page_us
 import 'package:final_project/features/error_page/presentation/cubit/error_page_cubit.dart';
 import 'package:final_project/features/error_page/presentation/pages/error_page_feature_screen.dart';
 import 'package:final_project/features/gathering/presentation/pages/map_screen.dart';
-
 import 'package:final_project/features/profile/domain_layer/usecase/profile_usecase.dart';
 import 'package:final_project/core/shared/gathering_entity/gathering_entity.dart';
 import 'package:final_project/features/gathering/presentation/cubit/gathering_cubit.dart';
@@ -93,7 +92,7 @@ class AppRoutes {
   //select location
   static const selectLocation = '/select-location';
 
-  //remember_me 
+  //remember_me
   static String getInitialRoute() {
     final session = GetIt.I.get<SupabaseClient>().auth.currentSession;
     final box = GetIt.I.get<GetStorage>();
@@ -170,7 +169,7 @@ class AppRoutes {
         },
       ),
 
-      //navigation 
+      //navigation
       GoRoute(
         path: AppRoutes.navigationScreen,
         builder: (context, state) => BlocProvider(
@@ -202,7 +201,11 @@ class AppRoutes {
         path: "/eventsMap",
         builder: (context, state) {
           final cubit = state.extra as GatheringCubit;
-          return EventsMapScreen(cubit: cubit);
+
+          return BlocProvider.value(
+            value: cubit,
+            child: EventsMapScreen(cubit: cubit),
+          );
         },
       ),
 

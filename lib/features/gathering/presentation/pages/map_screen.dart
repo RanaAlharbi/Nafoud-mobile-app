@@ -1,8 +1,9 @@
 import 'dart:convert';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:latlong2/latlong.dart';
 import 'package:final_project/features/gathering/presentation/cubit/gathering_cubit.dart';
@@ -18,23 +19,28 @@ class EventsMapScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     cubit.fetchMapEvents();
-
     final MapController mapController = MapController();
 
-    return BlocProvider.value(
-      value: cubit,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Map of Events"),
-          backgroundColor: Color(0xFF656A53),
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        middle: Text(
+          "Map of Events",
+          style: GoogleFonts.cairo(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xff3D4032),
+          ),
         ),
+        backgroundColor: const Color(0xFFF8F8F8),
+      ),
 
-        body: Stack(
+      child: SafeArea(
+        child: Stack(
           children: [
             BlocBuilder<GatheringCubit, GatheringState>(
               builder: (context, state) {
                 if (state is GatheringLoading) {
-                  return const Center(child: CircularProgressIndicator());
+                  return const Center(child: CupertinoActivityIndicator());
                 }
 
                 if (state is GatheringError) {
@@ -53,12 +59,17 @@ class EventsMapScreen extends StatelessWidget {
                         options: MapOptions(
                           initialCenter: mapCenter,
                           initialZoom: zoom,
+                          minZoom: 2,
+                          maxZoom: 18,
                         ),
                         children: [
                           TileLayer(
                             urlTemplate:
                                 "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-                            userAgentPackageName: "com.example.final_project",
+                            userAgentPackageName:
+                                "com.example.final_project",
+                            maxNativeZoom: 19,
+                            minNativeZoom: 0,
                           ),
 
                           MarkerLayer(
@@ -77,7 +88,7 @@ class EventsMapScreen extends StatelessWidget {
                                   ),
                                   child: Icon(
                                     icon,
-                                    color: Colors.white,
+                                    color: CupertinoColors.white,
                                     size: 26,
                                   ),
                                 ),
@@ -90,72 +101,87 @@ class EventsMapScreen extends StatelessWidget {
                   );
                 }
 
-                return SizedBox.shrink();
+                return const SizedBox.shrink();
               },
             ),
 
-            
+            // --- Search Bar ---
             Positioned(
-              top: 20,
-              left: 20,
-              right: 20,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 12),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 6,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: "Search events...",
-                    border: InputBorder.none,
-                    icon: Icon(Icons.search),
-                  ),
-                  onChanged: (value) {
-                    cubit.search(value);
-                  },
+              top: 16,
+              left: 16,
+              right: 16,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: CupertinoSearchTextField(
+                  placeholder: "Search events...",
+                  backgroundColor: CupertinoColors.white,
+                  onChanged: (value) => cubit.search(value),
                 ),
               ),
             ),
 
-       
+            // --- Zoom Buttons ---
             Positioned(
               bottom: 30,
               right: 20,
               child: Column(
                 children: [
-                  FloatingActionButton(
-                    heroTag: "zoomIn",
-                    mini: true,
-                    backgroundColor: Colors.white,
-                    child: Icon(Icons.add, color: Colors.black),
+                  CupertinoButton(
+                    padding: EdgeInsets.zero,
+                    child: Container(
+                      width: 45,
+                      height: 45,
+                      decoration: BoxDecoration(
+                        color: CupertinoColors.white,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: CupertinoColors.black.withValues(alpha: 0.2),
+                            blurRadius: 5,
+                          ),
+                        ],
+                      ),
+                      child: const Icon(CupertinoIcons.plus, color: Colors.black),
+                    ),
                     onPressed: () {
-                      zoomNotifier.value += 1;
-                      mapController.move(
-                        mapController.camera.center,
-                        zoomNotifier.value,
-                      );
+                      if (zoomNotifier.value < 18) {
+                        zoomNotifier.value += 1;
+                        mapController.move(
+                          mapController.camera.center,
+                          zoomNotifier.value,
+                        );
+                      }
                     },
                   ),
-                  SizedBox(height: 10),
-                  FloatingActionButton(
-                    heroTag: "zoomOut",
-                    mini: true,
-                    backgroundColor: Colors.white,
-                    child: Icon(Icons.remove, color: Colors.black),
+
+                  const SizedBox(height: 12),
+
+                  CupertinoButton(
+                    padding: EdgeInsets.zero,
+                    child: Container(
+                      width: 45,
+                      height: 45,
+                      decoration: BoxDecoration(
+                        color: CupertinoColors.white,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: CupertinoColors.black.withValues(alpha: 0.2),
+                            blurRadius: 5,
+                          ),
+                        ],
+                      ),
+                      child:
+                          const Icon(CupertinoIcons.minus, color: Colors.black),
+                    ),
                     onPressed: () {
-                      zoomNotifier.value -= 1;
-                      mapController.move(
-                        mapController.camera.center,
-                        zoomNotifier.value,
-                      );
+                      if (zoomNotifier.value > 2) {
+                        zoomNotifier.value -= 1;
+                        mapController.move(
+                          mapController.camera.center,
+                          zoomNotifier.value,
+                        );
+                      }
                     },
                   ),
                 ],
@@ -167,10 +193,8 @@ class EventsMapScreen extends StatelessWidget {
     );
   }
 
-
-
   LatLng _calculateCenter(List events) {
-    if (events.isEmpty) return LatLng(23.8859, 45.0792); 
+    if (events.isEmpty) return LatLng(23.8859, 45.0792);
 
     double avgLat = 0;
     double avgLng = 0;
@@ -186,44 +210,40 @@ class EventsMapScreen extends StatelessWidget {
   IconData _getMarkerIcon(String category) {
     switch (category) {
       case "Cultural":
-        return Icons.museum;
+        return CupertinoIcons.book;
       case "Sports":
-        return Icons.sports_soccer;
+        return CupertinoIcons.sportscourt;
       case "Arts":
-        return Icons.color_lens;
+        return CupertinoIcons.paintbrush;
       case "Entertainment":
-        return Icons.music_note;
+        return CupertinoIcons.music_note;
       default:
-        return Icons.location_on;
+        return CupertinoIcons.location_solid;
     }
   }
 
   Color _getMarkerColor(String category) {
     switch (category) {
       case "Cultural":
-        return Color(0xFFC9A57A);
+        return const Color(0xFFC2A480);
       case "Sports":
-        return Color(0xFF6A5ACD);
+        return const Color(0xFF6C62A5);
       case "Arts":
-        return Color(0xFF4CAF50);
+        return const Color(0xFF656A53);
       case "Entertainment":
-        return Color(0xFF0084FF);
+        return const Color.fromARGB(255, 156, 146, 209);
       default:
-        return Colors.grey;
+        return CupertinoColors.systemGrey;
     }
   }
 }
 
-
-
 Future<LatLng?> searchLocation(String query) async {
   final url = Uri.parse(
-    "https://nominatim.openstreetmap.org/search?q=$query&format=json&limit=1"
+    "https://nominatim.openstreetmap.org/search?q=$query&format=json&limit=1",
   );
 
-  final response = await http.get(url, headers: {
-    "User-Agent": "FlutterApp"
-  });
+  final response = await http.get(url, headers: {"User-Agent": "FlutterApp"});
 
   if (response.statusCode == 200) {
     final data = jsonDecode(response.body);
