@@ -26,6 +26,7 @@ class WeatherSearchBar extends StatelessWidget {
           hintText: 'Search Location ...',
           hintStyle: TextStyle(color: Colors.grey, fontSize: 18.sp),
           border: InputBorder.none,
+          contentPadding: EdgeInsets.symmetric(vertical: 14.h),
         ),
         onChanged: onChanged,
         onSubmitted: onSubmitted,

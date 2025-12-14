@@ -24,6 +24,7 @@ class EmergencySearchBar extends StatelessWidget {
           hintText: 'Search ...',
           hintStyle: TextStyle(color: Colors.grey, fontSize: 18.sp),
           border: InputBorder.none,
+          contentPadding: EdgeInsets.symmetric(vertical: 14.h),
         ),
         onChanged: onChanged,
       ),
