@@ -67,6 +67,7 @@ class GatheringMessage extends GatheringState {
 }
 
 
+
 class GatheringFormUpdated extends GatheringState {
   final String? selectedImageUrl;
   final DateTime? selectedDate;
@@ -93,6 +94,8 @@ class GatheringFormUpdated extends GatheringState {
         selectedLng,
       ];
 }
+
+
 
 class GatheringParticipantsLoading extends GatheringState {
   const GatheringParticipantsLoading({required super.selectedCategory});

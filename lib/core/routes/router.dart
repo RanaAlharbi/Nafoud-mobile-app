@@ -111,9 +111,7 @@ class AppRoutes {
   }
 
   static final GoRouter appRouter = GoRouter(
-    initialLocation: getInitialRoute(), //AppRoutes.onboardingScreen,
-    /* GetIt.I.get<SupabaseClient>().auth.currentSession != null ? '/navigation_screen'
-        : '/sign-in',*/
+    initialLocation: getInitialRoute(), 
     routes: [
       GoRoute(
         path: AppRoutes.authenticationLandingScreen,

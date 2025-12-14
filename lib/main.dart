@@ -10,7 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp, // to make screen only vertical
+  DeviceOrientation.portraitUp, // to make screen only vertical
   ]);
 
   // await EasyLocalization.ensureInitialized();

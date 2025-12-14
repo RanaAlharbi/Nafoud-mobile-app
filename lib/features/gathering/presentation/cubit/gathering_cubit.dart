@@ -46,6 +46,8 @@ class GatheringCubit extends Cubit<GatheringState> {
   // participants
   List<String> participants = [];
 
+  bool isDescriptionExpanded = false;
+
   // use cases
   final GatheringUsecase getEventsUsecase;
   final CreateGatheringUseCase createGatheringUsecase;
@@ -74,6 +76,7 @@ class GatheringCubit extends Cubit<GatheringState> {
   ) : super(const GatheringInitial());
 
 
+
   // upload image
   Future<void> uploadImage(String filePath) async {
     final result = await uploadImageUseCase(filePath);
@@ -91,7 +94,9 @@ class GatheringCubit extends Cubit<GatheringState> {
           ),
         );
       },
-      (err) => emit(GatheringError(message: err, selectedCategory: selectedCategory)),
+      (err) => emit(
+        GatheringError(message: err, selectedCategory: selectedCategory),
+      ),
     );
   }
 
@@ -113,7 +118,7 @@ class GatheringCubit extends Cubit<GatheringState> {
     );
   }
 
-// Updates map position before confirming using done button
+  // Updates map position before confirming using done button
   void updateTempLocation(double lat, double lng) {
     selectedLat = lat;
     selectedLng = lng;
@@ -129,7 +134,8 @@ class GatheringCubit extends Cubit<GatheringState> {
       ),
     );
   }
-// Sets event location after confirm the pin point
+
+  // Sets event location after confirm the pin point
   void setLocation(double lat, double lng) {
     selectedLat = lat;
     selectedLng = lng;
@@ -241,13 +247,12 @@ class GatheringCubit extends Cubit<GatheringState> {
         }).toList();
 
         emit(
-          GatheringLoaded(
-            events: updated,
-            selectedCategory: selectedCategory,
-          ),
+          GatheringLoaded(events: updated, selectedCategory: selectedCategory),
         );
       },
-      (error) => emit(GatheringError(message: error, selectedCategory: selectedCategory)),
+      (error) => emit(
+        GatheringError(message: error, selectedCategory: selectedCategory),
+      ),
     );
   }
 
@@ -256,7 +261,9 @@ class GatheringCubit extends Cubit<GatheringState> {
     final result = await createGatheringUsecase(entity);
     result.when(
       (_) => fetchEvents(category: selectedCategory),
-      (err) => emit(GatheringError(message: err, selectedCategory: selectedCategory)),
+      (err) => emit(
+        GatheringError(message: err, selectedCategory: selectedCategory),
+      ),
     );
   }
 
@@ -274,7 +281,9 @@ class GatheringCubit extends Cubit<GatheringState> {
       (events) => emit(
         GatheringLoaded(events: events, selectedCategory: selectedCategory),
       ),
-      (err) => emit(GatheringError(message: err, selectedCategory: selectedCategory)),
+      (err) => emit(
+        GatheringError(message: err, selectedCategory: selectedCategory),
+      ),
     );
   }
 
@@ -288,7 +297,9 @@ class GatheringCubit extends Cubit<GatheringState> {
       (events) => emit(
         GatheringLoaded(events: events, selectedCategory: selectedCategory),
       ),
-      (err) => emit(GatheringError(message: err, selectedCategory: selectedCategory)),
+      (err) => emit(
+        GatheringError(message: err, selectedCategory: selectedCategory),
+      ),
     );
   }
 
@@ -299,19 +310,25 @@ class GatheringCubit extends Cubit<GatheringState> {
     result.when(
       (_) {
         loadParticipants(eventId);
-        emit(GatheringMessage(
-          message: "You have joined this event successfully",
-          selectedCategory: selectedCategory,
-        ));
+        emit(
+          GatheringMessage(
+            message: "You have joined this event successfully",
+            selectedCategory: selectedCategory,
+          ),
+        );
       },
       (err) {
         if (err.contains("duplicate key") || err.contains("unique")) {
-          emit(GatheringMessage(
-            message: "You already joined this event",
-            selectedCategory: selectedCategory,
-          ));
+          emit(
+            GatheringMessage(
+              message: "You already joined this event",
+              selectedCategory: selectedCategory,
+            ),
+          );
         } else {
-          emit(GatheringError(message: err, selectedCategory: selectedCategory));
+          emit(
+            GatheringError(message: err, selectedCategory: selectedCategory),
+          );
         }
       },
     );
@@ -327,7 +344,9 @@ class GatheringCubit extends Cubit<GatheringState> {
           selectedCategory: selectedCategory,
         ),
       ),
-      (err) => emit(GatheringError(message: err, selectedCategory: selectedCategory)),
+      (err) => emit(
+        GatheringError(message: err, selectedCategory: selectedCategory),
+      ),
     );
   }
 
@@ -339,7 +358,9 @@ class GatheringCubit extends Cubit<GatheringState> {
 
     result.when(
       (_) => fetchEvents(category: selectedCategory),
-      (err) => emit(GatheringError(message: err, selectedCategory: selectedCategory)),
+      (err) => emit(
+        GatheringError(message: err, selectedCategory: selectedCategory),
+      ),
     );
   }
 
@@ -381,10 +402,7 @@ class GatheringCubit extends Cubit<GatheringState> {
       }).toList();
 
       emit(
-        GatheringLoaded(
-          events: updated,
-          selectedCategory: selectedCategory,
-        ),
+        GatheringLoaded(events: updated, selectedCategory: selectedCategory),
       );
     }
   }
