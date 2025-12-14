@@ -71,10 +71,18 @@ class SimCardWidget extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const Icon(
-                    CupertinoIcons.arrow_up_right,
-                    color: Colors.white,
-                    size: 16,
+                  Container(
+                    width: 28,
+                    height: 28,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF7C815E),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      CupertinoIcons.arrow_up_right,
+                      color: Colors.white,
+                      size: 16,
+                    ),
                   ),
                 ],
               ),
