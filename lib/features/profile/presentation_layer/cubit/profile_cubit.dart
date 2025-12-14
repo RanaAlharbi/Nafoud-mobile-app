@@ -21,6 +21,9 @@ class ProfileCubit extends Cubit<ProfileState> {
     if (isClosed) return;
     emit(ProfileLoading());
 
+    // Temporary delay for testing shimmer
+    await Future.delayed(Duration(seconds: 3));
+
     final result = await _usecase.getProfile();
 
     if (isClosed) return;

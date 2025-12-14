@@ -1,3 +1,4 @@
+import 'package:final_project/core/app_theme/app_colors/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,6 +7,7 @@ import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 import '../../../../core/routes/router.dart';
 import '../../domain_layer/usecase/profile_usecase.dart';
 import '../cubit/profile_cubit.dart';
@@ -97,10 +99,6 @@ class ProfileScreen extends StatelessWidget {
                 // (It's like saying "Don't rebuild for avatar-only changes")
                 current is! AvatarUploading && current is! AvatarUploaded),
             builder: (context, state) {
-              if (state is ProfileLoading) {
-                return Center(child: CircularProgressIndicator());
-              }
-
               if (state is ProfileError) {
                 return Center(
                   child: Column(
@@ -156,9 +154,31 @@ class ProfileScreen extends StatelessWidget {
                           // Only rebuild when avatar changes
                           return current is AvatarUploading ||
                               current is AvatarUploaded ||
-                              current is ProfileLoaded;
+                              current is ProfileLoaded ||
+                              current is ProfileLoading;
                         },
                         builder: (context, avatarState) {
+                          // Show shimmer when loading
+                          if (avatarState is ProfileLoading) {
+                            return SizedBox(
+                              height: 140.r,
+                              width: double.infinity,
+                              child: Center(
+                                child: ClipOval(
+                                  child: Shimmer(
+                                    duration: Duration(milliseconds: 800),
+                                    color: AppColors.primaryColor,
+                                    child: Container(
+                                      width: 140.r,
+                                      height: 140.r,
+                                      color: Color.fromRGBO(241, 241, 241, 1),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
+
                           final avatarUrl = avatarState is ProfileLoaded
                               ? avatarState.profile.avatarUrl
                               : (avatarState is AvatarUploaded
@@ -183,7 +203,20 @@ class ProfileScreen extends StatelessWidget {
                       Gap(5.h),
 
                       // Profile info
-                      ProfileInfoWidget(fullName: profile?.fullName),
+                      state is ProfileLoading
+                          ? Shimmer(
+                              duration: Duration(milliseconds: 800),
+                              color: AppColors.primaryColor,
+                              child: Container(
+                                width: 150.w,
+                                height: 20.h,
+                                decoration: BoxDecoration(
+                                  color: Color.fromRGBO(241, 241, 241, 1),
+                                  borderRadius: BorderRadius.circular(4.r),
+                                ),
+                              ),
+                            )
+                          : ProfileInfoWidget(fullName: profile?.fullName),
 
                       Gap(5.h),
                       Padding(

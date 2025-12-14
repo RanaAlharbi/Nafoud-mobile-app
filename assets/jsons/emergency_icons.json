@@ -3,7 +3,18 @@
   "Traffic Police": "assets/Images/emergency/Traffic_Police.png",
   "Traffic patrols": "assets/Images/emergency/Traffic_Patrols.png",
   "Civil Defence": "assets/Images/emergency/Civil_Defense.png",
+  "Ambulance": "assets/Images/emergency/Ambulance.png",
   "Roads Security": "assets/Images/emergency/Road_Security.png",
+  "Narcotics Control": "assets/Images/emergency/Narcotics_Control.png",
+  "Border Guard": "assets/Images/emergency/General_Directorate_of_Border_Guard_Logo.svg.png",
+  "Command and Control Center": "assets/Images/emergency/command_and_control.svg.png",
+  "General Investigation": "assets/Images/emergency/general_investigation.png",
+  "General Intelligence": "assets/Images/emergency/general_investigation.png",
+  "Financial Investigation": "assets/Images/emergency/financial_investigation.png",
+  "Passports": "assets/Images/emergency/Passports.png",
+  "Public Security": "assets/Images/emergency/Traffic_Patrols.png",
+  "Corruption Reports": "assets/Images/emergency/corruption_report.png",
+  "Meteorology": "assets/Images/emergency/meterolgy.png",
   "CPVPV": "assets/Images/emergency/CPVPV.png",
   "Ministry of Health": "assets/Images/emergency/Ministry_of_Health.png"
 }
