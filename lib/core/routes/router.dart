@@ -5,6 +5,7 @@ import 'package:final_project/features/ai_trip_planner/presentation_layer/page/a
 import 'package:final_project/features/authentication/domain_layer/usecase/authentication_usecase.dart';
 import 'package:final_project/features/authentication/presentation_layer/bloc/authentication_bloc.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/authentication_landing_screen.dart';
+import 'package:final_project/features/authentication/presentation_layer/pages/forget_password_screen.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/sign_in_screen.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/sign_up_screen.dart';
 import 'package:final_project/features/authentication/presentation_layer/pages/otp_screen.dart';
