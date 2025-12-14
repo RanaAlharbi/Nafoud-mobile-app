@@ -1,12 +1,15 @@
 import 'package:final_project/features/gathering/domain_layer/entity/gathering_entity.dart';
 import 'package:final_project/features/gathering/domain_layer/repo/gathering_domain_repository.dart';
+import 'package:injectable/injectable.dart';
+import 'package:multiple_result/multiple_result.dart';
 
+@lazySingleton
 class GatheringUsecase {
   final GatheringDomainRepository repository;
 
   GatheringUsecase(this.repository);
 
-  Future<List<GatheringEntity>> call() async {
+  Future<Result<List<GatheringEntity>, String>> call() async {
     return await repository.getUsersEvents();
   }
 }

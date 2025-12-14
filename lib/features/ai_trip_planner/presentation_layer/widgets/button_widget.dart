@@ -7,7 +7,11 @@ class NavigationButtons extends StatelessWidget {
   final TripPlannerState state;
   final TripPlannerBloc bloc;
 
-  const NavigationButtons({super.key, required this.state, required this.bloc});
+  const NavigationButtons({
+    super.key,
+    required this.state,
+    required this.bloc,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +41,13 @@ class NavigationButtons extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.r),
               ),
-              padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 10.h),
+              padding: EdgeInsets.symmetric(
+                horizontal: 30.w,
+                vertical: 10.h,
+              ),
             ),
             onPressed: () {
+              // Basic validation for Step 1 completion
               if (currentStep == 0 &&
                   (state.preferences.destination == null ||
                       state.preferences.travelerType == null ||
@@ -54,9 +62,12 @@ class NavigationButtons extends StatelessWidget {
                 return;
               }
 
+              // Basic validation for Step 2 completion
               if (currentStep == 1 && state.preferences.budget == null) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Please select a Budget tier.")),
+                  const SnackBar(
+                    content: Text("Please select a Budget tier."),
+                  ),
                 );
                 return;
               }
@@ -64,6 +75,7 @@ class NavigationButtons extends StatelessWidget {
               if (currentStep < 2) {
                 bloc.add(TripStepChanged(currentStep + 1));
               } else {
+                // FINAL SUBMIT ONLY HERE
                 bloc.add(TripPlanSubmitted());
               }
             },

@@ -132,7 +132,7 @@ class OnboardingScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 CupertinoButton(
-                                  onPressed: cubit.skip,
+                                  onPressed: () => cubit.skip(context),
                                   child: Text(
                                     "Skip",
                                     style: GoogleFonts.cairo(
@@ -141,6 +141,7 @@ class OnboardingScreen extends StatelessWidget {
                                     ),
                                   ),
                                 ),
+
                                 CupertinoButton(
                                   color: CupertinoColors.white,
                                   borderRadius: BorderRadius.circular(8.r),

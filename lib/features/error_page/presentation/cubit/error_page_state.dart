@@ -22,3 +22,5 @@ class ErrorPageErrorState extends ErrorPageState {
   List<Object?> get props => [message];
 }
 
+class ErrorPageSignedOutState extends ErrorPageState {}
+

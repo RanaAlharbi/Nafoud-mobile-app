@@ -1,19 +1,32 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:remixicon/remixicon.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ProfileAvatarWidget extends StatelessWidget {
   final String? avatarUrl;
   final bool isUploading;
   final VoidCallback onEditTap;
+  final String? fullName;
 
   const ProfileAvatarWidget({
     super.key,
     this.avatarUrl,
     required this.isUploading,
     required this.onEditTap,
+    this.fullName,
   });
+
+  String _getInitials(String? name) {
+    if (name == null || name.isEmpty) return '';
+
+    final words = name.trim().split(' ').where((word) => word.isNotEmpty).toList();
+
+    if (words.isEmpty) return '';
+    if (words.length == 1) return words[0][0].toUpperCase();
+
+    return '${words[0][0]}${words[1][0]}'.toUpperCase();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,21 +36,6 @@ class ProfileAvatarWidget extends StatelessWidget {
       child: Stack(
         clipBehavior: Clip.none,
         children: [
-          // Background Circle
-          Positioned(
-            top: -280.h,
-            left: (1.sw - 445.w) / 2,
-            child: Container(
-              height: 390.sp,
-              clipBehavior: Clip.none,
-              width: 445.w,
-              decoration: BoxDecoration(
-                color: const Color.fromRGBO(255, 248, 232, 1),
-                borderRadius: BorderRadius.circular(445.w),
-              ),
-            ),
-          ),
-
           // Avatar
           Positioned(
             top: 0,
@@ -45,36 +43,72 @@ class ProfileAvatarWidget extends StatelessWidget {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                CircleAvatar(
-                  key: ValueKey(avatarUrl ?? 'default'),
-                  radius: 70.r,
-                  backgroundColor: const Color.fromARGB(255, 201, 189, 161),
-                  child: avatarUrl != null
-                      ? CachedNetworkImage(
-                          imageUrl: avatarUrl!,
-                          imageBuilder: (context, imageProvider) => Container(
-                            width: 140.r,
-                            height: 140.r,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: imageProvider,
-                                fit: BoxFit.cover,
+                Container(
+                  width: 140.r,
+                  height: 140.r,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: avatarUrl != null
+                          ? const Color.fromRGBO(101, 106, 83, 1) // 656A53 hex
+                          : const Color.fromRGBO(194, 164, 128, 1),
+                      width: 3.w,
+                    ),
+                  ),
+                  child: CircleAvatar(
+                    key: ValueKey(avatarUrl ?? 'default'),
+                    radius: 70.r,
+                    backgroundColor: const Color.fromRGBO(237, 234, 231, 1), // EDEAE7 hex
+                    child: avatarUrl != null
+                        ? CachedNetworkImage(
+                            imageUrl: avatarUrl!,
+                            imageBuilder: (context, imageProvider) => Container(
+                              width: 140.r,
+                              height: 140.r,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  image: imageProvider,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
-                          ),
-                          placeholder: (context, url) => const CircularProgressIndicator(),
-                          errorWidget: (context, url, error) => Icon(
-                            Icons.person,
-                            color: Colors.white,
-                            size: 70.sp,
-                          ),
-                        )
-                      : Icon(
-                          Icons.person,
-                          color: Colors.white,
-                          size: 70.sp,
-                        ),
+                            placeholder: (context, url) => const CircularProgressIndicator(
+                              color: Color.fromRGBO(194, 164, 128, 1),
+                            ),
+                            errorWidget: (context, url, error) {
+                              final initials = _getInitials(fullName);
+                              return initials.isNotEmpty
+                                  ? Text(
+                                      initials,
+                                      style: TextStyle(
+                                        color: const Color.fromRGBO(194, 164, 128, 1), // C2A480 hex
+                                        fontSize: 50.sp,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )
+                                  : Icon(
+                                      Icons.person,
+                                      color: const Color.fromRGBO(194, 164, 128, 1),
+                                      size: 70.sp,
+                                    );
+                            },
+                          )
+                        : _getInitials(fullName).isNotEmpty
+                            ? Text(
+                                _getInitials(fullName),
+                                style: TextStyle(
+                                  color: const Color.fromRGBO(194, 164, 128, 1), // C2A480 hex
+                                  fontSize: 50.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )
+                            : Icon(
+                                Icons.person,
+                                color: const Color.fromRGBO(194, 164, 128, 1),
+                                size: 70.sp,
+                              ),
+                  ),
                 ),
                 // Loading overlay on the main avatar
                 if (isUploading)
@@ -87,7 +121,7 @@ class ProfileAvatarWidget extends StatelessWidget {
                     ),
                     child: Center(
                       child: CircularProgressIndicator(
-                        strokeWidth: 3,
+                        strokeWidth: 3.w,
                         color: Colors.white,
                       ),
                     ),
@@ -103,7 +137,10 @@ class ProfileAvatarWidget extends StatelessWidget {
               left: (1.sw - 140.r) / 2 + 96.r,
               child: CircleAvatar(
                 radius: 20.r,
-                backgroundColor: Colors.white,
+                // It's not usable rigth now cus the UI/UX team choosed not to. 
+                // But we can change this thing here incase if we want it
+                // const Color.fromRGBO(240, 240, 238, 1)
+                backgroundColor: Colors.white, 
               ),
             ),
 
@@ -116,11 +153,11 @@ class ProfileAvatarWidget extends StatelessWidget {
                 onTap: onEditTap,
                 child: CircleAvatar(
                   radius: 18.r,
-                  backgroundColor: const Color.fromRGBO(245, 245, 245, 1),
-                  child: Icon(
-                    RemixIcons.edit_line,
-                    color: Colors.black,
-                    size: 23.sp,
+                  backgroundColor: Colors.white  ,
+                  child: SvgPicture.asset(
+                    'assets/icons/edit-user-02.svg',
+                    width: 23.sp,
+                    height: 23.sp,
                   ),
                 ),
               ),

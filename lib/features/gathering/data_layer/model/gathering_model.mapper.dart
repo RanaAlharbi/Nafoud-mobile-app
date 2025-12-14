@@ -27,7 +27,10 @@ class GatheringModelMapper extends ClassMapperBase<GatheringModel> {
   static const Field<GatheringModel, String> _f$userId = Field(
     'userId',
     _$userId,
+    key: r'user_id',
   );
+  static String _$title(GatheringModel v) => v.title;
+  static const Field<GatheringModel, String> _f$title = Field('title', _$title);
   static String _$description(GatheringModel v) => v.description;
   static const Field<GatheringModel, String> _f$description = Field(
     'description',
@@ -46,28 +49,38 @@ class GatheringModelMapper extends ClassMapperBase<GatheringModel> {
   static const Field<GatheringModel, String> _f$imageUrl = Field(
     'imageUrl',
     _$imageUrl,
+    key: r'image_url',
+  );
+  static String _$category(GatheringModel v) => v.category;
+  static const Field<GatheringModel, String> _f$category = Field(
+    'category',
+    _$category,
   );
 
   @override
   final MappableFields<GatheringModel> fields = const {
     #id: _f$id,
     #userId: _f$userId,
+    #title: _f$title,
     #description: _f$description,
     #city: _f$city,
     #date: _f$date,
     #address: _f$address,
     #imageUrl: _f$imageUrl,
+    #category: _f$category,
   };
 
   static GatheringModel _instantiate(DecodingData data) {
     return GatheringModel(
       data.dec(_f$id),
       data.dec(_f$userId),
+      data.dec(_f$title),
       data.dec(_f$description),
       data.dec(_f$city),
       data.dec(_f$date),
       data.dec(_f$address),
       data.dec(_f$imageUrl),
+      data.dec(_f$category),
     );
   }
 
@@ -136,11 +149,13 @@ abstract class GatheringModelCopyWith<$R, $In extends GatheringModel, $Out>
   $R call({
     String? id,
     String? userId,
+    String? title,
     String? description,
     String? city,
     String? date,
     String? address,
     String? imageUrl,
+    String? category,
   });
   GatheringModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
     Then<$Out2, $R2> t,
@@ -159,31 +174,37 @@ class _GatheringModelCopyWithImpl<$R, $Out>
   $R call({
     String? id,
     String? userId,
+    String? title,
     String? description,
     String? city,
     String? date,
     String? address,
     String? imageUrl,
+    String? category,
   }) => $apply(
     FieldCopyWithData({
       if (id != null) #id: id,
       if (userId != null) #userId: userId,
+      if (title != null) #title: title,
       if (description != null) #description: description,
       if (city != null) #city: city,
       if (date != null) #date: date,
       if (address != null) #address: address,
       if (imageUrl != null) #imageUrl: imageUrl,
+      if (category != null) #category: category,
     }),
   );
   @override
   GatheringModel $make(CopyWithData data) => GatheringModel(
     data.get(#id, or: $value.id),
     data.get(#userId, or: $value.userId),
+    data.get(#title, or: $value.title),
     data.get(#description, or: $value.description),
     data.get(#city, or: $value.city),
     data.get(#date, or: $value.date),
     data.get(#address, or: $value.address),
     data.get(#imageUrl, or: $value.imageUrl),
+    data.get(#category, or: $value.category),
   );
 
   @override

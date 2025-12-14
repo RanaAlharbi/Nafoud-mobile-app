@@ -1,14 +1,14 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
-
+import 'package:go_router/go_router.dart';
 
 class OnboardingCubit extends Cubit<int> {
   final PageController pageController = PageController();
 
   final List<String> images = [
-    "Assets/Images/onboarding/onboarding_1.png",
-    "Assets/Images/onboarding/onboarding_2.png",
-    "Assets/Images/onboarding/onboarding_3.png",
+    "assets/Images/onboarding/onboarding_1.png",
+    "assets/Images/onboarding/onboarding_2.png",
+    "assets/Images/onboarding/onboarding_3.png",
   ];
 
   final List<String> titles = [
@@ -42,10 +42,8 @@ class OnboardingCubit extends Cubit<int> {
     }
   }
 
-  void skip() {
-    _currentIndex = images.length - 1;
-    pageController.jumpToPage(_currentIndex);
-    emit(_currentIndex);
+  void skip(BuildContext context) {
+    context.go('/authentication-landing');
   }
 
   void onPageChanged(int index) {

@@ -24,12 +24,12 @@ class NavigationScreen extends StatelessWidget {
             items: [
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
-                  'Assets/icons/nav_home.svg',
+                  'assets/icons/nav_home.svg',
                   width: 32.h,
                   height: 32.h,
                 ),
                 activeIcon: SvgPicture.asset(
-                  'Assets/icons/nav_home.svg',
+                  'assets/icons/nav_home.svg',
                   width: 32.h,
                   height: 32.h,
                   colorFilter: ColorFilter.mode(
@@ -41,12 +41,12 @@ class NavigationScreen extends StatelessWidget {
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
-                  'Assets/icons/nav_gathering-cropped.svg',
+                  'assets/icons/nav_gathering-cropped.svg',
                   width: 34.h,
                   height: 34.h,
                 ),
                 activeIcon: SvgPicture.asset(
-                  'Assets/icons/nav_gathering-cropped.svg',
+                  'assets/icons/nav_gathering-cropped.svg',
                   width: 34.h,
                   height: 34.h,
                   colorFilter: ColorFilter.mode(
@@ -58,12 +58,12 @@ class NavigationScreen extends StatelessWidget {
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
-                  'Assets/icons/nav_ai.svg',
+                  'assets/icons/nav_ai.svg',
                   width: 32.h,
                   height: 32.h,
                 ),
                 activeIcon: SvgPicture.asset(
-                  'Assets/icons/nav_ai.svg',
+                  'assets/icons/nav_ai.svg',
                   width: 32.h,
                   height: 32.h,
                   colorFilter: ColorFilter.mode(
@@ -75,12 +75,12 @@ class NavigationScreen extends StatelessWidget {
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
-                  'Assets/icons/nav_user.svg',
+                  'assets/icons/nav_user.svg',
                   width: 32.h,
                   height: 32.h,
                 ),
                 activeIcon: SvgPicture.asset(
-                  'Assets/icons/nav_user.svg',
+                  'assets/icons/nav_user.svg',
                   width: 32.h,
                   height: 32.h,
                   colorFilter: ColorFilter.mode(

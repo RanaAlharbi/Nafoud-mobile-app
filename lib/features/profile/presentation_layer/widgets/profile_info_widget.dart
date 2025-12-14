@@ -1,5 +1,6 @@
+import 'package:final_project/core/app_theme/app_colors/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProfileInfoWidget extends StatelessWidget {
   final String? fullName;
@@ -22,46 +23,13 @@ class ProfileInfoWidget extends StatelessWidget {
         // Full name
         Text(
           fullName ?? 'Loading the name...',
-          style: const TextStyle(
-            fontSize: 20,
+          style: TextStyle(
+            fontSize: 20.sp,
             fontWeight: FontWeight.bold,
-            color: Color.fromRGBO(103, 70, 54, 1),
+            color: AppColors.primaryColor,
           ),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-        ),
-        // Username
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              '@${username ?? 'Loading_The_Username...'}',
-              style: const TextStyle(
-                fontSize: 14,
-                color: Colors.grey,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ],
-        ),
-        const Gap(4),
-        // Email and Phone
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              '${email ?? 'Loading Email...'} | ',
-              style: const TextStyle(fontSize: 14, color: Colors.grey),
-            ),
-            Text(
-              phoneNumber == null
-                  ? 'Loading Number...'
-                  : phoneNumber == ''
-                      ? 'No Phone Number'
-                      : phoneNumber!,
-              style: const TextStyle(fontSize: 14, color: Colors.grey),
-            ),
-          ],
         ),
       ],
     );

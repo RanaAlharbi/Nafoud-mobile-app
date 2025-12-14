@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProfileSettingsCardWidget extends StatelessWidget {
   final List<Widget> children;
@@ -10,24 +11,30 @@ class ProfileSettingsCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Add lines between each child (e.g. Font Size and Appearance)
+    List<Widget> childrenWithDividers = [];
+    for (int i = 0; i < children.length; i++) {
+      childrenWithDividers.add(children[i]);
+      if (i < children.length - 1) {
+        childrenWithDividers.add(Divider(
+          height: 1,
+          thickness: 1,
+          color: Colors.grey,
+        ));
+      }
+    }
+
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(16),
-      margin: const EdgeInsets.symmetric(horizontal: 20.0),
+      padding: EdgeInsets.all(8.r),
+      margin: EdgeInsets.symmetric(horizontal: 20.w),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withValues(alpha: 0.5),
-            spreadRadius: 1,
-            blurRadius: 3,
-          ),
-        ],
+        borderRadius: BorderRadius.circular(30.r),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: children,
+        children: childrenWithDividers,
       ),
     );
   }

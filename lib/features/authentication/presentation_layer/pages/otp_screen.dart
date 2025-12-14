@@ -11,12 +11,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:jumping_dot/jumping_dot.dart';
 
 class OTPScreen extends StatelessWidget {
-  final String email;
+  final Map<String, dynamic> extraData;
 
-  const OTPScreen({super.key, required this.email});
+  const OTPScreen({super.key, required this.extraData});
 
   @override
   Widget build(BuildContext context) {
+    final String email = extraData['email'] ?? '';
+    final String type = extraData['type'] ?? 'signup';
+
     final int _otpLength = 6;
     final List<FocusNode> _focusNodes = List.generate(
       6,
@@ -32,7 +35,15 @@ class OTPScreen extends StatelessWidget {
         if (state is AuthenticationSuccess) {
           Future.delayed(const Duration(seconds: 2), () {
             if (context.mounted) {
-              context.go(AppRoutes.signInScreen);
+              final code = _otpControllers.map((e) => e.text).join();
+              if (type == 'signup') {
+                context.go(AppRoutes.signInScreen);
+              } else if (type == 'reset') {
+                context.go(
+                  AppRoutes.updatePasswordScreen,
+                  extra: {'email': email, 'code': code},
+                );
+              }
             }
           });
         }
@@ -46,7 +57,7 @@ class OTPScreen extends StatelessWidget {
                 bottom: 0,
                 right: 0,
                 child: SvgPicture.asset(
-                  'Assets/authentication/BackgroundLetters.svg',
+                  'assets/authentication/BackgroundLetters.svg',
                   width: 419.w,
                   height: 774.h,
                   fit: BoxFit.contain,
@@ -63,7 +74,7 @@ class OTPScreen extends StatelessWidget {
                         Align(
                           alignment: Alignment.topRight,
                           child: SvgPicture.asset(
-                            'Assets/logo/NafoudLogo.svg',
+                            'assets/logo/NafoudLogo.svg',
                             width: 67.87.w,
                             height: 69.17.h,
                           ),
@@ -74,7 +85,9 @@ class OTPScreen extends StatelessWidget {
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "Verify Your Email Address",
+                            type == 'signup'
+                                ? "Verify Your Email Address"
+                                : "Enter Reset Code",
                             style: GoogleFonts.cairo(
                               fontSize: 25.9.sp,
                               color: const Color(0xFF3D4032),
@@ -132,13 +145,25 @@ class OTPScreen extends StatelessWidget {
                                   final code = _otpControllers
                                       .map((e) => e.text)
                                       .join();
+
+                                  // 2. Submission Logic
                                   if (code.length == 6) {
-                                    context.read<AuthenticationBloc>().add(
-                                      VerifyEmailSubmitted(
-                                        email: email,
-                                        otp: code,
-                                      ),
-                                    );
+                                    if (type == 'signup') {
+                                      context.read<AuthenticationBloc>().add(
+                                        VerifyEmailSubmitted(
+                                          email: email,
+                                          otp: code,
+                                        ),
+                                      );
+                                    } else if (type == 'reset') {
+                                      // FIX: Only verify the reset code using the new event
+                                      context.read<AuthenticationBloc>().add(
+                                        VerifyResetCodeSubmitted(
+                                          email: email,
+                                          code: code,
+                                        ),
+                                      );
+                                    }
                                   }
                                 },
                               ),
@@ -148,29 +173,6 @@ class OTPScreen extends StatelessWidget {
 
                         20.verticalSpace,
 
-                        if (state is AuthenticationLoading)
-                          Positioned.fill(
-                            child: Stack(
-                              children: [
-                                BackdropFilter(
-                                  filter: ImageFilter.blur(
-                                    sigmaX: 5,
-                                    sigmaY: 5,
-                                  ),
-                                  child: Container(
-                                    color: Colors.black.withValues(alpha: .2),
-                                  ),
-                                ),
-                                Center(
-                                  child: JumpingDots(
-                                    color: Color(0xFF656A53),
-                                    radius: 10,
-                                    numberOfDots: 3,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
                         if (state is AuthenticationFailure)
                           Text(
                             state.message,
@@ -196,20 +198,32 @@ class OTPScreen extends StatelessWidget {
 
                         170.verticalSpace,
 
-                        Text(
-                          "The timer will be here",
-                          style: GoogleFonts.cairo(
-                            color: const Color(0xFF919191),
-                            fontSize: 16.sp,
-                          ),
-                        ),
-
                         250.verticalSpace,
                       ],
                     ),
                   ),
                 ),
               ),
+
+              if (state is AuthenticationLoading)
+                Positioned.fill(
+                  child: Stack(
+                    children: [
+                      BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                        child: Container(color: Colors.black.withOpacity(.2)),
+                      ),
+                      Center(
+                        child: JumpingDots(
+                          color: const Color(0xFF656A53),
+                          radius: 10,
+                          numberOfDots: 3,
+                          animationDuration: const Duration(milliseconds: 200),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
             ],
           ),
         );

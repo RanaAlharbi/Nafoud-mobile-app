@@ -8,24 +8,28 @@ class CurrencyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromRGBO(241, 241, 241, 1),
       appBar: AppBar(
+        backgroundColor: Color.fromRGBO(241, 241, 241, 1),
         title: Text(
           "Currency",
           style: TextStyle(
             fontWeight: .bold,
-            color: Color.fromRGBO(30, 30, 30, 1),
+            color: Color.fromRGBO(61,64,50, 1),
           ),
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: SvgPicture.asset('Assets/icons/arrow_left.svg'),
+          icon: SvgPicture.asset('assets/icons/arrow_left.svg'),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.all(16),
-          child: Column(children: [CurrencyExchangeWidget()]),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(16),
+            child: Column(children: [CurrencyExchangeWidget()]),
+          ),
         ),
       ),
     );

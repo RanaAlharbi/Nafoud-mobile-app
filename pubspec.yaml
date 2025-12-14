@@ -47,6 +47,10 @@ dependencies:
   flutter_timer_countdown: ^1.0.7
   jumping_dot: ^0.0.7
   dashed_border: ^1.0.2
+  flutter_animate: ^4.5.2
+  multiple_result: ^5.2.0
+  google_maps_flutter: ^2.14.0
+  url_launcher: ^6.3.2
   
 
 dev_dependencies:
@@ -76,18 +80,25 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - .env
-    - Assets/authentication/
-    - Assets/icons/    
-    - Assets/logo/
-    - Assets/Images/
-    - Assets/Images/Sign_In_Screen/
-    - Assets/Images/Sign_Up_Screen/
-    - Assets/Images/home/
-    - Assets/translations/
-    - Assets/jsons/
-    - Assets/Images/onboarding/onboarding_1.png
-    - Assets/Images/onboarding/onboarding_2.png
-    - Assets/Images/onboarding/onboarding_3.png
+    - assets/authentication/
+    - assets/Images/onboarding/
+    - assets/icons/
+    - assets/logo/
+    - assets/Images/transports/
+    - assets/Images/
+    - assets/Images/Sign_In_Screen/
+    - assets/Images/Sign_Up_Screen/
+    - assets/Images/home/
+    - assets/Images/profile/
+    - assets/Images/emergency/
+    - assets/translations/
+    - assets/jsons/
+    - assets/Images/onboarding/onboarding_1.png
+    - assets/Images/onboarding/onboarding_2.png
+    - assets/Images/onboarding/onboarding_3.png
+    - assets/sim_cards/mobily.svg
+    - assets/sim_cards/stc.svg
+    - assets/sim_cards/zain.svg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

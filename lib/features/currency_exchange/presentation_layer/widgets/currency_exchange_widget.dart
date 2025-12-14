@@ -151,29 +151,37 @@ class CurrencyExchangeWidget extends StatelessWidget {
                           children: [
                             _buildCurrencyFlag(state.fromCurrency),
                             SizedBox(width: 8.w),
-                            DropdownButtonHideUnderline(
-                              child: DropdownButton<String>(
-                                value: state.fromCurrency,
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black,
-                                ),
-                                icon: SvgPicture.asset(
-                                  'Assets/icons/down_arrow.svg',
-                                  width: 9.sp,
-                                  height: 9.sp,
-                                ),
-                                items: state.currencies!.map((currency) {
-                                  return DropdownMenuItem<String>(
-                                    value: currency.currencyCode,
-                                    child: Text(currency.currencyCode),
-                                  );
-                                }).toList(),
-                                onChanged: (value) {
-                                  if (value != null) cubit.changeFromCurrency(value);
-                                },
+                            PopupMenuButton<String>(
+                              offset: Offset(0, 30.h),
+                              constraints: BoxConstraints(maxHeight: 190.h),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    state.fromCurrency,
+                                    style: TextStyle(
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  SizedBox(width: 4.w),
+                                  SvgPicture.asset(
+                                    'assets/icons/down_arrow.svg',
+                                    width: 9.sp,
+                                    height: 9.sp,
+                                  ),
+                                ],
                               ),
+                              itemBuilder: (context) => state.currencies!.map((currency) {
+                                return PopupMenuItem<String>(
+                                  value: currency.currencyCode,
+                                  child: Text(currency.currencyCode),
+                                );
+                              }).toList(),
+                              onSelected: (value) {
+                                cubit.changeFromCurrency(value);
+                              },
                             ),
                           ],
                         ),
@@ -190,7 +198,7 @@ class CurrencyExchangeWidget extends StatelessWidget {
                 child: IconButton(
                   onPressed: state.toCurrency != null ? () => cubit.swapCurrencies() : null,
                   icon: SvgPicture.asset(
-                    'Assets/icons/Transfer.svg',
+                    'assets/icons/Transfer.svg',
                     width: 35.sp,
                     height: 35.sp,
                   ),
@@ -245,38 +253,45 @@ class CurrencyExchangeWidget extends StatelessWidget {
                           children: [
                             if (state.toCurrency != null) _buildCurrencyFlag(state.toCurrency!),
                             SizedBox(width: 8.w),
-                            DropdownButtonHideUnderline(
-                              child: DropdownButton<String>(
-                                value: state.toCurrency,
-                                hint: const Text('Select  '),
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black,
-                                ),
-                                icon: SvgPicture.asset(
-                                  'Assets/icons/down_arrow.svg',
-                                  width: 9.sp,
-                                  height: 9.sp,
-                                ),
-                                items: state.currencies!
-                                    .where((currency) {
-                                      if (state.fromCurrency == 'SAR') {
-                                        return currency.currencyCode != 'SAR';
-                                      }
-                                      return currency.currencyCode == 'SAR';
-                                    })
-                                    .map((currency) {
-                                      return DropdownMenuItem<String>(
-                                        value: currency.currencyCode,
-                                        child: Text(currency.currencyCode),
-                                      );
-                                    })
-                                    .toList(),
-                                onChanged: (value) {
-                                  if (value != null) cubit.changeToCurrency(value);
-                                },
+                            PopupMenuButton<String>(
+                              offset: Offset(0, 30.h),
+                              constraints: BoxConstraints(maxHeight: 190.h),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    state.toCurrency ?? 'Select   ',
+                                    style: TextStyle(
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: state.toCurrency != null ? Colors.black : Colors.grey,
+                                    ),
+                                  ),
+                                  SizedBox(width: 4.w),
+                                  SvgPicture.asset(
+                                    'assets/icons/down_arrow.svg',
+                                    width: 9.sp,
+                                    height: 9.sp,
+                                  ),
+                                ],
                               ),
+                              itemBuilder: (context) => state.currencies!
+                                  .where((currency) {
+                                    if (state.fromCurrency == 'SAR') {
+                                      return currency.currencyCode != 'SAR';
+                                    }
+                                    return currency.currencyCode == 'SAR';
+                                  })
+                                  .map((currency) {
+                                    return PopupMenuItem<String>(
+                                      value: currency.currencyCode,
+                                      child: Text(currency.currencyCode),
+                                    );
+                                  })
+                                  .toList(),
+                              onSelected: (value) {
+                                cubit.changeToCurrency(value);
+                              },
                             ),
                           ],
                         ),

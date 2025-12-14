@@ -89,9 +89,11 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> signOut() async {
     if (isClosed) return;
 
-    emit(SignedOut());
-
+    // Clear cache and sign out FIRST, then emit the state
     await _usecase.signOut();
+
+    if (isClosed) return;
+    emit(SignedOut());
   }
 
   // Method to load country codes from JSON (with caching)
@@ -100,7 +102,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     if (_cachedCountryCodes != null) return _cachedCountryCodes!;
 
     final String response = await rootBundle.loadString(
-      'Assets/jsons/country_code.json',
+      'assets/jsons/country_code.json',
     );
     final List<dynamic> data = json.decode(response);
     _cachedCountryCodes = data.map((json) => CountryCodeEntity.fromJson(json)).toList();

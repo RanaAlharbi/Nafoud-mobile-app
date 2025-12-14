@@ -1,4 +1,5 @@
 import 'package:final_project/features/authentication/data_layer/model/authentication_model.dart';
+import 'package:get_storage/src/storage_impl.dart';
 import 'package:injectable/injectable.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -29,7 +30,7 @@ abstract class AuthenticationDatasource {
 class SupabaseDatasource implements AuthenticationDatasource {
   final SupabaseClient supabase;
 
-  SupabaseDatasource(this.supabase);
+  SupabaseDatasource(this.supabase, GetStorage getStorage);
 
   @override
   Future<AuthenticationModel> signIn({

@@ -10,8 +10,10 @@ class MurshidScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFF1F1F1),
       appBar: AppBar(
         title: Text('Murshid'),
+        backgroundColor:Color(0xFFF1F1F1),
         titleTextStyle: GoogleFonts.cairo(
           color: Color(0xff3D4032),
           fontSize: 25.9,
@@ -57,10 +59,7 @@ class MurshidScreen extends StatelessWidget {
 
             Text(
               'How can I help you today?',
-              style: TextStyle(
-                fontSize: 18,
-                color: Color(0xff919191),
-              ),
+              style: TextStyle(fontSize: 18, color: Color(0xff919191)),
             ),
 
             Gap(40),
@@ -79,14 +78,13 @@ class MurshidScreen extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    SvgPicture.asset('Assets/icons/murshid_trip.svg'),
+                    SvgPicture.asset('assets/icons/murshid_trip.svg'),
                     Gap(10),
                     Text(
                       'Plan My Trip',
                       style: GoogleFonts.cairo(
                         fontSize: 18,
                         color: Color(0xff656A53),
-                       
                       ),
                     ),
                   ],
@@ -109,13 +107,14 @@ class MurshidScreen extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    SvgPicture.asset('Assets/icons/murshid_image.svg'),
+                    SvgPicture.asset('assets/icons/murshid_image.svg'),
                     Gap(10),
                     Text(
                       'Identify The Image',
                       style: GoogleFonts.cairo(
-                        color: Color(0xff656A53), 
-                        fontSize: 18),
+                        color: Color(0xff656A53),
+                        fontSize: 18,
+                      ),
                     ),
                   ],
                 ),

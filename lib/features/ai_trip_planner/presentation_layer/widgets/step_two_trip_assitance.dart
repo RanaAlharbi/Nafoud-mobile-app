@@ -45,7 +45,7 @@ class Step2TripAssistance extends StatelessWidget {
       children: [
         const CustomLabel("How Can I Help?"),
         ChipGroup(
-          options: const ["Accommodation", "Activities", "Food", "Transport"],
+          options: ["Accommodation", "Activities", "Food"],
           selectedItems: prefs.assistanceNeeded,
           isMulti: true,
           onSelect: (val) {
@@ -61,7 +61,7 @@ class Step2TripAssistance extends StatelessWidget {
           },
         ),
 
-        SizedBox(height: 20.h),
+        20.verticalSpace,
         const CustomLabel("Budget"),
         ChipGroup(
           options: const [

@@ -25,7 +25,10 @@ class SignUpScreen extends StatelessWidget {
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         if (state is AuthenticationSuccess) {
-          context.go(AppRoutes.otpScreen, extra: _emailController.text);
+          context.go(
+            AppRoutes.otpScreen,
+            extra: {'email': _emailController.text, 'type': 'signup'},
+          );
         }
         if (state is AuthenticationFailure) {
           _errorNotifier.value = state.message;
@@ -40,7 +43,7 @@ class SignUpScreen extends StatelessWidget {
                 bottom: 0,
                 right: 0,
                 child: SvgPicture.asset(
-                  'Assets/authentication/BackgroundLetters.svg',
+                  'assets/authentication/BackgroundLetters.svg',
                   width: 419.w,
                   height: 774.h,
                   fit: BoxFit.contain,
@@ -57,7 +60,7 @@ class SignUpScreen extends StatelessWidget {
                         Align(
                           alignment: Alignment.topRight,
                           child: SvgPicture.asset(
-                            'Assets/logo/NafoudLogo.svg',
+                            'assets/logo/NafoudLogo.svg',
                             width: 67.87.w,
                             height: 69.17.h,
                           ),
@@ -116,7 +119,7 @@ class SignUpScreen extends StatelessWidget {
                           suffix: Padding(
                             padding: const EdgeInsets.only(right: 8.0),
                             child: SvgPicture.asset(
-                              'Assets/icons/profile_icon.svg',
+                              'assets/icons/profile_icon.svg',
                               width: 24.w,
                               height: 24.h,
                             ),
@@ -154,7 +157,7 @@ class SignUpScreen extends StatelessWidget {
                           suffix: Padding(
                             padding: const EdgeInsets.only(right: 8.0),
                             child: SvgPicture.asset(
-                              'Assets/icons/envelope_icon.svg',
+                              'assets/icons/envelope_icon.svg',
                               width: 24.w,
                               height: 24.h,
                             ),
@@ -204,8 +207,8 @@ class SignUpScreen extends StatelessWidget {
                                   },
                                   child: SvgPicture.asset(
                                     isObscured
-                                        ? 'Assets/icons/eye_icon.svg'
-                                        : 'Assets/icons/open_eye.svg',
+                                        ? 'assets/icons/eye_icon.svg'
+                                        : 'assets/icons/open_eye.svg',
                                     width: 24.w,
                                     height: 24.h,
                                   ),
@@ -236,7 +239,7 @@ class SignUpScreen extends StatelessWidget {
                                     },
                                     child: isAccepted
                                         ? SvgPicture.asset(
-                                            'Assets/icons/filled_checkbox.svg',
+                                            'assets/icons/filled_checkbox.svg',
                                             width: 20.w,
                                             height: 20.h,
                                           )
@@ -258,40 +261,45 @@ class SignUpScreen extends StatelessWidget {
                             ),
                             6.horizontalSpace,
                             Expanded(
-                              child: RichText(
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: "I agree to the ",
-                                      style: GoogleFonts.cairo(
-                                        color: const Color(0xFF919191),
-                                        fontSize: 15.sp,
+                              child: GestureDetector(
+                                onTap: () {
+                                  context.go('/terms-and-conditions');
+                                },
+                                child: RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: "I agree to the ",
+                                        style: GoogleFonts.cairo(
+                                          color: const Color(0xFF919191),
+                                          fontSize: 15.sp,
+                                        ),
                                       ),
-                                    ),
-                                    TextSpan(
-                                      text: "Terms & Conditions",
-                                      style: GoogleFonts.cairo(
-                                        color: const Color(0xFF656A53),
-                                        fontSize: 15.sp,
-                                        fontWeight: FontWeight.bold,
+                                      TextSpan(
+                                        text: "Terms & Conditions",
+                                        style: GoogleFonts.cairo(
+                                          color: const Color(0xFF656A53),
+                                          fontSize: 15.sp,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    ),
-                                    TextSpan(
-                                      text: " and ",
-                                      style: GoogleFonts.cairo(
-                                        color: const Color(0xFF919191),
-                                        fontSize: 15.sp,
+                                      TextSpan(
+                                        text: " and ",
+                                        style: GoogleFonts.cairo(
+                                          color: const Color(0xFF919191),
+                                          fontSize: 15.sp,
+                                        ),
                                       ),
-                                    ),
-                                    TextSpan(
-                                      text: "Privacy Policy",
-                                      style: GoogleFonts.cairo(
-                                        color: const Color(0xFF656A53),
-                                        fontSize: 15.sp,
-                                        fontWeight: FontWeight.bold,
+                                      TextSpan(
+                                        text: "Privacy Policy",
+                                        style: GoogleFonts.cairo(
+                                          color: const Color(0xFF656A53),
+                                          fontSize: 15.sp,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -394,9 +402,7 @@ class SignUpScreen extends StatelessWidget {
                     children: [
                       BackdropFilter(
                         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                        child: Container(
-                          color: Colors.black.withValues(alpha: .2),
-                        ),
+                        child: Container(color: Colors.black.withOpacity(.2)),
                       ),
                       Center(
                         child: JumpingDots(
