@@ -21,8 +21,12 @@ class GatheringModelMapper extends ClassMapperBase<GatheringModel> {
   @override
   final String id = 'GatheringModel';
 
-  static String _$id(GatheringModel v) => v.id;
-  static const Field<GatheringModel, String> _f$id = Field('id', _$id);
+  static String? _$id(GatheringModel v) => v.id;
+  static const Field<GatheringModel, String> _f$id = Field(
+    'id',
+    _$id,
+    opt: true,
+  );
   static String _$userId(GatheringModel v) => v.userId;
   static const Field<GatheringModel, String> _f$userId = Field(
     'userId',
@@ -40,6 +44,12 @@ class GatheringModelMapper extends ClassMapperBase<GatheringModel> {
   static const Field<GatheringModel, String> _f$city = Field('city', _$city);
   static String _$date(GatheringModel v) => v.date;
   static const Field<GatheringModel, String> _f$date = Field('date', _$date);
+  static String _$eventTime(GatheringModel v) => v.eventTime;
+  static const Field<GatheringModel, String> _f$eventTime = Field(
+    'eventTime',
+    _$eventTime,
+    key: r'event_time',
+  );
   static String _$address(GatheringModel v) => v.address;
   static const Field<GatheringModel, String> _f$address = Field(
     'address',
@@ -56,6 +66,18 @@ class GatheringModelMapper extends ClassMapperBase<GatheringModel> {
     'category',
     _$category,
   );
+  static double? _$latitude(GatheringModel v) => v.latitude;
+  static const Field<GatheringModel, double> _f$latitude = Field(
+    'latitude',
+    _$latitude,
+    opt: true,
+  );
+  static double? _$longitude(GatheringModel v) => v.longitude;
+  static const Field<GatheringModel, double> _f$longitude = Field(
+    'longitude',
+    _$longitude,
+    opt: true,
+  );
 
   @override
   final MappableFields<GatheringModel> fields = const {
@@ -65,22 +87,30 @@ class GatheringModelMapper extends ClassMapperBase<GatheringModel> {
     #description: _f$description,
     #city: _f$city,
     #date: _f$date,
+    #eventTime: _f$eventTime,
     #address: _f$address,
     #imageUrl: _f$imageUrl,
     #category: _f$category,
+    #latitude: _f$latitude,
+    #longitude: _f$longitude,
   };
+  @override
+  final bool ignoreNull = true;
 
   static GatheringModel _instantiate(DecodingData data) {
     return GatheringModel(
-      data.dec(_f$id),
-      data.dec(_f$userId),
-      data.dec(_f$title),
-      data.dec(_f$description),
-      data.dec(_f$city),
-      data.dec(_f$date),
-      data.dec(_f$address),
-      data.dec(_f$imageUrl),
-      data.dec(_f$category),
+      id: data.dec(_f$id),
+      userId: data.dec(_f$userId),
+      title: data.dec(_f$title),
+      description: data.dec(_f$description),
+      city: data.dec(_f$city),
+      date: data.dec(_f$date),
+      eventTime: data.dec(_f$eventTime),
+      address: data.dec(_f$address),
+      imageUrl: data.dec(_f$imageUrl),
+      category: data.dec(_f$category),
+      latitude: data.dec(_f$latitude),
+      longitude: data.dec(_f$longitude),
     );
   }
 
@@ -153,9 +183,12 @@ abstract class GatheringModelCopyWith<$R, $In extends GatheringModel, $Out>
     String? description,
     String? city,
     String? date,
+    String? eventTime,
     String? address,
     String? imageUrl,
     String? category,
+    double? latitude,
+    double? longitude,
   });
   GatheringModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
     Then<$Out2, $R2> t,
@@ -172,39 +205,48 @@ class _GatheringModelCopyWithImpl<$R, $Out>
       GatheringModelMapper.ensureInitialized();
   @override
   $R call({
-    String? id,
+    Object? id = $none,
     String? userId,
     String? title,
     String? description,
     String? city,
     String? date,
+    String? eventTime,
     String? address,
     String? imageUrl,
     String? category,
+    Object? latitude = $none,
+    Object? longitude = $none,
   }) => $apply(
     FieldCopyWithData({
-      if (id != null) #id: id,
+      if (id != $none) #id: id,
       if (userId != null) #userId: userId,
       if (title != null) #title: title,
       if (description != null) #description: description,
       if (city != null) #city: city,
       if (date != null) #date: date,
+      if (eventTime != null) #eventTime: eventTime,
       if (address != null) #address: address,
       if (imageUrl != null) #imageUrl: imageUrl,
       if (category != null) #category: category,
+      if (latitude != $none) #latitude: latitude,
+      if (longitude != $none) #longitude: longitude,
     }),
   );
   @override
   GatheringModel $make(CopyWithData data) => GatheringModel(
-    data.get(#id, or: $value.id),
-    data.get(#userId, or: $value.userId),
-    data.get(#title, or: $value.title),
-    data.get(#description, or: $value.description),
-    data.get(#city, or: $value.city),
-    data.get(#date, or: $value.date),
-    data.get(#address, or: $value.address),
-    data.get(#imageUrl, or: $value.imageUrl),
-    data.get(#category, or: $value.category),
+    id: data.get(#id, or: $value.id),
+    userId: data.get(#userId, or: $value.userId),
+    title: data.get(#title, or: $value.title),
+    description: data.get(#description, or: $value.description),
+    city: data.get(#city, or: $value.city),
+    date: data.get(#date, or: $value.date),
+    eventTime: data.get(#eventTime, or: $value.eventTime),
+    address: data.get(#address, or: $value.address),
+    imageUrl: data.get(#imageUrl, or: $value.imageUrl),
+    category: data.get(#category, or: $value.category),
+    latitude: data.get(#latitude, or: $value.latitude),
+    longitude: data.get(#longitude, or: $value.longitude),
   );
 
   @override

@@ -1,56 +1,67 @@
-import 'package:flutter/material.dart';
+import 'package:final_project/features/gathering/presentation/cubit/gathering_state.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../cubit/gathering_cubit.dart';
 
 class CategoryChipsWidget extends StatelessWidget {
   final List<String> categories;
-  final BuildContext providerContext;
 
-  const CategoryChipsWidget({
-    super.key,
-    required this.categories,
-    required this.providerContext,
-  });
+  const CategoryChipsWidget({super.key, required this.categories});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GatheringCubit, GatheringState>(
       builder: (context, state) {
+        final selected = state.selectedCategory;
         return SizedBox(
-          height: 40,
+          height: 38.h,
+
           child: ListView.separated(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            physics: const BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              final category = categories[index];
-              return GestureDetector(
-                onTap: () {
-                  providerContext
-                      .read<GatheringCubit>()
-                      .fetchEvents(category: category);
+            separatorBuilder: (_, _) => 8.horizontalSpace,
+            itemCount: categories.length,
+            itemBuilder: (_, i) {
+              final cat = categories[i];
+              final isSelected = cat == selected;
+
+              return CupertinoButton(
+                padding: EdgeInsets.zero,
+                onPressed: () {
+                  context.read<GatheringCubit>().fetchEvents(category: cat);
                 },
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 18.w,
+                    vertical: 6.h,
                   ),
+                  alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: const Color(0xFF656A53),
-                    borderRadius: BorderRadius.circular(20),
+                    color: isSelected
+                        ? const Color(0xFF656A53)
+                        : CupertinoColors.white,
+                    borderRadius: BorderRadius.circular(8.r),
+                    border: Border.all(
+                      color: isSelected
+                          ? CupertinoColors.transparent
+                          : const Color(0xFFBEBEBE),
+                    ),
                   ),
                   child: Text(
-                    category,
+                    cat,
                     style: GoogleFonts.cairo(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
+                      color: isSelected
+                          ? CupertinoColors.white
+                          : const Color(0xFF919191),
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.normal,
                     ),
                   ),
                 ),
               );
             },
-            separatorBuilder: (_, __) => const SizedBox(width: 8),
-            itemCount: categories.length,
           ),
         );
       },
