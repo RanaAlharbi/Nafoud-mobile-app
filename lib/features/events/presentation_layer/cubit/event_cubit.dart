@@ -12,7 +12,12 @@ class EventCubit extends Cubit<EventState> {
 
   EventCubit(this._usecase) : super(EventInitial());
 
-  Future<void> loadedEvents() async{
+  Future<void> loadedEvents({bool forceRefresh = false}) async{
+    // Skip loading if events are already loaded and not forcing refresh
+    if (!forceRefresh && state is LoadedEvents) {
+      return;
+    }
+
     emit(LoadingEvents());
 
     try{

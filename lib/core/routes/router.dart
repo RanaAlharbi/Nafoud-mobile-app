@@ -263,7 +263,8 @@ class AppRoutes {
       GoRoute(
         path: "/addEvent",
         builder: (context, state) {
-          final cubit = state.extra as GatheringCubit;
+          // Check if cubit is passed, otherwise create a new one
+          final cubit = state.extra as GatheringCubit? ?? getIt<GatheringCubit>();
 
           return BlocProvider.value(value: cubit, child: AddEventScreen());
         },

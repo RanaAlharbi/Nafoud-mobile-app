@@ -173,10 +173,13 @@ class EventsHorizontalList extends StatelessWidget {
                             // Event Image
                             Padding(
                               padding: EdgeInsets.all(12.w),
-                              child: SvgPicture.asset(
-                                _getCategoryImagePath(event.category),
-                                height: 70.h,
-                                fit: BoxFit.contain,
+                              child: Center(
+                                child: SvgPicture.asset(
+                                  _getCategoryImagePath(event.category),
+                                  width: 60.w,
+                                  height: 60.h,
+                                  fit: BoxFit.contain,
+                                ),
                               ),
                             ),
 

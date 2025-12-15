@@ -161,9 +161,19 @@ class EventsGridList extends StatelessWidget {
                           Container(
                             height: 85.h,
                             padding: EdgeInsets.all(12.w),
-                            child: SvgPicture.asset(
-                              _getCategoryImagePath(event.category),
-                              fit: BoxFit.contain,
+                            child: Center(
+                              child: SvgPicture.asset(
+                                _getCategoryImagePath(event.category),
+                                width: 60.w,
+                                height: 60.h,
+                                fit: BoxFit.contain,
+                                placeholderBuilder: (context) => Center(
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: AppColors.primaryColor,
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
 

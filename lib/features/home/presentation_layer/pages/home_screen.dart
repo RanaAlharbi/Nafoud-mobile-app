@@ -348,7 +348,7 @@ class HomeScreen extends StatelessWidget {
                                 ),
                                 child: ElevatedButton(
                                   onPressed: () {
-
+                                    context.push(AppRoutes.addEventScreen);
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.transparent,
@@ -479,8 +479,6 @@ class HomeScreen extends StatelessWidget {
                     );
                   },
                 ),
-
-                Gap(24.h),
 
                 // Recommended Activities Section (Events)
                 Padding(

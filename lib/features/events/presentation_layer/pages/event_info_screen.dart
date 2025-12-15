@@ -112,9 +112,18 @@ class EventInfoScreen extends StatelessWidget {
                 height: 150.h,
                 width: 150.w,
                 padding: EdgeInsets.all(3.w),
-                child: SvgPicture.asset(
-                  _getCategoryImagePath(event.category),
-                  fit: BoxFit.contain,
+                child: Center(
+                  child: SvgPicture.asset(
+                    _getCategoryImagePath(event.category),
+                    width: 120.w,
+                    height: 120.h,
+                    fit: BoxFit.contain,
+                    placeholderBuilder: (context) => Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.primaryColor,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
