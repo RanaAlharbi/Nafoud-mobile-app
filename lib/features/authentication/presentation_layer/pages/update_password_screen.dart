@@ -33,7 +33,6 @@ class UpdatePasswordScreen extends StatelessWidget {
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         if (state is AuthenticationSuccess) {
-
           _errorNotifier.value = null;
 
           ScaffoldMessenger.of(context).showSnackBar(
@@ -45,7 +44,7 @@ class UpdatePasswordScreen extends StatelessWidget {
 
           Future.delayed(const Duration(milliseconds: 1500), () {
             if (context.mounted) {
-              context.go(AppRoutes.signInScreen);
+              context.push(AppRoutes.signInScreen);
             }
           });
         }
@@ -308,7 +307,7 @@ class UpdatePasswordScreen extends StatelessWidget {
 
                         12.verticalSpace,
                         GestureDetector(
-                          onTap: () => context.go(AppRoutes.signInScreen),
+                          onTap: () => context.push(AppRoutes.signInScreen),
                           child: RichText(
                             text: TextSpan(
                               children: [

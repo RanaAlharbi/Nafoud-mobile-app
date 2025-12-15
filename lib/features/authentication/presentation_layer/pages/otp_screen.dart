@@ -37,9 +37,9 @@ class OTPScreen extends StatelessWidget {
             if (context.mounted) {
               final code = _otpControllers.map((e) => e.text).join();
               if (type == 'signup') {
-                context.go(AppRoutes.signInScreen);
+                context.push(AppRoutes.signInScreen);
               } else if (type == 'reset') {
-                context.go(
+                context.push(
                   AppRoutes.updatePasswordScreen,
                   extra: {'email': email, 'code': code},
                 );
@@ -71,13 +71,24 @@ class OTPScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         21.verticalSpace,
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: SvgPicture.asset(
-                            'assets/logo/NafoudLogo.svg',
-                            width: 67.87.w,
-                            height: 69.17.h,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                context.pop();
+                              },
+                              child: SvgPicture.asset(
+                                'assets/icons/arrow_left.svg',
+                              ),
+                            ),
+
+                            SvgPicture.asset(
+                              'assets/logo/NafoudLogo.svg',
+                              width: 67.87.w,
+                              height: 69.17.h,
+                            ),
+                          ],
                         ),
 
                         58.83.verticalSpace,

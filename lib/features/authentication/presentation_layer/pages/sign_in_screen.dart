@@ -23,7 +23,7 @@ class SignInScreen extends StatelessWidget {
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         if (state is AuthenticationSuccess) {
-          context.go(AppRoutes.navigationScreen);
+          context.push(AppRoutes.navigationScreen);
         }
       },
       builder: (context, state) {
@@ -233,7 +233,7 @@ class SignInScreen extends StatelessWidget {
                             Spacer(),
                             GestureDetector(
                               onTap: () =>
-                                  context.go(AppRoutes.forgotPasswordScreen),
+                                  context.push(AppRoutes.forgotPasswordScreen),
                               child: Text(
                                 "Forget Password?",
                                 style: GoogleFonts.cairo(
@@ -291,7 +291,7 @@ class SignInScreen extends StatelessWidget {
                         ),
 
                         GestureDetector(
-                          onTap: () => context.go(AppRoutes.signUpScreen),
+                          onTap: () => context.push(AppRoutes.signUpScreen),
                           child: RichText(
                             text: TextSpan(
                               children: [

@@ -25,7 +25,7 @@ class SignUpScreen extends StatelessWidget {
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         if (state is AuthenticationSuccess) {
-          context.go(
+          context.push(
             AppRoutes.otpScreen,
             extra: {'email': _emailController.text, 'type': 'signup'},
           );
@@ -57,13 +57,24 @@ class SignUpScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         21.verticalSpace,
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: SvgPicture.asset(
-                            'assets/logo/NafoudLogo.svg',
-                            width: 67.87.w,
-                            height: 69.17.h,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                context.pop();
+                              },
+                              child: SvgPicture.asset(
+                                'assets/icons/arrow_left.svg',
+                              ),
+                            ),
+
+                            SvgPicture.asset(
+                              'assets/logo/NafoudLogo.svg',
+                              width: 67.87.w,
+                              height: 69.17.h,
+                            ),
+                          ],
                         ),
                         58.83.verticalSpace,
 
@@ -263,7 +274,7 @@ class SignUpScreen extends StatelessWidget {
                             Expanded(
                               child: GestureDetector(
                                 onTap: () {
-                                  context.go('/terms-and-conditions');
+                                  context.push('/terms-and-conditions');
                                 },
                                 child: RichText(
                                   text: TextSpan(
@@ -366,7 +377,7 @@ class SignUpScreen extends StatelessWidget {
                         12.verticalSpace,
                         GestureDetector(
                           onTap: () {
-                            context.go(AppRoutes.signInScreen);
+                            context.push(AppRoutes.signInScreen);
                           },
                           child: RichText(
                             text: TextSpan(
