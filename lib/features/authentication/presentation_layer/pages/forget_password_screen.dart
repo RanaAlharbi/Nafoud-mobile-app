@@ -20,7 +20,6 @@ class ForgotPasswordScreen extends StatelessWidget {
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         if (state is AuthenticationSuccess) {
-          // Navigate to the OTP screen for password reset, passing email and type
           context.go(
             AppRoutes.otpScreen,
             extra: {'email': _emailController.text, 'type': 'reset'},

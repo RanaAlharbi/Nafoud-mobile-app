@@ -2,32 +2,28 @@ import 'package:final_project/features/sim_cards/presentation_layer/widgets/sim_
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class SimProvider {
+class Sims {
   final String name;
   final String svgAsset;
   final String url;
 
-  SimProvider(this.name, this.svgAsset, this.url);
+  Sims(this.name, this.svgAsset, this.url);
 }
 
 class SimCardScreen extends StatelessWidget {
   const SimCardScreen({Key? key}) : super(key: key);
-  static final List<SimProvider> sims = [
-    SimProvider(
+  static final List<Sims> sims = [
+    Sims(
       'STC',
-      'assets/sim_cards/Logo-4.svg',
+      'assets/sim_cards/stc.svg',
       'https://www.stc.com.sa/content/stc/sa/en/personal/mobile/self-activation-sim.html',
     ),
-    SimProvider(
+    Sims(
       'Mobily',
       'assets/sim_cards/mobily.svg',
       'https://mobily.com.sa/web/en/personal/self-service-activation',
     ),
-    SimProvider(
-      'Zain',
-      'assets/sim_cards/zain.svg',
-      'https://self.sa.zain.com/new//',
-    ),
+    Sims('Zain', 'assets/sim_cards/zain.svg', 'https://self.sa.zain.com/new//'),
   ];
 
   @override

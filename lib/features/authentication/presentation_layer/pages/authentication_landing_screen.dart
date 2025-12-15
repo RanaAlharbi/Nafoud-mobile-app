@@ -63,7 +63,7 @@ class AuthenticationLandingScreen extends StatelessWidget {
                   143.verticalSpace,
                   ElevatedButton(
                     onPressed: () {
-                      context.go(AppRoutes.signInScreen);
+                      context.push(AppRoutes.signInScreen);
                     },
                     style: ElevatedButton.styleFrom(
                       fixedSize: Size(360.w, 42.h),
@@ -84,7 +84,7 @@ class AuthenticationLandingScreen extends StatelessWidget {
                   12.verticalSpace,
                   ElevatedButton(
                     onPressed: () {
-                      context.go(AppRoutes.signUpScreen);
+                      context.push(AppRoutes.signUpScreen);
                     },
                     style: ElevatedButton.styleFrom(
                       fixedSize: Size(360.w, 42.h),

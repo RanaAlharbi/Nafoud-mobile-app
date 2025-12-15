@@ -65,9 +65,9 @@ class GatheringScreen extends StatelessWidget {
                             13.horizontalSpace,
 
                             //Filter button
-                            CircleButtonWidget(
-                              iconPath: 'assets/icons/filter-horizontal.svg',
-                            ),
+                            // CircleButtonWidget(
+                            //   iconPath: 'assets/icons/filter-horizontal.svg',
+                            // ),
                           ],
                         ),
 

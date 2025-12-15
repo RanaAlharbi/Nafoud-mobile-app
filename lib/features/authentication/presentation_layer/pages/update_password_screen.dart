@@ -33,12 +33,9 @@ class UpdatePasswordScreen extends StatelessWidget {
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         if (state is AuthenticationSuccess) {
-          // --- FIX: This block handles the success message and navigation ---
 
-          // Clear any previous error and hide loading
           _errorNotifier.value = null;
 
-          // Display success message using SnackBar
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.message),
@@ -46,13 +43,11 @@ class UpdatePasswordScreen extends StatelessWidget {
             ),
           );
 
-          // Navigate to sign-in after a short delay to show the success message
           Future.delayed(const Duration(milliseconds: 1500), () {
             if (context.mounted) {
               context.go(AppRoutes.signInScreen);
             }
           });
-          // -----------------------------------------------------------------
         }
         if (state is AuthenticationFailure) {
           _errorNotifier.value = state.message;

@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jumping_dot/jumping_dot.dart';
 
@@ -22,27 +23,17 @@ class ChatScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
+        title: Text('Murshid'),
+        titleTextStyle: GoogleFonts.cairo(
+          color: const Color(0xff3D4032),
+          fontSize: 25.9,
+          fontWeight: FontWeight.bold,
+        ),
         centerTitle: true,
-        title: Text(
-          "Murshid",
-          style: GoogleFonts.cairo(
-            color: const Color(0xFF3D4032),
-            fontSize: 20.sp,
-            fontWeight: FontWeight.bold,
-          ),
+        leading: IconButton(
+          onPressed: () => context.pop(),
+          icon: const Icon(Icons.arrow_back),
         ),
-        leading: Padding(
-          padding: EdgeInsets.all(12.w),
-          child: const Icon(Icons.arrow_back, color: Color(0xFF3D4032)),
-        ),
-        actions: [
-          Padding(
-            padding: EdgeInsets.all(12.w),
-            child: const Icon(Icons.menu, color: Color(0xFF3D4032)),
-          ),
-        ],
       ),
       body: BlocConsumer<TripPlannerBloc, TripPlannerState>(
         listener: (context, state) {

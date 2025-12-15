@@ -78,8 +78,8 @@ class EventCardWidget extends StatelessWidget {
 
               // date
               Positioned(
-                top: 0,
-                left: 0,
+                top: 0.h,
+                left: 0.w,
                 child: Builder(
                   builder: (context) {
                     final parts = date.split("-");
@@ -104,8 +104,8 @@ class EventCardWidget extends StatelessWidget {
 
                     return Container(
                       width: 56.w,
-                      height: 80.h,
-                      padding:  EdgeInsets.symmetric(vertical: 6.h),
+                      height: 88.h,
+                      padding: EdgeInsets.symmetric(vertical: 6.h),
                       decoration: BoxDecoration(
                         color: const Color(0xFF3C3C43).withValues(alpha: 0.6),
                         borderRadius: BorderRadius.only(
@@ -154,7 +154,7 @@ class EventCardWidget extends StatelessWidget {
                 child: Container(
                   width: 38.w,
                   height: 38.h,
-                  decoration:  BoxDecoration(
+                  decoration: BoxDecoration(
                     color: Color(0xFF3C3C43).withValues(alpha: 0.6),
                     shape: BoxShape.circle,
                   ),
@@ -177,7 +177,7 @@ class EventCardWidget extends StatelessWidget {
           ),
 
           Padding(
-            padding:  EdgeInsets.symmetric(horizontal: 20.w, vertical: 14).h,
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 14).h,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

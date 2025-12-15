@@ -131,7 +131,6 @@ class OTPScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(9.r),
                                 ),
                                 onChanged: (value) {
-                                  // 1. Focus Logic
                                   if (value.isNotEmpty) {
                                     if (index < _otpLength - 1) {
                                       _focusNodes[index + 1].requestFocus();
@@ -146,7 +145,6 @@ class OTPScreen extends StatelessWidget {
                                       .map((e) => e.text)
                                       .join();
 
-                                  // 2. Submission Logic
                                   if (code.length == 6) {
                                     if (type == 'signup') {
                                       context.read<AuthenticationBloc>().add(
@@ -156,7 +154,6 @@ class OTPScreen extends StatelessWidget {
                                         ),
                                       );
                                     } else if (type == 'reset') {
-                                      // FIX: Only verify the reset code using the new event
                                       context.read<AuthenticationBloc>().add(
                                         VerifyResetCodeSubmitted(
                                           email: email,
