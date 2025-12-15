@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:final_project/core/app_theme/app_colors/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 class ProfileAvatarWidget extends StatelessWidget {
   final String? avatarUrl;
@@ -73,8 +75,16 @@ class ProfileAvatarWidget extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            placeholder: (context, url) => const CircularProgressIndicator(
-                              color: Color.fromRGBO(194, 164, 128, 1),
+                            placeholder: (context, url) => ClipOval(
+                              child: Shimmer(
+                                duration: Duration(milliseconds: 800),
+                                color: AppColors.primaryColor,
+                                child: Container(
+                                  width: 140.r,
+                                  height: 140.r,
+                                  color: Color.fromRGBO(241, 241, 241, 1),
+                                ),
+                              ),
                             ),
                             errorWidget: (context, url, error) {
                               final initials = _getInitials(fullName);

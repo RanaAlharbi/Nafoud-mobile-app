@@ -20,9 +20,9 @@ class PulsingRedShadowContainer extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8.r),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.red.withValues(alpha: value * 0.75),
-                    blurRadius: 8,
-                    spreadRadius: 4,
+                    color: Colors.red.withValues(alpha: value * 0.5),
+                    blurRadius: 5,
+                    spreadRadius: 2,
                   ),
                 ],
               ),
