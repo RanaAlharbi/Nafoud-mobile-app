@@ -60,6 +60,9 @@ class GatheringMessage extends GatheringState {
   List<Object?> get props => [message, selectedCategory];
 }
 
+
+
+
 class GatheringFormUpdated extends GatheringState {
   final String? selectedImageUrl;
   final DateTime? selectedDate;
@@ -77,6 +80,8 @@ class GatheringFormUpdated extends GatheringState {
     this.selectedLng,
     this.isUploadingImage = false,
   });
+
+
 
   @override
   List<Object?> get props => [

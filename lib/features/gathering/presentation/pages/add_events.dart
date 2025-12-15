@@ -185,7 +185,7 @@ class AddEventScreen extends StatelessWidget {
                 ),
               ),
               3.verticalSpace,
-              LocationPickerWidget(cubit: cubit),
+              LocationPickerWidget(cubit: cubit), //here 
               20.verticalSpace,
               Text(
                 "City",
