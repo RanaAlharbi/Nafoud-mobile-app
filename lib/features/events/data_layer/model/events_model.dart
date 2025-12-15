@@ -9,8 +9,11 @@ class EventModel extends EventEntity with EventModelMappable {
  const EventModel({
     required super.id,
     required super.title,
-    required super.description,
-    required super.location,
+    super.description,
+    super.location,
     required super.date,
+    super.category,
+    super.createdAt,
+    super.updatedAt,
   });
 }

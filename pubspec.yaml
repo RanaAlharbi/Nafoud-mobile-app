@@ -61,8 +61,6 @@ dependencies:
   flutter_toast_notification: ^1.1.1
   fluttertoast: ^9.0.0
   shimmer_animation: ^2.2.2+1
-  # "shimmer_animation" will be deleted later on, cuz "shimmer" is enough but we need it atm
-
   
 
 dev_dependencies:
@@ -102,6 +100,7 @@ flutter:
     - assets/Images/profile/
     - assets/Images/emergency/
     - assets/Images/profile/
+    - assets/Images/events/
     - assets/translations/
     - assets/jsons/
     - assets/Images/onboarding/onboarding_1.png

@@ -29,14 +29,34 @@ class EventModelMapper extends ClassMapperBase<EventModel> {
   static const Field<EventModel, String> _f$description = Field(
     'description',
     _$description,
+    opt: true,
   );
   static String? _$location(EventModel v) => v.location;
   static const Field<EventModel, String> _f$location = Field(
     'location',
     _$location,
+    opt: true,
   );
   static String _$date(EventModel v) => v.date;
   static const Field<EventModel, String> _f$date = Field('date', _$date);
+  static String? _$category(EventModel v) => v.category;
+  static const Field<EventModel, String> _f$category = Field(
+    'category',
+    _$category,
+    opt: true,
+  );
+  static DateTime? _$createdAt(EventModel v) => v.createdAt;
+  static const Field<EventModel, DateTime> _f$createdAt = Field(
+    'createdAt',
+    _$createdAt,
+    opt: true,
+  );
+  static DateTime? _$updatedAt(EventModel v) => v.updatedAt;
+  static const Field<EventModel, DateTime> _f$updatedAt = Field(
+    'updatedAt',
+    _$updatedAt,
+    opt: true,
+  );
 
   @override
   final MappableFields<EventModel> fields = const {
@@ -45,6 +65,9 @@ class EventModelMapper extends ClassMapperBase<EventModel> {
     #description: _f$description,
     #location: _f$location,
     #date: _f$date,
+    #category: _f$category,
+    #createdAt: _f$createdAt,
+    #updatedAt: _f$updatedAt,
   };
 
   static EventModel _instantiate(DecodingData data) {
@@ -54,6 +77,9 @@ class EventModelMapper extends ClassMapperBase<EventModel> {
       description: data.dec(_f$description),
       location: data.dec(_f$location),
       date: data.dec(_f$date),
+      category: data.dec(_f$category),
+      createdAt: data.dec(_f$createdAt),
+      updatedAt: data.dec(_f$updatedAt),
     );
   }
 
@@ -123,6 +149,9 @@ abstract class EventModelCopyWith<$R, $In extends EventModel, $Out>
     String? description,
     String? location,
     String? date,
+    String? category,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   });
   EventModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
@@ -142,6 +171,9 @@ class _EventModelCopyWithImpl<$R, $Out>
     Object? description = $none,
     Object? location = $none,
     String? date,
+    Object? category = $none,
+    Object? createdAt = $none,
+    Object? updatedAt = $none,
   }) => $apply(
     FieldCopyWithData({
       if (id != null) #id: id,
@@ -149,6 +181,9 @@ class _EventModelCopyWithImpl<$R, $Out>
       if (description != $none) #description: description,
       if (location != $none) #location: location,
       if (date != null) #date: date,
+      if (category != $none) #category: category,
+      if (createdAt != $none) #createdAt: createdAt,
+      if (updatedAt != $none) #updatedAt: updatedAt,
     }),
   );
   @override
@@ -158,6 +193,9 @@ class _EventModelCopyWithImpl<$R, $Out>
     description: data.get(#description, or: $value.description),
     location: data.get(#location, or: $value.location),
     date: data.get(#date, or: $value.date),
+    category: data.get(#category, or: $value.category),
+    createdAt: data.get(#createdAt, or: $value.createdAt),
+    updatedAt: data.get(#updatedAt, or: $value.updatedAt),
   );
 
   @override
