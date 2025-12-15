@@ -143,7 +143,7 @@ class EventInfoScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 19.sp,
                   fontWeight: FontWeight.bold,
-                  color: const Color(0xff3D4032),
+                  color: _getCategoryColor(event.category),
                 ),
               ),
             ),
@@ -170,7 +170,7 @@ class EventInfoScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 19.sp,
                   fontWeight: FontWeight.bold,
-                  color: const Color(0xff3D4032),
+                  color: _getCategoryColor(event.category),
                 ),
               ),
             ),
@@ -178,42 +178,48 @@ class EventInfoScreen extends StatelessWidget {
             Gap(16.h),
 
             // Event Date
-            Row(
-              children: [
-                Icon(
-                  Icons.calendar_today,
-                  size: 20.sp,
-                  color: AppColors.primaryColor,
-                ),
-                Gap(8.w),
-                Text(
-                  event.date,
-                  style: TextStyle(fontSize: 16.sp, color: Colors.grey),
-                ),
-              ],
-            ),
-
-            if (event.location != null) ...[
-              Gap(12.h),
-              Row(
+            Padding(
+              padding: const EdgeInsets.only(left: 16.0),
+              child: Row(
                 children: [
                   Icon(
-                    Icons.location_on,
+                    Icons.calendar_today,
                     size: 20.sp,
-                    color: AppColors.primaryColor,
+                    color: _getCategoryColor(event.category),
                   ),
                   Gap(8.w),
-                  Expanded(
-                    child: Text(
-                      event.location!,
-                      style: TextStyle(fontSize: 16.sp, color: Colors.grey),
-                    ),
+                  Text(
+                    event.date,
+                    style: TextStyle(fontSize: 16.sp, color: Colors.grey),
                   ),
                 ],
               ),
-            ],
-            Gap(16.h),
+            ),
 
+            // Event Location
+            if (event.location != null) ...[
+              Gap(12.h),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.location_on,
+                      size: 20.sp,
+                      color: _getCategoryColor(event.category),
+                    ),
+                    Gap(8.w),
+                    Expanded(
+                      child: Text(
+                        event.location!,
+                        style: TextStyle(fontSize: 16.sp, color: Colors.grey),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+            Gap(25.h),
             Padding(
               padding: const EdgeInsets.only(left: 16.0),
               child: Text(
@@ -221,11 +227,10 @@ class EventInfoScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 19.sp,
                   fontWeight: FontWeight.bold,
-                  color: const Color(0xff3D4032),
+                  color: _getCategoryColor(event.category),
                 ),
               ),
             ),
-
             Gap(24.h),
           ],
         ),
