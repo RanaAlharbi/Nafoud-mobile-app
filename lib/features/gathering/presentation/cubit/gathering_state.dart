@@ -11,22 +11,18 @@ abstract class GatheringState extends Equatable {
   List<Object?> get props => [selectedCategory];
 }
 
-
 class GatheringInitial extends GatheringState {
   const GatheringInitial() : super(selectedCategory: "All");
 }
-
 
 class GatheringLoading extends GatheringState {
   const GatheringLoading({required super.selectedCategory});
 }
 
-
 class GatheringLoadingWithCategory extends GatheringState {
   const GatheringLoadingWithCategory(String category)
-      : super(selectedCategory: category);
+    : super(selectedCategory: category);
 }
-
 
 class GatheringLoaded extends GatheringState {
   final List<GatheringEntity> events;
@@ -40,7 +36,6 @@ class GatheringLoaded extends GatheringState {
   List<Object?> get props => [events, selectedCategory];
 }
 
-
 class GatheringParticipantsLoaded extends GatheringState {
   final List<String> avatars;
 
@@ -52,7 +47,6 @@ class GatheringParticipantsLoaded extends GatheringState {
   @override
   List<Object?> get props => [avatars, selectedCategory];
 }
-
 
 class GatheringMessage extends GatheringState {
   final String message;
@@ -66,14 +60,13 @@ class GatheringMessage extends GatheringState {
   List<Object?> get props => [message, selectedCategory];
 }
 
-
-
 class GatheringFormUpdated extends GatheringState {
   final String? selectedImageUrl;
   final DateTime? selectedDate;
   final TimeOfDay? selectedTime;
   final double? selectedLat;
   final double? selectedLng;
+  final bool isUploadingImage;
 
   const GatheringFormUpdated({
     required super.selectedCategory,
@@ -82,20 +75,20 @@ class GatheringFormUpdated extends GatheringState {
     this.selectedTime,
     this.selectedLat,
     this.selectedLng,
+    this.isUploadingImage = false,
   });
 
   @override
   List<Object?> get props => [
-        selectedCategory,
-        selectedImageUrl,
-        selectedDate,
-        selectedTime,
-        selectedLat,
-        selectedLng,
-      ];
+    selectedCategory,
+    selectedImageUrl,
+    selectedDate,
+    selectedTime,
+    selectedLat,
+    selectedLng,
+    isUploadingImage,
+  ];
 }
-
-
 
 class GatheringParticipantsLoading extends GatheringState {
   const GatheringParticipantsLoading({required super.selectedCategory});
@@ -103,10 +96,12 @@ class GatheringParticipantsLoading extends GatheringState {
 
 class GatheringError extends GatheringState {
   final String message;
+  final bool isUploadingImage;
 
   const GatheringError({
     required this.message,
     required super.selectedCategory,
+    this.isUploadingImage = false,
   });
 
   @override

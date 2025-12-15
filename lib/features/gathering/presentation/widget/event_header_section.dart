@@ -10,7 +10,6 @@ import 'package:shimmer/shimmer.dart';
 
 class EventHeaderSection extends StatelessWidget {
   final GatheringEntity event;
-
   const EventHeaderSection({super.key, required this.event});
 
   @override
@@ -23,27 +22,35 @@ class EventHeaderSection extends StatelessWidget {
           height: 361.h,
           child: BlocBuilder<GatheringCubit, GatheringState>(
             builder: (_, state) {
-              final bool noAvatars =
-                  state is GatheringParticipantsLoaded && state.avatars.isEmpty;
+              final cubit = context.read<GatheringCubit>();
+
+              final avatars = (state is GatheringParticipantsLoaded)
+                  ? state.avatars
+                  : cubit.lastAvatars;
+
+              final bool noAvatars = avatars.isEmpty;
 
               return Stack(
                 fit: StackFit.expand,
                 children: [
-                  if (state is GatheringParticipantsLoading)
-                    Shimmer.fromColors(
-                      baseColor: Colors.grey.withValues(alpha: 0.3),
-                      highlightColor: Colors.grey.withValues(alpha: 0.1),
-                      child: Container(
-                        color: Colors.grey.withValues(alpha: 0.2),
-                      ),
-                    )
-                  else
-                    CachedNetworkImage(
-                      imageUrl: event.imageUrl,
-                      fit: BoxFit.cover,
+                  CachedNetworkImage(
+                    imageUrl: event.imageUrl,
+                    fit: BoxFit.cover,
+                    placeholder: (_, _) => Shimmer.fromColors(
+                      baseColor: Colors.grey.shade300,
+                      highlightColor: Colors.grey.shade100,
+                      child: Container(color: Colors.white),
                     ),
+                    errorWidget: (_, _, _) => Container(
+                      color: Colors.grey,
+                      child: const Icon(
+                        Icons.broken_image,
+                        color: Colors.white,
+                        size: 40,
+                      ),
+                    ),
+                  ),
 
-                
                   Positioned(
                     left: 0,
                     right: 0,
@@ -54,35 +61,23 @@ class EventHeaderSection extends StatelessWidget {
                         horizontal: 16.w,
                         vertical: 8.h,
                       ),
-                      color: Colors.black.withValues(
-                        alpha: 0.5 
-                      ),
+                      color: Colors.black.withValues(alpha: 0.50),
 
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          
-                          if (state is GatheringParticipantsLoading)
-                            Container(
-                              width: 180.w,
-                              height: 22.h,
-                              decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.1),
-                                borderRadius: BorderRadius.circular(4.r),
-                              ),
-                            )
-                          else if (!noAvatars)
-                            Text(
-                              event.title,
-                              style: GoogleFonts.cairo(
-                                color: Colors.white,
-                                fontSize: 25.sp,
-                                fontWeight: .bold,
-                              
-                              ),
+                          Text(
+                            event.title,
+                            style: GoogleFonts.cairo(
+                              color: Colors.white,
+                              fontSize: 25.sp,
+                              fontWeight: FontWeight.bold,
                             ),
+                          ),
 
                           SizedBox(height: 10.h),
+
+                          /// if no avatar yet
                           if (noAvatars)
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -93,13 +88,12 @@ class EventHeaderSection extends StatelessWidget {
                                     style: GoogleFonts.cairo(
                                       color: Colors.white,
                                       fontSize: 20.sp,
-                                      fontWeight: .bold,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
 
-                                SizedBox(width: 10.w),
                                 Container(
                                   padding: EdgeInsets.symmetric(
                                     horizontal: 16.w,
@@ -124,65 +118,97 @@ class EventHeaderSection extends StatelessWidget {
                                 ),
                               ],
                             )
+                          /// avatars
                           else
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                              
-                                if (state is GatheringParticipantsLoaded &&
-                                    state.avatars.isNotEmpty)
-                                  SizedBox(
-                                    height: 45.h,
-                                    width: 180.w,
-                                    child: Stack(
-                                      clipBehavior: Clip.none,
-                                      children: [
-                                        for (
-                                          int i = 0;
-                                          i < state.avatars.take(5).length;
-                                          i++
-                                        )
-                                          Positioned(
-                                            left: (i * 30).w,
-                                            child: CircleAvatar(
-                                              radius: 20.r,
-                                              backgroundColor: Colors.white,
-                                              child: CircleAvatar(
-                                                radius: 18.r,
-                                                backgroundImage: NetworkImage(
-                                                  state.avatars[i],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
+                                SizedBox(
+                                  height: 45.h,
+                                  width: 180.w,
+                                  child: Stack(
+                                    clipBehavior: Clip.none,
+                                    children: [
+                                      for (
+                                        int i = 0;
+                                        i < avatars.take(5).length;
+                                        i++
+                                      )
+                                        Positioned(
+                                          left: (i * 30).w,
+                                          child: CircleAvatar(
+                                            radius: 20.r,
+                                            backgroundColor: Colors.white,
+                                            child: ClipOval(
+                                              child: CachedNetworkImage(
+                                                imageUrl: avatars[i],
+                                                fit: BoxFit.cover,
+                                                width: 40.r,
+                                                height: 40.r,
 
-                                        if (state.avatars.length > 5)
-                                          Positioned(
-                                            left: (5 * 30).w,
-                                            child: Container(
-                                              width: 40.w,
-                                              height: 40.h,
-                                              alignment: Alignment.center,
-                                              decoration: const BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Colors.white,
-                                              ),
-                                              child: Text(
-                                                "+${state.avatars.length - 5}",
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.black,
-                                                  fontSize: 14.sp,
-                                                ),
+                                                /// shimmer
+                                                placeholder: (_, _) =>
+                                                    Shimmer.fromColors(
+                                                      baseColor:
+                                                          Colors.grey.shade300,
+                                                      highlightColor:
+                                                          Colors.grey.shade100,
+                                                      child: Container(
+                                                        width: 40.r,
+                                                        height: 40.r,
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                              color:
+                                                                  Colors.white,
+                                                              shape: BoxShape
+                                                                  .circle,
+                                                            ),
+                                                      ),
+                                                    ),
+
+                                                errorWidget: (_, _, _) =>
+                                                    Container(
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                            color: Colors.grey,
+                                                            shape:
+                                                                BoxShape.circle,
+                                                          ),
+                                                      child: const Icon(
+                                                        Icons.error,
+                                                        color: Colors.red,
+                                                      ),
+                                                    ),
                                               ),
                                             ),
                                           ),
-                                      ],
-                                    ),
-                                  )
-                                else
-                                  SizedBox(height: 1.h),
-                                //categories 
+                                        ),
+
+                                      if (avatars.length > 5)
+                                        Positioned(
+                                          left: (5 * 30).w,
+                                          child: Container(
+                                            width: 40.w,
+                                            height: 40.h,
+                                            alignment: Alignment.center,
+                                            decoration: const BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Colors.white,
+                                            ),
+                                            child: Text(
+                                              "+${avatars.length - 5}",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black,
+                                                fontSize: 14.sp,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                ),
+
                                 Container(
                                   padding: EdgeInsets.symmetric(
                                     horizontal: 16.w,
@@ -194,7 +220,7 @@ class EventHeaderSection extends StatelessWidget {
                                       width: 2.w,
                                     ),
                                     borderRadius: BorderRadius.circular(20.r),
-                                    color: Colors.black.withValues(alpha: 0.1),
+                                    color: Colors.black.withValues(alpha: 0.10),
                                   ),
                                   child: Text(
                                     event.category,

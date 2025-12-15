@@ -1,9 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:final_project/core/app_theme/app_colors/app_colors.dart';
 import 'package:final_project/core/routes/router.dart';
 import 'package:final_project/features/events/presentation_layer/pages/events_horizontal_list.dart';
 import 'package:final_project/features/home/presentation_layer/widgets/build_quick_guide_item_widget.dart';
 import 'package:final_project/features/home/presentation_layer/widgets/discover_widget.dart';
-import 'package:final_project/features/home/presentation_layer/widgets/quick_guide_items_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:final_project/features/events/presentation_layer/cubit/event_cubit.dart';
@@ -18,7 +18,6 @@ import 'package:final_project/features/profile/domain_layer/usecase/profile_usec
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -67,9 +66,6 @@ class HomeScreen extends StatelessWidget {
                       Gap(10.h),
                       BlocBuilder<HomeUserInfoCubit, HomeUserInfoState>(
                         builder: (context, state) {
-                          // Check if loading
-                          final isLoading = state is HomeUserInfoInitial;
-
                           // Extract user info from loaded state, or use defaults
                           final String fullName = state is HomeUserInfoLoaded
                               ? state.fullName
@@ -82,19 +78,7 @@ class HomeScreen extends StatelessWidget {
                             spacing: 15.w,
                             children: [
                               // Image Area (PFP)
-                              isLoading
-                                  ? ClipOval(
-                                      child: Shimmer(
-                                        duration: Duration(milliseconds: 800),
-                                        color: AppColors.primaryColor,
-                                        child: Container(
-                                          width: 85.h,
-                                          height: 85.h,
-                                          color: Color.fromRGBO(241, 241, 241, 1),
-                                        ),
-                                      ),
-                                    )
-                                  : Container(
+                              Container(
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   border: Border.all(
@@ -141,15 +125,13 @@ class HomeScreen extends StatelessWidget {
                                                     ),
                                                   ),
                                           placeholder: (context, url) =>
-                                              ClipOval(
-                                                child: Shimmer(
-                                                  duration: Duration(milliseconds: 800),
-                                                  color: AppColors.primaryColor,
-                                                  child: Container(
-                                                    width: 80.h,
-                                                    height: 80.h,
-                                                    color: Color.fromRGBO(241, 241, 241, 1),
-                                                  ),
+                                              CircularProgressIndicator(
+                                                strokeWidth: 2.w,
+                                                color: const Color.fromRGBO(
+                                                  194,
+                                                  164,
+                                                  128,
+                                                  1,
                                                 ),
                                               ),
                                           errorWidget: (context, url, error) {
@@ -225,28 +207,15 @@ class HomeScreen extends StatelessWidget {
                                           ),
                                         ),
                                         Flexible(
-                                          child: isLoading
-                                              ? Shimmer(
-                                                  duration: Duration(milliseconds: 800),
-                                                  color: AppColors.primaryColor,
-                                                  child: Container(
-                                                    width: 100.w,
-                                                    height: 20.h,
-                                                    decoration: BoxDecoration(
-                                                      color: Color.fromRGBO(241, 241, 241, 1),
-                                                      borderRadius: BorderRadius.circular(4.r),
-                                                    ),
-                                                  ),
-                                                )
-                                              : Text(
-                                                  fullName,
-                                                  overflow: TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                    color: AppColors.primaryColor,
-                                                    fontSize: 20.h,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
+                                          child: Text(
+                                            fullName,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              color: AppColors.primaryColor,
+                                              fontSize: 20.h,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -349,7 +318,7 @@ class HomeScreen extends StatelessWidget {
                                 ),
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    // Navigate to post event screen
+
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.transparent,
@@ -418,23 +387,50 @@ class HomeScreen extends StatelessWidget {
 
                 Gap(16.h),
 
-                // Quick Guide Icons + with ListView as was requested from Eng. Fahad
-                SizedBox(
-                  height: 110.h,
-                  child: ListView.builder(
+                // Quick Guide Icons
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    itemCount: QuickGuideItemsWidget.quickGuides.length,
-                    itemBuilder: (context, index) {
-                      final guide = QuickGuideItemsWidget.quickGuides[index];
-                      return BuildQuickGuideItemWidget(
-                        svgPath: guide['svgPath'] as String,
-                        label: guide['label'] as String,
-                        onTap: () {
-                          context.push(guide['route'] as String);
-                        },
-                      );
-                    },
+                    child: Row(
+                      children: [
+                        BuildQuickGuideItemWidget(
+                          svgPath: './assets/icons/Tram.svg',
+                          label: 'Transport',
+                          onTap: () {
+                            context.push(AppRoutes.transportScreen);
+                          },
+                        ),
+                        BuildQuickGuideItemWidget(
+                          svgPath: './assets/icons/SimCard.svg',
+                          label: 'SIM Card',
+                          onTap: () {
+                            context.push(AppRoutes.simCardScreen);
+                          },
+                        ),
+                        BuildQuickGuideItemWidget(
+                          svgPath: './assets/icons/Emergency.svg',
+                          label: 'Emergency',
+                          onTap: () {
+                            context.push(AppRoutes.emergencyScreen);
+                          },
+                        ),
+                        BuildQuickGuideItemWidget(
+                          svgPath: './assets/icons/Cloud.svg',
+                          label: 'Weather',
+                          onTap: () {
+                            context.push(AppRoutes.weatherScreen);
+                          },
+                        ),
+                        BuildQuickGuideItemWidget(
+                          svgPath: './assets/icons/Currency.svg',
+                          label: 'Currency',
+                          onTap: () {
+                            context.push(AppRoutes.currencyScreen);
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
 

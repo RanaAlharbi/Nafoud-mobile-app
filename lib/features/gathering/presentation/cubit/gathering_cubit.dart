@@ -46,7 +46,10 @@ class GatheringCubit extends Cubit<GatheringState> {
   // participants
   List<String> participants = [];
 
+  List<String> lastAvatars = [];
   bool isDescriptionExpanded = false;
+
+  bool isUploadingImage = false;
 
   // use cases
   final GatheringUsecase getEventsUsecase;
@@ -75,14 +78,19 @@ class GatheringCubit extends Cubit<GatheringState> {
     this.getParticipantsUseCase,
   ) : super(const GatheringInitial());
 
-
-
   // upload image
-  Future<void> uploadImage(String filePath) async {
+Future<void> uploadImage(String filePath) async {
+  try {
+    isUploadingImage = true;
+    emit(GatheringLoading(selectedCategory: selectedCategory));
+
     final result = await uploadImageUseCase(filePath);
+
     result.when(
       (url) {
         selectedImageUrl = url;
+
+        isUploadingImage = false;
         emit(
           GatheringFormUpdated(
             selectedCategory: selectedCategory,
@@ -91,14 +99,33 @@ class GatheringCubit extends Cubit<GatheringState> {
             selectedTime: selectedTime,
             selectedLat: selectedLat,
             selectedLng: selectedLng,
+            isUploadingImage: isUploadingImage, // مهم جداً
           ),
         );
       },
-      (err) => emit(
-        GatheringError(message: err, selectedCategory: selectedCategory),
+      (err) {
+        isUploadingImage = false;
+        emit(
+          GatheringError(
+            message: err,
+            selectedCategory: selectedCategory,
+            isUploadingImage: isUploadingImage,
+          ),
+        );
+      },
+    );
+  } catch (e) {
+    isUploadingImage = false;
+    emit(
+      GatheringError(
+        message: e.toString(),
+        selectedCategory: selectedCategory,
+        isUploadingImage: isUploadingImage,
       ),
     );
   }
+}
+
 
   void updateField(String key, String value) {
     if (key == "title") title = value;
@@ -116,6 +143,22 @@ class GatheringCubit extends Cubit<GatheringState> {
         selectedLng: selectedLng,
       ),
     );
+  }
+
+  void resetForm() {
+    selectedCategory = "All";
+    selectedImageUrl = null;
+    selectedDate = null;
+    selectedTime = null;
+    selectedLat = null;
+    selectedLng = null;
+
+    title = "";
+    description = "";
+    city = "";
+    address = "";
+
+    emit(GatheringInitial());
   }
 
   // Updates map position before confirming using done button
@@ -305,10 +348,22 @@ class GatheringCubit extends Cubit<GatheringState> {
 
   // method that's allows the user to join an event
   Future<void> joinEvent(String eventId) async {
+    if (participants.contains(eventId)) {
+      emit(
+        GatheringMessage(
+          message: "You already joined this event",
+          selectedCategory: selectedCategory,
+        ),
+      );
+      return;
+    }
+
     final result = await joinEventUseCase(eventId);
 
     result.when(
       (_) {
+        participants.add(eventId);
+
         loadParticipants(eventId);
         emit(
           GatheringMessage(
@@ -318,7 +373,7 @@ class GatheringCubit extends Cubit<GatheringState> {
         );
       },
       (err) {
-        if (err.contains("duplicate key") || err.contains("unique")) {
+        if (err.contains("duplicate") || err.contains("unique")) {
           emit(
             GatheringMessage(
               message: "You already joined this event",
@@ -338,12 +393,15 @@ class GatheringCubit extends Cubit<GatheringState> {
     final result = await getParticipantsUseCase(eventId);
 
     result.when(
-      (success) => emit(
-        GatheringParticipantsLoaded(
-          avatars: success,
-          selectedCategory: selectedCategory,
-        ),
-      ),
+      (success) {
+        lastAvatars = success;
+        emit(
+          GatheringParticipantsLoaded(
+            avatars: success,
+            selectedCategory: selectedCategory,
+          ),
+        );
+      },
       (err) => emit(
         GatheringError(message: err, selectedCategory: selectedCategory),
       ),
@@ -365,19 +423,22 @@ class GatheringCubit extends Cubit<GatheringState> {
   }
 
   // toggle bookmark
-  Future<void> toggleBookmark(String eventId) async {
-    final isSaved = userBookmarks.contains(eventId);
-
-    if (isSaved) {
-      await removeBookmark(eventId);
-      userBookmarks.remove(eventId);
-    } else {
-      await addBookmark(eventId);
-      userBookmarks.add(eventId);
-    }
-
-    _updateBookmarkedEvents();
+Future<void> toggleBookmark(String eventId) async {
+  if (userBookmarks.contains(eventId)) {
+    await removeBookmark(eventId);
+  } else {
+    await addBookmark(eventId);
   }
+
+  final result = await userBookmarkUsecase();
+  result.when(
+    (ids) => userBookmarks = ids,
+    (_) => userBookmarks = [],
+  );
+
+  _updateBookmarkedEvents();
+}
+
 
   void _updateBookmarkedEvents() {
     if (state is GatheringLoaded) {
