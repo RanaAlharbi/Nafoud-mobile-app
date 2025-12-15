@@ -60,6 +60,7 @@ dependencies:
   shimmer: ^3.0.0
   flutter_toast_notification: ^1.1.1
   fluttertoast: ^9.0.0
+  shimmer_animation: ^2.2.2+1
   
 
 dev_dependencies:

@@ -66,6 +66,9 @@ class HomeScreen extends StatelessWidget {
                       Gap(10.h),
                       BlocBuilder<HomeUserInfoCubit, HomeUserInfoState>(
                         builder: (context, state) {
+                          // Check if loading
+                          final isLoading = state is HomeUserInfoInitial;
+
                           // Extract user info from loaded state, or use defaults
                           final String fullName = state is HomeUserInfoLoaded
                               ? state.fullName
@@ -78,7 +81,19 @@ class HomeScreen extends StatelessWidget {
                             spacing: 15.w,
                             children: [
                               // Image Area (PFP)
-                              Container(
+                              isLoading
+                                  ? ClipOval(
+                                      child: Shimmer(
+                                        duration: Duration(milliseconds: 800),
+                                        color: AppColors.primaryColor,
+                                        child: Container(
+                                          width: 85.h,
+                                          height: 85.h,
+                                          color: Color.fromRGBO(241, 241, 241, 1),
+                                        ),
+                                      ),
+                                    )
+                                  : Container(
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   border: Border.all(
@@ -125,13 +140,15 @@ class HomeScreen extends StatelessWidget {
                                                     ),
                                                   ),
                                           placeholder: (context, url) =>
-                                              CircularProgressIndicator(
-                                                strokeWidth: 2.w,
-                                                color: const Color.fromRGBO(
-                                                  194,
-                                                  164,
-                                                  128,
-                                                  1,
+                                              ClipOval(
+                                                child: Shimmer(
+                                                  duration: Duration(milliseconds: 800),
+                                                  color: AppColors.primaryColor,
+                                                  child: Container(
+                                                    width: 80.h,
+                                                    height: 80.h,
+                                                    color: Color.fromRGBO(241, 241, 241, 1),
+                                                  ),
                                                 ),
                                               ),
                                           errorWidget: (context, url, error) {
@@ -207,15 +224,28 @@ class HomeScreen extends StatelessWidget {
                                           ),
                                         ),
                                         Flexible(
-                                          child: Text(
-                                            fullName,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              color: AppColors.primaryColor,
-                                              fontSize: 20.h,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
+                                          child: isLoading
+                                              ? Shimmer(
+                                                  duration: Duration(milliseconds: 800),
+                                                  color: AppColors.primaryColor,
+                                                  child: Container(
+                                                    width: 100.w,
+                                                    height: 20.h,
+                                                    decoration: BoxDecoration(
+                                                      color: Color.fromRGBO(241, 241, 241, 1),
+                                                      borderRadius: BorderRadius.circular(4.r),
+                                                    ),
+                                                  ),
+                                                )
+                                              : Text(
+                                                  fullName,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                    color: AppColors.primaryColor,
+                                                    fontSize: 20.h,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
                                         ),
                                       ],
                                     ),
