@@ -1,6 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:final_project/core/app_theme/app_colors/app_colors.dart';
 import 'package:final_project/core/routes/router.dart';
+import 'package:final_project/features/events/presentation_layer/pages/events_horizontal_list.dart';
 import 'package:final_project/features/home/presentation_layer/widgets/build_quick_guide_item_widget.dart';
 import 'package:final_project/features/home/presentation_layer/widgets/discover_widget.dart';
 import 'package:final_project/features/home/presentation_layer/widgets/quick_guide_items_widget.dart';
@@ -13,10 +13,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:final_project/features/home/presentation_layer/cubit/home_user_info_cubit.dart';
+import 'package:final_project/features/home/presentation_layer/cubit/destination_filter_cubit.dart';
 import 'package:final_project/features/profile/domain_layer/usecase/profile_usecase.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -46,6 +48,9 @@ class HomeScreen extends StatelessWidget {
         BlocProvider(
           create: (_) =>
               HomeUserInfoCubit(GetIt.I.get<ProfileUsecase>())..loadUserInfo(),
+        ),
+        BlocProvider(
+          create: (_) => DestinationFilterCubit(),
         ),
       ],
       child: Scaffold(
@@ -436,9 +441,22 @@ class HomeScreen extends StatelessWidget {
                 Gap(24.h),
 
                 // Discover All Destinations Dropdown
-                DiscoverWidget(),
+                BlocBuilder<DestinationFilterCubit, DestinationFilterState>(
+                  builder: (context, state) {
+                    return DiscoverWidget(
+                      selectedDestination: state.selectedDestination,
+                      onDestinationChanged: (value) {
+                        if (value != null) {
+                          context.read<DestinationFilterCubit>().changeDestination(value);
+                        }
+                      },
+                    );
+                  },
+                ),
 
-                // Recommended Activities Section
+                Gap(24.h),
+
+                // Recommended Activities Section (Events)
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: Row(
@@ -450,7 +468,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                       TextButton(
                         onPressed: () {
-                          context.push(AppRoutes.allActivitiesScreen);
+                          context.push(AppRoutes.eventsScreen);
                         },
                         child: Text(
                           'View All',
@@ -460,6 +478,13 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
+
+                Gap(16.h),
+
+                // Events ListView
+                const EventsHorizontalList(),
+
+                Gap(24.h),
               ],
             ),
           ),

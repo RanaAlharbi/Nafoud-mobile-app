@@ -3,8 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DiscoverWidget extends StatelessWidget {
+  final String selectedDestination;
+  final ValueChanged<String?> onDestinationChanged;
+
   const DiscoverWidget({
     super.key,
+    required this.selectedDestination,
+    required this.onDestinationChanged,
   });
 
   @override
@@ -22,7 +27,7 @@ class DiscoverWidget extends StatelessWidget {
             ),
           ),
           DropdownButton<String>(
-            value: 'All Destinations',
+            value: selectedDestination,
             underline: SizedBox(),
             icon: Icon(Icons.keyboard_arrow_down),
             iconEnabledColor: AppColors.primaryColor,
@@ -53,7 +58,7 @@ class DiscoverWidget extends StatelessWidget {
                 child: Text('Medina'),
               ),
             ],
-            onChanged: (value) {},
+            onChanged: onDestinationChanged,
           ),
         ],
       ),
