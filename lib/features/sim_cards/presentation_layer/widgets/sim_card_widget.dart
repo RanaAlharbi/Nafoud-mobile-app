@@ -21,10 +21,6 @@ class SimCardWidget extends StatelessWidget {
 
     if (await canLaunchUrl(url)) {
       await launchUrl(url, mode: LaunchMode.externalApplication);
-    } else {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Could not launch $redirectUrl')));
     }
   }
 

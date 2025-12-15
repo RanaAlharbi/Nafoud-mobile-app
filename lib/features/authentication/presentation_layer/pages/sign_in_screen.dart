@@ -49,13 +49,23 @@ class SignInScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         21.verticalSpace,
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: SvgPicture.asset(
-                            'Assets/logo/NafoudLogo.svg',
-                            width: 67.87.w,
-                            height: 69.17.h,
-                          ),
+                        Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                context.pop();
+                              },
+                              child: SvgPicture.asset(
+                                'assets/icons/arrow_left.svg',
+                              ),
+                            ),
+                            265.horizontalSpace,
+                            SvgPicture.asset(
+                              'assets/logo/NafoudLogo.svg',
+                              width: 67.87.w,
+                              height: 69.17.h,
+                            ),
+                          ],
                         ),
 
                         58.83.verticalSpace,
