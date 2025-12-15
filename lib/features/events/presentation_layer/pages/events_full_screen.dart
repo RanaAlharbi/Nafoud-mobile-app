@@ -133,7 +133,7 @@ class EventsFullScreen extends StatelessWidget {
                 children: [
                   Image.asset(
                     imagePath,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.contain,
                     errorBuilder: (context, error, stackTrace) => Center(
                       child: Icon(
                         Icons.image_not_supported,
@@ -145,7 +145,7 @@ class EventsFullScreen extends StatelessWidget {
                   // Gray overlay when selected
                   if (isSelected)
                     Container(
-                      color: Colors.grey.withValues(alpha: 0.7),
+                      color: Colors.grey.withValues(alpha: 0.3),
                     ),
                 ],
               ),
@@ -251,8 +251,9 @@ class EventsFullScreen extends StatelessWidget {
                   return CustomScrollView(
                     slivers: [
                       SliverToBoxAdapter(
-                        child: SizedBox(
-                          height: 180.h,
+                        child: Container(
+                          height: 160.h,
+                          margin: EdgeInsets.symmetric(vertical: 16.h),
                           child: SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
                             padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -263,15 +264,14 @@ class EventsFullScreen extends StatelessWidget {
                                 );
 
                                 return Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    for (int i = 0; i < orderedCategories.length; i++) ...[
+                                    for (int i = 0; i < orderedCategories.length; i++)
                                       _buildCategoryCard(
                                         orderedCategories[i]['name']!,
                                         orderedCategories[i]['image']!,
                                         context,
                                       ),
-                                      if (i < orderedCategories.length - 1) Gap(12.w),
-                                    ],
                                   ],
                                 );
                               },
@@ -318,7 +318,7 @@ class EventsFullScreen extends StatelessWidget {
                                       child: Center(
                                         child: SvgPicture.asset(
                                           _getCategoryImagePath(event.category),
-                                          width: 60.w,
+                                          width: 40.w,
                                           height: 60.h,
                                           fit: BoxFit.contain,
                                           placeholderBuilder: (context) => Center(
