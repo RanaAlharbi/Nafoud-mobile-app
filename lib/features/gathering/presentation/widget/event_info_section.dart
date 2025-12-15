@@ -18,8 +18,8 @@ class EventInfo extends StatelessWidget {
           children: [
             SvgPicture.asset(
               'assets/icons/date.svg',
-              width: 35.w,
-              height: 35.h,
+              width: 23.w,
+              height: 23.h,
             ),
             7.horizontalSpace,
             Expanded(

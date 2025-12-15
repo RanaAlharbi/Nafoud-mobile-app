@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:final_project/core/app_theme/app_colors/app_colors.dart';
 import 'package:final_project/core/routes/router.dart';
+import 'package:final_project/features/gathering/presentation/cubit/gathering_cubit.dart';
 import 'package:final_project/features/home/presentation_layer/widgets/build_quick_guide_item_widget.dart';
 import 'package:final_project/features/home/presentation_layer/widgets/discover_widget.dart';
 import 'package:flutter/material.dart';
@@ -312,7 +313,7 @@ class HomeScreen extends StatelessWidget {
                                 ),
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    // Navigate to post event screen
+                                 
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.transparent,

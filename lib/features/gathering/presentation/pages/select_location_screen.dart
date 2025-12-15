@@ -35,7 +35,6 @@ class SelectLocationScreen extends StatelessWidget {
     final cubit = context.watch<GatheringCubit>();
 
     return Scaffold(
- 
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
         child: BlocBuilder<GatheringCubit, GatheringState>(
@@ -70,7 +69,7 @@ class SelectLocationScreen extends StatelessWidget {
 
       body: Column(
         children: [
-       
+          // Search bar
           Padding(
             padding: const EdgeInsets.all(12),
             child: TextField(
@@ -93,7 +92,6 @@ class SelectLocationScreen extends StatelessWidget {
             ),
           ),
 
-       
           Expanded(
             child: BlocBuilder<GatheringCubit, GatheringState>(
               builder: (context, state) {
@@ -101,7 +99,6 @@ class SelectLocationScreen extends StatelessWidget {
                 final lng = cubit.selectedLng ?? 46.6753;
 
                 return FlutterMap(
-                  key: ValueKey("$lat-$lng"),
                   options: MapOptions(
                     initialCenter: LatLng(lat, lng),
                     initialZoom: 15,

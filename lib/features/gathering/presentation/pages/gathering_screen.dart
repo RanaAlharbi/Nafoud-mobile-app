@@ -19,7 +19,8 @@ class GatheringScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => getIt<GatheringCubit>()..fetchEvents(), //provider
+      create: (_) => getIt<GatheringCubit>()..fetchEvents(),
+      //provider
       child: CupertinoPageScaffold(
         backgroundColor: const Color(0xFFF0F0EE),
         navigationBar: CupertinoNavigationBar(

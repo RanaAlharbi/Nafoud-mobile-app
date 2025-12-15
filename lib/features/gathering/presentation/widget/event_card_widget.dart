@@ -222,7 +222,7 @@ class EventCardWidget extends StatelessWidget {
                       style: GoogleFonts.cairo(
                         color: Color(0xFFF0F0EE),
                         fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                        fontSize: 18.sp,
                       ),
                     ),
                   ),

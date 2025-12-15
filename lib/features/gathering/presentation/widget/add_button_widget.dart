@@ -1,14 +1,10 @@
-
 import 'package:final_project/features/gathering/presentation/cubit/gathering_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class AddButtonWidget extends StatelessWidget {
-  const AddButtonWidget({
-    super.key,
-    required this.cubit,
-  });
+  const AddButtonWidget({super.key, required this.cubit});
 
   final GatheringCubit cubit;
 
@@ -29,14 +25,9 @@ class AddButtonWidget extends StatelessWidget {
           size: 26.sp,
         ),
         onPressed: () async {
-          final result = await context.push(
-            "/addEvent",
-            extra: cubit,
-          );
-    
-          if (result == "refresh") {
-            cubit.fetchEvents();
-          }
+          cubit.resetForm();
+          await context.push("/addEvent", extra: cubit);
+          cubit.fetchEvents();
         },
       ),
     );

@@ -2,8 +2,8 @@ name: Weekly Event Generator
 
 on:
   schedule:
-    - cron: "0 0 * * 0"   
-  workflow_dispatch:       
+    - cron: "0 0 * * 0"    # Every Sunday at 00:00 UTC
+  workflow_dispatch:
 
 jobs:
   run-function:
@@ -13,4 +13,6 @@ jobs:
         run: |
           curl -X POST "https://pusdzxdzpbabegwiapnm.supabase.co/functions/v1/generate_events" \
           -H "Content-Type: application/json" \
-          -H "Authorization: Bearer ${{ secrets.SUPABASE_SERVICE_KEY }}"
+          -H "Authorization: Bearer ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" \
+          -H "apikey: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" \
+          --data '{}'

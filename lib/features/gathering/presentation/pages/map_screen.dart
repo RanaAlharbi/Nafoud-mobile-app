@@ -105,7 +105,7 @@ class EventsMapScreen extends StatelessWidget {
               },
             ),
 
-            // --- Search Bar ---
+            // Search Bar
             Positioned(
               top: 16,
               left: 16,
@@ -120,7 +120,7 @@ class EventsMapScreen extends StatelessWidget {
               ),
             ),
 
-            // --- Zoom Buttons ---
+            // zoom
             Positioned(
               bottom: 30,
               right: 20,
