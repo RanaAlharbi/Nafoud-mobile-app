@@ -1,5 +1,8 @@
+import 'package:final_project/core/app_theme/app_colors/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../cubit/location_cubit.dart';
 import '../cubit/location_state.dart';
@@ -16,7 +19,15 @@ class SelectLocationScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Select Location"),
+        title: Text(
+          "Select Location",
+          style: GoogleFonts.cairo(
+            fontSize: 26.sp,
+            fontWeight: FontWeight.bold,
+            color: const Color(0xff3D4032),
+          ),
+        ),
+        centerTitle: true,
         actions: [
           BlocBuilder<LocationCubit, LocationState>(
             builder: (_, state) {
@@ -29,7 +40,14 @@ class SelectLocationScreen extends StatelessWidget {
                         });
                       }
                     : null,
-                child: const Text("Done"),
+                child: Text(
+                  "Done",
+                  style: GoogleFonts.cairo(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.khuzamaColor,
+                  ),
+                ),
               );
             },
           ),
@@ -49,20 +67,13 @@ class SelectLocationScreen extends StatelessWidget {
                   zoom: 13,
                 ),
                 onTap: (point) {
-                  cubit.setManualLocation(
-                    point.latitude,
-                    point.longitude,
-                  );
+                  cubit.setManualLocation(point.latitude, point.longitude);
                 },
                 markers: state.lat != null
                     ? {
                         Marker(
-                          markerId:
-                              const MarkerId("selected_location"),
-                          position: LatLng(
-                            state.lat!,
-                            state.lng!,
-                          ),
+                          markerId: const MarkerId("selected_location"),
+                          position: LatLng(state.lat!, state.lng!),
                         ),
                       }
                     : {},
@@ -109,9 +120,7 @@ class SelectLocationScreen extends StatelessWidget {
                   elevation: 8,
                   borderRadius: BorderRadius.circular(12),
                   child: Container(
-                    constraints: const BoxConstraints(
-                      maxHeight: 260,
-                    ),
+                    constraints: const BoxConstraints(maxHeight: 260),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(12),
@@ -119,13 +128,11 @@ class SelectLocationScreen extends StatelessWidget {
                     child: ListView.separated(
                       shrinkWrap: true,
                       itemCount: state.results.length,
-                      separatorBuilder: (_,_) =>
-                          const Divider(height: 1),
+                      separatorBuilder: (_, _) => const Divider(height: 1),
                       itemBuilder: (_, i) {
                         final item = state.results[i];
                         return ListTile(
-                          leading:
-                              const Icon(Icons.location_on),
+                          leading: const Icon(Icons.location_on),
                           title: Text(item.description),
                           onTap: () {
                             cubit.selectPlace(item.placeId);
@@ -143,4 +150,3 @@ class SelectLocationScreen extends StatelessWidget {
     );
   }
 }
-
