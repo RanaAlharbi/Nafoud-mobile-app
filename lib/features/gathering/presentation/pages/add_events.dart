@@ -15,38 +15,34 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:final_project/features/gathering/presentation/cubit/gathering_cubit.dart';
 import 'package:final_project/features/gathering/presentation/cubit/gathering_state.dart';
 import 'package:final_project/core/shared/gathering_entity/gathering_entity.dart';
-
 class AddEventScreen extends StatelessWidget {
   AddEventScreen({super.key});
-
-  final TextEditingController titleController = TextEditingController();
-  final TextEditingController descController = TextEditingController();
-  final TextEditingController cityController = TextEditingController();
-  final TextEditingController addressController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final cubit = context.watch<GatheringCubit>();
 
     return Scaffold(
-      backgroundColor: Color(0xffF0F0EE),
+      backgroundColor: const Color(0xffF0F0EE),
       appBar: AppBar(
-        backgroundColor: Color(0xffF0F0EE),
+        backgroundColor: const Color(0xffF0F0EE),
         centerTitle: true,
         title: Text(
           "Create Activity",
           style: GoogleFonts.cairo(
             fontSize: 25,
-            fontWeight: .bold,
-            color: Color(0xff3D4032),
+            fontWeight: FontWeight.bold,
+            color: const Color(0xff3D4032),
           ),
         ),
         actions: [
           TextButton(
             onPressed: () async {
               if (cubit.selectedImageUrl == null ||
-                  titleController.text.isEmpty ||
-                  descController.text.isEmpty ||
+                  cubit.title.trim().isEmpty ||
+                  cubit.description.trim().isEmpty ||
+                  cubit.city.trim().isEmpty ||
+                  cubit.address.trim().isEmpty ||
                   cubit.selectedDate == null ||
                   cubit.selectedTime == null ||
                   cubit.selectedLat == null ||
@@ -80,16 +76,15 @@ class AddEventScreen extends StatelessWidget {
               height: 23,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
-                color: Color(0xff656A53),
+                color: const Color(0xff656A53),
               ),
-
               child: Center(
                 child: Text(
                   "Publish",
                   style: GoogleFonts.cairo(
-                    color: Color(0xffF0F0EE),
+                    color: const Color(0xffF0F0EE),
                     fontSize: 12,
-                    fontWeight: .bold,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
@@ -104,27 +99,25 @@ class AddEventScreen extends StatelessWidget {
             showError(context, state.message);
           }
         },
-
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(26),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              //select image from the device
               ImagePickerWidget(cubit: cubit),
               15.verticalSpace,
 
               Text(
                 "Activity Title",
                 style: GoogleFonts.cairo(
-                  color: Color(0xff3D4032),
+                  color: const Color(0xff3D4032),
                   fontSize: 18.sp,
-                  fontWeight: .bold,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               4.verticalSpace,
               CustomTextField(
-                controller: titleController,
+                initialValue: cubit.title,
                 hint: "What’s your activity called?",
                 onChanged: (v) => cubit.updateField("title", v),
               ),
@@ -133,14 +126,14 @@ class AddEventScreen extends StatelessWidget {
               Text(
                 "About Activity",
                 style: GoogleFonts.cairo(
-                  color: Color(0xff3D4032),
+                  color: const Color(0xff3D4032),
                   fontSize: 18,
-                  fontWeight: .bold,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               4.verticalSpace,
               CustomTextField(
-                controller: descController,
+                initialValue: cubit.description,
                 hint: "Describe your activity…",
                 minLines: 3,
                 maxLines: 5,
@@ -151,72 +144,77 @@ class AddEventScreen extends StatelessWidget {
               Text(
                 "Activity Category",
                 style: GoogleFonts.cairo(
-                  color: Color(0xff3D4032),
+                  color: const Color(0xff3D4032),
                   fontSize: 18,
-                  fontWeight: .bold,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               CategoryChipsAdd(cubit: cubit),
               20.verticalSpace,
+
               Text(
                 "Activity Date",
                 style: GoogleFonts.cairo(
-                  color: Color(0xff3D4032),
+                  color: const Color(0xff3D4032),
                   fontSize: 18,
-                  fontWeight: .bold,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               4.verticalSpace,
               DatePickerWidget(cubit: cubit),
               20.verticalSpace,
+
               Text(
                 "Activity Time",
                 style: GoogleFonts.cairo(
-                  color: Color(0xff3D4032),
+                  color: const Color(0xff3D4032),
                   fontSize: 18,
-                  fontWeight: .bold,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               4.verticalSpace,
               TimePickerWidget(cubit: cubit),
               20.verticalSpace,
+
               Text(
                 "Pick Location on Map",
                 style: GoogleFonts.cairo(
-                  color: Color(0xff3D4032),
+                  color: const Color(0xff3D4032),
                   fontSize: 18,
-                  fontWeight: .bold,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               3.verticalSpace,
               LocationPickerWidget(cubit: cubit),
               20.verticalSpace,
+
               Text(
                 "City",
                 style: GoogleFonts.cairo(
-                  color: Color(0xff3D4032),
+                  color: const Color(0xff3D4032),
                   fontSize: 18,
-                  fontWeight: .bold,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               3.verticalSpace,
               CustomTextField(
-                controller: cityController,
+                initialValue: cubit.city,
                 hint: "Enter city",
                 onChanged: (v) => cubit.updateField("city", v),
               ),
               20.verticalSpace,
+
               Text(
                 "Full Address",
                 style: GoogleFonts.cairo(
-                  color: Color(0xff3D4032),
+                  color: const Color(0xff3D4032),
                   fontSize: 18,
-                  fontWeight: .bold,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               3.verticalSpace,
               CustomTextField(
-                controller: addressController,
+                initialValue: cubit.address,
                 hint: "Enter full address",
                 onChanged: (v) => cubit.updateField("address", v),
               ),

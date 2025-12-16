@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart' as gmap;
 import 'package:flutter_google_places_sdk/flutter_google_places_sdk.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart' as gmap;
 import 'package:final_project/features/gathering/presentation/cubit/gathering_cubit.dart';
 
 class SelectLocationScreen extends StatefulWidget {
