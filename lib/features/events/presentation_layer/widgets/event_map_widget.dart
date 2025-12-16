@@ -53,7 +53,6 @@ class EventMapWidget extends StatelessWidget {
                 liteModeEnabled: false, // Disabled for full interactive map
               ),
             ),
-
             Positioned(
               bottom: 16,
               left: 16.w,
