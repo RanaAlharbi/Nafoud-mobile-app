@@ -282,7 +282,6 @@ class UpdatePasswordScreen extends StatelessWidget {
                                     return;
                                   }
 
-                                  // Dispatch the final password update event
                                   context.read<AuthenticationBloc>().add(
                                     UpdatePasswordSubmitted(
                                       email: email,
@@ -291,6 +290,7 @@ class UpdatePasswordScreen extends StatelessWidget {
                                     ),
                                   );
                                 },
+                                
                           style: ElevatedButton.styleFrom(
                             fixedSize: Size(360.w, 42.h),
                             backgroundColor: const Color(0xFF656A53),

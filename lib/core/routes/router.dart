@@ -217,19 +217,7 @@ class AppRoutes {
         builder: (context, state) => AIImageAnalysisScreen(),
       ),
 
-
-// GoRoute(
-//   path: '/eventsMap',
-//   builder: (context, state) {
-//     final cubit = state.extra as GatheringCubit;
-//     return BlocProvider.value(
-//       value: cubit,
-//       child: const EventsMapScreen(),
-//     );
-//   },
-// ),
-
-      //map screen
+      // //map screen
       // GoRoute(
       //   path: "/eventsMap",
       //   builder: (context, state) {

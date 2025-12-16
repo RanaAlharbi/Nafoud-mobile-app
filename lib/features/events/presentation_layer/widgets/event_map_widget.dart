@@ -35,7 +35,7 @@ class EventMapWidget extends StatelessWidget {
         child: Stack(
           children: [
             GoogleMap(
-              initialCameraPosition: CameraPosition(target: point, zoom: 15),
+              initialCameraPosition: CameraPosition(target: point, zoom: 10),
               markers: {
                 Marker(
                   markerId: const MarkerId("eventLocation"),
@@ -45,12 +45,11 @@ class EventMapWidget extends StatelessWidget {
                   ),
                 ),
               },
-              zoomControlsEnabled: false, // Zoom buttons
+              zoomControlsEnabled: true, // Zoom buttons
               myLocationButtonEnabled: false,
               compassEnabled: false, // Compass on top of map
               mapToolbarEnabled: false, // To get direction toolbar
             ),
-
             Positioned(
               bottom: 16,
               left: 16.w,
