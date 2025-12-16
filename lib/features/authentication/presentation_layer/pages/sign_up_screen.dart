@@ -76,6 +76,7 @@ class SignUpScreen extends StatelessWidget {
                             ),
                           ],
                         ),
+
                         58.83.verticalSpace,
 
                         Align(
@@ -288,21 +289,6 @@ class SignUpScreen extends StatelessWidget {
                                       ),
                                       TextSpan(
                                         text: "Terms & Conditions",
-                                        style: GoogleFonts.cairo(
-                                          color: const Color(0xFF656A53),
-                                          fontSize: 15.sp,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: " and ",
-                                        style: GoogleFonts.cairo(
-                                          color: const Color(0xFF919191),
-                                          fontSize: 15.sp,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: "Privacy Policy",
                                         style: GoogleFonts.cairo(
                                           color: const Color(0xFF656A53),
                                           fontSize: 15.sp,
