@@ -42,7 +42,6 @@ import 'package:final_project/features/bookmarks/presentation/pages/bookmark_scr
 import 'package:final_project/features/profile/presentation_layer/pages/edit_profile_screen.dart';
 import 'package:final_project/features/profile/presentation_layer/pages/my_activity_screen.dart';
 import 'package:final_project/features/profile/presentation_layer/pages/profile_screen.dart';
-import 'package:final_project/features/splash/splash_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:get_storage/get_storage.dart';
@@ -118,7 +117,7 @@ class AppRoutes {
   }
 
   static final GoRouter appRouter = GoRouter(
-    initialLocation: getInitialRoute(), 
+    initialLocation: getInitialRoute(),
     routes: [
       GoRoute(
         path: AppRoutes.authenticationLandingScreen,
@@ -264,16 +263,17 @@ class AppRoutes {
         path: "/addEvent",
         builder: (context, state) {
           // Check if cubit is passed, otherwise create a new one
-          final cubit = state.extra as GatheringCubit? ?? getIt<GatheringCubit>();
+          final cubit =
+              state.extra as GatheringCubit? ?? getIt<GatheringCubit>();
 
           return BlocProvider.value(value: cubit, child: AddEventScreen());
         },
       ),
 
-      GoRoute(
-        path: AppRoutes.splashScreen,
-        builder: (context, state) => SplashScreen(),
-      ),
+      // GoRoute(
+      //   path: AppRoutes.splashScreen,
+      //   builder: (context, state) => SplashScreenOne(),
+      // ),
 
       // Profile & Edit Profile
       GoRoute(
