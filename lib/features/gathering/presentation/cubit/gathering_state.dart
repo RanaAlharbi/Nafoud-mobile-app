@@ -60,7 +60,38 @@ class GatheringMessage extends GatheringState {
   List<Object?> get props => [message, selectedCategory];
 }
 
+class GatheringLocationSearch extends GatheringState {
+  final List<LocationSearchItem> results;
 
+  const GatheringLocationSearch({
+    required this.results,
+    required super.selectedCategory,
+  });
+}
+
+class LocationSearchItem {
+  final String description;
+  final String placeId;
+
+  LocationSearchItem({
+    required this.description,
+    required this.placeId,
+  });
+}
+
+
+
+class LocationSearchUpdated extends GatheringState {
+  final List<Map<String, String>> results;
+
+  const LocationSearchUpdated({
+    required this.results,
+    required super.selectedCategory,
+  });
+
+  @override
+  List<Object?> get props => [results, selectedCategory];
+}
 
 
 class GatheringFormUpdated extends GatheringState {

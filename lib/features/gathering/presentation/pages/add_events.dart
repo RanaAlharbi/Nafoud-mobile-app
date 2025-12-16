@@ -1,3 +1,4 @@
+import 'package:final_project/core/app_theme/app_colors/app_colors.dart';
 import 'package:final_project/features/gathering/presentation/widget/category_chips_add.dart';
 import 'package:final_project/features/gathering/presentation/widget/custom_text_field.dart';
 import 'package:final_project/features/gathering/presentation/widget/date_picker_widget.dart';
@@ -71,6 +72,7 @@ class AddEventScreen extends StatelessWidget {
 
               await cubit.addEvent(entity);
               await cubit.fetchEvents();
+
               context.pop("refresh");
             },
             child: Container(
@@ -87,6 +89,7 @@ class AddEventScreen extends StatelessWidget {
                   style: GoogleFonts.cairo(
                     color: Color(0xffF0F0EE),
                     fontSize: 12,
+                    fontWeight: .bold,
                   ),
                 ),
               ),
@@ -110,6 +113,7 @@ class AddEventScreen extends StatelessWidget {
               //select image from the device
               ImagePickerWidget(cubit: cubit),
               15.verticalSpace,
+
               Text(
                 "Activity Title",
                 style: GoogleFonts.cairo(
@@ -118,7 +122,7 @@ class AddEventScreen extends StatelessWidget {
                   fontWeight: .bold,
                 ),
               ),
-              3.verticalSpace,
+              4.verticalSpace,
               CustomTextField(
                 controller: titleController,
                 hint: "What’s your activity called?",
@@ -134,7 +138,7 @@ class AddEventScreen extends StatelessWidget {
                   fontWeight: .bold,
                 ),
               ),
-              3.verticalSpace,
+              4.verticalSpace,
               CustomTextField(
                 controller: descController,
                 hint: "Describe your activity…",
@@ -162,7 +166,7 @@ class AddEventScreen extends StatelessWidget {
                   fontWeight: .bold,
                 ),
               ),
-              3.verticalSpace,
+              4.verticalSpace,
               DatePickerWidget(cubit: cubit),
               20.verticalSpace,
               Text(
@@ -173,7 +177,7 @@ class AddEventScreen extends StatelessWidget {
                   fontWeight: .bold,
                 ),
               ),
-              3.verticalSpace,
+              4.verticalSpace,
               TimePickerWidget(cubit: cubit),
               20.verticalSpace,
               Text(
@@ -185,7 +189,7 @@ class AddEventScreen extends StatelessWidget {
                 ),
               ),
               3.verticalSpace,
-              LocationPickerWidget(cubit: cubit), //here 
+              LocationPickerWidget(cubit: cubit),
               20.verticalSpace,
               Text(
                 "City",
@@ -231,7 +235,10 @@ class AddEventScreen extends StatelessWidget {
         content: Text(msg),
         actions: [
           TextButton(
-            child: const Text("OK"),
+            child: Text(
+              "OK",
+              style: GoogleFonts.cairo(color: AppColors.khuzamaColor),
+            ),
             onPressed: () => Navigator.pop(context),
           ),
         ],

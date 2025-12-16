@@ -12,6 +12,7 @@ abstract class BaseGatheringRemoteDataSource {
   Future<Result<void, String>> deleteUserEvent(String id, String userId);
   Future<Result<List<GatheringModel>, String>> searchEvents(String keyword);
   Future<Result<List<GatheringModel>, String>> getEventsForMap();
+  
   Future<Result<void, String>> addBookmark(String eventId);
   Future<Result<void, String>> removeBookmark(String eventId);
   Future<Result<String, String>> uploadImage(String filePath);

@@ -1,257 +1,286 @@
-import 'dart:convert';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
-import 'package:latlong2/latlong.dart';
-import 'package:final_project/features/gathering/presentation/cubit/gathering_cubit.dart';
-import 'package:final_project/features/gathering/presentation/cubit/gathering_state.dart';
+// import 'package:flutter/cupertino.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:google_maps_flutter/google_maps_flutter.dart' as gmap;
+// import 'package:google_fonts/google_fonts.dart';
 
-class EventsMapScreen extends StatelessWidget {
-  final GatheringCubit cubit;
+// import 'package:final_project/features/gathering/presentation/cubit/gathering_cubit.dart';
+// import 'package:final_project/features/gathering/presentation/cubit/gathering_state.dart';
+// import 'package:final_project/core/shared/gathering_entity/gathering_entity.dart';
+// import 'dart:async';
+// import 'dart:ui' as ui;
 
-  const EventsMapScreen({super.key, required this.cubit});
 
-  static final ValueNotifier<double> zoomNotifier = ValueNotifier(5);
+// class EventsMapScreen extends StatefulWidget {
+//   const EventsMapScreen({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    cubit.fetchMapEvents();
-    final MapController mapController = MapController();
+//   @override
+//   State<EventsMapScreen> createState() => _EventsMapScreenState();
+// }
 
-    return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-        middle: Text(
-          "Map of Events",
-          style: GoogleFonts.cairo(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-            color: const Color(0xff3D4032),
-          ),
-        ),
-        backgroundColor: const Color(0xFFF8F8F8),
-      ),
+// class _EventsMapScreenState extends State<EventsMapScreen> {
+//   gmap.GoogleMapController? _mapController;
 
-      child: SafeArea(
-        child: Stack(
-          children: [
-            BlocBuilder<GatheringCubit, GatheringState>(
-              builder: (context, state) {
-                if (state is GatheringLoading) {
-                  return const Center(child: CupertinoActivityIndicator());
-                }
+//   final gmap.LatLng _defaultCenter =
+//       const gmap.LatLng(24.7136, 46.6753); // Riyadh
 
-                if (state is GatheringError) {
-                  return Center(child: Text(state.message));
-                }
+//   double _zoom = 6;
+//   Set<gmap.Marker> _markers = {};
+//   final Map<String, gmap.BitmapDescriptor> _iconCache = {};
 
-                if (state is GatheringLoaded) {
-                  final events = state.events;
-                  final mapCenter = _calculateCenter(events);
+//   @override
+//   Widget build(BuildContext context) {
+//     return CupertinoPageScaffold(
+//       navigationBar: CupertinoNavigationBar(
+//         middle: Text(
+//           "Events Map",
+//           style: GoogleFonts.cairo(fontWeight: FontWeight.bold),
+//         ),
+//       ),
+//       child: SafeArea(
+//         child: BlocBuilder<GatheringCubit, GatheringState>(
+//           builder: (context, state) {
+//             if (state is GatheringLoading) {
+//               return const Center(child: CupertinoActivityIndicator());
+//             }
 
-                  return ValueListenableBuilder<double>(
-                    valueListenable: zoomNotifier,
-                    builder: (context, zoom, _) {
-                      return FlutterMap(
-                        mapController: mapController,
-                        options: MapOptions(
-                          initialCenter: mapCenter,
-                          initialZoom: zoom,
-                          minZoom: 2,
-                          maxZoom: 18,
-                        ),
-                        children: [
-                          TileLayer(
-                            urlTemplate:
-                                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-                            userAgentPackageName:
-                                "com.example.final_project",
-                            maxNativeZoom: 19,
-                            minNativeZoom: 0,
-                          ),
+//             if (state is GatheringLoaded) {
+//               _buildMarkers(state.events);
 
-                          MarkerLayer(
-                            markers: events.map((e) {
-                              final icon = _getMarkerIcon(e.category);
-                              final color = _getMarkerColor(e.category);
+//               return Stack(
+//                 children: [
+            
+//                   gmap.GoogleMap(
+//                     initialCameraPosition: gmap.CameraPosition(
+//                       target: _defaultCenter,
+//                       zoom: _zoom,
+//                     ),
+//                     onMapCreated: (c) => _mapController = c,
+//                     zoomControlsEnabled: false,
+//                     myLocationButtonEnabled: false,
+//                     markers: _markers,
+//                   ),
 
-                              return Marker(
-                                point: LatLng(e.latitude!, e.longitude!),
-                                width: 50,
-                                height: 50,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: color,
-                                  ),
-                                  child: Icon(
-                                    icon,
-                                    color: CupertinoColors.white,
-                                    size: 26,
-                                  ),
-                                ),
-                              );
-                            }).toList(),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                }
+//                   Positioned(
+//                     bottom: 30,
+//                     right: 20,
+//                     child: Column(
+//                       children: [
+//                         _zoomButton(
+//                           icon: CupertinoIcons.plus,
+//                           onTap: () {
+//                             _zoom++;
+//                             _mapController?.animateCamera(
+//                               gmap.CameraUpdate.zoomTo(_zoom),
+//                             );
+//                           },
+//                         ),
+//                         const SizedBox(height: 12),
+//                         _zoomButton(
+//                           icon: CupertinoIcons.minus,
+//                           onTap: () {
+//                             _zoom--;
+//                             _mapController?.animateCamera(
+//                               gmap.CameraUpdate.zoomTo(_zoom),
+//                             );
+//                           },
+//                         ),
+//                       ],
+//                     ),
+//                   ),
+//                 ],
+//               );
+//             }
 
-                return const SizedBox.shrink();
-              },
-            ),
+//             return const SizedBox.shrink();
+//           },
+//         ),
+//       ),
+//     );
+//   }
 
-            // Search Bar
-            Positioned(
-              top: 16,
-              left: 16,
-              right: 16,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: CupertinoSearchTextField(
-                  placeholder: "Search events...",
-                  backgroundColor: CupertinoColors.white,
-                  onChanged: (value) => cubit.search(value),
-                ),
-              ),
-            ),
 
-            // zoom
-            Positioned(
-              bottom: 30,
-              right: 20,
-              child: Column(
-                children: [
-                  CupertinoButton(
-                    padding: EdgeInsets.zero,
-                    child: Container(
-                      width: 45,
-                      height: 45,
-                      decoration: BoxDecoration(
-                        color: CupertinoColors.white,
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: CupertinoColors.black.withValues(alpha: 0.2),
-                            blurRadius: 5,
-                          ),
-                        ],
-                      ),
-                      child: const Icon(CupertinoIcons.plus, color: Colors.black),
-                    ),
-                    onPressed: () {
-                      if (zoomNotifier.value < 18) {
-                        zoomNotifier.value += 1;
-                        mapController.move(
-                          mapController.camera.center,
-                          zoomNotifier.value,
-                        );
-                      }
-                    },
-                  ),
+//   Future<void> _buildMarkers(List<GatheringEntity> events) async {
+//     final markers = <gmap.Marker>{};
 
-                  const SizedBox(height: 12),
+//     for (final e in events) {
+//       final icon = await _getMarkerIcon(e.category);
 
-                  CupertinoButton(
-                    padding: EdgeInsets.zero,
-                    child: Container(
-                      width: 45,
-                      height: 45,
-                      decoration: BoxDecoration(
-                        color: CupertinoColors.white,
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: CupertinoColors.black.withValues(alpha: 0.2),
-                            blurRadius: 5,
-                          ),
-                        ],
-                      ),
-                      child:
-                          const Icon(CupertinoIcons.minus, color: Colors.black),
-                    ),
-                    onPressed: () {
-                      if (zoomNotifier.value > 2) {
-                        zoomNotifier.value -= 1;
-                        mapController.move(
-                          mapController.camera.center,
-                          zoomNotifier.value,
-                        );
-                      }
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+//       markers.add(
+//         gmap.Marker(
+//           markerId: gmap.MarkerId(e.id.toString()),
+//           position: gmap.LatLng(e.latitude!, e.longitude!),
+//           icon: icon,
+//           onTap: () => _showEventDetails(e),
+//         ),
+//       );
+//     }
 
-  LatLng _calculateCenter(List events) {
-    if (events.isEmpty) return LatLng(23.8859, 45.0792);
+//     if (mounted) {
+//       setState(() => _markers = markers);
+//     }
+//   }
 
-    double avgLat = 0;
-    double avgLng = 0;
+ 
+//   Future<gmap.BitmapDescriptor> _getMarkerIcon(String category) async {
+//     if (_iconCache.containsKey(category)) {
+//       return _iconCache[category]!;
+//     }
 
-    for (var e in events) {
-      avgLat += e.latitude!;
-      avgLng += e.longitude!;
-    }
+//     final icon = _categoryIcon(category);
+//     final color = _categoryColor(category);
 
-    return LatLng(avgLat / events.length, avgLng / events.length);
-  }
+//     final bitmap = await _drawMarker(icon, color);
+//     _iconCache[category] = bitmap;
+//     return bitmap;
+//   }
 
-  IconData _getMarkerIcon(String category) {
-    switch (category) {
-      case "Cultural":
-        return CupertinoIcons.book;
-      case "Sports":
-        return CupertinoIcons.sportscourt;
-      case "Arts":
-        return CupertinoIcons.paintbrush;
-      case "Entertainment":
-        return CupertinoIcons.music_note;
-      default:
-        return CupertinoIcons.location_solid;
-    }
-  }
+//   Future<gmap.BitmapDescriptor> _drawMarker(
+//     IconData icon,
+//     Color color,
+//   ) async {
+//     const size = 100.0;
+//     final recorder = ui.PictureRecorder();
+//     final canvas = Canvas(recorder);
 
-  Color _getMarkerColor(String category) {
-    switch (category) {
-      case "Cultural":
-        return const Color(0xFFC2A480);
-      case "Sports":
-        return const Color(0xFF6C62A5);
-      case "Arts":
-        return const Color(0xFF656A53);
-      case "Entertainment":
-        return const Color.fromARGB(255, 156, 146, 209);
-      default:
-        return CupertinoColors.systemGrey;
-    }
-  }
-}
+//     final paint = Paint()..color = color;
+//     canvas.drawCircle(
+//       const Offset(size / 2, size / 2),
+//       size / 2,
+//       paint,
+//     );
 
-Future<LatLng?> searchLocation(String query) async {
-  final url = Uri.parse(
-    "https://nominatim.openstreetmap.org/search?q=$query&format=json&limit=1",
-  );
+//     final textPainter = TextPainter(
+//       text: TextSpan(
+//         text: String.fromCharCode(icon.codePoint),
+//         style: TextStyle(
+//           fontSize: 48,
+//           fontFamily: icon.fontFamily,
+//           color: Colors.white,
+//         ),
+//       ),
+//       textDirection: TextDirection.ltr,
+//     );
 
-  final response = await http.get(url, headers: {"User-Agent": "FlutterApp"});
+//     textPainter.layout();
+//     textPainter.paint(
+//       canvas,
+//       Offset(
+//         (size - textPainter.width) / 2,
+//         (size - textPainter.height) / 2,
+//       ),
+//     );
 
-  if (response.statusCode == 200) {
-    final data = jsonDecode(response.body);
-    if (data.isNotEmpty) {
-      final lat = double.parse(data[0]["lat"]);
-      final lon = double.parse(data[0]["lon"]);
-      return LatLng(lat, lon);
-    }
-  }
-  return null;
-}
+//     final image =
+//         await recorder.endRecording().toImage(size.toInt(), size.toInt());
+//     final bytes =
+//         await image.toByteData(format: ui.ImageByteFormat.png);
+
+//     return gmap.BitmapDescriptor.fromBytes(
+//       bytes!.buffer.asUint8List(),
+//     );
+//   }
+
+
+//   IconData _categoryIcon(String category) {
+//     switch (category) {
+//       case "Cultural":
+//         return CupertinoIcons.book;
+//       case "Sports":
+//         return CupertinoIcons.sportscourt;
+//       case "Arts":
+//         return CupertinoIcons.paintbrush;
+//       case "Entertainment":
+//         return CupertinoIcons.music_note;
+//       default:
+//         return CupertinoIcons.location_solid;
+//     }
+//   }
+
+//   Color _categoryColor(String category) {
+//     switch (category) {
+//       case "Cultural":
+//         return const Color(0xFFC2A480);
+//       case "Sports":
+//         return const Color(0xFF6C62A5);
+//       case "Arts":
+//         return const Color(0xFF656A53);
+//       case "Entertainment":
+//         return const Color(0xFF9C92D1);
+//       default:
+//         return CupertinoColors.systemGrey;
+//     }
+//   }
+
+//   void _showEventDetails(GatheringEntity event) {
+//     showModalBottomSheet(
+//       context: context,
+//       shape: const RoundedRectangleBorder(
+//         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+//       ),
+//       builder: (_) {
+//         return Padding(
+//           padding: const EdgeInsets.all(20),
+//           child: Column(
+//             mainAxisSize: MainAxisSize.min,
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+//               Text(
+//                 event.title,
+//                 style: GoogleFonts.cairo(
+//                   fontSize: 20,
+//                   fontWeight: FontWeight.bold,
+//                 ),
+//               ),
+//               const SizedBox(height: 6),
+//               Text(
+//                 event.city,
+//                 style: GoogleFonts.cairo(color: Colors.grey),
+//               ),
+//               const SizedBox(height: 12),
+//               Text(
+//                 event.description,
+//                 style: GoogleFonts.cairo(fontSize: 15),
+//               ),
+//               const SizedBox(height: 20),
+//               SizedBox(
+//                 width: double.infinity,
+//                 child: CupertinoButton(
+//                   color: const Color(0xFF656A53),
+//                   onPressed: () {},
+//                   child: const Text("View Details"),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         );
+//       },
+//     );
+//   }
+
+
+//   Widget _zoomButton({
+//     required IconData icon,
+//     required VoidCallback onTap,
+//   }) {
+//     return CupertinoButton(
+//       padding: EdgeInsets.zero,
+//       onPressed: onTap,
+//       child: Container(
+//         width: 45,
+//         height: 45,
+//         decoration: BoxDecoration(
+//           color: Colors.white,
+//           shape: BoxShape.circle,
+//           boxShadow: [
+//             BoxShadow(
+//               color: Colors.black.withOpacity(0.2),
+//               blurRadius: 5,
+//             ),
+//           ],
+//         ),
+//         child: Icon(icon, color: Colors.black),
+//       ),
+//     );
+//   }
+// }

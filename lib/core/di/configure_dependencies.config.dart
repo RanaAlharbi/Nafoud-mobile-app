@@ -10,6 +10,8 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:dio/dio.dart' as _i361;
+import 'package:flutter_google_places_sdk/flutter_google_places_sdk.dart'
+    as _i336;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:get_storage/get_storage.dart' as _i792;
 import 'package:get_storage/src/storage_impl.dart' as _i488;
@@ -171,6 +173,9 @@ extension GetItInjectableX on _i174.GetIt {
       () => thirdPartySetup.supabaseClient,
     );
     gh.lazySingleton<_i361.Dio>(() => thirdPartySetup.dio);
+    gh.lazySingleton<_i336.FlutterGooglePlacesSdk>(
+      () => thirdPartySetup.googlePlaces,
+    );
     gh.lazySingleton<_i656.GenerativeModel>(
       () => thirdPartySetup.generativeModel,
     );

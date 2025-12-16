@@ -13,6 +13,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+
 class GatheringScreen extends StatelessWidget {
   const GatheringScreen({super.key});
 
@@ -20,6 +21,7 @@ class GatheringScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => getIt<GatheringCubit>()..fetchEvents(),
+
       //provider
       child: CupertinoPageScaffold(
         backgroundColor: const Color(0xFFF0F0EE),
@@ -61,6 +63,12 @@ class GatheringScreen extends StatelessWidget {
                                   extra: context.read<GatheringCubit>(),
                                 );
                               },
+                              // onTap: () {
+                              //   context.push(
+                              //     "/eventsMap",
+                              //     // extra: context.read<GatheringCubit>(),
+                              //   );
+                              // },
                             ),
                             13.horizontalSpace,
 
@@ -150,7 +158,6 @@ class GatheringScreen extends StatelessWidget {
                                 },
                               );
                             }
-
                             return const SizedBox.shrink();
                           }(), //IIFE function
                         ),

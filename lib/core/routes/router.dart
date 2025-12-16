@@ -218,18 +218,30 @@ class AppRoutes {
         builder: (context, state) => AIImageAnalysisScreen(),
       ),
 
-      //map screen
-      GoRoute(
-        path: "/eventsMap",
-        builder: (context, state) {
-          final cubit = state.extra as GatheringCubit;
 
-          return BlocProvider.value(
-            value: cubit,
-            child: EventsMapScreen(cubit: cubit),
-          );
-        },
-      ),
+// GoRoute(
+//   path: '/eventsMap',
+//   builder: (context, state) {
+//     final cubit = state.extra as GatheringCubit;
+//     return BlocProvider.value(
+//       value: cubit,
+//       child: const EventsMapScreen(),
+//     );
+//   },
+// ),
+
+      //map screen
+      // GoRoute(
+      //   path: "/eventsMap",
+      //   builder: (context, state) {
+      //     final cubit = state.extra as GatheringCubit;
+
+      //     return BlocProvider.value(
+      //       value: cubit,
+      //       child: EventsMapScreen(cubit: cubit),
+      //     );
+      //   },
+      // ),
 
       //event details screen
       GoRoute(

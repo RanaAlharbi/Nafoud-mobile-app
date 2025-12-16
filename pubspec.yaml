@@ -61,6 +61,9 @@ dependencies:
   flutter_toast_notification: ^1.1.1
   fluttertoast: ^9.0.0
   shimmer_animation: ^2.2.2+1
+  google_places_flutter: ^2.1.1
+  flutter_google_places_sdk: ^0.4.2+1
+  flutter_polyline_points: ^3.1.0
   
 
 dev_dependencies:

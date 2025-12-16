@@ -27,7 +27,9 @@ class CustomTextField extends StatelessWidget {
       decoration: InputDecoration(
         hintText: hint,
         hintStyle: GoogleFonts.cairo(
-          color: Color(0xffB6B6B6)
+          color: Color(0xffB6B6B6),
+          fontSize: 18,
+          fontWeight: .normal
         ),
         filled: true,
         fillColor: Colors.white,
