@@ -1,6 +1,6 @@
+import 'package:final_project/features/ai_trip_planner/presentation_layer/widgets/markdown_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class LlmChatView extends StatelessWidget {
   final String? result;
@@ -17,10 +17,7 @@ class LlmChatView extends StatelessWidget {
           children: [
             Expanded(
               child: SingleChildScrollView(
-                child: SelectableText(
-                  result ?? "The AI plan failed to load.",
-                  style: GoogleFonts.cairo(fontSize: 14.sp, height: 1.6),
-                ),
+                child: markdownCard(result ?? "The AI plan failed to load."),
               ),
             ),
             Padding(

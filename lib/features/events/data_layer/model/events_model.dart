@@ -3,16 +3,19 @@ import 'package:final_project/features/events/domain_layer/entity/events_entity.
 
 part 'events_model.mapper.dart';
 
+// Data model for Event
+// Extends [EventEntity] and provides mapping functionality
 @MappableClass()
 class EventModel extends EventEntity with EventModelMappable {
-
- const EventModel({
+  const EventModel({
     required super.id,
     required super.title,
     super.description,
     super.location,
     required super.date,
     super.category,
+    super.latitude,
+    super.longitude,
     super.createdAt,
     super.updatedAt,
   });

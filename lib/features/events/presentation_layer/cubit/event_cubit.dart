@@ -6,13 +6,19 @@ import 'package:injectable/injectable.dart';
 
 part 'event_state.dart';
 
+
 @injectable
 class EventCubit extends Cubit<EventState> {
-  final EventsUsecase _usecase;
+  final GetEventsUsecase _usecase;
 
   EventCubit(this._usecase) : super(EventInitial());
 
-  Future<void> loadedEvents() async{
+  Future<void> loadedEvents({bool forceRefresh = false}) async{
+    // Skip loading if events are already loaded and not forcing refresh
+    if (!forceRefresh && state is LoadedEvents) {
+      return;
+    }
+
     emit(LoadingEvents());
 
     try{

@@ -1,6 +1,7 @@
 import 'package:final_project/core/app_theme/app_colors/app_colors.dart';
 import 'package:final_project/core/routes/router.dart';
 import 'package:final_project/features/events/presentation_layer/cubit/event_cubit.dart';
+import 'package:final_project/features/events/presentation_layer/utils/event_category_utils.dart';
 import 'package:final_project/features/home/presentation_layer/cubit/destination_filter_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,75 +13,6 @@ import 'package:go_router/go_router.dart';
 // Horizontal scrolling events list widget for home screen
 class EventsHorizontalList extends StatelessWidget {
   const EventsHorizontalList({super.key});
-
-  // Method to get category image path
-  String _getCategoryImagePath(String? category) {
-    if (category == null) return 'assets/Images/events/Empty.svg';
-
-    switch (category.toLowerCase()) {
-      case 'shopping':
-        return 'assets/Images/events/Shopping.svg';
-      case 'sport':
-        return 'assets/Images/events/Sport.svg';
-      case 'concerts':
-        return 'assets/Images/events/Concerts.svg';
-      case 'food':
-        return 'assets/Images/events/Food.svg';
-      case 'cultural & arts':
-      case 'cultural and arts':
-      case 'cultural':
-      case 'arts':
-        return 'assets/Images/events/CulturalAndArts.svg';
-      default:
-        return 'assets/Images/events/Empty.svg';
-    }
-  }
-
-  // Method to get category display name
-  String _getCategoryDisplayName(String? category) {
-    if (category == null) return 'Unknown';
-
-    switch (category.toLowerCase()) {
-      case 'shopping':
-        return 'Shopping';
-      case 'sport':
-        return 'Sport';
-      case 'concerts':
-        return 'Concerts';
-      case 'food':
-        return 'Food';
-      case 'cultural & arts':
-      case 'cultural and arts':
-      case 'cultural':
-      case 'arts':
-        return 'Cultural & Arts';
-      default:
-        return 'Unknown';
-    }
-  }
-
-  // Method to get category color
-  Color _getCategoryColor(String? category) {
-    if (category == null) return Colors.grey;
-
-    switch (category.toLowerCase()) {
-      case 'shopping':
-        return const Color(0xFF627BA5);
-      case 'sport':
-        return AppColors.khuzamaColor;
-      case 'concerts':
-        return Colors.black;
-      case 'food':
-        return AppColors.primaryColor;
-      case 'cultural & arts':
-      case 'cultural and arts':
-      case 'cultural':
-      case 'arts':
-        return AppColors.doohbanColor;
-      default:
-        return Colors.grey;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -173,10 +105,13 @@ class EventsHorizontalList extends StatelessWidget {
                             // Event Image
                             Padding(
                               padding: EdgeInsets.all(12.w),
-                              child: SvgPicture.asset(
-                                _getCategoryImagePath(event.category),
-                                height: 70.h,
-                                fit: BoxFit.contain,
+                              child: Center(
+                                child: SvgPicture.asset(
+                                  EventCategoryUtils.getCategoryImagePath(event.category),
+                                  width: 60.w,
+                                  height: 60.h,
+                                  fit: BoxFit.contain,
+                                ),
                               ),
                             ),
 
@@ -184,10 +119,10 @@ class EventsHorizontalList extends StatelessWidget {
                             Padding(
                               padding: EdgeInsets.only(left: 12.w),
                               child: Text(
-                                _getCategoryDisplayName(event.category),
+                                EventCategoryUtils.getCategoryDisplayName(event.category),
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  color: _getCategoryColor(event.category),
+                                  color: EventCategoryUtils.getCategoryColor(event.category),
                                 ),
                               ),
                             ),

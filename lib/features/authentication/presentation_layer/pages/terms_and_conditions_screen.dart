@@ -35,7 +35,7 @@ class TermsAndConditionsScreen extends StatelessWidget {
                       Align(
                         alignment: Alignment.topRight,
                         child: SvgPicture.asset(
-                          'Assets/logo/NafoudLogo.svg',
+                          'assets/logo/NafoudLogo.svg',
                           width: 67.87.w,
                           height: 69.17.h,
                         ),

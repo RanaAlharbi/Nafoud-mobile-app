@@ -43,7 +43,7 @@ class HomeScreen extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => EventCubit(getIt<EventsUsecase>())..loadedEvents(),
+          create: (_) => EventCubit(getIt<GetEventsUsecase>())..loadedEvents(),
         ),
         BlocProvider(
           create: (_) =>
@@ -349,7 +349,7 @@ class HomeScreen extends StatelessWidget {
                                 ),
                                 child: ElevatedButton(
                                   onPressed: () {
-
+                                    context.push(AppRoutes.addEventScreen);
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.transparent,
@@ -453,8 +453,6 @@ class HomeScreen extends StatelessWidget {
                     );
                   },
                 ),
-
-                Gap(24.h),
 
                 // Recommended Activities Section (Events)
                 Padding(

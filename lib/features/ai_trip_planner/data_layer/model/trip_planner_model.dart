@@ -63,7 +63,7 @@ class TripModel extends TripEntity with TripModelMappable {
     3. Format each day using bold headers, bullet points, and relevant emojis.
     4. Separate each day's plan with a horizontal line consisting of three dashes: "---".
 
-    Example Day Formatting (you can choose the relevat emojis to the recommendations):
+    Example Day Formatting (you can choose the relevant emojis to the recommendations):
     
     **Day 1 📍 – Arrival & Local Exploration**
     * 🏨 Check-in at a family-friendly, budget hotel.

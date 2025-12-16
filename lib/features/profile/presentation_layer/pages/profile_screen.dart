@@ -405,7 +405,7 @@ class ProfileScreen extends StatelessWidget {
                                     child: Text(
                                       'Delete Account',
                                       style: TextStyle(
-                                        fontSize: 18.sp,
+                                        fontSize: 15.sp,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -470,7 +470,7 @@ class ProfileScreen extends StatelessWidget {
                                 child: Text(
                                   'Logout',
                                   style: TextStyle(
-                                    fontSize: 20.sp,
+                                    fontSize: 15.sp,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),

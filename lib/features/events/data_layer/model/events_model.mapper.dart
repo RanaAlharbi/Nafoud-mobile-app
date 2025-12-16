@@ -45,6 +45,18 @@ class EventModelMapper extends ClassMapperBase<EventModel> {
     _$category,
     opt: true,
   );
+  static double? _$latitude(EventModel v) => v.latitude;
+  static const Field<EventModel, double> _f$latitude = Field(
+    'latitude',
+    _$latitude,
+    opt: true,
+  );
+  static double? _$longitude(EventModel v) => v.longitude;
+  static const Field<EventModel, double> _f$longitude = Field(
+    'longitude',
+    _$longitude,
+    opt: true,
+  );
   static DateTime? _$createdAt(EventModel v) => v.createdAt;
   static const Field<EventModel, DateTime> _f$createdAt = Field(
     'createdAt',
@@ -66,6 +78,8 @@ class EventModelMapper extends ClassMapperBase<EventModel> {
     #location: _f$location,
     #date: _f$date,
     #category: _f$category,
+    #latitude: _f$latitude,
+    #longitude: _f$longitude,
     #createdAt: _f$createdAt,
     #updatedAt: _f$updatedAt,
   };
@@ -78,6 +92,8 @@ class EventModelMapper extends ClassMapperBase<EventModel> {
       location: data.dec(_f$location),
       date: data.dec(_f$date),
       category: data.dec(_f$category),
+      latitude: data.dec(_f$latitude),
+      longitude: data.dec(_f$longitude),
       createdAt: data.dec(_f$createdAt),
       updatedAt: data.dec(_f$updatedAt),
     );
@@ -150,6 +166,8 @@ abstract class EventModelCopyWith<$R, $In extends EventModel, $Out>
     String? location,
     String? date,
     String? category,
+    double? latitude,
+    double? longitude,
     DateTime? createdAt,
     DateTime? updatedAt,
   });
@@ -172,6 +190,8 @@ class _EventModelCopyWithImpl<$R, $Out>
     Object? location = $none,
     String? date,
     Object? category = $none,
+    Object? latitude = $none,
+    Object? longitude = $none,
     Object? createdAt = $none,
     Object? updatedAt = $none,
   }) => $apply(
@@ -182,6 +202,8 @@ class _EventModelCopyWithImpl<$R, $Out>
       if (location != $none) #location: location,
       if (date != null) #date: date,
       if (category != $none) #category: category,
+      if (latitude != $none) #latitude: latitude,
+      if (longitude != $none) #longitude: longitude,
       if (createdAt != $none) #createdAt: createdAt,
       if (updatedAt != $none) #updatedAt: updatedAt,
     }),
@@ -194,6 +216,8 @@ class _EventModelCopyWithImpl<$R, $Out>
     location: data.get(#location, or: $value.location),
     date: data.get(#date, or: $value.date),
     category: data.get(#category, or: $value.category),
+    latitude: data.get(#latitude, or: $value.latitude),
+    longitude: data.get(#longitude, or: $value.longitude),
     createdAt: data.get(#createdAt, or: $value.createdAt),
     updatedAt: data.get(#updatedAt, or: $value.updatedAt),
   );

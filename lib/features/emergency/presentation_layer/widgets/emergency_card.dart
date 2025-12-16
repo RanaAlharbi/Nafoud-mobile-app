@@ -109,7 +109,7 @@ class EmergencyCard extends StatelessWidget {
             SizedBox(height: 12.h),
 
             // Title and Number - layout based on title length
-            title.length > 15 || number.length > 5
+            title.length > 13 || number.length > 5
                 ? Column(
                     children: [
                       // Title

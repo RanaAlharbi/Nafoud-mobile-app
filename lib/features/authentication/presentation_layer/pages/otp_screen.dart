@@ -37,9 +37,9 @@ class OTPScreen extends StatelessWidget {
             if (context.mounted) {
               final code = _otpControllers.map((e) => e.text).join();
               if (type == 'signup') {
-                context.go(AppRoutes.signInScreen);
+                context.push(AppRoutes.signInScreen);
               } else if (type == 'reset') {
-                context.go(
+                context.push(
                   AppRoutes.updatePasswordScreen,
                   extra: {'email': email, 'code': code},
                 );
@@ -71,13 +71,24 @@ class OTPScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         21.verticalSpace,
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: SvgPicture.asset(
-                            'assets/logo/NafoudLogo.svg',
-                            width: 67.87.w,
-                            height: 69.17.h,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                context.pop();
+                              },
+                              child: SvgPicture.asset(
+                                'assets/icons/arrow_left.svg',
+                              ),
+                            ),
+
+                            SvgPicture.asset(
+                              'assets/logo/NafoudLogo.svg',
+                              width: 67.87.w,
+                              height: 69.17.h,
+                            ),
+                          ],
                         ),
 
                         58.83.verticalSpace,
@@ -131,7 +142,6 @@ class OTPScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(9.r),
                                 ),
                                 onChanged: (value) {
-                                  // 1. Focus Logic
                                   if (value.isNotEmpty) {
                                     if (index < _otpLength - 1) {
                                       _focusNodes[index + 1].requestFocus();
@@ -146,7 +156,6 @@ class OTPScreen extends StatelessWidget {
                                       .map((e) => e.text)
                                       .join();
 
-                                  // 2. Submission Logic
                                   if (code.length == 6) {
                                     if (type == 'signup') {
                                       context.read<AuthenticationBloc>().add(
@@ -156,7 +165,6 @@ class OTPScreen extends StatelessWidget {
                                         ),
                                       );
                                     } else if (type == 'reset') {
-                                      // FIX: Only verify the reset code using the new event
                                       context.read<AuthenticationBloc>().add(
                                         VerifyResetCodeSubmitted(
                                           email: email,

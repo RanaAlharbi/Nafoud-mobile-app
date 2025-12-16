@@ -154,6 +154,9 @@ class CurrencyExchangeWidget extends StatelessWidget {
                             PopupMenuButton<String>(
                               offset: Offset(0, 30.h),
                               constraints: BoxConstraints(maxHeight: 190.h),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.r),
+                              ),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -256,6 +259,9 @@ class CurrencyExchangeWidget extends StatelessWidget {
                             PopupMenuButton<String>(
                               offset: Offset(0, 30.h),
                               constraints: BoxConstraints(maxHeight: 190.h),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.r),
+                              ),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [

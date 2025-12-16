@@ -23,7 +23,7 @@ class SignInScreen extends StatelessWidget {
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         if (state is AuthenticationSuccess) {
-          context.go(AppRoutes.navigationScreen);
+          context.push(AppRoutes.navigationScreen);
         }
       },
       builder: (context, state) {
@@ -49,13 +49,24 @@ class SignInScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         21.verticalSpace,
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: SvgPicture.asset(
-                            'Assets/logo/NafoudLogo.svg',
-                            width: 67.87.w,
-                            height: 69.17.h,
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                context.pop();
+                              },
+                              child: SvgPicture.asset(
+                                'assets/icons/arrow_left.svg',
+                              ),
+                            ),
+
+                            SvgPicture.asset(
+                              'assets/logo/NafoudLogo.svg',
+                              width: 67.87.w,
+                              height: 69.17.h,
+                            ),
+                          ],
                         ),
 
                         58.83.verticalSpace,
@@ -87,7 +98,7 @@ class SignInScreen extends StatelessWidget {
                             "Email",
                             style: GoogleFonts.cairo(
                               fontSize: 18.sp,
-                              color: Color(0xFF3D4032),
+                              color: const Color(0xFF3D4032),
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -95,19 +106,17 @@ class SignInScreen extends StatelessWidget {
                         CupertinoTextField(
                           controller: _emailController,
                           placeholder: "Nafoud@Example.com",
+                          textAlignVertical: TextAlignVertical.center,
                           placeholderStyle: GoogleFonts.cairo(
                             fontSize: 18.sp,
-                            color: Color(0xFFB6B6B6),
+                            color: const Color(0xFFB6B6B6),
                           ),
-                          padding: EdgeInsets.symmetric(
-                            vertical: 14.h,
-                            horizontal: 16.w,
-                          ),
+
                           decoration: BoxDecoration(
                             color: Colors.transparent,
                             shape: BoxShape.rectangle,
                             border: Border.all(
-                              color: Color(0xFFB6B6B6),
+                              color: const Color(0xFFB6B6B6),
                               width: 1.5,
                             ),
                             borderRadius: BorderRadius.circular(9.r),
@@ -130,7 +139,7 @@ class SignInScreen extends StatelessWidget {
                             "Password",
                             style: GoogleFonts.cairo(
                               fontSize: 18.sp,
-                              color: Color(0xFF3D4032),
+                              color: const Color(0xFF3D4032),
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -140,11 +149,12 @@ class SignInScreen extends StatelessWidget {
                           valueListenable: _obscurePasswordNotifier,
                           builder: (context, isObscured, child) {
                             return CupertinoTextField(
+                              textAlignVertical: TextAlignVertical.center,
                               controller: _passwordController,
                               placeholder: "*********",
                               placeholderStyle: GoogleFonts.cairo(
                                 fontSize: 18.sp,
-                                color: Color(0xFFB6B6B6),
+                                color: const Color(0xFFB6B6B6),
                               ),
                               obscureText: isObscured,
                               obscuringCharacter: '*',
@@ -156,7 +166,7 @@ class SignInScreen extends StatelessWidget {
                                 color: Colors.transparent,
                                 shape: BoxShape.rectangle,
                                 border: Border.all(
-                                  color: Color(0xFFB6B6B6),
+                                  color: const Color(0xFFB6B6B6),
                                   width: 1.5,
                                 ),
                                 borderRadius: BorderRadius.circular(9.r),
@@ -180,7 +190,6 @@ class SignInScreen extends StatelessWidget {
                             );
                           },
                         ),
-
                         13.verticalSpace,
                         Row(
                           children: [
@@ -224,7 +233,7 @@ class SignInScreen extends StatelessWidget {
                             Spacer(),
                             GestureDetector(
                               onTap: () =>
-                                  context.go(AppRoutes.forgotPasswordScreen),
+                                  context.push(AppRoutes.forgotPasswordScreen),
                               child: Text(
                                 "Forget Password?",
                                 style: GoogleFonts.cairo(
@@ -282,7 +291,7 @@ class SignInScreen extends StatelessWidget {
                         ),
 
                         GestureDetector(
-                          onTap: () => context.go(AppRoutes.signUpScreen),
+                          onTap: () => context.push(AppRoutes.signUpScreen),
                           child: RichText(
                             text: TextSpan(
                               children: [
