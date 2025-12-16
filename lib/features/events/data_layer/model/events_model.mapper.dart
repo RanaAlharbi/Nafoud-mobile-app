@@ -39,16 +39,22 @@ class EventModelMapper extends ClassMapperBase<EventModel> {
   );
   static String _$date(EventModel v) => v.date;
   static const Field<EventModel, String> _f$date = Field('date', _$date);
-  static String? _$imageUrl(EventModel v) => v.imageUrl;
-  static const Field<EventModel, String> _f$imageUrl = Field(
-    'imageUrl',
-    _$imageUrl,
-    opt: true,
-  );
   static String? _$category(EventModel v) => v.category;
   static const Field<EventModel, String> _f$category = Field(
     'category',
     _$category,
+    opt: true,
+  );
+  static double? _$latitude(EventModel v) => v.latitude;
+  static const Field<EventModel, double> _f$latitude = Field(
+    'latitude',
+    _$latitude,
+    opt: true,
+  );
+  static double? _$longitude(EventModel v) => v.longitude;
+  static const Field<EventModel, double> _f$longitude = Field(
+    'longitude',
+    _$longitude,
     opt: true,
   );
   static DateTime? _$createdAt(EventModel v) => v.createdAt;
@@ -71,8 +77,9 @@ class EventModelMapper extends ClassMapperBase<EventModel> {
     #description: _f$description,
     #location: _f$location,
     #date: _f$date,
-    #imageUrl: _f$imageUrl,
     #category: _f$category,
+    #latitude: _f$latitude,
+    #longitude: _f$longitude,
     #createdAt: _f$createdAt,
     #updatedAt: _f$updatedAt,
   };
@@ -84,8 +91,9 @@ class EventModelMapper extends ClassMapperBase<EventModel> {
       description: data.dec(_f$description),
       location: data.dec(_f$location),
       date: data.dec(_f$date),
-      imageUrl: data.dec(_f$imageUrl),
       category: data.dec(_f$category),
+      latitude: data.dec(_f$latitude),
+      longitude: data.dec(_f$longitude),
       createdAt: data.dec(_f$createdAt),
       updatedAt: data.dec(_f$updatedAt),
     );
@@ -157,8 +165,9 @@ abstract class EventModelCopyWith<$R, $In extends EventModel, $Out>
     String? description,
     String? location,
     String? date,
-    String? imageUrl,
     String? category,
+    double? latitude,
+    double? longitude,
     DateTime? createdAt,
     DateTime? updatedAt,
   });
@@ -180,8 +189,9 @@ class _EventModelCopyWithImpl<$R, $Out>
     Object? description = $none,
     Object? location = $none,
     String? date,
-    Object? imageUrl = $none,
     Object? category = $none,
+    Object? latitude = $none,
+    Object? longitude = $none,
     Object? createdAt = $none,
     Object? updatedAt = $none,
   }) => $apply(
@@ -191,8 +201,9 @@ class _EventModelCopyWithImpl<$R, $Out>
       if (description != $none) #description: description,
       if (location != $none) #location: location,
       if (date != null) #date: date,
-      if (imageUrl != $none) #imageUrl: imageUrl,
       if (category != $none) #category: category,
+      if (latitude != $none) #latitude: latitude,
+      if (longitude != $none) #longitude: longitude,
       if (createdAt != $none) #createdAt: createdAt,
       if (updatedAt != $none) #updatedAt: updatedAt,
     }),
@@ -204,8 +215,9 @@ class _EventModelCopyWithImpl<$R, $Out>
     description: data.get(#description, or: $value.description),
     location: data.get(#location, or: $value.location),
     date: data.get(#date, or: $value.date),
-    imageUrl: data.get(#imageUrl, or: $value.imageUrl),
     category: data.get(#category, or: $value.category),
+    latitude: data.get(#latitude, or: $value.latitude),
+    longitude: data.get(#longitude, or: $value.longitude),
     createdAt: data.get(#createdAt, or: $value.createdAt),
     updatedAt: data.get(#updatedAt, or: $value.updatedAt),
   );

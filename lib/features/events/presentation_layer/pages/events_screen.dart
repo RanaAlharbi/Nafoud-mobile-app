@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:final_project/features/events/presentation_layer/cubit/event_cubit.dart';
+import 'package:final_project/features/events/presentation_layer/utils/event_category_utils.dart';
 
 class EventsFeatureWidget extends StatelessWidget {
   const EventsFeatureWidget({super.key});
@@ -25,14 +27,14 @@ class EventsFeatureWidget extends StatelessWidget {
               final event = events[index];
               return ListTile(
                 tileColor: Colors.transparent,
-                leading: event.imageUrl != null
-                    ? Image.network(
-                        event.imageUrl!,
+                leading: event.category != null
+                    ? SvgPicture.asset(
+                        EventCategoryUtils.getCategoryImagePath(event.category!),
                         width: 50,
                         height: 50,
-                        fit: BoxFit.cover,
+                        fit: BoxFit.contain,
                       )
-                    : null,
+                    : const Icon(Icons.event, size: 50),
                 title: Text(event.title),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

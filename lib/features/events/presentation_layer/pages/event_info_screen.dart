@@ -1,6 +1,7 @@
 import 'package:final_project/core/app_theme/app_colors/app_colors.dart';
 import 'package:final_project/features/events/domain_layer/entity/events_entity.dart';
 import 'package:final_project/features/events/presentation_layer/utils/event_category_utils.dart';
+import 'package:final_project/features/events/presentation_layer/widgets/event_map_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -138,41 +139,8 @@ class EventInfoScreen extends StatelessWidget {
             ),
 
             // Event Location
-            if (event.location != null) ...[
-              Gap(12.h),
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.location_on,
-                      size: 20.sp,
-                      color: EventCategoryUtils.getCategoryColor(event.category),
-                    ),
-                    Gap(8.w),
-                    Expanded(
-                      child: Text(
-                        event.location!,
-                        style: TextStyle(fontSize: 16.sp, color: Colors.grey),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-            Gap(25.h),
-            Padding(
-              padding: const EdgeInsets.only(left: 16.0),
-              child: Text(
-                "Location",
-                style: TextStyle(
-                  fontSize: 19.sp,
-                  fontWeight: FontWeight.bold,
-                  color: EventCategoryUtils.getCategoryColor(event.category),
-                ),
-              ),
-            ),
-            Gap(24.h),
+            EventMapWidget(event: event),
+
           ],
         ),
       ),

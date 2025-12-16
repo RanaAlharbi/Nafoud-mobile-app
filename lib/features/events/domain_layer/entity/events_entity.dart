@@ -8,8 +8,9 @@ class EventEntity extends Equatable {
   final String? description;
   final String? location;
   final String date;
-  final String? imageUrl;
   final String? category;
+  final double? latitude;
+  final double? longitude;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
@@ -19,8 +20,9 @@ class EventEntity extends Equatable {
     this.description,
     this.location,
     required this.date,
-    this.imageUrl,
     this.category,
+    this.latitude,
+    this.longitude,
     this.createdAt,
     this.updatedAt,
   });
@@ -32,8 +34,9 @@ class EventEntity extends Equatable {
         description,
         location,
         date,
-        imageUrl,
         category,
+        latitude,
+        longitude,
         createdAt,
         updatedAt,
       ];

@@ -13,8 +13,9 @@ class EventModel extends EventEntity with EventModelMappable {
     super.description,
     super.location,
     required super.date,
-    super.imageUrl,
     super.category,
+    super.latitude,
+    super.longitude,
     super.createdAt,
     super.updatedAt,
   });
