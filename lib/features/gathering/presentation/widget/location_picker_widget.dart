@@ -14,8 +14,11 @@ class LocationPickerWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () => _pickLocation(context),
       child: cubit.selectedLat == null
-          ? const PickerBox(text: "Tap to choose location", icon: 'assets/icons/location.svg',)
-          : MiniMapWidget(
+          ? const PickerBox(
+              text: "Tap to choose location",
+              icon: 'assets/icons/location.svg',
+            )
+          : MiniGoogleMapWidget(
               lat: cubit.selectedLat!,
               lng: cubit.selectedLng!,
             ),

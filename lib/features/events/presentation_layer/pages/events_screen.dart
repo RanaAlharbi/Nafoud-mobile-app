@@ -24,6 +24,7 @@ class EventsFeatureWidget extends StatelessWidget {
             itemBuilder: (context, index) {
               final event = events[index];
               return ListTile(
+                tileColor: Colors.transparent,
                 leading: event.imageUrl != null
                     ? Image.network(
                         event.imageUrl!,
@@ -57,3 +58,4 @@ class EventsFeatureWidget extends StatelessWidget {
     );
   }
 }
+

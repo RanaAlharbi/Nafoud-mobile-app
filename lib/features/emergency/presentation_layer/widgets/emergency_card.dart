@@ -69,12 +69,22 @@ class EmergencyCard extends StatelessWidget {
                     child: Padding(
                       padding: EdgeInsets.all(8.w),
                       child: iconUrl.startsWith('assets/')
-                          ? Image.asset(
-                              iconUrl,
-                              fit: BoxFit.contain,
-                              errorBuilder: (context, error, stackTrace) =>
-                                  Icon(Icons.phone, size: 30.sp, color: Colors.grey),
-                            )
+                          ? (iconUrl.endsWith('.svg')
+                              ? SvgPicture.asset(
+                                  iconUrl,
+                                  fit: BoxFit.contain,
+                                  placeholderBuilder: (context) => Icon(
+                                    Icons.phone,
+                                    size: 30.sp,
+                                    color: Colors.grey,
+                                  ),
+                                )
+                              : Image.asset(
+                                  iconUrl,
+                                  fit: BoxFit.contain,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      Icon(Icons.phone, size: 30.sp, color: Colors.grey),
+                                ))
                           : iconUrl.endsWith('.svg')
                               ? SvgPicture.network(
                                   iconUrl,

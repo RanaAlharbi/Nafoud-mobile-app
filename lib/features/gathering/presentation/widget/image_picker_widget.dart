@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dashed_border/dashed_border.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -17,20 +18,18 @@ class ImagePickerWidget extends StatelessWidget {
       builder: (context, state) {
         final imgUrl = cubit.selectedImageUrl;
 
-    
         if (imgUrl != null) {
           return ClipRRect(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(10.r),
             child: Image.network(
               imgUrl,
               width: double.infinity,
-              height: 220,
+              height: 220.h,
               fit: BoxFit.cover,
             ),
           );
         }
 
-   
         return GestureDetector(
           onTap: () async {
             final picker = ImagePicker();
@@ -42,14 +41,14 @@ class ImagePickerWidget extends StatelessWidget {
           },
           child: Container(
             width: double.infinity,
-            height: 220,
+            height: 220.h,
             decoration: BoxDecoration(
               border: DashedBorder(
                 color: const Color(0xff656A53),
-                width: 2,
+                width: 2.w,
                 dashLength: 8,
                 dashGap: 5,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(10.r),
               ),
               color: Colors.grey[200],
             ),
@@ -58,15 +57,14 @@ class ImagePickerWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset("assets/Images/Upload_image.png"),
-                  const Gap(25),
+                  Gap(25.h),
                   Text(
                     "Upload Your Image Here",
                     style: GoogleFonts.cairo(
-                      fontSize: 21,
+                      fontSize: 21.sp,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                 
                 ],
               ),
             ),

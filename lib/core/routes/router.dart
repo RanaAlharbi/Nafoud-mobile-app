@@ -16,6 +16,9 @@ import 'package:final_project/features/authentication/presentation_layer/pages/u
 import 'package:final_project/features/error_page/presentation/pages/error_page_feature_screen.dart';
 import 'package:final_project/features/error_page/presentation/cubit/error_page_cubit.dart';
 import 'package:final_project/features/error_page/domain/use_cases/error_page_use_case.dart';
+import 'package:final_project/features/events/domain_layer/entity/events_entity.dart';
+import 'package:final_project/features/events/presentation_layer/pages/event_info_screen.dart';
+import 'package:final_project/features/events/presentation_layer/pages/events_full_screen.dart';
 import 'package:final_project/features/gathering/presentation/pages/map_screen.dart';
 import 'package:final_project/features/profile/domain_layer/usecase/profile_usecase.dart';
 import 'package:final_project/core/shared/gathering_entity/gathering_entity.dart';
@@ -96,6 +99,10 @@ class AppRoutes {
 
   //select location
   static const selectLocation = '/select-location';
+
+  //events screen
+  static const eventsScreen = '/events';
+  static const eventInfoScreen = '/event-info';
 
   //remember_me
   static String getInitialRoute() {
@@ -211,18 +218,30 @@ class AppRoutes {
         builder: (context, state) => AIImageAnalysisScreen(),
       ),
 
-      //map screen
-      GoRoute(
-        path: "/eventsMap",
-        builder: (context, state) {
-          final cubit = state.extra as GatheringCubit;
 
-          return BlocProvider.value(
-            value: cubit,
-            child: EventsMapScreen(cubit: cubit),
-          );
-        },
-      ),
+// GoRoute(
+//   path: '/eventsMap',
+//   builder: (context, state) {
+//     final cubit = state.extra as GatheringCubit;
+//     return BlocProvider.value(
+//       value: cubit,
+//       child: const EventsMapScreen(),
+//     );
+//   },
+// ),
+
+      //map screen
+      // GoRoute(
+      //   path: "/eventsMap",
+      //   builder: (context, state) {
+      //     final cubit = state.extra as GatheringCubit;
+
+      //     return BlocProvider.value(
+      //       value: cubit,
+      //       child: EventsMapScreen(cubit: cubit),
+      //     );
+      //   },
+      // ),
 
       //event details screen
       GoRoute(
@@ -337,6 +356,21 @@ class AppRoutes {
           create: (_) => OnboardingCubit(),
           child: const OnboardingScreen(),
         ),
+      ),
+
+      //Events Screen
+      GoRoute(
+        path: AppRoutes.eventsScreen,
+        builder: (context, state) => const EventsFullScreen(),
+      ),
+
+      //Event Info Screen
+      GoRoute(
+        path: AppRoutes.eventInfoScreen,
+        builder: (context, state) {
+          final event = state.extra as EventEntity;
+          return EventInfoScreen(event: event);
+        },
       ),
     ],
 

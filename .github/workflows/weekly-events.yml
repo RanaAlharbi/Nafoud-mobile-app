@@ -2,7 +2,7 @@ name: Weekly Event Generator
 
 on:
   schedule:
-    - cron: "0 0 * * 0"    # Every Sunday at 00:00 UTC
+    - cron: "0 0 * * 0"    
   workflow_dispatch:
 
 jobs:
@@ -16,3 +16,4 @@ jobs:
           -H "Authorization: Bearer ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" \
           -H "apikey: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" \
           --data '{}'
+

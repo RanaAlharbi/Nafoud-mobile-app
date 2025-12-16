@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_google_places_sdk/flutter_google_places_sdk.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:injectable/injectable.dart';
@@ -16,6 +19,20 @@ abstract class ThirdPartySetup {
 
   @lazySingleton
   Dio get dio => Dio();
+
+  @lazySingleton
+  FlutterGooglePlacesSdk get googlePlaces {
+    final apiKey = dotenv.env['GoogleMapsApiKey'];
+
+    if (apiKey == null || apiKey.isEmpty) {
+      throw Exception("Google Maps API Key is missing");
+    }
+
+    return FlutterGooglePlacesSdk(
+      apiKey,
+      locale: const Locale("en"),
+    );
+  }
   
   @lazySingleton 
   GenerativeModel get generativeModel {
@@ -34,5 +51,6 @@ abstract class ThirdPartySetup {
         SafetySetting(HarmCategory.sexuallyExplicit, HarmBlockThreshold.high),
       ],
     );
+    
   }
 }

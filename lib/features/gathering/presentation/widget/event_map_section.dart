@@ -1,12 +1,11 @@
-import 'package:final_project/core/shared/utils/map_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:final_project/core/shared/gathering_entity/gathering_entity.dart';
+import 'package:final_project/core/shared/utils/map_utils.dart';
 
 class EventMapSection extends StatelessWidget {
   final GatheringEntity event;
@@ -18,10 +17,12 @@ class EventMapSection extends StatelessWidget {
     final lat = event.latitude;
     final lng = event.longitude;
 
+//if there is no location
+
     if (lat == null || lng == null) {
-      return const Text(
+      return  Text(
         "Location not available",
-        style: TextStyle(color: Colors.grey),
+        style: GoogleFonts.cairo(color: Colors.grey),
       );
     }
 
@@ -30,44 +31,40 @@ class EventMapSection extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
       child: SizedBox(
-        height: 300,
+        height: 300, //size of the map
         child: Stack(
           children: [
-            FlutterMap(
-              options: MapOptions(initialCenter: point, initialZoom: 14),
-              children: [
-                TileLayer(
-                  urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
-                  userAgentPackageName: 'final_project',
+            GoogleMap(
+              initialCameraPosition: CameraPosition(
+                target: point,
+                zoom: 15,
+              ),
+              markers: {
+                Marker(
+                  markerId: const MarkerId("eventLocation"),
+                  position: point, //the marker position - based on lang - lat
+                  icon: BitmapDescriptor.defaultMarkerWithHue(
+                    BitmapDescriptor.hueRed, //similar to google marker
+                  ),
                 ),
-                MarkerLayer(
-                  markers: [
-                    Marker(
-                      point: point,
-                      width: 40.w,
-                      height: 40.h,
-                      child: Icon(
-                        Icons.location_pin,
-                        color: Colors.red,
-                        size: 40,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+              },
+              zoomControlsEnabled: false, //zooms button
+              myLocationButtonEnabled: false,
+              compassEnabled: false, // البوصلة اللي فوق بالخريطة مااعرف اسمها بالانجليزي
+              mapToolbarEnabled: false, //to get direction
             ),
 
             Positioned(
               bottom: 16,
-              left: 16,
-              right: 16,
+              left: 16.w,
+              right: 16.w,
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
-
                 decoration: BoxDecoration(
-                  color: Color(0xffF0F0EE),
-                  borderRadius: BorderRadius.circular(20),
+                  color: const Color(0xffF0F0EE),
+                  borderRadius: BorderRadius.circular(20.r),
                 ),
+
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -83,9 +80,9 @@ class EventMapSection extends StatelessWidget {
                           child: Text(
                             event.address,
                             style: GoogleFonts.cairo(
-                              fontSize: 17,
-                              fontWeight: .normal,
-                              color: Color(0xFF3A3A3A),
+                              fontSize: 17.sp,
+                              fontWeight: FontWeight.w400,
+                              color: const Color(0xFF3A3A3A),
                             ),
                           ),
                         ),
@@ -104,11 +101,11 @@ class EventMapSection extends StatelessWidget {
                         onPressed: () => MapLauncher.openGoogleMaps(
                           lat,
                           lng,
-                        ), //open google map
+                        ),
                         child: Text(
                           "Get Directions",
-                          style: TextStyle(
-                            color: Color(0xffF0F0EE),
+                          style: GoogleFonts.cairo(
+                            color: const Color(0xffF0F0EE),
                             fontSize: 18.sp,
                             fontWeight: FontWeight.bold,
                           ),
