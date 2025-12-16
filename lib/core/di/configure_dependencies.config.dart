@@ -97,6 +97,7 @@ import '../../features/events/domain_layer/repository/events_domain_repostiory.d
     as _i586;
 import '../../features/events/domain_layer/usecase/events_usecase.dart'
     as _i710;
+import '../../features/events/presentation_layer/bloc/event_bloc.dart' as _i5;
 import '../../features/events/presentation_layer/cubit/event_cubit.dart'
     as _i985;
 import '../../features/gathering/data_layer/datasource/gathering_remote_datasource.dart'
@@ -246,6 +247,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i362.BaseWeatherGetStorageDataSource>(
       () => _i362.WeatherGetStorageDataSource(gh<_i792.GetStorage>()),
     );
+    gh.lazySingleton<_i586.EventsDomainRepository>(
+      () => _i442.EventsRepositoryData(gh<_i987.BaseEventsRemoteDatasource>()),
+    );
     gh.lazySingleton<_i106.TripDomainRepository>(
       () => _i557.TripDataRepository(gh<_i39.TripDataSource>()),
     );
@@ -265,8 +269,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i725.AuthenticationRepositoryDomain>(
       () => _i933.DataRepository(gh<_i517.AuthenticationDatasource>()),
     );
-    gh.lazySingleton<_i586.EventsDomainRepostiory>(
-      () => _i442.EventsRepositoryData(gh<_i987.BaseEventsRemoteDatasource>()),
+    gh.lazySingleton<_i710.GetEventsUsecase>(
+      () => _i710.GetEventsUsecase(gh<_i586.EventsDomainRepository>()),
     );
     gh.lazySingleton<_i20.CurrencyExchangeDatasource>(
       () => _i20.CurrencyExchangeDatasourceImpl(
@@ -313,6 +317,9 @@ extension GetItInjectableX on _i174.GetIt {
       () =>
           emergencyModule.emergencyRepository(gh<_i300.EmergencyDataSource>()),
     );
+    gh.factory<_i985.EventCubit>(
+      () => _i985.EventCubit(gh<_i710.GetEventsUsecase>()),
+    );
     gh.lazySingleton<_i1040.GenerateTripUseCase>(
       () => _i1040.GenerateTripUseCase(gh<_i106.TripDomainRepository>()),
     );
@@ -338,9 +345,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i664.RemoveBookmarkUseCase>(
       () => _i664.RemoveBookmarkUseCase(gh<_i936.BookmarkDomainRepository>()),
     );
-    gh.lazySingleton<_i710.EventsUsecase>(
-      () => _i710.EventsUsecase(gh<_i586.EventsDomainRepostiory>()),
-    );
     gh.factory<_i142.GatheringCubit>(
       () => _i142.GatheringCubit(
         gh<_i547.GatheringUsecase>(),
@@ -355,6 +359,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i310.JoinEventUseCase>(),
         gh<_i978.GetParticipantsUseCase>(),
       ),
+    );
+    gh.factory<_i5.EventBloc>(
+      () => _i5.EventBloc(gh<_i710.GetEventsUsecase>()),
     );
     gh.lazySingleton<_i629.CurrencyExchangeRepository>(
       () => _i909.CurrencyExchangeRepositoryImpl(
@@ -385,9 +392,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i697.EmergencyCubit>(
       () => _i697.EmergencyCubit(gh<_i449.EmergencyUseCase>()),
-    );
-    gh.factory<_i985.EventCubit>(
-      () => _i985.EventCubit(gh<_i710.EventsUsecase>()),
     );
     gh.factory<_i695.WeatherCubit>(
       () => _i695.WeatherCubit(gh<_i324.WeatherUseCase>()),

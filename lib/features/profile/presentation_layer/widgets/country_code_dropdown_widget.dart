@@ -41,6 +41,9 @@ class CountryCodeDropdownWidget extends StatelessWidget {
             offset: Offset(0, 30.h),
             enabled: !isSubmitting,
             constraints: BoxConstraints(maxHeight: 190.h),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.r),
+            ),
             itemBuilder: (context) => countryCodes
                 .map(
                   (country) => PopupMenuItem<String>(

@@ -39,6 +39,12 @@ class EventModelMapper extends ClassMapperBase<EventModel> {
   );
   static String _$date(EventModel v) => v.date;
   static const Field<EventModel, String> _f$date = Field('date', _$date);
+  static String? _$imageUrl(EventModel v) => v.imageUrl;
+  static const Field<EventModel, String> _f$imageUrl = Field(
+    'imageUrl',
+    _$imageUrl,
+    opt: true,
+  );
   static String? _$category(EventModel v) => v.category;
   static const Field<EventModel, String> _f$category = Field(
     'category',
@@ -65,6 +71,7 @@ class EventModelMapper extends ClassMapperBase<EventModel> {
     #description: _f$description,
     #location: _f$location,
     #date: _f$date,
+    #imageUrl: _f$imageUrl,
     #category: _f$category,
     #createdAt: _f$createdAt,
     #updatedAt: _f$updatedAt,
@@ -77,6 +84,7 @@ class EventModelMapper extends ClassMapperBase<EventModel> {
       description: data.dec(_f$description),
       location: data.dec(_f$location),
       date: data.dec(_f$date),
+      imageUrl: data.dec(_f$imageUrl),
       category: data.dec(_f$category),
       createdAt: data.dec(_f$createdAt),
       updatedAt: data.dec(_f$updatedAt),
@@ -149,6 +157,7 @@ abstract class EventModelCopyWith<$R, $In extends EventModel, $Out>
     String? description,
     String? location,
     String? date,
+    String? imageUrl,
     String? category,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -171,6 +180,7 @@ class _EventModelCopyWithImpl<$R, $Out>
     Object? description = $none,
     Object? location = $none,
     String? date,
+    Object? imageUrl = $none,
     Object? category = $none,
     Object? createdAt = $none,
     Object? updatedAt = $none,
@@ -181,6 +191,7 @@ class _EventModelCopyWithImpl<$R, $Out>
       if (description != $none) #description: description,
       if (location != $none) #location: location,
       if (date != null) #date: date,
+      if (imageUrl != $none) #imageUrl: imageUrl,
       if (category != $none) #category: category,
       if (createdAt != $none) #createdAt: createdAt,
       if (updatedAt != $none) #updatedAt: updatedAt,
@@ -193,6 +204,7 @@ class _EventModelCopyWithImpl<$R, $Out>
     description: data.get(#description, or: $value.description),
     location: data.get(#location, or: $value.location),
     date: data.get(#date, or: $value.date),
+    imageUrl: data.get(#imageUrl, or: $value.imageUrl),
     category: data.get(#category, or: $value.category),
     createdAt: data.get(#createdAt, or: $value.createdAt),
     updatedAt: data.get(#updatedAt, or: $value.updatedAt),

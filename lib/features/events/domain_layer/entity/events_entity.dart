@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+// Domain entity representing an Event
+// Contains all the core business data for an event
 class EventEntity extends Equatable {
   final String id;
   final String title;
@@ -24,6 +26,15 @@ class EventEntity extends Equatable {
   });
 
   @override
-  List<Object?> get props => [id,title,description,location,date,imageUrl,category,createdAt,updatedAt];
-  
+  List<Object?> get props => [
+        id,
+        title,
+        description,
+        location,
+        date,
+        imageUrl,
+        category,
+        createdAt,
+        updatedAt,
+      ];
 }

@@ -42,7 +42,7 @@ class HomeScreen extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => EventCubit(getIt<EventsUsecase>())..loadedEvents(),
+          create: (_) => EventCubit(getIt<GetEventsUsecase>())..loadedEvents(),
         ),
         BlocProvider(
           create: (_) =>

@@ -90,6 +90,7 @@ class EventsFullScreen extends StatelessWidget {
       {'name': 'Sport', 'image': 'assets/Images/event_full/Sport.png'},
       {'name': 'Concerts', 'image': 'assets/Images/event_full/Concerts.png'},
       {'name': 'Shopping', 'image': 'assets/Images/event_full/Shopping.png'},
+      {'name': 'Food', 'image': 'assets/Images/event_full/Food.png'},
       {'name': 'Cultural & Arts', 'image': 'assets/Images/event_full/CulturalAndArts.png'},
     ];
 

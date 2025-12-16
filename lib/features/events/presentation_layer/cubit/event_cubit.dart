@@ -6,9 +6,10 @@ import 'package:injectable/injectable.dart';
 
 part 'event_state.dart';
 
+
 @injectable
 class EventCubit extends Cubit<EventState> {
-  final EventsUsecase _usecase;
+  final GetEventsUsecase _usecase;
 
   EventCubit(this._usecase) : super(EventInitial());
 
