@@ -20,12 +20,14 @@ import 'package:final_project/features/events/domain_layer/entity/events_entity.
 import 'package:final_project/features/events/presentation_layer/pages/event_info_screen.dart';
 import 'package:final_project/features/events/presentation_layer/pages/events_full_screen.dart';
 import 'package:final_project/features/gathering/presentation/pages/map_screen.dart';
+import 'package:final_project/features/location/presentation/cubit/location_cubit.dart';
+import 'package:final_project/features/location/presentation/pages/pick_location_screen.dart';
 import 'package:final_project/features/profile/domain_layer/usecase/profile_usecase.dart';
 import 'package:final_project/core/shared/gathering_entity/gathering_entity.dart';
 import 'package:final_project/features/gathering/presentation/cubit/gathering_cubit.dart';
 import 'package:final_project/features/gathering/presentation/pages/add_events.dart';
 import 'package:final_project/features/gathering/presentation/pages/gathering_details_screen.dart';
-import 'package:final_project/features/gathering/presentation/pages/select_location_screen.dart';
+import 'package:final_project/features/gathering/presentation/pages/select_location_screen.dart' hide SelectLocationScreen;
 import 'package:final_project/features/home/presentation_layer/pages/all_activities_screen.dart';
 import 'package:final_project/features/home/presentation_layer/pages/currency_screen.dart';
 import 'package:final_project/features/emergency/presentation_layer/pages/emergency_screen.dart';
@@ -257,18 +259,29 @@ class AppRoutes {
         },
       ),
 
-      //location selection screen
-      GoRoute(
-        path: AppRoutes.selectLocation,
-        builder: (context, state) {
-          final cubit = state.extra as GatheringCubit;
 
-          return BlocProvider.value(
-            value: cubit,
-            child: SelectLocationScreen(),
-          );
-        },
-      ),
+GoRoute(
+  path: AppRoutes.selectLocation,
+  builder: (context, state) {
+    return BlocProvider(
+      create: (_) => getIt<LocationCubit>(),
+      child: const SelectLocationScreen(),
+    );
+  },
+),
+
+      //location selection screen
+      // GoRoute(
+      //   path: AppRoutes.selectLocation,
+      //   builder: (context, state) {
+      //     final cubit = state.extra as GatheringCubit;
+
+      //     return BlocProvider.value(
+      //       value: cubit,
+      //       child: SelectLocationScreen(),
+      //     );
+      //   },
+      // ),
 
       //Add event screen
       GoRoute(

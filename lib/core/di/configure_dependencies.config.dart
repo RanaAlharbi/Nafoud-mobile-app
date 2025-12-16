@@ -134,6 +134,29 @@ import '../../features/gathering/presentation/cubit/gathering_cubit.dart'
     as _i142;
 import '../../features/home/presentation_layer/cubit/home_user_info_cubit.dart'
     as _i680;
+import '../../features/location/data_layer/datasource/location_datasorce.dart'
+    as _i594;
+import '../../features/location/data_layer/repo/location_repo_domain.dart'
+    as _i928;
+import '../../features/location/domain/repo/location_repository.dart' as _i488;
+import '../../features/location/domain/usecase/fetch_place_latlng_useCase.dart'
+    as _i984;
+import '../../features/location/domain/usecase/search_places_usecase.dart'
+    as _i33;
+import '../../features/location/presentation/cubit/location_cubit.dart'
+    as _i181;
+import '../../features/my_activity/data/datasources/my_activity_local_data_source.dart'
+    as _i687;
+import '../../features/my_activity/data/datasources/my_activity_remote_data_source.dart'
+    as _i666;
+import '../../features/my_activity/data/repositories/my_activity_repository_data.dart'
+    as _i216;
+import '../../features/my_activity/domain/repositories/my_activity_repository_domain.dart'
+    as _i463;
+import '../../features/my_activity/domain/use_cases/my_activity_use_case.dart'
+    as _i143;
+import '../../features/my_activity/presentation/cubit/my_activity_cubit.dart'
+    as _i13;
 import '../../features/profile/data_layer/datasource/profile_cache_service.dart'
     as _i158;
 import '../../features/profile/data_layer/datasource/profile_datasource.dart'
@@ -175,7 +198,7 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i361.Dio>(() => thirdPartySetup.dio);
     gh.lazySingleton<_i336.FlutterGooglePlacesSdk>(
-      () => thirdPartySetup.googlePlaces,
+      () => thirdPartySetup.flutterGooglePlacesSdk,
     );
     gh.lazySingleton<_i656.GenerativeModel>(
       () => thirdPartySetup.generativeModel,
@@ -187,37 +210,33 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i158.ProfileCacheService(),
     );
     gh.lazySingleton<_i39.TripDataSource>(() => _i39.TripRemoteDataSource());
-    gh.lazySingleton<_i987.BaseEventsRemoteDatasource>(
-      () => _i987.EventsRemoteDatasource(gh<_i454.SupabaseClient>()),
-    );
-    gh.lazySingleton<_i1022.BaseErrorPageLocalDataSource>(
-      () => _i1022.ErrorPageLocalDataSource(),
-    );
-    gh.lazySingleton<_i971.BaseGatheringRemoteDataSource>(
-      () => _i971.GatheringRemoteDataSource(gh<_i454.SupabaseClient>()),
-    );
-    gh.lazySingleton<_i105.CurrencyCacheDatasource>(
-      () => _i105.GetStorageCurrencyCacheDatasource(gh<_i792.GetStorage>()),
-    );
-    gh.lazySingleton<_i781.BaseErrorPageRemoteDataSource>(
-      () => _i781.ErrorPageRemoteDataSource(),
-    );
-    gh.lazySingleton<_i157.BaseAiLocalStorageDataSource>(
-      () => _i157.AiLocalStorageDataSource(gh<_i792.GetStorage>()),
-    );
-    gh.lazySingleton<_i609.BaseWeatherLocalDataSource>(
-      () => _i609.WeatherLocalDataSource(gh<_i454.SupabaseClient>()),
-    );
     gh.lazySingleton<_i517.AuthenticationDatasource>(
       () => _i517.SupabaseDatasource(
         gh<_i454.SupabaseClient>(),
         gh<_i488.GetStorage>(),
       ),
     );
-    gh.lazySingleton<_i1007.GatheringDomainRepository>(
-      () => _i445.GatheringRepoDatasource(
-        gh<_i971.BaseGatheringRemoteDataSource>(),
-      ),
+    gh.lazySingleton<_i1022.BaseErrorPageLocalDataSource>(
+      () => _i1022.ErrorPageLocalDataSource(),
+    );
+    gh.lazySingleton<_i666.BaseMyActivityRemoteDataSource>(
+      () => _i666.MyActivityRemoteDataSource(),
+    );
+    gh.lazySingleton<_i609.BaseWeatherLocalDataSource>(
+      () => _i609.WeatherLocalDataSource(gh<_i454.SupabaseClient>()),
+    );
+    gh.lazySingleton<_i569.EmergencyRepository>(
+      () =>
+          emergencyModule.emergencyRepository(gh<_i300.EmergencyDataSource>()),
+    );
+    gh.lazySingleton<_i106.TripDomainRepository>(
+      () => _i557.TripDataRepository(gh<_i39.TripDataSource>()),
+    );
+    gh.lazySingleton<_i687.BaseMyActivityLocalDataSource>(
+      () => _i687.MyActivityLocalDataSource(),
+    );
+    gh.lazySingleton<_i781.BaseErrorPageRemoteDataSource>(
+      () => _i781.ErrorPageRemoteDataSource(),
     );
     gh.lazySingleton<_i626.ErrorPageRepositoryDomain>(
       () => _i639.ErrorPageRepositoryData(
@@ -225,20 +244,20 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1022.BaseErrorPageLocalDataSource>(),
       ),
     );
-    gh.lazySingleton<_i11.BaseAiImageAnalysisDataSource>(
-      () => _i11.AiImageAnalysisRemoteDataSource(gh<_i656.GenerativeModel>()),
+    gh.lazySingleton<_i971.BaseGatheringRemoteDataSource>(
+      () => _i971.GatheringRemoteDataSource(gh<_i454.SupabaseClient>()),
     );
-    gh.lazySingleton<_i855.AiImageAnalysisRepository>(
-      () => _i479.AiImageAnalysisRepositoryDataSource(
-        gh<_i11.BaseAiImageAnalysisDataSource>(),
-        gh<_i157.BaseAiLocalStorageDataSource>(),
-      ),
-    );
-    gh.lazySingleton<_i97.BaseWeatherRemoteDataSource>(
-      () => _i97.WeatherRemoteDataSource(gh<_i361.Dio>()),
+    gh.lazySingleton<_i987.BaseEventsRemoteDatasource>(
+      () => _i987.EventsRemoteDatasource(gh<_i454.SupabaseClient>()),
     );
     gh.lazySingleton<_i631.BaseBookmarkDataSource>(
       () => _i631.BookmarkRemoteDataSource(gh<_i454.SupabaseClient>()),
+    );
+    gh.lazySingleton<_i362.BaseWeatherGetStorageDataSource>(
+      () => _i362.WeatherGetStorageDataSource(gh<_i792.GetStorage>()),
+    );
+    gh.lazySingleton<_i97.BaseWeatherRemoteDataSource>(
+      () => _i97.WeatherRemoteDataSource(gh<_i361.Dio>()),
     );
     gh.lazySingleton<_i18.ProfileDatasource>(
       () => _i18.SupabaseProfileDatasource(
@@ -246,48 +265,65 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i158.ProfileCacheService>(),
       ),
     );
+    gh.lazySingleton<_i463.MyActivityRepositoryDomain>(
+      () => _i216.MyActivityRepositoryData(
+        gh<_i666.BaseMyActivityRemoteDataSource>(),
+        gh<_i687.BaseMyActivityLocalDataSource>(),
+      ),
+    );
+    gh.lazySingleton<_i752.ErrorPageUseCase>(
+      () => _i752.ErrorPageUseCase(gh<_i626.ErrorPageRepositoryDomain>()),
+    );
+    gh.lazySingleton<_i46.WeatherRepositoryDomain>(
+      () => _i122.WeatherRepositoryData(
+        gh<_i97.BaseWeatherRemoteDataSource>(),
+        gh<_i609.BaseWeatherLocalDataSource>(),
+        gh<_i362.BaseWeatherGetStorageDataSource>(),
+      ),
+    );
+    gh.lazySingleton<_i1040.GenerateTripUseCase>(
+      () => _i1040.GenerateTripUseCase(gh<_i106.TripDomainRepository>()),
+    );
     gh.lazySingleton<_i936.BookmarkDomainRepository>(
       () => _i1023.BookmarkRepositoryImpl(gh<_i631.BaseBookmarkDataSource>()),
     );
-    gh.lazySingleton<_i362.BaseWeatherGetStorageDataSource>(
-      () => _i362.WeatherGetStorageDataSource(gh<_i792.GetStorage>()),
+    gh.lazySingleton<_i105.CurrencyCacheDatasource>(
+      () => _i105.GetStorageCurrencyCacheDatasource(gh<_i792.GetStorage>()),
     );
-    gh.lazySingleton<_i586.EventsDomainRepository>(
-      () => _i442.EventsRepositoryData(gh<_i987.BaseEventsRemoteDatasource>()),
+    gh.lazySingleton<_i594.BaseLocationRemoteDataSource>(
+      () => _i594.LocationRemoteDataSource(gh<_i336.FlutterGooglePlacesSdk>()),
     );
-    gh.lazySingleton<_i106.TripDomainRepository>(
-      () => _i557.TripDataRepository(gh<_i39.TripDataSource>()),
+    gh.lazySingleton<_i1007.GatheringDomainRepository>(
+      () => _i445.GatheringRepoDatasource(
+        gh<_i971.BaseGatheringRemoteDataSource>(),
+      ),
     );
-    gh.lazySingleton<_i462.AddBookmarkUseCase>(
-      () => _i462.AddBookmarkUseCase(gh<_i1007.GatheringDomainRepository>()),
+    gh.lazySingleton<_i11.BaseAiImageAnalysisDataSource>(
+      () => _i11.AiImageAnalysisRemoteDataSource(gh<_i656.GenerativeModel>()),
     );
-    gh.lazySingleton<_i283.GetUserBookmarkUsecase>(
-      () =>
-          _i283.GetUserBookmarkUsecase(gh<_i1007.GatheringDomainRepository>()),
+    gh.lazySingleton<_i157.BaseAiLocalStorageDataSource>(
+      () => _i157.AiLocalStorageDataSource(gh<_i792.GetStorage>()),
     );
-    gh.lazySingleton<_i601.RemoveBookmarkUseCase>(
-      () => _i601.RemoveBookmarkUseCase(gh<_i1007.GatheringDomainRepository>()),
+    gh.lazySingleton<_i605.AddBookmarkUseCase>(
+      () => _i605.AddBookmarkUseCase(gh<_i936.BookmarkDomainRepository>()),
+    );
+    gh.lazySingleton<_i50.GetBookmarksUseCase>(
+      () => _i50.GetBookmarksUseCase(gh<_i936.BookmarkDomainRepository>()),
+    );
+    gh.lazySingleton<_i661.GetEventsByIdsUseCase>(
+      () => _i661.GetEventsByIdsUseCase(gh<_i936.BookmarkDomainRepository>()),
+    );
+    gh.lazySingleton<_i664.RemoveBookmarkUseCase>(
+      () => _i664.RemoveBookmarkUseCase(gh<_i936.BookmarkDomainRepository>()),
+    );
+    gh.lazySingleton<_i143.MyActivityUseCase>(
+      () => _i143.MyActivityUseCase(gh<_i463.MyActivityRepositoryDomain>()),
     );
     gh.lazySingleton<_i998.ProfileRepository>(
       () => _i121.ProfileRepositoryImpl(gh<_i18.ProfileDatasource>()),
     );
     gh.lazySingleton<_i725.AuthenticationRepositoryDomain>(
       () => _i933.DataRepository(gh<_i517.AuthenticationDatasource>()),
-    );
-    gh.lazySingleton<_i710.GetEventsUsecase>(
-      () => _i710.GetEventsUsecase(gh<_i586.EventsDomainRepository>()),
-    );
-    gh.lazySingleton<_i20.CurrencyExchangeDatasource>(
-      () => _i20.CurrencyExchangeDatasourceImpl(
-        gh<_i361.Dio>(),
-        gh<_i105.CurrencyCacheDatasource>(),
-      ),
-    );
-    gh.lazySingleton<_i754.AnalyzeImageUseCase>(
-      () => _i754.AnalyzeImageUseCase(gh<_i855.AiImageAnalysisRepository>()),
-    );
-    gh.factory<_i827.UploadImageUseCase>(
-      () => _i827.UploadImageUseCase(gh<_i1007.GatheringDomainRepository>()),
     );
     gh.lazySingleton<_i753.CreateGatheringUseCase>(
       () =>
@@ -313,42 +349,92 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1059.SearchEventsUseCase>(
       () => _i1059.SearchEventsUseCase(gh<_i1007.GatheringDomainRepository>()),
     );
+    gh.factory<_i827.UploadImageUseCase>(
+      () => _i827.UploadImageUseCase(gh<_i1007.GatheringDomainRepository>()),
+    );
+    gh.lazySingleton<_i586.EventsDomainRepository>(
+      () => _i442.EventsRepositoryData(gh<_i987.BaseEventsRemoteDatasource>()),
+    );
+    gh.lazySingleton<_i324.WeatherUseCase>(
+      () => _i324.WeatherUseCase(gh<_i46.WeatherRepositoryDomain>()),
+    );
     gh.lazySingleton<_i11.AuthenticationUsecases>(
       () => _i11.AuthenticationUsecases(
         authRepo: gh<_i725.AuthenticationRepositoryDomain>(),
       ),
     );
-    gh.lazySingleton<_i569.EmergencyRepository>(
-      () =>
-          emergencyModule.emergencyRepository(gh<_i300.EmergencyDataSource>()),
+    gh.factory<_i13.MyActivityCubit>(
+      () => _i13.MyActivityCubit(gh<_i143.MyActivityUseCase>()),
     );
-    gh.factory<_i985.EventCubit>(
-      () => _i985.EventCubit(gh<_i710.GetEventsUsecase>()),
+    gh.factory<_i695.WeatherCubit>(
+      () => _i695.WeatherCubit(gh<_i324.WeatherUseCase>()),
     );
-    gh.lazySingleton<_i1040.GenerateTripUseCase>(
-      () => _i1040.GenerateTripUseCase(gh<_i106.TripDomainRepository>()),
-    );
-    gh.lazySingleton<_i752.ErrorPageUseCase>(
-      () => _i752.ErrorPageUseCase(gh<_i626.ErrorPageRepositoryDomain>()),
-    );
-    gh.lazySingleton<_i46.WeatherRepositoryDomain>(
-      () => _i122.WeatherRepositoryData(
-        gh<_i97.BaseWeatherRemoteDataSource>(),
-        gh<_i609.BaseWeatherLocalDataSource>(),
-        gh<_i362.BaseWeatherGetStorageDataSource>(),
+    gh.lazySingleton<_i20.CurrencyExchangeDatasource>(
+      () => _i20.CurrencyExchangeDatasourceImpl(
+        gh<_i361.Dio>(),
+        gh<_i105.CurrencyCacheDatasource>(),
       ),
     );
-    gh.lazySingleton<_i605.AddBookmarkUseCase>(
-      () => _i605.AddBookmarkUseCase(gh<_i936.BookmarkDomainRepository>()),
+    gh.singleton<_i680.ProfileUsecase>(
+      () => _i680.ProfileUsecase(gh<_i998.ProfileRepository>()),
     );
-    gh.lazySingleton<_i50.GetBookmarksUseCase>(
-      () => _i50.GetBookmarksUseCase(gh<_i936.BookmarkDomainRepository>()),
+    gh.lazySingleton<_i462.AddBookmarkUseCase>(
+      () => _i462.AddBookmarkUseCase(gh<_i1007.GatheringDomainRepository>()),
     );
-    gh.lazySingleton<_i661.GetEventsByIdsUseCase>(
-      () => _i661.GetEventsByIdsUseCase(gh<_i936.BookmarkDomainRepository>()),
+    gh.lazySingleton<_i283.GetUserBookmarkUsecase>(
+      () =>
+          _i283.GetUserBookmarkUsecase(gh<_i1007.GatheringDomainRepository>()),
     );
-    gh.lazySingleton<_i664.RemoveBookmarkUseCase>(
-      () => _i664.RemoveBookmarkUseCase(gh<_i936.BookmarkDomainRepository>()),
+    gh.lazySingleton<_i601.RemoveBookmarkUseCase>(
+      () => _i601.RemoveBookmarkUseCase(gh<_i1007.GatheringDomainRepository>()),
+    );
+    gh.lazySingleton<_i488.LocationRepository>(
+      () => _i928.LocationRepositoryImpl(
+        gh<_i594.BaseLocationRemoteDataSource>(),
+      ),
+    );
+    gh.factory<_i680.HomeUserInfoCubit>(
+      () => _i680.HomeUserInfoCubit(gh<_i680.ProfileUsecase>()),
+    );
+    gh.lazySingleton<_i855.AiImageAnalysisRepository>(
+      () => _i479.AiImageAnalysisRepositoryDataSource(
+        gh<_i11.BaseAiImageAnalysisDataSource>(),
+        gh<_i157.BaseAiLocalStorageDataSource>(),
+      ),
+    );
+    gh.lazySingleton<_i449.EmergencyUseCase>(
+      () => emergencyModule.emergencyUseCase(
+        gh<_i569.EmergencyRepository>(),
+        gh<_i680.ProfileUsecase>(),
+      ),
+    );
+    gh.factory<_i984.FetchPlaceLatLngUseCase>(
+      () => _i984.FetchPlaceLatLngUseCase(gh<_i488.LocationRepository>()),
+    );
+    gh.factory<_i33.SearchPlacesUseCase>(
+      () => _i33.SearchPlacesUseCase(gh<_i488.LocationRepository>()),
+    );
+    gh.lazySingleton<_i710.GetEventsUsecase>(
+      () => _i710.GetEventsUsecase(gh<_i586.EventsDomainRepository>()),
+    );
+    gh.factory<_i197.BookmarkCubit>(
+      () => _i197.BookmarkCubit(
+        gh<_i50.GetBookmarksUseCase>(),
+        gh<_i661.GetEventsByIdsUseCase>(),
+        gh<_i462.AddBookmarkUseCase>(),
+        gh<_i601.RemoveBookmarkUseCase>(),
+      ),
+    );
+    gh.lazySingleton<_i754.AnalyzeImageUseCase>(
+      () => _i754.AnalyzeImageUseCase(gh<_i855.AiImageAnalysisRepository>()),
+    );
+    gh.factory<_i5.EventBloc>(
+      () => _i5.EventBloc(gh<_i710.GetEventsUsecase>()),
+    );
+    gh.lazySingleton<_i629.CurrencyExchangeRepository>(
+      () => _i909.CurrencyExchangeRepositoryImpl(
+        gh<_i20.CurrencyExchangeDatasource>(),
+      ),
     );
     gh.factory<_i142.GatheringCubit>(
       () => _i142.GatheringCubit(
@@ -365,60 +451,35 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i978.GetParticipantsUseCase>(),
       ),
     );
-    gh.factory<_i5.EventBloc>(
-      () => _i5.EventBloc(gh<_i710.GetEventsUsecase>()),
-    );
-    gh.lazySingleton<_i629.CurrencyExchangeRepository>(
-      () => _i909.CurrencyExchangeRepositoryImpl(
-        gh<_i20.CurrencyExchangeDatasource>(),
-      ),
-    );
-    gh.singleton<_i680.ProfileUsecase>(
-      () => _i680.ProfileUsecase(gh<_i998.ProfileRepository>()),
-    );
-    gh.lazySingleton<_i324.WeatherUseCase>(
-      () => _i324.WeatherUseCase(gh<_i46.WeatherRepositoryDomain>()),
-    );
     gh.factory<_i235.CurrencyExchangeUsecase>(
       () =>
           _i235.CurrencyExchangeUsecase(gh<_i629.CurrencyExchangeRepository>()),
     );
-    gh.factory<_i1000.CurrencyExchangeCubit>(
-      () => _i1000.CurrencyExchangeCubit(
-        gh<_i235.CurrencyExchangeUsecase>(),
-        gh<_i105.CurrencyCacheDatasource>(),
-      ),
-    );
-    gh.lazySingleton<_i449.EmergencyUseCase>(
-      () => emergencyModule.emergencyUseCase(
-        gh<_i569.EmergencyRepository>(),
-        gh<_i680.ProfileUsecase>(),
+    gh.factory<_i181.LocationCubit>(
+      () => _i181.LocationCubit(
+        gh<_i33.SearchPlacesUseCase>(),
+        gh<_i984.FetchPlaceLatLngUseCase>(),
       ),
     );
     gh.factory<_i697.EmergencyCubit>(
       () => _i697.EmergencyCubit(gh<_i449.EmergencyUseCase>()),
     );
-    gh.factory<_i695.WeatherCubit>(
-      () => _i695.WeatherCubit(gh<_i324.WeatherUseCase>()),
-    );
     gh.factory<_i197.ProfileCubit>(
       () => _i197.ProfileCubit(gh<_i680.ProfileUsecase>()),
-    );
-    gh.factory<_i197.BookmarkCubit>(
-      () => _i197.BookmarkCubit(
-        gh<_i50.GetBookmarksUseCase>(),
-        gh<_i661.GetEventsByIdsUseCase>(),
-        gh<_i462.AddBookmarkUseCase>(),
-        gh<_i601.RemoveBookmarkUseCase>(),
-      ),
-    );
-    gh.factory<_i680.HomeUserInfoCubit>(
-      () => _i680.HomeUserInfoCubit(gh<_i680.ProfileUsecase>()),
     );
     gh.factory<_i1002.ErrorPageCubit>(
       () => _i1002.ErrorPageCubit(
         gh<_i752.ErrorPageUseCase>(),
         gh<_i680.ProfileUsecase>(),
+      ),
+    );
+    gh.factory<_i985.EventCubit>(
+      () => _i985.EventCubit(gh<_i710.GetEventsUsecase>()),
+    );
+    gh.factory<_i1000.CurrencyExchangeCubit>(
+      () => _i1000.CurrencyExchangeCubit(
+        gh<_i235.CurrencyExchangeUsecase>(),
+        gh<_i105.CurrencyCacheDatasource>(),
       ),
     );
     return this;
