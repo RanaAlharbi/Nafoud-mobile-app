@@ -11,6 +11,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class EventsFullScreen extends StatelessWidget {
   const EventsFullScreen({super.key});
@@ -124,7 +125,9 @@ class EventsFullScreen extends StatelessWidget {
               context.read<CategoryFilterCubit>().changeCategory(category);
             }
           },
-          child: SizedBox(
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
             width: 150.w,
             height: 130.h,
             child: ClipRRect(
@@ -132,26 +135,36 @@ class EventsFullScreen extends StatelessWidget {
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  Image.asset(
-                    imagePath,
-                    fit: BoxFit.contain,
-                    errorBuilder: (context, error, stackTrace) => Center(
-                      child: Icon(
-                        Icons.image_not_supported,
-                        color: Colors.grey,
-                        size: 40.sp,
+                  AnimatedOpacity(
+                    duration: const Duration(milliseconds: 300),
+                    opacity: isSelected ? 1.0 : 0.2,
+                    child: Image.asset(
+                      imagePath,
+                      fit: BoxFit.contain,
+                      errorBuilder: (context, error, stackTrace) => Center(
+                        child: Icon(
+                          Icons.image_not_supported,
+                          color: Colors.grey,
+                          size: 40.sp,
+                        ),
                       ),
                     ),
                   ),
-                  // Gray overlay when selected
-                  if (isSelected)
-                    Container(
-                      color: Colors.grey.withValues(alpha: 0.3),
-                    ),
                 ],
               ),
             ),
-          ),
+          )
+            .animate(target: isSelected ? 1 : 0)
+            .scale(
+              begin: const Offset(1.0, 1.0),
+              end: const Offset(1.1, 1.1),
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeOutBack,
+            )
+            .shimmer(
+              duration: const Duration(milliseconds: 500),
+              color: Colors.white.withValues(alpha: 0.3),
+            ),
         );
       },
     );
@@ -219,9 +232,21 @@ class EventsFullScreen extends StatelessWidget {
                       if (categoryState.selectedCategory != 'All Categories') {
                         filteredEvents = filteredEvents
                             .where(
-                              (event) =>
-                                  event.category?.toLowerCase() ==
-                                  categoryState.selectedCategory.toLowerCase(),
+                              (event) {
+                                final eventCategory = event.category?.toLowerCase() ?? '';
+                                final selectedCategory = categoryState.selectedCategory.toLowerCase();
+
+                                // Handle "Cultural & Arts" variations
+                                if (selectedCategory == 'cultural & arts') {
+                                  return eventCategory == 'cultural & arts' ||
+                                         eventCategory == 'cultural and arts' ||
+                                         eventCategory == 'cultural' ||
+                                         eventCategory == 'arts';
+                                }
+
+                                // For other categories, do exact match
+                                return eventCategory == selectedCategory;
+                              },
                             )
                             .toList();
                       }
@@ -268,10 +293,28 @@ class EventsFullScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     for (int i = 0; i < orderedCategories.length; i++)
-                                      _buildCategoryCard(
-                                        orderedCategories[i]['name']!,
-                                        orderedCategories[i]['image']!,
-                                        context,
+                                      TweenAnimationBuilder<double>(
+                                        key: ValueKey('${orderedCategories[i]['name']}_$i'),
+                                        duration: const Duration(milliseconds: 500),
+                                        tween: Tween(begin: 0.0, end: 1.0),
+                                        curve: Curves.easeOutCubic,
+                                        builder: (context, value, child) {
+                                          return Transform.translate(
+                                            offset: Offset((1 - value) * 100, 0),
+                                            child: Opacity(
+                                              opacity: value,
+                                              child: Transform.scale(
+                                                scale: 0.8 + (value * 0.2),
+                                                child: child,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: _buildCategoryCard(
+                                          orderedCategories[i]['name']!,
+                                          orderedCategories[i]['image']!,
+                                          context,
+                                        ),
                                       ),
                                   ],
                                 );
@@ -392,7 +435,17 @@ class EventsFullScreen extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                            );
+                            )
+                              .animate()
+                              .scale(
+                                begin: const Offset(0.8, 0.8),
+                                end: const Offset(1.0, 1.0),
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.elasticOut,
+                              )
+                              .fadeIn(
+                                duration: const Duration(milliseconds: 200),
+                              );
                           }, childCount: filteredEvents.length),
                         ),
                       ),

@@ -32,30 +32,28 @@ class DiscoverWidget extends StatelessWidget {
             icon: Icon(Icons.keyboard_arrow_down),
             iconEnabledColor: AppColors.primaryColor,
             menuMaxHeight: 190.h,
-            style: TextStyle(
-              fontSize: 25.sp,
-              color: AppColors.primaryColor,
-            ),
+            borderRadius: BorderRadius.circular(15.r),
+            style: TextStyle(fontSize: 25.sp, color: AppColors.primaryColor),
             items: [
               DropdownMenuItem(
                 value: 'All Destinations',
-                child: Text('All Destinations'),
+                child: Text('All Destinations', style: TextStyle(fontSize: 18.sp, color: AppColors.primaryColor)),
               ),
               DropdownMenuItem(
                 value: 'Riyadh',
-                child: Text('Riyadh'),
+                child: Text('Riyadh', style: TextStyle(fontSize: 18.sp, color: AppColors.primaryColor)),
               ),
               DropdownMenuItem(
                 value: 'Jeddah',
-                child: Text('Jeddah'),
+                child: Text('Jeddah', style: TextStyle(fontSize: 18.sp, color: AppColors.primaryColor)),
               ),
               DropdownMenuItem(
                 value: 'Dammam',
-                child: Text('Dammam'),
+                child: Text('Dammam', style: TextStyle(fontSize: 18.sp, color: AppColors.primaryColor)),
               ),
               DropdownMenuItem(
                 value: 'Medina',
-                child: Text('Medina'),
+                child: Text('Medina', style: TextStyle(fontSize: 18.sp, color: AppColors.primaryColor)),
               ),
             ],
             onChanged: onDestinationChanged,

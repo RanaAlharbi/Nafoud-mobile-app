@@ -34,21 +34,24 @@ class EventMapWidget extends StatelessWidget {
         height: 300, // Size of the map
         child: Stack(
           children: [
-            GoogleMap(
-              initialCameraPosition: CameraPosition(target: point, zoom: 15),
-              markers: {
-                Marker(
-                  markerId: const MarkerId("eventLocation"),
-                  position: point, // The marker position - based on lat/lng
-                  icon: BitmapDescriptor.defaultMarkerWithHue(
-                    BitmapDescriptor.hueRed, // Similar to Google marker
+            RepaintBoundary(
+              child: GoogleMap(
+                initialCameraPosition: CameraPosition(target: point, zoom: 15),
+                markers: {
+                  Marker(
+                    markerId: const MarkerId("eventLocation"),
+                    position: point, // The marker position - based on lat/lng
+                    icon: BitmapDescriptor.defaultMarkerWithHue(
+                      BitmapDescriptor.hueRed, // Similar to Google marker
+                    ),
                   ),
-                ),
-              },
-              zoomControlsEnabled: false, // Zoom buttons
-              myLocationButtonEnabled: false,
-              compassEnabled: false, // Compass on top of map
-              mapToolbarEnabled: false, // To get direction toolbar
+                },
+                zoomControlsEnabled: false, // Zoom buttons
+                myLocationButtonEnabled: false,
+                compassEnabled: false, // Compass on top of map
+                mapToolbarEnabled: false, // To get direction toolbar
+                liteModeEnabled: false, // Disabled for full interactive map
+              ),
             ),
 
             Positioned(
