@@ -138,9 +138,23 @@ class EventInfoScreen extends StatelessWidget {
               ),
             ),
 
+            Gap(30.h),
+
+            Padding(
+              padding: const EdgeInsets.only(left: 16.0),
+              child: Text(
+                "Location",
+                style: TextStyle(
+                  fontSize: 19.sp,
+                  fontWeight: FontWeight.bold,
+                  color: EventCategoryUtils.getCategoryColor(event.category),
+                ),
+              ),
+            ),
+
+            Gap(16.h),
             // Event Location
             EventMapWidget(event: event),
-
           ],
         ),
       ),
