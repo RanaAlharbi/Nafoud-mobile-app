@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
-
 class ProfileAvatarWidget extends StatelessWidget {
   final String? avatarUrl;
   final bool isUploading;
