@@ -60,10 +60,9 @@ class BuildQuickGuideItemWidget extends StatelessWidget {
             ),
             Gap(8.h),
             Text(
+              maxLines: 1,
               label,
-              style: TextStyle(
-                fontSize: 14.sp,
-              ),
+              style: TextStyle(fontSize: 14.sp),
               textAlign: TextAlign.center,
             ),
           ],

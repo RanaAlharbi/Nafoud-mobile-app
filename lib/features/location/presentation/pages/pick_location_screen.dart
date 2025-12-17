@@ -7,9 +7,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../cubit/location_cubit.dart';
 import '../cubit/location_state.dart';
 
+
 class SelectLocationScreen extends StatelessWidget {
   const SelectLocationScreen({super.key});
 
+//this is for riyadh
   static const _defaultLat = 24.7136;
   static const _defaultLng = 46.6753;
 
@@ -112,7 +114,6 @@ class SelectLocationScreen extends StatelessWidget {
               if (state.loading || state.results.isEmpty) {
                 return const SizedBox.shrink();
               }
-
               return Positioned(
                 top: 80,
                 left: 16,

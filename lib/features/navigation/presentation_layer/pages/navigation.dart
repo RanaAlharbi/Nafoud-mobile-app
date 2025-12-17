@@ -14,91 +14,101 @@ class NavigationScreen extends StatelessWidget {
 
     return BlocBuilder<NavigationCubit, NavState>(
       builder: (context, state) {
-        return CupertinoTabScaffold(
-          tabBar: CupertinoTabBar(
-            currentIndex: cubit.currentIndex,
-            onTap: (value) => cubit.changeIndex(index: value),
-            activeColor: Color(0xff656A53),
-            inactiveColor: Color(0xFFB5B5B5),
-            backgroundColor: Color(0x00000000),
-            height: 70.h,
-            items: [
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  'assets/icons/nav_home.svg',
-                  width: 32.h,
-                  height: 32.h,
-                ),
-                activeIcon: SvgPicture.asset(
-                  'assets/icons/nav_home.svg',
-                  width: 32.h,
-                  height: 32.h,
-                  colorFilter: ColorFilter.mode(
-                    Color(0xff656A53),
-                    BlendMode.srcIn,
-                  ),
-                ),
-                label: "Home".tr(),
+        return CupertinoTheme(
+          data: CupertinoThemeData(
+            textTheme: CupertinoTextThemeData(
+              tabLabelTextStyle: TextStyle(
+                fontSize: 15.sp,
+                fontWeight: FontWeight.normal,
               ),
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  'assets/icons/nav_gathering-cropped.svg',
-                  width: 34.h,
-                  height: 34.h,
-                ),
-                activeIcon: SvgPicture.asset(
-                  'assets/icons/nav_gathering-cropped.svg',
-                  width: 34.h,
-                  height: 34.h,
-                  colorFilter: ColorFilter.mode(
-                    Color(0xff656A53),
-                    BlendMode.srcIn,
-                  ),
-                ),
-                label: "Gather".tr(),
-              ),
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  'assets/icons/nav_ai.svg',
-                  width: 32.h,
-                  height: 32.h,
-                ),
-                activeIcon: SvgPicture.asset(
-                  'assets/icons/nav_ai.svg',
-                  width: 32.h,
-                  height: 32.h,
-                  colorFilter: ColorFilter.mode(
-                    Color(0xff656A53),
-                    BlendMode.srcIn,
-                  ),
-                ),
-                label: "Murshid".tr(),
-              ),
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  'assets/icons/nav_user.svg',
-                  width: 32.h,
-                  height: 32.h,
-                ),
-                activeIcon: SvgPicture.asset(
-                  'assets/icons/nav_user.svg',
-                  width: 32.h,
-                  height: 32.h,
-                  colorFilter: ColorFilter.mode(
-                    Color(0xff656A53),
-                    BlendMode.srcIn,
-                  ),
-                ),
-                label: "Profile".tr(),
-              ),
-            ],
+            ),
           ),
-          tabBuilder: (context, index) {
-            return IndexedStack(
-              index: cubit.currentIndex,
-              children: cubit.screens,
-            );
-          },
+          child: CupertinoTabScaffold(
+            tabBar: CupertinoTabBar(
+              currentIndex: cubit.currentIndex,
+              onTap: (value) => cubit.changeIndex(index: value),
+              activeColor: Color(0xff656A53),
+              inactiveColor: Color(0xFFB5B5B5),
+              backgroundColor: Color(0x00000000),
+              height: 70.h,
+              items: [
+                BottomNavigationBarItem(
+                  icon: SvgPicture.asset(
+                    'assets/icons/nav_home.svg',
+                    width: 32.h,
+                    height: 32.h,
+                  ),
+                  activeIcon: SvgPicture.asset(
+                    'assets/icons/nav_home.svg',
+                    width: 32.h,
+                    height: 32.h,
+                    colorFilter: ColorFilter.mode(
+                      Color(0xff656A53),
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                  label: "nav.home".tr(),
+                ),
+                BottomNavigationBarItem(
+                  icon: SvgPicture.asset(
+                    'assets/icons/nav_gathering-cropped.svg',
+                    width: 34.h,
+                    height: 34.h,
+                  ),
+                  activeIcon: SvgPicture.asset(
+                    'assets/icons/nav_gathering-cropped.svg',
+                    width: 34.h,
+                    height: 34.h,
+                    colorFilter: ColorFilter.mode(
+                      Color(0xff656A53),
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                  label: "nav.gather".tr(),
+                ),
+                BottomNavigationBarItem(
+                  icon: SvgPicture.asset(
+                    'assets/icons/nav_ai.svg',
+                    width: 32.h,
+                    height: 32.h,
+                  ),
+                  activeIcon: SvgPicture.asset(
+                    'assets/icons/nav_ai.svg',
+                    width: 32.h,
+                    height: 32.h,
+                    colorFilter: ColorFilter.mode(
+                      Color(0xff656A53),
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                  label: "nav.murshid".tr(),
+                ),
+                BottomNavigationBarItem(
+                  icon: SvgPicture.asset(
+                    'assets/icons/nav_user.svg',
+                    width: 32.h,
+                    height: 32.h,
+                  ),
+                  activeIcon: SvgPicture.asset(
+                    'assets/icons/nav_user.svg',
+                    width: 32.h,
+                    height: 32.h,
+                    colorFilter: ColorFilter.mode(
+                      Color(0xff656A53),
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                  label: "nav.profile".tr(),
+                ),
+              ],
+            ),
+            tabBuilder: (context, index) {
+              return IndexedStack(
+                index: cubit.currentIndex,
+                children: cubit.screens,
+              );
+            },
+          ),
         );
       },
     );
