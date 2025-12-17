@@ -92,12 +92,14 @@ class MyActivityFeatureScreen extends StatelessWidget {
                               image: e.imageUrl,
                               isBookmarked: e.isBookmarked,
                               onToggleBookmark: () {
-                                // User's own events - bookmark functionality can be disabled or handled differently and gonna fix it when I reach my home
+                                context
+                                    .read<MyActivityCubit>()
+                                    .toggleBookmark(e.id!);
                               },
                               onViewDetails: () async {
                                 await context.push(
-                                  "/eventDetails",
-                                  extra: {"event": e, "cubit": null},
+                                  "/my-activity-details-screen",
+                                  extra: e,
                                 );
                               },
                             );

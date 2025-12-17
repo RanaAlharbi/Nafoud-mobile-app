@@ -219,9 +219,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1022.BaseErrorPageLocalDataSource>(
       () => _i1022.ErrorPageLocalDataSource(),
     );
-    gh.lazySingleton<_i666.BaseMyActivityRemoteDataSource>(
-      () => _i666.MyActivityRemoteDataSource(),
-    );
     gh.lazySingleton<_i609.BaseWeatherLocalDataSource>(
       () => _i609.WeatherLocalDataSource(gh<_i454.SupabaseClient>()),
     );
@@ -264,6 +261,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i454.SupabaseClient>(),
         gh<_i158.ProfileCacheService>(),
       ),
+    );
+    gh.lazySingleton<_i666.BaseMyActivityRemoteDataSource>(
+      () => _i666.MyActivityRemoteDataSource(gh<_i454.SupabaseClient>()),
     );
     gh.lazySingleton<_i463.MyActivityRepositoryDomain>(
       () => _i216.MyActivityRepositoryData(
@@ -362,9 +362,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i11.AuthenticationUsecases(
         authRepo: gh<_i725.AuthenticationRepositoryDomain>(),
       ),
-    );
-    gh.factory<_i13.MyActivityCubit>(
-      () => _i13.MyActivityCubit(gh<_i143.MyActivityUseCase>()),
     );
     gh.factory<_i695.WeatherCubit>(
       () => _i695.WeatherCubit(gh<_i324.WeatherUseCase>()),
@@ -466,6 +463,15 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i197.ProfileCubit>(
       () => _i197.ProfileCubit(gh<_i680.ProfileUsecase>()),
+    );
+    gh.factory<_i13.MyActivityCubit>(
+      () => _i13.MyActivityCubit(
+        gh<_i143.MyActivityUseCase>(),
+        gh<_i462.AddBookmarkUseCase>(),
+        gh<_i601.RemoveBookmarkUseCase>(),
+        gh<_i283.GetUserBookmarkUsecase>(),
+        gh<_i978.GetParticipantsUseCase>(),
+      ),
     );
     gh.factory<_i1002.ErrorPageCubit>(
       () => _i1002.ErrorPageCubit(

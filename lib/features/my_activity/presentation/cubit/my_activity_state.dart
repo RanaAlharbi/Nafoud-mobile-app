@@ -28,3 +28,11 @@ class MyActivityErrorState extends MyActivityState {
   List<Object?> get props => [message];
 }
 
+class MyActivityParticipantsLoadedState extends MyActivityState {
+  final List<String> participants;
+  const MyActivityParticipantsLoadedState(this.participants);
+
+  @override
+  List<Object?> get props => [participants];
+}
+

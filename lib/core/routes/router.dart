@@ -20,10 +20,11 @@ import 'package:final_project/features/events/domain_layer/entity/events_entity.
 import 'package:final_project/features/events/presentation_layer/pages/event_info_screen.dart';
 import 'package:final_project/features/events/presentation_layer/pages/events_full_screen.dart';
 import 'package:final_project/features/gathering/presentation/pages/map_screen.dart';
-import 'package:final_project/features/gathering/presentation/pages/select_location_screen.dart';
 import 'package:final_project/features/location/presentation/cubit/location_cubit.dart';
+import 'package:final_project/features/location/presentation/pages/pick_location_screen.dart';
 import 'package:final_project/features/my_activity/presentation/cubit/my_activity_cubit.dart';
 import 'package:final_project/features/my_activity/presentation/pages/my_activity_feature_screen.dart';
+import 'package:final_project/features/my_activity/presentation/pages/my_activity_details_screen.dart';
 import 'package:final_project/features/profile/domain_layer/usecase/profile_usecase.dart';
 import 'package:final_project/core/shared/gathering_entity/gathering_entity.dart';
 import 'package:final_project/features/gathering/presentation/cubit/gathering_cubit.dart';
@@ -76,6 +77,7 @@ class AppRoutes {
   static const profileScreen = '/profile-screen';
   static const editProfileScreen = '/edit-profile-screen';
   static const myActivityScreen = '/my-activity-screen';
+  static const myActivityDetailsScreen = '/my-activity-details-screen';
   static const bookmarkScreen = '/bookmark-screen';
 
   //error page (for testing)
@@ -302,8 +304,18 @@ class AppRoutes {
         path: AppRoutes.myActivityScreen,
         builder: (context, state) {
           return BlocProvider<MyActivityCubit>(
+            create: (_) => getIt<MyActivityCubit>()..getMyActivityMethod(),
+            child: const MyActivityFeatureScreen(),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.myActivityDetailsScreen,
+        builder: (context, state) {
+          final event = state.extra as GatheringEntity;
+          return BlocProvider<MyActivityCubit>(
             create: (_) => getIt<MyActivityCubit>(),
-            child: MyActivityFeatureScreen(),
+            child: MyActivityDetailsScreen(event: event),
           );
         },
       ),

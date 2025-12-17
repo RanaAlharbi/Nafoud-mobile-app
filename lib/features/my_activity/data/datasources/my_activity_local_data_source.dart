@@ -8,23 +8,10 @@ abstract class BaseMyActivityLocalDataSource {
 
 @LazySingleton(as: BaseMyActivityLocalDataSource)
 class MyActivityLocalDataSource implements BaseMyActivityLocalDataSource {
-  // final GetStorage _storage;
-  // final FlutterSecureStorage _secureStorage;
-  // final LocalKeysService _localKeysService;
 
-  // MyActivityLocalDataSource(
-  //   this._storage,
-  //   this._secureStorage,
-  //   this._localKeysService
-  // );
 
   @override
   Future<Either<String, MyActivityModel>> getCachedMyActivity() async {
-    try {
-      // TODO: Implement cached data retrieval
-      return Right(MyActivityModel(events: []));
-    } catch (error) {
-      return Left('Failed to get cached activity: ${error.toString()}');
-    }
+    throw Exception('No cached data available');
   }
 }
