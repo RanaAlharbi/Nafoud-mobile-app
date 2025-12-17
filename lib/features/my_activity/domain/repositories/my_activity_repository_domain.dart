@@ -3,4 +3,5 @@ import 'package:final_project/features/my_activity/domain/entities/my_activity_e
 
 abstract class MyActivityRepositoryDomain {
   Future<Either<String, MyActivityEntity>> getMyActivity();
+  Future<Either<String, MyActivityEntity>> refreshMyActivity();
 }

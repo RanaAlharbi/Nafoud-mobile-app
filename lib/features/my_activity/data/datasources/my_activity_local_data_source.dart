@@ -6,6 +6,7 @@ import 'package:final_project/features/my_activity/data/models/my_activity_model
 abstract class BaseMyActivityLocalDataSource {
   Future<Either<String, MyActivityModel>> getCachedMyActivity();
   Future<Either<String, void>> saveMyActivity(MyActivityModel activity);
+  Future<void> clearCache();
 }
 
 @LazySingleton(as: BaseMyActivityLocalDataSource)
@@ -41,5 +42,10 @@ class MyActivityLocalDataSource implements BaseMyActivityLocalDataSource {
     } catch (error) {
       return Left('Failed to save data to cache: ${error.toString()}');
     }
+  }
+
+  @override
+  Future<void> clearCache() async {
+    await _storage.remove(_cacheKey);
   }
 }

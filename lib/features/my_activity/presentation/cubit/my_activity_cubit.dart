@@ -40,6 +40,18 @@ class MyActivityCubit extends Cubit<MyActivityState> {
     );
   }
 
+  Future<void> refreshMyActivity() async {
+    final result = await _myActivityUseCase.refreshMyActivity();
+    result.fold(
+      (error) {
+        emit(MyActivityErrorState(error));
+      },
+      (success) {
+        emit(MyActivitySuccessState(success));
+      },
+    );
+  }
+
   Future<void> toggleBookmark(String eventId) async {
     if (userBookmarks.contains(eventId)) {
       await _removeBookmark(eventId);

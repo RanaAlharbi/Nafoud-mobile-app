@@ -57,53 +57,81 @@ class MyActivityFeatureScreen extends StatelessWidget {
 
                       if (state is MyActivitySuccessState) {
                         if (state.activity.events.isEmpty) {
-                          return Center(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Image.asset(
-                                  "assets/Images/no_events.jpg",
-                                  width: 160.w,
-                                  height: 160.h,
-                                ),
-                                15.verticalSpace,
-                                Text(
-                                  "No events found",
-                                  style: GoogleFonts.cairo(
-                                    fontSize: 16.sp,
-                                    color: const Color(0xFF656A53),
-                                    fontWeight: FontWeight.bold,
+                          return CustomScrollView(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            slivers: [
+                              CupertinoSliverRefreshControl(
+                                onRefresh: () async {
+                                  await context
+                                      .read<MyActivityCubit>()
+                                      .refreshMyActivity();
+                                },
+                              ),
+                              SliverFillRemaining(
+                                child: Center(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Image.asset(
+                                        "assets/Images/no_events.jpg",
+                                        width: 160.w,
+                                        height: 160.h,
+                                      ),
+                                      15.verticalSpace,
+                                      Text(
+                                        "No events found",
+                                        style: GoogleFonts.cairo(
+                                          fontSize: 16.sp,
+                                          color: const Color(0xFF656A53),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           );
                         }
 
-                        return ListView.builder(
-                          itemCount: state.activity.events.length,
-                          itemBuilder: (_, i) {
-                            final e = state.activity.events[i];
-                            return EventCardWidget(
-                              title: e.title,
-                              city: e.city,
-                              date: e.date,
-                              category: e.category,
-                              image: e.imageUrl,
-                              isBookmarked: e.isBookmarked,
-                              onToggleBookmark: () {
-                                context
+                        return CustomScrollView(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          slivers: [
+                            CupertinoSliverRefreshControl(
+                              onRefresh: () async {
+                                await context
                                     .read<MyActivityCubit>()
-                                    .toggleBookmark(e.id!);
+                                    .refreshMyActivity();
                               },
-                              onViewDetails: () async {
-                                await context.push(
-                                  "/my-activity-details-screen",
-                                  extra: e,
-                                );
-                              },
-                            );
-                          },
+                            ),
+                            SliverList(
+                              delegate: SliverChildBuilderDelegate(
+                                (_, i) {
+                                  final e = state.activity.events[i];
+                                  return EventCardWidget(
+                                    title: e.title,
+                                    city: e.city,
+                                    date: e.date,
+                                    category: e.category,
+                                    image: e.imageUrl,
+                                    isBookmarked: e.isBookmarked,
+                                    onToggleBookmark: () {
+                                      context
+                                          .read<MyActivityCubit>()
+                                          .toggleBookmark(e.id!);
+                                    },
+                                    onViewDetails: () async {
+                                      await context.push(
+                                        "/my-activity-details-screen",
+                                        extra: e,
+                                      );
+                                    },
+                                  );
+                                },
+                                childCount: state.activity.events.length,
+                              ),
+                            ),
+                          ],
                         );
                       }
                       return const SizedBox.shrink();

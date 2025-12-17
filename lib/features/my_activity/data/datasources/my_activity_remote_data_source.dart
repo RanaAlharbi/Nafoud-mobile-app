@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:dartz/dartz.dart';
 import 'package:final_project/features/my_activity/data/models/my_activity_model.dart';
-import 'package:final_project/core/shared/gathering_entity/gathering_entity.dart';
+import 'package:final_project/features/gathering/data_layer/model/gathering_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract class BaseMyActivityRemoteDataSource {
@@ -34,28 +34,15 @@ class MyActivityRemoteDataSource implements BaseMyActivityRemoteDataSource {
           .map((e) => e['event_id'] as String)
           .toSet();
 
-      // Step 2: Get user's bookmarks
-      final bookmarksResponse = await _supabase
-          .from("bookmarks")
-          .select("event_id")
-          .eq("user_id", userId);
-
-      final bookmarkedEventIds = (bookmarksResponse as List)
-          .map((e) => e["event_id"] as String)
-          .toSet();
-
-      // Step 3: Get events created by the user
+      // Step 2: Get events created by the user
       final createdEventsResponse = await _supabase
           .from('user_events')
           .select('*')
           .eq('user_id', userId);
 
       final createdEvents = (createdEventsResponse as List).map((eventData) {
-        final eventId = eventData['id'] as String;
-        final isBookmarked = bookmarkedEventIds.contains(eventId);
-
-        return GatheringEntity(
-          id: eventId,
+        return GatheringModel(
+          id: eventData['id'] as String,
           userId: eventData['user_id'] as String,
           title: eventData['title'] as String,
           description: eventData['description'] as String,
@@ -67,12 +54,11 @@ class MyActivityRemoteDataSource implements BaseMyActivityRemoteDataSource {
           category: eventData['category'] as String,
           latitude: eventData['latitude'] as double?,
           longitude: eventData['longitude'] as double?,
-          isBookmarked: isBookmarked,
         );
       }).toList();
 
-      // Step 4: Get events user joined but didn't create
-      final List<GatheringEntity> joinedEvents = [];
+      // Step 3: Get events user joined but didn't create
+      final List<GatheringModel> joinedEvents = [];
       if (participatedEventIds.isNotEmpty) {
         final joinedEventsResponse = await _supabase
             .from('user_events')
@@ -82,11 +68,8 @@ class MyActivityRemoteDataSource implements BaseMyActivityRemoteDataSource {
 
         joinedEvents.addAll(
           (joinedEventsResponse as List).map((eventData) {
-            final eventId = eventData['id'] as String;
-            final isBookmarked = bookmarkedEventIds.contains(eventId);
-
-            return GatheringEntity(
-              id: eventId,
+            return GatheringModel(
+              id: eventData['id'] as String,
               userId: eventData['user_id'] as String,
               title: eventData['title'] as String,
               description: eventData['description'] as String,
@@ -98,7 +81,6 @@ class MyActivityRemoteDataSource implements BaseMyActivityRemoteDataSource {
               category: eventData['category'] as String,
               latitude: eventData['latitude'] as double?,
               longitude: eventData['longitude'] as double?,
-              isBookmarked: isBookmarked,
             );
           }).toList(),
         );

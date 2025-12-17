@@ -14,6 +14,7 @@ class MyActivityModelMapper extends ClassMapperBase<MyActivityModel> {
   static MyActivityModelMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = MyActivityModelMapper._());
+      GatheringModelMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -21,8 +22,8 @@ class MyActivityModelMapper extends ClassMapperBase<MyActivityModel> {
   @override
   final String id = 'MyActivityModel';
 
-  static List<GatheringEntity> _$events(MyActivityModel v) => v.events;
-  static const Field<MyActivityModel, List<GatheringEntity>> _f$events = Field(
+  static List<GatheringModel> _$events(MyActivityModel v) => v.events;
+  static const Field<MyActivityModel, List<GatheringModel>> _f$events = Field(
     'events',
     _$events,
   );
@@ -98,11 +99,11 @@ abstract class MyActivityModelCopyWith<$R, $In extends MyActivityModel, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
   ListCopyWith<
     $R,
-    GatheringEntity,
-    ObjectCopyWith<$R, GatheringEntity, GatheringEntity>
+    GatheringModel,
+    GatheringModelCopyWith<$R, GatheringModel, GatheringModel>
   >
   get events;
-  $R call({List<GatheringEntity>? events});
+  $R call({List<GatheringModel>? events});
   MyActivityModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
     Then<$Out2, $R2> t,
   );
@@ -119,16 +120,16 @@ class _MyActivityModelCopyWithImpl<$R, $Out>
   @override
   ListCopyWith<
     $R,
-    GatheringEntity,
-    ObjectCopyWith<$R, GatheringEntity, GatheringEntity>
+    GatheringModel,
+    GatheringModelCopyWith<$R, GatheringModel, GatheringModel>
   >
   get events => ListCopyWith(
     $value.events,
-    (v, t) => ObjectCopyWith(v, $identity, t),
+    (v, t) => v.copyWith.$chain(t),
     (v) => call(events: v),
   );
   @override
-  $R call({List<GatheringEntity>? events}) =>
+  $R call({List<GatheringModel>? events}) =>
       $apply(FieldCopyWithData({if (events != null) #events: events}));
   @override
   MyActivityModel $make(CopyWithData data) =>
