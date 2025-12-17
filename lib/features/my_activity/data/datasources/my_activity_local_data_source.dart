@@ -21,7 +21,8 @@ class MyActivityLocalDataSource implements BaseMyActivityLocalDataSource {
   @override
   Future<Either<String, MyActivityModel>> getCachedMyActivity() async {
     try {
-      return Right(MyActivityModel(id: "d"));
+      // TODO: Implement cached data retrieval
+      return Right(MyActivityModel(events: []));
     } catch (error) {
       return Left('Failed to get cached activity: ${error.toString()}');
     }

@@ -25,7 +25,9 @@ class MyActivityRemoteDataSource implements BaseMyActivityRemoteDataSource {
   @override
   Future<Either<String, MyActivityModel>> getMyActivity() async {
     try {
-      return Right(MyActivityModel(id: "d"));
+      // TODO: Implement actual API call to fetch user's events
+      // Example: final response = await _supabase.from('events').select().eq('user_id', userId);
+      return Right(MyActivityModel(events: []));
     } catch (error) {
       return Left('Failed to get activity: ${error.toString()}');
     }

@@ -1,12 +1,13 @@
 import 'package:equatable/equatable.dart';
+import 'package:final_project/core/shared/gathering_entity/gathering_entity.dart';
 
 class MyActivityEntity extends Equatable {
-  final String id;
+  final List<GatheringEntity> events;
 
   const MyActivityEntity({
-    required this.id,
+    required this.events,
   });
 
   @override
-  List<Object?> get props => [id];
+  List<Object?> get props => [events];
 }

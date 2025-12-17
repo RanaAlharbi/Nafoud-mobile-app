@@ -20,6 +20,8 @@ import 'package:final_project/features/events/domain_layer/entity/events_entity.
 import 'package:final_project/features/events/presentation_layer/pages/event_info_screen.dart';
 import 'package:final_project/features/events/presentation_layer/pages/events_full_screen.dart';
 import 'package:final_project/features/gathering/presentation/pages/map_screen.dart';
+import 'package:final_project/features/my_activity/presentation/pages/my_activity_feature_screen.dart';
+import 'package:final_project/features/my_activity/presentation/cubit/my_activity_cubit.dart';
 import 'package:final_project/features/profile/domain_layer/usecase/profile_usecase.dart';
 import 'package:final_project/core/shared/gathering_entity/gathering_entity.dart';
 import 'package:final_project/features/gathering/presentation/cubit/gathering_cubit.dart';
@@ -40,7 +42,6 @@ import 'package:final_project/features/onbording/presentation/cubit/onbording_cu
 import 'package:final_project/features/onbording/presentation/pages/onboarding_screen.dart';
 import 'package:final_project/features/bookmarks/presentation/pages/bookmark_screen.dart';
 import 'package:final_project/features/profile/presentation_layer/pages/edit_profile_screen.dart';
-import 'package:final_project/features/profile/presentation_layer/pages/my_activity_screen.dart';
 import 'package:final_project/features/profile/presentation_layer/pages/profile_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -299,7 +300,12 @@ class AppRoutes {
       ),
       GoRoute(
         path: AppRoutes.myActivityScreen,
-        builder: (context, state) => MyActivityScreen(),
+        builder: (context, state) {
+          return BlocProvider<MyActivityCubit>(
+            create: (_) => getIt<MyActivityCubit>(),
+            child: MyActivityFeatureScreen(),
+          );
+        },
       ),
       GoRoute(
         path: AppRoutes.bookmarkScreen,
