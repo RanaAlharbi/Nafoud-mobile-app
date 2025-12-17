@@ -3,6 +3,7 @@ import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 Widget markdownCard(String text) {
+  // To display text in a neater way
   return Markdown(
     data: text,
     shrinkWrap: true,

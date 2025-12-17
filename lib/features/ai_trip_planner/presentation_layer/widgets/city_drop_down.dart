@@ -19,27 +19,46 @@ class CustomDropdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15.w),
+      height: 55.h,
       decoration: BoxDecoration(
-        color: const Color(0xFFF5F5F5),
+        color: const Color(0xFFFFFFFF),
         borderRadius: BorderRadius.circular(12.r),
         border: Border.all(color: Colors.grey.shade300),
       ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          value: value,
-          isExpanded: true,
-          hint: Text(hint, style: GoogleFonts.cairo(color: Colors.grey)),
-          icon: const Icon(Icons.keyboard_arrow_down, color: Colors.grey),
-          items: items
-              .map(
-                (e) => DropdownMenuItem(
-                  value: e,
-                  child: Text(e, style: GoogleFonts.cairo()),
+      child: PopupMenuButton<String>(
+        surfaceTintColor: Color(0xFFFFFFFF),
+        offset: Offset(0, 50.h),
+        constraints: BoxConstraints(
+          maxHeight: 250.h,
+          minWidth: MediaQuery.of(context).size.width - 40.w,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.r),
+        ),
+        itemBuilder: (context) => items
+            .map(
+              (e) => PopupMenuItem<String>(
+                value: e,
+                child: Text(e, style: GoogleFonts.cairo()),
+              ),
+            )
+            .toList(),
+        onSelected: onChanged,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15.w),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                value ?? hint,
+                style: GoogleFonts.cairo(
+                  color: value == null ? Colors.grey : Colors.black,
+                  fontSize: 14.sp,
                 ),
-              )
-              .toList(),
-          onChanged: onChanged,
+              ),
+              const Icon(Icons.keyboard_arrow_down, color: Colors.grey),
+            ],
+          ),
         ),
       ),
     );

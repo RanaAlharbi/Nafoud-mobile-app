@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-// In the options before the trip suggestions  
+// In the chip options before getting the trip suggestions  
 enum TravelerType { solo, partner, family, friends }
 enum BudgetTier { flexible, budget, sensible, upscale, luxury }
 

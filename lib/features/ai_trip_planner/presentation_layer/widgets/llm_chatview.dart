@@ -1,38 +1,36 @@
-import 'package:final_project/features/ai_trip_planner/presentation_layer/widgets/markdown_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ai_toolkit/flutter_ai_toolkit.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-class LlmChatView extends StatelessWidget {
-  final String? result;
+class LlmWidget extends StatelessWidget {
+  final LlmProvider provider;
 
-  const LlmChatView({super.key, required this.result});
+  const LlmWidget({super.key, required this.provider});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w),
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: markdownCard(result ?? "The AI plan failed to load."),
-              ),
+      appBar: AppBar(
+        title: Text("Murshid AI", style: GoogleFonts.cairo()),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
+      body: LlmChatView(
+        provider: provider, 
+        style: LlmChatViewStyle(
+          backgroundColor: Colors.white,
+          chatInputStyle: ChatInputStyle(
+            hintText: "Ask anything...",
+            decoration: BoxDecoration(
+              color: const Color(0xFFF5F5F5),
+              borderRadius: BorderRadius.circular(25.r),
+              border: Border.all(color: Colors.grey.shade300),
             ),
-            Padding(
-              padding: EdgeInsets.only(bottom: 20.h, top: 10.h),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: "Ask anything...",
-                  suffixIcon: const Icon(Icons.send, color: Color(0xFF656A53)),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20.r),
-                  ),
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
