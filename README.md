@@ -26,10 +26,8 @@ Aligned with Saudi Vision 2030, Nafoud aims to position the Kingdom as a global 
 - Emergency contacts and embassy access
 - Local business support and promotion
 
-# 🧩 Widgets and External Packages Used
 
-🧩 Key Packages Used
-
+# 🧩 Key Packages Used
 The Nafoud application relies on a carefully selected set of core Flutter packages to support clean architecture, AI capabilities, mapping, and a high-quality user experience.
 
 - bloc / flutter_bloc – State management using the BLoC pattern
@@ -57,8 +55,8 @@ The Nafoud application relies on a carefully selected set of core Flutter packag
 
 # 📂 folders structure
 
-
-
+# Output 📱
+<img width="1686" height="871" alt="image" src="https://github.com/user-attachments/assets/2d09a8b3-c1fd-42ca-bd48-7b94bdf532e9" />
 
 
 # ▶️ How to Run
