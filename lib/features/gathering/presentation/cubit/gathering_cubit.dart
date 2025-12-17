@@ -7,7 +7,6 @@ import 'package:final_project/features/gathering/domain_layer/usecase/join_event
 import 'package:final_project/features/gathering/domain_layer/usecase/remove_bookmark_usecase.dart';
 import 'package:final_project/features/gathering/domain_layer/usecase/upload_image_usecase.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_google_places_sdk/flutter_google_places_sdk.dart';
 import 'package:injectable/injectable.dart';
 import 'package:final_project/features/gathering/domain_layer/usecase/create_gathering_usecase.dart';
 import 'package:final_project/features/gathering/domain_layer/usecase/delete_gathering_usecase.dart';

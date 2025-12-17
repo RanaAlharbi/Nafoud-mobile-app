@@ -10,7 +10,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 @module
 abstract class ThirdPartySetup {
-
   @lazySingleton
   GetStorage get storage => GetStorage();
 
@@ -20,21 +19,31 @@ abstract class ThirdPartySetup {
   @lazySingleton
   Dio get dio => Dio();
 
+  //google map Api key
   @lazySingleton
-  FlutterGooglePlacesSdk get googlePlaces {
+  FlutterGooglePlacesSdk get flutterGooglePlacesSdk {
     final apiKey = dotenv.env['GoogleMapsApiKey'];
 
     if (apiKey == null || apiKey.isEmpty) {
       throw Exception("Google Maps API Key is missing");
     }
 
-    return FlutterGooglePlacesSdk(
-      apiKey,
-      locale: const Locale("en"),
-    );
+    return FlutterGooglePlacesSdk(apiKey, locale: const Locale("en"));
   }
-  
-  @lazySingleton 
+
+
+  // FlutterGooglePlacesSdk get googlePlaces {
+  //   final apiKey = dotenv.env['GoogleMapsApiKey'];
+
+  //   if (apiKey == null || apiKey.isEmpty) {
+  //     throw Exception("Google Maps API Key is missing");
+  //   }
+
+  //   return FlutterGooglePlacesSdk(apiKey, locale: const Locale("en"));
+  // }
+
+  //Gemini Api key
+  @lazySingleton
   GenerativeModel get generativeModel {
     final apiKey = dotenv.env['GeminiAPIKey'];
 
@@ -51,6 +60,5 @@ abstract class ThirdPartySetup {
         SafetySetting(HarmCategory.sexuallyExplicit, HarmBlockThreshold.high),
       ],
     );
-    
   }
 }

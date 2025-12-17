@@ -134,6 +134,17 @@ import '../../features/gathering/presentation/cubit/gathering_cubit.dart'
     as _i142;
 import '../../features/home/presentation_layer/cubit/home_user_info_cubit.dart'
     as _i680;
+import '../../features/location/data_layer/datasource/location_datasorce.dart'
+    as _i594;
+import '../../features/location/data_layer/repo/location_repo_domain.dart'
+    as _i928;
+import '../../features/location/domain/repo/location_repository.dart' as _i488;
+import '../../features/location/domain/usecase/fetch_place_latlng_useCase.dart'
+    as _i984;
+import '../../features/location/domain/usecase/search_places_usecase.dart'
+    as _i33;
+import '../../features/location/presentation/cubit/location_cubit.dart'
+    as _i181;
 import '../../features/my_activity/data/datasources/my_activity_local_data_source.dart'
     as _i687;
 import '../../features/my_activity/data/datasources/my_activity_remote_data_source.dart'
@@ -187,7 +198,7 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i361.Dio>(() => thirdPartySetup.dio);
     gh.lazySingleton<_i336.FlutterGooglePlacesSdk>(
-      () => thirdPartySetup.googlePlaces,
+      () => thirdPartySetup.flutterGooglePlacesSdk,
     );
     gh.lazySingleton<_i656.GenerativeModel>(
       () => thirdPartySetup.generativeModel,
@@ -278,6 +289,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i105.CurrencyCacheDatasource>(
       () => _i105.GetStorageCurrencyCacheDatasource(gh<_i792.GetStorage>()),
+    );
+    gh.lazySingleton<_i594.BaseLocationRemoteDataSource>(
+      () => _i594.LocationRemoteDataSource(gh<_i336.FlutterGooglePlacesSdk>()),
     );
     gh.lazySingleton<_i1007.GatheringDomainRepository>(
       () => _i445.GatheringRepoDatasource(
@@ -374,6 +388,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i601.RemoveBookmarkUseCase>(
       () => _i601.RemoveBookmarkUseCase(gh<_i1007.GatheringDomainRepository>()),
     );
+    gh.lazySingleton<_i488.LocationRepository>(
+      () => _i928.LocationRepositoryImpl(
+        gh<_i594.BaseLocationRemoteDataSource>(),
+      ),
+    );
     gh.factory<_i680.HomeUserInfoCubit>(
       () => _i680.HomeUserInfoCubit(gh<_i680.ProfileUsecase>()),
     );
@@ -388,6 +407,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i569.EmergencyRepository>(),
         gh<_i680.ProfileUsecase>(),
       ),
+    );
+    gh.factory<_i984.FetchPlaceLatLngUseCase>(
+      () => _i984.FetchPlaceLatLngUseCase(gh<_i488.LocationRepository>()),
+    );
+    gh.factory<_i33.SearchPlacesUseCase>(
+      () => _i33.SearchPlacesUseCase(gh<_i488.LocationRepository>()),
     );
     gh.lazySingleton<_i710.GetEventsUsecase>(
       () => _i710.GetEventsUsecase(gh<_i586.EventsDomainRepository>()),
@@ -429,6 +454,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i235.CurrencyExchangeUsecase>(
       () =>
           _i235.CurrencyExchangeUsecase(gh<_i629.CurrencyExchangeRepository>()),
+    );
+    gh.factory<_i181.LocationCubit>(
+      () => _i181.LocationCubit(
+        gh<_i33.SearchPlacesUseCase>(),
+        gh<_i984.FetchPlaceLatLngUseCase>(),
+      ),
     );
     gh.factory<_i697.EmergencyCubit>(
       () => _i697.EmergencyCubit(gh<_i449.EmergencyUseCase>()),

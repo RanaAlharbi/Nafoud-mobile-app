@@ -91,6 +91,7 @@ class AuthenticationBloc
         ),
       );
     } catch (e) {
+      print('🚨 UPDATE PASSWORD ERROR: $e'); // <--- CHECK THIS CONSOLE OUTPUT
       emit(AuthenticationFailure(e.toString()));
     }
   }

@@ -84,7 +84,7 @@ class MurshidScreen extends StatelessWidget {
 
                   GestureDetector(
                     onTap: () {
-                      context.go('/chat');
+                      context.push('/chat');
                     },
                     child: Container(
                       width: 388,
