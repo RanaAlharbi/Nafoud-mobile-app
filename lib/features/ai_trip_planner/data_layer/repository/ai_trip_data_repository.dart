@@ -21,10 +21,12 @@ class TripDataRepository implements TripDomainRepository {
         systemPrompt,
       );
 
+      // return the AI's response not the users response
       final initialResponse = llmProvider.history
           .lastWhere((msg) => msg.origin == MessageOrigin.llm)
           .text;
 
+      // If failed to generate
       return initialResponse ?? "Failed to generate plan text.";
     } catch (e) {
       throw Exception("Failed to generate trip plan: $e");

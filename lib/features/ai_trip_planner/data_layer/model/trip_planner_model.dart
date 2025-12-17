@@ -34,14 +34,17 @@ class TripModel extends TripEntity with TripModelMappable {
     );
   }
 
+  // The prompt given to gemini to control how he answers 
   String toAiPrompt() {
+    // Get the date from user 
     final dateStr = dateRange != null
         ? "${DateFormat('MMM dd').format(dateRange!.start)} to ${DateFormat('MMM dd').format(dateRange!.end)}"
         : "Dates not decided";
-
+    // Get user travler type 
     final travelerStr = travelerType?.name ?? "Not Specified";
+    // Get user's budget type 
     final budgetStr = budget?.name ?? "Flexible";
-
+    // Get user's interest, if no interst put General sightseeing
     final interestsStr = interests.isEmpty
         ? "General sightseeing"
         : interests.join(", ");
