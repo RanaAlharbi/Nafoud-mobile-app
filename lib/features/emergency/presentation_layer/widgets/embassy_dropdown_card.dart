@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/core/app_theme/app_colors/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -81,7 +82,7 @@ class EmbassyDropdownCard extends StatelessWidget {
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                'Embassies',
+                'emergency.embassies'.tr(),
                 style: TextStyle(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.bold,
@@ -97,7 +98,7 @@ class EmbassyDropdownCard extends StatelessWidget {
               child: DropdownButton<String>(
                 value: selectedEmbassy,
                 hint: Text(
-                  'Select',
+                  'emergency.select'.tr(),
                   style: TextStyle(
                     fontSize: 12.sp,
                     color: Colors.grey,

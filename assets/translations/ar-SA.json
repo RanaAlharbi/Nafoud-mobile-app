@@ -153,6 +153,33 @@
     "dammam": "الدمام",
     "medina": "المدينة المنورة"
   },
+
+  "weather": {
+    "title": "الطقس",
+    "searchPlaceholder": "ابحث عن موقع ...",
+    "retry": "إعادة المحاولة",
+    "noDataAvailable": "لا توجد بيانات طقس متاحة",
+    "noCitiesFound": "لم يتم العثور على مدن مطابقة لـ",
+    "loadingData": "جاري تحميل بيانات الطقس...",
+    "high": "م",
+    "low": "د",
+    "conditions": {
+      "rainy": "ممطر",
+      "cloudy": "غائم",
+      "sunny": "مشمس",
+      "snowy": "مثلج",
+      "stormy": "عاصف"
+    }
+  },
+
+  "transport": {
+    "title": "المواصلات",
+    "taxi": "تاكسي",
+    "trains": "القطارات",
+    "public": "النقل العام",
+    "carRentals": "تأجير السيارات"
+  },
+
   "events": {
     "categories": {
       "all": "جميع الفئات",
@@ -208,6 +235,15 @@
     "gather": "تجمع",
     "noEventsFound": "لم يتم العثور على فعاليات",
     "searchHere": "ابحث هنا...",
+    "categories": {
+      "all": "الكل",
+      "sport": "رياضة",
+      "music": "موسيقى",
+      "food": "طعام",
+      "cultural": "ثقافة",
+      "adventure": "مغامرة",
+      "entertainment": "ترفيه"
+    },
     "months": {
       "jan": "يناير",
       "feb": "فبراير",
@@ -226,6 +262,21 @@
     "locationNotAvailable": "الموقع غير متاح",
     "getDirections": "احصل على الاتجاهات",
     "all": "الكل"
+  },
+
+  "currency": {
+    "currency": "العملة",
+    "amount": "المبلغ",
+    "convertedTo": "المحول إلى",
+    "select": "اختر"
+  },
+
+  "emergency": {
+    "emergency": "الطوارئ",
+    "error": "خطأ",
+    "search": "بحث ...",
+    "embassies": "السفارات",
+    "select": "اختر"
   },
 
   "destinations": {

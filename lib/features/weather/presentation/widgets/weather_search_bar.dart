@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -23,7 +24,7 @@ class WeatherSearchBar extends StatelessWidget {
       child: TextField(
         decoration: InputDecoration(
           suffixIcon: Icon(Icons.search, color: Colors.grey, size: 20.sp),
-          hintText: 'Search Location ...',
+          hintText: 'weather.searchPlaceholder'.tr(),
           hintStyle: TextStyle(color: Colors.grey, fontSize: 18.sp),
           border: InputBorder.none,
           contentPadding: EdgeInsets.symmetric(vertical: 14.h),
