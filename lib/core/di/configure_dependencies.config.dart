@@ -210,6 +210,9 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i158.ProfileCacheService(),
     );
     gh.lazySingleton<_i39.TripDataSource>(() => _i39.TripRemoteDataSource());
+    gh.lazySingleton<_i687.BaseMyActivityLocalDataSource>(
+      () => _i687.MyActivityLocalDataSource(gh<_i792.GetStorage>()),
+    );
     gh.lazySingleton<_i517.AuthenticationDatasource>(
       () => _i517.SupabaseDatasource(
         gh<_i454.SupabaseClient>(),
@@ -228,9 +231,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i106.TripDomainRepository>(
       () => _i557.TripDataRepository(gh<_i39.TripDataSource>()),
-    );
-    gh.lazySingleton<_i687.BaseMyActivityLocalDataSource>(
-      () => _i687.MyActivityLocalDataSource(),
     );
     gh.lazySingleton<_i781.BaseErrorPageRemoteDataSource>(
       () => _i781.ErrorPageRemoteDataSource(),

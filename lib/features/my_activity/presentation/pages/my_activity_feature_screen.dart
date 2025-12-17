@@ -40,7 +40,7 @@ class MyActivityFeatureScreen extends StatelessWidget {
                   20.verticalSpace,
                   Expanded(
                     child: () {
-                      if (state is MyActivityLoadingState) {
+                      if (state is MyActivityLoadingState || state is MyActivityInitialState) {
                         return Center(
                           child: CupertinoActivityIndicator(
                             color: const Color(0xff3D4032),

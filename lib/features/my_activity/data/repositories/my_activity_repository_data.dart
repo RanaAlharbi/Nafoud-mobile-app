@@ -15,9 +15,23 @@ class MyActivityRepositoryData implements MyActivityRepositoryDomain {
   @override
   Future<Either<String, MyActivityModel>> getMyActivity() async {
     try {
-      return await localDataSource.getCachedMyActivity();
+      final cachedResult = await localDataSource.getCachedMyActivity();
+
+      if (cachedResult.isRight()) {
+        return cachedResult;
+      }
+
+      final remoteResult = await remoteDataSource.getMyActivity();
+
+      return await remoteResult.fold(
+        (error) => Left(error),
+        (activityModel) async {
+          await localDataSource.saveMyActivity(activityModel);
+          return Right(activityModel);
+        },
+      );
     } catch (error) {
-      return await remoteDataSource.getMyActivity();
+      return Left('Failed to get my activity: ${error.toString()}');
     }
   }
 }

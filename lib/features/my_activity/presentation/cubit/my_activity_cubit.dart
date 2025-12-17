@@ -29,7 +29,6 @@ class MyActivityCubit extends Cubit<MyActivityState> {
   ) : super(MyActivityInitialState());
 
   Future<void> getMyActivityMethod() async {
-    emit(MyActivityLoadingState());
     final result = await _myActivityUseCase.getMyActivity();
     result.fold(
       (error) {
