@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/core/shared/Widgets/error_box.dart';
 import 'package:final_project/features/gathering/presentation/widget/event_card_widget.dart';
 import 'package:final_project/features/my_activity/presentation/cubit/my_activity_cubit.dart';
@@ -22,7 +23,7 @@ class MyActivityFeatureScreen extends StatelessWidget {
           onPressed: () => context.pop(),
         ),
         middle: Text(
-          "My Activity",
+          "myActivity.title".tr(),
           style: GoogleFonts.cairo(
             fontSize: 26,
             fontWeight: FontWeight.bold,
@@ -79,7 +80,7 @@ class MyActivityFeatureScreen extends StatelessWidget {
                                       ),
                                       15.verticalSpace,
                                       Text(
-                                        "No events found",
+                                        "myActivity.noEventsFound".tr(),
                                         style: GoogleFonts.cairo(
                                           fontSize: 16.sp,
                                           color: const Color(0xFF656A53),

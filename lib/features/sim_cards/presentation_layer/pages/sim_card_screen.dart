@@ -29,7 +29,9 @@ class SimCardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromRGBO(240, 240, 238, 1),
       appBar: AppBar(
+        backgroundColor: const Color.fromRGBO(240, 240, 238, 1),
         title: Text(
           "SIM Card",
           style: TextStyle(

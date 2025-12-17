@@ -105,21 +105,6 @@ class AuthenticationLandingScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  12.verticalSpace,
-                  GestureDetector(
-                    child: Text(
-                      "authLanding.continueAsGuest".tr(),
-                      style: GoogleFonts.cairo(
-                        color: Color(0xFF656A53),
-                        fontSize: 15.sp,
-                        decoration: TextDecoration.underline,
-                        decorationColor: Color(0xFF656A53),
-                        decorationStyle: TextDecorationStyle.solid,
-                        decorationThickness: 1,
-                      ),
-                    ),
-                    onTap: () {},
-                  ),
                 ],
               ),
             ),

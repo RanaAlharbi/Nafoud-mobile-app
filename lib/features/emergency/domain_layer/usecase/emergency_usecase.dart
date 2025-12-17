@@ -8,16 +8,16 @@ class EmergencyUseCase {
 
   EmergencyUseCase(this.repository, this.profileUsecase);
 
-  Future<List<EmergencyContactEntity>> getEmergencyContacts() async {
-    return await repository.getEmergencyContacts();
+  Future<List<EmergencyContactEntity>> getEmergencyContacts(String languageCode) async {
+    return await repository.getEmergencyContacts(languageCode);
   }
 
-  Future<Map<String, String>> getEmbassies() async {
-    return await repository.getEmbassies();
+  Future<Map<String, String>> getEmbassies(String languageCode) async {
+    return await repository.getEmbassies(languageCode);
   }
 
-  Future<Map<String, String>> getDescriptions() async {
-    return await repository.getDescriptions();
+  Future<Map<String, String>> getDescriptions(String languageCode) async {
+    return await repository.getDescriptions(languageCode);
   }
 
   Future<String?> getUserNationality() async {

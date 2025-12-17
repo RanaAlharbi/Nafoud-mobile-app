@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/core/app_theme/app_colors/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -47,7 +48,7 @@ class EditProfileScreen extends StatelessWidget {
           backgroundColor: Colors.transparent,
           leading: BackButton(),
           title: Text(
-            "Edit profile",
+            "editProfile.editProfileHeader".tr(),
             style: TextStyle(fontWeight: FontWeight.w800),
           ),
           centerTitle: true,
@@ -72,7 +73,7 @@ class EditProfileScreen extends StatelessWidget {
               }
 
               if (state is! ProfileFormState) {
-                return Center(child: Text('Loading...'));
+                return Center(child: Text('weather.loadingData'.tr()));
               }
 
               final formState = state;
@@ -87,7 +88,7 @@ class EditProfileScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Name',
+                          'editProfile.name'.tr(),
                           style: TextStyle(
                             fontSize: 18.sp,
                             fontWeight: .bold,
@@ -120,7 +121,7 @@ class EditProfileScreen extends StatelessWidget {
                                 ),
                               ),
                               hintText: formState.fullName.isEmpty
-                                  ? 'Enter Your Full Name'
+                                  ? 'editProfile.name'.tr()
                                   : formState.fullName,
                               hintStyle: TextStyle(
                                 color: Colors.grey,
@@ -155,7 +156,7 @@ class EditProfileScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Username',
+                          'editProfile.username'.tr(),
                           style: TextStyle(
                             fontSize: 18.sp,
                             fontWeight: FontWeight.bold,
@@ -213,7 +214,7 @@ class EditProfileScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Email',
+                          'editProfile.email'.tr(),
                           style: TextStyle(
                             fontSize: 18.sp,
                             fontWeight: FontWeight.bold,
@@ -282,7 +283,7 @@ class EditProfileScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Phone Number',
+                          'editProfile.phoneNum'.tr(),
                           style: TextStyle(
                             fontSize: 18.sp,
                             fontWeight: FontWeight.bold,
@@ -478,7 +479,7 @@ class EditProfileScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Nationality',
+                                    'editProfile.nationality'.tr(),
                                     style: TextStyle(
                                       fontSize: 18.sp,
                                       fontWeight: FontWeight.bold,
@@ -537,7 +538,7 @@ class EditProfileScreen extends StatelessWidget {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text(
-                                    'Gender',
+                                    'editProfile.gender'.tr(),
                                     style: TextStyle(
                                       fontSize: 18.sp,
                                       fontWeight: FontWeight.bold,
@@ -570,7 +571,11 @@ class EditProfileScreen extends StatelessWidget {
                                         children: [
                                           Expanded(
                                             child: Text(
-                                              formState.gender ?? 'Gender',
+                                              formState.gender != null
+                                                  ? (formState.gender == 'Male'
+                                                      ? 'editProfile.Male'.tr()
+                                                      : 'editProfile.Female'.tr())
+                                                  : 'editProfile.gender'.tr(),
                                               style: TextStyle(
                                                 color: formState.gender == null
                                                     ? Colors.grey
@@ -590,7 +595,11 @@ class EditProfileScreen extends StatelessWidget {
                                                 (gender) =>
                                                     PopupMenuItem<String>(
                                                       value: gender,
-                                                      child: Text(gender),
+                                                      child: Text(
+                                                        gender == 'Male'
+                                                            ? 'editProfile.Male'.tr()
+                                                            : 'editProfile.Female'.tr()
+                                                      ),
                                                     ),
                                               )
                                               .toList(),
@@ -627,7 +636,7 @@ class EditProfileScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Address',
+                          'editProfile.address'.tr(),
                           style: TextStyle(
                             fontSize: 18.sp,
                             fontWeight: FontWeight.bold,
@@ -698,9 +707,9 @@ class EditProfileScreen extends StatelessWidget {
                                   ),
                                 ),
                               )
-                            : const Text(
-                                'Information Update',
-                                style: TextStyle(
+                            : Text(
+                                'editProfile.infoUpdate'.tr(),
+                                style: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
                                   letterSpacing: 1.2,

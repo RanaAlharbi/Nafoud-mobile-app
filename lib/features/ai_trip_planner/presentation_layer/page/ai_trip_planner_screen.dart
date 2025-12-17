@@ -13,6 +13,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:jumping_dot/jumping_dot.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});
@@ -62,7 +63,7 @@ class ChatScreen extends StatelessWidget {
                           SvgPicture.asset('assets/icons/location_icon.svg'),
                           10.horizontalSpace,
                           Text(
-                            "Plan My Trip",
+                            "murshid.plan_trip".tr(),
                             style: GoogleFonts.cairo(
                               color: const Color(0xFF656A53),
                               fontSize: 31.1.sp,
