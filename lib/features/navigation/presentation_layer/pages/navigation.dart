@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:final_project/features/navigation/presentation_layer/cubit/navigation_cubit.dart';
@@ -37,7 +38,7 @@ class NavigationScreen extends StatelessWidget {
                     BlendMode.srcIn,
                   ),
                 ),
-                label: "Home",
+                label: "Home".tr(),
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
@@ -54,7 +55,7 @@ class NavigationScreen extends StatelessWidget {
                     BlendMode.srcIn,
                   ),
                 ),
-                label: "Gather",
+                label: "Gather".tr(),
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
@@ -71,7 +72,7 @@ class NavigationScreen extends StatelessWidget {
                     BlendMode.srcIn,
                   ),
                 ),
-                label: "Murshid",
+                label: "Murshid".tr(),
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
@@ -88,7 +89,7 @@ class NavigationScreen extends StatelessWidget {
                     BlendMode.srcIn,
                   ),
                 ),
-                label: "Profile",
+                label: "Profile".tr(),
               ),
             ],
           ),

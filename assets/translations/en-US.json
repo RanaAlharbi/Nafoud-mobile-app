@@ -27,5 +27,11 @@
     "signUpButton": "Sign Up",
     "alreadyHaveAccount": "Already have an account?",
     "login": "Login"
+  },
+  "nav": {
+    "home": "Home",
+    "gather": "Gather",
+    "murshid": "Murshid",
+    "profile": "Profile"
   }
 }

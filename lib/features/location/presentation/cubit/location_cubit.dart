@@ -2,6 +2,7 @@ import 'package:final_project/features/location/domain/usecase/fetch_place_latln
 import 'package:final_project/features/location/domain/usecase/search_places_usecase.dart';
 import 'package:final_project/features/location/presentation/cubit/location_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:injectable/injectable.dart';
 
 @injectable
@@ -9,10 +10,14 @@ class LocationCubit extends Cubit<LocationState> {
   final SearchPlacesUseCase searchPlacesUseCase;
   final FetchPlaceLatLngUseCase fetchPlaceLatLngUseCase;
 
-  LocationCubit(
-    this.searchPlacesUseCase,
-    this.fetchPlaceLatLngUseCase,
-  ) : super(const LocationState());
+  LocationCubit(this.searchPlacesUseCase, this.fetchPlaceLatLngUseCase)
+    : super(const LocationState());
+
+  GoogleMapController? mapController;
+
+  void setMapController(GoogleMapController controller) {
+    mapController = controller;
+  }
 
   // search places
   Future<void> search(String query) async {
@@ -20,12 +25,7 @@ class LocationCubit extends Cubit<LocationState> {
 
     final result = await searchPlacesUseCase(query: query);
     result.when(
-      (list) => emit(
-        state.copyWith(
-          results: list,
-          loading: false,
-        ),
-      ),
+      (list) => emit(state.copyWith(results: list, loading: false)),
       (_) => emit(state.copyWith(loading: false)),
     );
   }
@@ -34,26 +34,17 @@ class LocationCubit extends Cubit<LocationState> {
   Future<void> selectPlace(String placeId) async {
     final result = await fetchPlaceLatLngUseCase(placeId: placeId);
 
-    result.when(
-      (coords) => emit(
-        state.copyWith(
-          lat: coords.$1,
-          lng: coords.$2,
-          results: [],
-        ),
-      ),
-      (_) {},
-    );
+    result.when((coords) {
+      emit(state.copyWith(lat: coords.$1, lng: coords.$2, results: []));
+
+      mapController?.animateCamera(
+        CameraUpdate.newLatLngZoom(LatLng(coords.$1, coords.$2), 15),
+      );
+    }, (_) {});
   }
 
   // select manually from map
   void setManualLocation(double lat, double lng) {
-    emit(
-      state.copyWith(
-        lat: lat,
-        lng: lng,
-      ),
-    );
+    emit(state.copyWith(lat: lat, lng: lng));
   }
 }
-
