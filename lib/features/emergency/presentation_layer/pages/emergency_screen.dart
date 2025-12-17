@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/core/di/configure_dependencies.dart';
 import 'package:final_project/features/emergency/presentation_layer/cubit/emergency_cubit.dart';
 import 'package:final_project/features/emergency/presentation_layer/cubit/emergency_state.dart';
@@ -14,21 +13,41 @@ import 'package:gap/gap.dart';
 class EmergencyScreen extends StatelessWidget {
   const EmergencyScreen({super.key});
 
+  String _getIconUrl(String contactName) {
+    // Map contact names to images
+    final iconMap = {
+      // Local Assets
+      'Police': 'assets/Images/emergency/police.png',
+      'Traffic Police': 'assets/Images/emergency/Traffic_Police.png',
+      'Traffic patrols': 'assets/Images/emergency/Traffic_Patrols.png',
+      'Civil Defence': 'assets/Images/emergency/Civil_Defense.png',
+      'Roads Security': 'assets/Images/emergency/Road_Security.png',
+      'CPVPV': 'assets/Images/emergency/CPVPV.png',
+      'Ministry of Health': 'assets/Images/emergency/Ministry_of_Health.png',
+
+      // Fallback to default for unmapped contacts
+      'Police (Riyadh, Makkah, Medina, and East of Saudi Arabia)': 'assets/Images/emergency/police.png',
+      'Police other countries': 'assets/Images/emergency/police.png',
+      'Public Security': 'assets/Images/emergency/police.png',
+      'Traffic': 'assets/Images/emergency/Traffic_Police.png',
+      'Traffic Violation Inquiries': 'assets/Images/emergency/Traffic_Police.png',
+    };
+
+    return iconMap[contactName] ?? '';
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    // Get current language code
-    final languageCode = context.locale.languageCode;
-
     return BlocProvider(
-      create: (context) => getIt<EmergencyCubit>()..loadEmergencyContacts(languageCode),
+      create: (context) => getIt<EmergencyCubit>()..loadEmergencyContacts(),
       child: Scaffold(
         backgroundColor: const Color.fromRGBO(240, 240, 238, 1),
         appBar: AppBar(
           backgroundColor: const Color.fromRGBO(240, 240, 238, 1),
-          title: Text(
-            "emergency.emergency".tr(),
-            style: const TextStyle(
+          title: const Text(
+            "Emergency",
+            style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Color.fromRGBO(30, 30, 30, 1),
             ),
@@ -51,7 +70,7 @@ class EmergencyScreen extends StatelessWidget {
                 if (state is EmergencyErrorState) {
                   return Center(
                     child: Text(
-                      '${"emergency.error".tr()}: ${state.message}',
+                      'Error: ${state.message}',
                       style: const TextStyle(color: Colors.red),
                     ),
                   );
@@ -97,7 +116,7 @@ class EmergencyScreen extends StatelessWidget {
                               title: contact.name,
                               number: contact.number,
                               description: state.descriptions[contact.name],
-                              iconUrl: state.iconMap[contact.name] ?? '',
+                              iconUrl: _getIconUrl(contact.name),
                             );
                           },
                         ),
