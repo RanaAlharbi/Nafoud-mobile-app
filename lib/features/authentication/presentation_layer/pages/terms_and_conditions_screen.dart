@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -81,6 +82,7 @@ class TermsAndConditionsScreen extends StatelessWidget {
                     21.verticalSpace,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      textDirection: .ltr,
                       children: [
                         GestureDetector(
                           onTap: () {
@@ -100,18 +102,20 @@ class TermsAndConditionsScreen extends StatelessWidget {
                     58.verticalSpace,
 
                     Text(
-                      "Terms & Conditions",
+                      "termsAndConditions.title".tr(),
                       style: GoogleFonts.cairo(
                         fontSize: 25.9.sp,
                         color: const Color(0xFF3D4032),
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Text(
-                      "Please read the following terms & conditions carefully before continuing.",
-                      style: GoogleFonts.cairo(
-                        fontSize: 18.sp,
-                        color: const Color(0xFF919191),
+                    Expanded(
+                      child: Text(
+                        "termsAndConditions.subtitle".tr(),
+                        style: GoogleFonts.cairo(
+                          fontSize: 18.sp,
+                          color: const Color(0xFF919191),
+                        ),
                       ),
                     ),
                     22.verticalSpace,
@@ -129,9 +133,9 @@ class TermsAndConditionsScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Align(
-                        alignment: Alignment.topLeft,
+                        alignment: AlignmentDirectional.topStart,
                         child: Text(
-                          "1. Acceptance of Terms",
+                          "termsAndConditions.section1Title".tr(),
                           style: GoogleFonts.cairo(
                             fontSize: 15.sp,
                             color: const Color(0xFF919191),
@@ -140,15 +144,15 @@ class TermsAndConditionsScreen extends StatelessWidget {
                         ),
                       ),
                       _buildTextRow(
-                        "By creating an account or using the app, you agree to comply with these Terms & Conditions. If you do not agree, please stop using the app.",
+                        "termsAndConditions.section1Text".tr(),
                       ),
 
                       10.verticalSpace,
 
                       Align(
-                        alignment: Alignment.topLeft,
+                        alignment: AlignmentDirectional.topStart,
                         child: Text(
-                          "2. Purpose of the App",
+                          "termsAndConditions.section2Title".tr(),
                           style: GoogleFonts.cairo(
                             fontSize: 15.sp,
                             color: const Color(0xFF919191),
@@ -157,15 +161,15 @@ class TermsAndConditionsScreen extends StatelessWidget {
                         ),
                       ),
                       _buildTextRow(
-                        "Nufud helps users discover events, explore experiences, plan trips, and interact with AI-powered features such as image analysis and recommendations. The app is for personal, non-commercial use only.",
+                        "termsAndConditions.section2Text".tr(),
                       ),
 
                       10.verticalSpace,
 
                       Align(
-                        alignment: Alignment.topLeft,
+                        alignment: AlignmentDirectional.topStart,
                         child: Text(
-                          "3. User Responsibilities",
+                          "termsAndConditions.section3Title".tr(),
                           style: GoogleFonts.cairo(
                             fontSize: 15.sp,
                             color: const Color(0xFF919191),
@@ -173,26 +177,26 @@ class TermsAndConditionsScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      _buildTextRow("You agree to:"),
+                      _buildTextRow("termsAndConditions.section3Text".tr()),
                       _buildBulletPoint(
-                        "Use the app respectfully and lawfully.",
+                        "termsAndConditions.section3Bullet1".tr(),
                       ),
                       _buildBulletPoint(
-                        "Provide accurate information when creating an account.",
+                        "termsAndConditions.section3Bullet2".tr(),
                       ),
                       _buildBulletPoint(
-                        "Not misuse any feature, including AI tools, image uploads, or event posting.",
+                        "termsAndConditions.section3Bullet3".tr(),
                       ),
                       _buildBulletPoint(
-                        "Not upload harmful, inappropriate, or copyrighted content that you do not own.",
+                        "termsAndConditions.section3Bullet4".tr(),
                       ),
 
                       10.verticalSpace,
 
                       Align(
-                        alignment: Alignment.topLeft,
+                        alignment: AlignmentDirectional.topStart,
                         child: Text(
-                          "4. Event Posting & Community Content",
+                          "termsAndConditions.section4Title".tr(),
                           style: GoogleFonts.cairo(
                             fontSize: 15.sp,
                             color: const Color(0xFF919191),
@@ -200,49 +204,23 @@ class TermsAndConditionsScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      _buildTextRow("If you post an event or activity:"),
+                      _buildTextRow("termsAndConditions.section4Text".tr()),
                       _buildBulletPoint(
-                        "You are responsible for the accuracy of your information.",
+                        "termsAndConditions.section4Bullet1".tr(),
                       ),
                       _buildBulletPoint(
-                        "Nufud does not verify or guarantee event details.",
+                        "termsAndConditions.section4Bullet2".tr(),
                       ),
                       _buildBulletPoint(
-                        "Nufud is not responsible for interactions between users or for any issues that occur during events.",
+                        "termsAndConditions.section4Bullet3".tr(),
                       ),
 
                       10.verticalSpace,
 
                       Align(
-                        alignment: Alignment.topLeft,
+                        alignment: AlignmentDirectional.topStart,
                         child: Text(
-                          "5. AI Features",
-                          style: GoogleFonts.cairo(
-                            fontSize: 15.sp,
-                            color: const Color(0xFF919191),
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      _buildTextRow(
-                        "Nufud includes AI features such as trip planning, recommendations, and image analysis. These features:",
-                      ),
-                      _buildBulletPoint(
-                        "Provide suggestions only, not guarantees.",
-                      ),
-                      _buildBulletPoint(
-                        "May not always be accurate or complete.",
-                      ),
-                      _buildBulletPoint(
-                        "Should not be used for safety-critical decisions.",
-                      ),
-
-                      10.verticalSpace,
-
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "6. Privacy & Data",
+                          "termsAndConditions.section5Title".tr(),
                           style: GoogleFonts.cairo(
                             fontSize: 15.sp,
                             color: const Color(0xFF919191),
@@ -251,49 +229,24 @@ class TermsAndConditionsScreen extends StatelessWidget {
                         ),
                       ),
                       _buildTextRow(
-                        "We collect and process data to improve your experience. This may include:",
+                        "termsAndConditions.section5Text".tr(),
                       ),
-                      _buildBulletPoint("Account information"),
-                      _buildBulletPoint("Uploaded images"),
-                      _buildBulletPoint("Location (if you choose to allow it)"),
-                      _buildBulletPoint("App usage analytics"),
                       _buildBulletPoint(
-                        "We do not sell your personal data to third parties. For more details, refer to our Privacy Policy.",
+                        "termsAndConditions.section5Bullet1".tr(),
+                      ),
+                      _buildBulletPoint(
+                        "termsAndConditions.section5Bullet2".tr(),
+                      ),
+                      _buildBulletPoint(
+                        "termsAndConditions.section5Bullet3".tr(),
                       ),
 
                       10.verticalSpace,
 
                       Align(
-                        alignment: Alignment.topLeft,
+                        alignment: AlignmentDirectional.topStart,
                         child: Text(
-                          "7. Prohibited Activities",
-                          style: GoogleFonts.cairo(
-                            fontSize: 15.sp,
-                            color: const Color(0xFF919191),
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      _buildTextRow("You agree NOT to:"),
-                      _buildBulletPoint(
-                        "Use the app for illegal or harmful activities.",
-                      ),
-                      _buildBulletPoint(
-                        "Upload content containing violence, hate, harassment, or explicit material.",
-                      ),
-                      _buildBulletPoint(
-                        "Attempt to hack, reverse engineer, or misuse the app.",
-                      ),
-                      _buildBulletPoint(
-                        "Impersonate other users or create fake content.",
-                      ),
-
-                      10.verticalSpace,
-
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          "8. Intellectual Property",
+                          "termsAndConditions.section6Title".tr(),
                           style: GoogleFonts.cairo(
                             fontSize: 15.sp,
                             color: const Color(0xFF919191),
@@ -302,15 +255,22 @@ class TermsAndConditionsScreen extends StatelessWidget {
                         ),
                       ),
                       _buildTextRow(
-                        "All branding, design, content, and app features belong to Nufud. You may not copy, reproduce, or redistribute any part of the app without permission.",
+                        "termsAndConditions.section6Text".tr(),
+                      ),
+                      _buildBulletPoint("termsAndConditions.section6Bullet1".tr()),
+                      _buildBulletPoint("termsAndConditions.section6Bullet2".tr()),
+                      _buildBulletPoint("termsAndConditions.section6Bullet3".tr()),
+                      _buildBulletPoint("termsAndConditions.section6Bullet4".tr()),
+                      _buildBulletPoint(
+                        "termsAndConditions.section6Bullet5".tr(),
                       ),
 
                       10.verticalSpace,
 
                       Align(
-                        alignment: Alignment.topLeft,
+                        alignment: AlignmentDirectional.topStart,
                         child: Text(
-                          "9. Limitation of Liability",
+                          "termsAndConditions.section7Title".tr(),
                           style: GoogleFonts.cairo(
                             fontSize: 15.sp,
                             color: const Color(0xFF919191),
@@ -318,22 +278,26 @@ class TermsAndConditionsScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      _buildTextRow("Nufud is not responsible for:"),
+                      _buildTextRow("termsAndConditions.section7Text".tr()),
                       _buildBulletPoint(
-                        "Event cancellations, misinformation, or disputes between users",
+                        "termsAndConditions.section7Bullet1".tr(),
                       ),
                       _buildBulletPoint(
-                        "Damages resulting from the use of AI features",
+                        "termsAndConditions.section7Bullet2".tr(),
                       ),
-                      _buildBulletPoint("Loss of data or technical issues"),
-                      _buildBulletPoint("You use the app at your own risk."),
+                      _buildBulletPoint(
+                        "termsAndConditions.section7Bullet3".tr(),
+                      ),
+                      _buildBulletPoint(
+                        "termsAndConditions.section7Bullet4".tr(),
+                      ),
 
                       10.verticalSpace,
 
                       Align(
-                        alignment: Alignment.topLeft,
+                        alignment: AlignmentDirectional.topStart,
                         child: Text(
-                          "10. Changes to the Terms",
+                          "termsAndConditions.section8Title".tr(),
                           style: GoogleFonts.cairo(
                             fontSize: 15.sp,
                             color: const Color(0xFF919191),
@@ -342,15 +306,38 @@ class TermsAndConditionsScreen extends StatelessWidget {
                         ),
                       ),
                       _buildTextRow(
-                        "We may update these Terms from time to time. If changes are made, we will notify users in the app. Continued use means you accept the updated Terms.",
+                        "termsAndConditions.section8Text".tr(),
                       ),
 
                       10.verticalSpace,
 
                       Align(
-                        alignment: Alignment.topLeft,
+                        alignment: AlignmentDirectional.topStart,
                         child: Text(
-                          "11. Contact",
+                          "termsAndConditions.section9Title".tr(),
+                          style: GoogleFonts.cairo(
+                            fontSize: 15.sp,
+                            color: const Color(0xFF919191),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      _buildTextRow("termsAndConditions.section9Text".tr()),
+                      _buildBulletPoint(
+                        "termsAndConditions.section9Bullet1".tr(),
+                      ),
+                      _buildBulletPoint(
+                        "termsAndConditions.section9Bullet2".tr(),
+                      ),
+                      _buildBulletPoint("termsAndConditions.section9Bullet3".tr()),
+                      _buildBulletPoint("termsAndConditions.section9Bullet4".tr()),
+
+                      10.verticalSpace,
+
+                      Align(
+                        alignment: AlignmentDirectional.topStart,
+                        child: Text(
+                          "termsAndConditions.section10Title".tr(),
                           style: GoogleFonts.cairo(
                             fontSize: 15.sp,
                             color: const Color(0xFF919191),
@@ -359,7 +346,24 @@ class TermsAndConditionsScreen extends StatelessWidget {
                         ),
                       ),
                       _buildTextRow(
-                        "If you have questions or concerns, please contact us: support@nafoud.app",
+                        "termsAndConditions.section10Text".tr(),
+                      ),
+
+                      10.verticalSpace,
+
+                      Align(
+                        alignment: AlignmentDirectional.topStart,
+                        child: Text(
+                          "termsAndConditions.section11Title".tr(),
+                          style: GoogleFonts.cairo(
+                            fontSize: 15.sp,
+                            color: const Color(0xFF919191),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      _buildTextRow(
+                        "termsAndConditions.section11Text".tr(),
                       ),
 
                       20.verticalSpace,
@@ -393,7 +397,7 @@ class TermsAndConditionsScreen extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          "Agree",
+                          "termsAndConditions.agree".tr(),
                           style: GoogleFonts.cairo(fontSize: 18.sp),
                         ),
                       ),

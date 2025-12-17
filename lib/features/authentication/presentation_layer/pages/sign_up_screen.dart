@@ -62,7 +62,7 @@ class SignUpScreen extends StatelessWidget {
                       children: [
                         21.verticalSpace,
                         Align(
-                          alignment: Alignment.centerRight,
+                          alignment: AlignmentDirectional.centerStart,
                           child: SvgPicture.asset(
                             'assets/logo/NafoudLogo.svg',
                             width: 67.87.w,
@@ -303,7 +303,7 @@ class SignUpScreen extends StatelessWidget {
                             return Padding(
                               padding: EdgeInsets.only(top: 8.h),
                               child: Align(
-                                alignment: Alignment.centerLeft,
+                                alignment: AlignmentDirectional.centerStart,
                                 child: Text(
                                   errorMsg,
                                   style: GoogleFonts.cairo(

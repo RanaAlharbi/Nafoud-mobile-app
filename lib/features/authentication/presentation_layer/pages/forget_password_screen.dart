@@ -143,7 +143,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                           Padding(
                             padding: EdgeInsets.only(top: 10.h),
                             child: Align(
-                              alignment: Alignment.centerLeft,
+                              alignment: AlignmentDirectional.centerStart,
                               child: Text(
                                 state.message,
                                 style: GoogleFonts.cairo(

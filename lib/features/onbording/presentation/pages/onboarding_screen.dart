@@ -121,7 +121,7 @@ class OnboardingScreen extends StatelessWidget {
                                 },
 
                                 child: Text(
-                                  "Start Now",
+                                  "onboarding.startNow".tr(),
                                   style: GoogleFonts.cairo(
                                     fontSize: 18.sp,
                                     fontWeight: .bold,
@@ -136,7 +136,7 @@ class OnboardingScreen extends StatelessWidget {
                                 CupertinoButton(
                                   onPressed: () => cubit.skip(context),
                                   child: Text(
-                                    "Skip",
+                                    "onboarding.skip".tr(),
                                     style: GoogleFonts.cairo(
                                       fontSize: 18.sp,
                                       color: const Color(0xffC1C1C1),
@@ -156,7 +156,7 @@ class OnboardingScreen extends StatelessWidget {
                                   child: Row(
                                     children: [
                                       Text(
-                                        "Next",
+                                        "onboarding.next".tr(),
                                         style: GoogleFonts.cairo(
                                           color: Color(0xFF656A53),
                                           fontWeight: .bold,

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -11,16 +12,16 @@ class OnboardingCubit extends Cubit<int> {
     "assets/Images/onboarding/onboarding_3.png",
   ];
 
-  final List<String> titles = [
-    "Discover Nafoud Saudi Arabia",
-    "Smart Guidance Everywhere",
-    "Feel the Heart of Saudi",
+  List<String> get titles => [
+    "onboarding.title1".tr(),
+    "onboarding.title2".tr(),
+    "onboarding.title3".tr(),
   ];
 
-  final List<String> descriptions = [
-    "From its deserts to its cities ... we show you the Kingdom with unforgettable details",
-    "Snap a landmark, ask a question, and Nafoud helps instantly",
-    "Connect with locals, share your experiences and discover the culture from its heart",
+  List<String> get descriptions => [
+    "onboarding.description1".tr(),
+    "onboarding.description2".tr(),
+    "onboarding.description3".tr(),
   ];
 
   int _currentIndex = 0;
