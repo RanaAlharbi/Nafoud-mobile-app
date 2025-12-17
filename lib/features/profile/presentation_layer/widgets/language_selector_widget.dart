@@ -44,45 +44,27 @@ class _LanguageSelectorWidgetState extends State<LanguageSelectorWidget> {
         ),
         itemBuilder: (context) => [
           PopupMenuItem(
-            value: "English",
+            value: "en",
             child: Text(
               "English",
               style: TextStyle(color: Color.fromRGBO(109, 109, 109, 1)),
             ),
           ),
           PopupMenuItem(
-            value: "Arabic",
+            value: "ar",
             child: Text(
-              "Arabic",
-              style: TextStyle(color: Color.fromRGBO(109, 109, 109, 1)),
-            ),
-          ),
-          PopupMenuItem(
-            value: "French",
-            child: Text(
-              "French",
-              style: TextStyle(color: Color.fromRGBO(109, 109, 109, 1)),
-            ),
-          ),
-          PopupMenuItem(
-            value: "Urdu",
-            child: Text(
-              "Urdu",
-              style: TextStyle(color: Color.fromRGBO(109, 109, 109, 1)),
-            ),
-          ),
-          PopupMenuItem(
-            value: "Hindi",
-            child: Text(
-              "Hindi",
+              "العربية",
               style: TextStyle(color: Color.fromRGBO(109, 109, 109, 1)),
             ),
           ),
         ],
-        onSelected: (value) {
-          setState(() {
-            //selectedLanguage = value;
-          });
+        onSelected: (value) async {
+          if (value == "en") {
+            await context.setLocale(Locale('en', 'US'));
+          } else if (value == "ar") {
+            await context.setLocale(Locale('ar', 'SA'));
+          }
+          setState(() {});
         },
       ),
     );
