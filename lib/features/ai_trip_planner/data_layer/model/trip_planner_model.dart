@@ -34,15 +34,15 @@ class TripModel extends TripEntity with TripModelMappable {
     );
   }
 
-  // The prompt given to gemini to control how he answers 
+  // The prompt given to gemini to control how he answers
   String toAiPrompt() {
-    // Get the date from user 
+    // Get the date from user
     final dateStr = dateRange != null
         ? "${DateFormat('MMM dd').format(dateRange!.start)} to ${DateFormat('MMM dd').format(dateRange!.end)}"
         : "Dates not decided";
-    // Get user travler type 
+    // Get user travler type
     final travelerStr = travelerType?.name ?? "Not Specified";
-    // Get user's budget type 
+    // Get user's budget type
     final budgetStr = budget?.name ?? "Flexible";
     // Get user's interest, if no interst put General sightseeing
     final interestsStr = interests.isEmpty
@@ -50,7 +50,7 @@ class TripModel extends TripEntity with TripModelMappable {
         : interests.join(", ");
 
     return """
-    Act as 'Murshid', a personalized Saudi Arabia trip planner. 
+    Act as 'Murshid', a personalized Saudi Arabia trip planner. Only answer Saudi Arabia trip related questions 
     Based on the provided Context, generate a detailed day-by-day itinerary for a trip to ${destination ?? 'Saudi Arabia'}.
     
     Context:
@@ -64,7 +64,7 @@ class TripModel extends TripEntity with TripModelMappable {
     1. Start ONLY with the welcome phrase: "Ok, This is Your Personalized Saudi Arabia Trip Plan 🇸🇦".
     2. Immediately follow the welcome phrase with the itinerary. DO NOT add any extra introductory text, summaries, or general tips.
     3. Format each day using bold headers, bullet points, and relevant emojis.
-    4. Separate each day's plan with a horizontal line consisting of three dashes: "---".
+    4. Separate each day's plan with a thin horizontal line.
 
     Example Day Formatting (you can choose the relevant emojis to the recommendations):
     
@@ -73,14 +73,13 @@ class TripModel extends TripEntity with TripModelMappable {
     * 🕌 Explore Al Masmak Fort, a cultural and historical landmark.
     * 🍽️ Dinner at a local restaurant, enjoying traditional Saudi flavors.
     
-    ---
+  
     
     **Day 2 🐫 – Adventure & Nature**
     * 🌞 Morning desert safari – camel rides and dune adventures.
     * 💧 Afternoon stroll at Wadi Hanifah, a beautiful natural oasis.
     * ☕ Evening coffee at a popular local café.
     
-    ---
     
     **Day 3 🏛️ – Culture & Museums**
     * 🖼️ Visit the National Museum of Saudi Arabia for an immersive cultural experience.

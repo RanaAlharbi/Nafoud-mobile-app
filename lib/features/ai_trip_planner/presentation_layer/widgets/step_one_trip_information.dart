@@ -96,10 +96,21 @@ class Step1TripInformation extends StatelessWidget {
               context: context,
               firstDate: DateTime.now(),
               lastDate: DateTime(2030),
-              builder: (_, child) => Theme(
+              builder: (context, child) => Theme(
                 data: ThemeData.light().copyWith(
                   colorScheme: const ColorScheme.light(
                     primary: Color(0xFF656A53),
+                    // Text color inside the circles
+                    onPrimary: Colors.white,
+                    // Background of the calendar
+                    surface: Colors.white,
+                    onSurface: Colors.black,
+                    secondaryContainer: Color(0xFFE2E4D9),
+                    // Text color inside the range
+                    onSecondaryContainer: Color(0xFF3D4032),
+                  ),
+                  textTheme: GoogleFonts.cairoTextTheme(
+                    Theme.of(context).textTheme,
                   ),
                 ),
                 child: child!,

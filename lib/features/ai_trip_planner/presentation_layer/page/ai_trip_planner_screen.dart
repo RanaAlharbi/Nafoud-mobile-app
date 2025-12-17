@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:final_project/features/ai_trip_planner/presentation_layer/bloc/ai_trip_planner_bloc.dart';
 import 'package:final_project/features/ai_trip_planner/presentation_layer/widgets/button_widget.dart';
 import 'package:final_project/features/ai_trip_planner/presentation_layer/widgets/llm_chatview.dart';
@@ -20,107 +19,107 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text('Murshid'),
-        titleTextStyle: GoogleFonts.cairo(
-          color: const Color(0xff3D4032),
-          fontSize: 25.9,
-          fontWeight: FontWeight.bold,
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          onPressed: () => context.pop(),
-          icon: const Icon(Icons.arrow_back),
-        ),
-      ),
-      body: BlocConsumer<TripPlannerBloc, TripPlannerState>(
-        listener: (context, state) {
-          if (state.status == TripStatus.error) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text("An error occurred during planning."),
-              ),
-            );
-          }
-        },
-        builder: (context, state) {
-          final bloc = context.read<TripPlannerBloc>();
-          final currentStep = state.currentStep;
+    return BlocConsumer<TripPlannerBloc, TripPlannerState>(
+      listener: (context, state) {
+        if (state.status == TripStatus.error) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("An error occurred during planning.")),
+          );
+        }
+      },
+      builder: (context, state) {
+        // If successful, return the LLM widget with the response
+        if (state.status == TripStatus.success && state.aiProvider != null) {
+          return LlmWidget(provider: state.aiProvider!);
+        }
 
-          if (state.status == TripStatus.loading) {
-            return Positioned.fill(
-              child: Stack(
-                children: [
-                  BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                    child: Container(color: Colors.black.withValues(alpha: .2)),
-                  ),
-                  Center(
-                    child: JumpingDots(
-                      color: Color(0xFF656A53),
-                      radius: 10,
-                      numberOfDots: 3,
-                      animationDuration: Duration(milliseconds: 200),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }
-          if (state.status == TripStatus.success) {
-            return LlmChatView(result: state.aiResponse);
-          }
-
-          return SafeArea(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+        // Return stepper using stack
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            title: const Text('Murshid'),
+            titleTextStyle: GoogleFonts.cairo(
+              color: const Color(0xff3D4032),
+              fontSize: 25.9.sp,
+              fontWeight: FontWeight.bold,
+            ),
+            centerTitle: true,
+            leading: IconButton(
+              onPressed: () => context.pop(),
+              icon: const Icon(Icons.arrow_back),
+            ),
+          ),
+          body: Stack(
+            children: [
+              SafeArea(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SvgPicture.asset('assets/icons/location_icon.svg'),
-                      10.horizontalSpace,
-                      Text(
-                        "Plan My Trip",
-                        style: GoogleFonts.cairo(
-                          color: const Color(0xFF656A53),
-                          fontSize: 31.1.sp,
-                          fontWeight: FontWeight.w400,
+                      Row(
+                        children: [
+                          SvgPicture.asset('assets/icons/location_icon.svg'),
+                          10.horizontalSpace,
+                          Text(
+                            "Plan My Trip",
+                            style: GoogleFonts.cairo(
+                              color: const Color(0xFF656A53),
+                              fontSize: 31.1.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      ),
+                      20.verticalSpace,
+                      CustomStepper(currentStep: state.currentStep),
+                      25.verticalSpace,
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (state.currentStep == 0)
+                                Step1TripInformation(prefs: state.preferences),
+                              if (state.currentStep == 1)
+                                Step2TripAssistance(prefs: state.preferences),
+                              if (state.currentStep == 2)
+                                Step3TripVibe(prefs: state.preferences),
+                            ],
+                          ),
                         ),
+                      ),
+                      NavigationButtons(
+                        state: state,
+                        bloc: context.read<TripPlannerBloc>(),
                       ),
                     ],
                   ),
-                  SizedBox(height: 20.h),
+                ),
+              ),
 
-                  CustomStepper(currentStep: currentStep),
-                  SizedBox(height: 25.h),
-
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          if (currentStep == 0)
-                            Step1TripInformation(prefs: state.preferences),
-                          if (currentStep == 1)
-                            Step2TripAssistance(prefs: state.preferences),
-                          if (currentStep == 2)
-                            Step3TripVibe(prefs: state.preferences),
-                        ],
+              // If loading, display jumping dots 
+              if (state.status == TripStatus.loading)
+                Positioned.fill(
+                  child: Container(
+                    color: Colors.black.withOpacity(0.2),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                      child: Center(
+                        child: JumpingDots(
+                          color: const Color(0xFF656A53),
+                          radius: 10,
+                          numberOfDots: 3,
+                          animationDuration: const Duration(milliseconds: 200),
+                        ),
                       ),
                     ),
                   ),
-
-                  NavigationButtons(state: state, bloc: bloc),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
+                ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

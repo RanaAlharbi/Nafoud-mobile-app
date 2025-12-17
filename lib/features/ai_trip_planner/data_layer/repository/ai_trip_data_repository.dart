@@ -12,22 +12,13 @@ class TripDataRepository implements TripDomainRepository {
   TripDataRepository(this._dataSource);
 
   @override
-  Future<String> generateTripPlan(TripEntity preferences) async {
+  Future<LlmProvider> generateTripPlan(TripEntity preferences) async {
     final model = TripModel.fromEntity(preferences);
     final systemPrompt = model.toAiPrompt();
 
     try {
-      final llmProvider = await _dataSource.initializeChatWithPrompt(
-        systemPrompt,
-      );
-
-      // return the AI's response not the users response
-      final initialResponse = llmProvider.history
-          .lastWhere((msg) => msg.origin == MessageOrigin.llm)
-          .text;
-
-      // If failed to generate
-      return initialResponse ?? "Failed to generate plan text.";
+      final llmProvider = await _dataSource.initializeChatWithPrompt(systemPrompt);
+      return llmProvider; 
     } catch (e) {
       throw Exception("Failed to generate trip plan: $e");
     }
