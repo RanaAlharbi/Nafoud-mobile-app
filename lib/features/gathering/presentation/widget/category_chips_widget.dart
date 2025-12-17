@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/features/gathering/presentation/cubit/gathering_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +10,32 @@ class CategoryChipsWidget extends StatelessWidget {
   final List<String> categories;
 
   const CategoryChipsWidget({super.key, required this.categories});
+
+  // Method to get translated category name
+  String _getTranslatedCategory(String category) {
+    final lowerCat = category.toLowerCase();
+    switch (lowerCat) {
+      case 'all':
+        return 'gathering.categories.all'.tr();
+      case 'sport':
+      case 'sports':
+        return 'gathering.categories.sport'.tr();
+      case 'music':
+        return 'gathering.categories.music'.tr();
+      case 'food':
+      case 'food & drinks':
+        return 'gathering.categories.food'.tr();
+      case 'cultural':
+      case 'culture':
+        return 'gathering.categories.cultural'.tr();
+      case 'adventure':
+        return 'gathering.categories.adventure'.tr();
+      case 'entertainment':
+        return 'gathering.categories.entertainment'.tr();
+      default:
+        return category; // Return original if no translation found
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +77,7 @@ class CategoryChipsWidget extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    cat,
+                    _getTranslatedCategory(cat),
                     style: GoogleFonts.cairo(
                       color: isSelected
                           ? CupertinoColors.white

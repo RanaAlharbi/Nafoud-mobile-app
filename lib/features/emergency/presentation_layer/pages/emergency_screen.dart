@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/core/di/configure_dependencies.dart';
 import 'package:final_project/features/emergency/presentation_layer/cubit/emergency_cubit.dart';
 import 'package:final_project/features/emergency/presentation_layer/cubit/emergency_state.dart';
@@ -22,9 +23,9 @@ class EmergencyScreen extends StatelessWidget {
         backgroundColor: const Color.fromRGBO(240, 240, 238, 1),
         appBar: AppBar(
           backgroundColor: const Color.fromRGBO(240, 240, 238, 1),
-          title: const Text(
-            "Emergency",
-            style: TextStyle(
+          title: Text(
+            "emergency.emergency".tr(),
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               color: Color.fromRGBO(30, 30, 30, 1),
             ),
@@ -47,7 +48,7 @@ class EmergencyScreen extends StatelessWidget {
                 if (state is EmergencyErrorState) {
                   return Center(
                     child: Text(
-                      'Error: ${state.message}',
+                      '${"emergency.error".tr()}: ${state.message}',
                       style: const TextStyle(color: Colors.red),
                     ),
                   );

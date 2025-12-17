@@ -151,6 +151,32 @@
     "medina": "Medina"
   },
 
+  "weather": {
+    "title": "Weather",
+    "searchPlaceholder": "Search Location ...",
+    "retry": "Retry",
+    "noDataAvailable": "No weather data available",
+    "noCitiesFound": "No cities found matching",
+    "loadingData": "Loading weather data...",
+    "high": "H",
+    "low": "L",
+    "conditions": {
+      "rainy": "Rainy",
+      "cloudy": "Cloudy",
+      "sunny": "Sunny",
+      "snowy": "Snowy",
+      "stormy": "Stormy"
+    }
+  },
+
+  "transport": {
+    "title": "Transport",
+    "taxi": "Taxi",
+    "trains": "Trains",
+    "public": "Public",
+    "carRentals": "Car Rentals"
+  },
+
   "events": {
     "categories": {
       "all": "All Categories",
@@ -206,6 +232,15 @@
     "gather": "Gather",
     "noEventsFound": "No events found",
     "searchHere": "Search here...",
+    "categories": {
+      "all": "All",
+      "sport": "Sport",
+      "music": "Music",
+      "food": "Food",
+      "cultural": "Cultural",
+      "adventure": "Adventure",
+      "entertainment": "Entertainment"
+    },
     "months": {
       "jan": "Jan",
       "feb": "Feb",
@@ -224,6 +259,21 @@
     "locationNotAvailable": "Location not available",
     "getDirections": "Get Directions",
     "all": "All"
+  },
+
+  "currency": {
+    "currency": "Currency",
+    "amount": "Amount",
+    "convertedTo": "Converted to",
+    "select": "Select"
+  },
+
+  "emergency": {
+    "emergency": "Emergency",
+    "error": "Error",
+    "search": "Search ...",
+    "embassies": "Embassies",
+    "select": "Select"
   },
 
   "murshid": {

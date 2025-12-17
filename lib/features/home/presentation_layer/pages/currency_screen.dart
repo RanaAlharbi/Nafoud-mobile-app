@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/features/currency_exchange/presentation_layer/widgets/currency_exchange_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -12,7 +13,7 @@ class CurrencyScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(241, 241, 241, 1),
         title: Text(
-          "Currency",
+          "currency.currency".tr(),
           style: TextStyle(
             fontWeight: .bold,
             color: Color.fromRGBO(61,64,50, 1),

@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/core/app_theme/app_colors/app_colors.dart';
 import 'package:final_project/core/di/configure_dependencies.dart';
 import 'package:flutter/material.dart';
@@ -103,7 +104,7 @@ class CurrencyExchangeWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Amount',
+                      'currency.amount'.tr(),
                       style: TextStyle(
                         fontSize: 17.sp,
                         fontWeight: FontWeight.w500,
@@ -228,7 +229,7 @@ class CurrencyExchangeWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Converted to',
+                      'currency.convertedTo'.tr(),
                       style: TextStyle(
                         fontSize: 17.sp,
                         fontWeight: FontWeight.w500,
@@ -266,7 +267,7 @@ class CurrencyExchangeWidget extends StatelessWidget {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text(
-                                    state.toCurrency ?? 'Select   ',
+                                    state.toCurrency ?? 'currency.select'.tr(),
                                     style: TextStyle(
                                       fontSize: 16.sp,
                                       fontWeight: FontWeight.w600,

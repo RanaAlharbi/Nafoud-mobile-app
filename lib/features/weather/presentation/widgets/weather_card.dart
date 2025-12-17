@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/core/app_theme/app_colors/app_colors.dart';
 import 'package:final_project/features/weather/domain/entities/weather_entity.dart';
 import 'package:final_project/features/weather/presentation/widgets/weather_icon_widget.dart';
@@ -43,7 +44,7 @@ class WeatherCard extends StatelessWidget {
                 Gap(4.h),
                 // High/Low temperatures
                 Text(
-                  'H:${_formatTemp(weather.tempMax)}°  L:${_formatTemp(weather.tempMin)}°',
+                  '${'weather.high'.tr()}:${_formatTemp(weather.tempMax)}°  ${'weather.low'.tr()}:${_formatTemp(weather.tempMin)}°',
                   style: TextStyle(
                     fontSize: 12.sp,
                     color: const Color.fromRGBO(30, 30, 30, 0.6),
@@ -96,15 +97,15 @@ class WeatherCard extends StatelessWidget {
     switch (condition.toLowerCase()) {
       case 'rain':
       case 'drizzle':
-        return 'Rainy';
+        return 'weather.conditions.rainy'.tr();
       case 'clouds':
-        return 'Cloudy';
+        return 'weather.conditions.cloudy'.tr();
       case 'clear':
-        return 'Sunny';
+        return 'weather.conditions.sunny'.tr();
       case 'snow':
-        return 'Snowy';
+        return 'weather.conditions.snowy'.tr();
       case 'thunderstorm':
-        return 'Stormy';
+        return 'weather.conditions.stormy'.tr();
       default:
         return condition;
     }
