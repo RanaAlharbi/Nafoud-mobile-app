@@ -56,7 +56,7 @@ The Nafoud application relies on a carefully selected set of core Flutter packag
 # 📂 folders structure
 
 # Output 📱
-<img width="1686" height="871" alt="image" src="https://github.com/user-attachments/assets/2d09a8b3-c1fd-42ca-bd48-7b94bdf532e9" />
+<img width="1682" height="761" alt="image" src="https://github.com/user-attachments/assets/5b6da500-a947-4be1-9676-08ae7f6dedde" />
 
 
 # ▶️ How to Run
