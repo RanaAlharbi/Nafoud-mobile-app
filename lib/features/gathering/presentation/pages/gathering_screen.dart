@@ -25,6 +25,7 @@ class GatheringScreen extends StatelessWidget {
       child: CupertinoPageScaffold(
         backgroundColor: const Color(0xFFF0F0EE),
         navigationBar: CupertinoNavigationBar(
+           automaticallyImplyLeading: false,
           backgroundColor: const Color(0xFFF0F0EE),
           middle: Text(
             "Gather",

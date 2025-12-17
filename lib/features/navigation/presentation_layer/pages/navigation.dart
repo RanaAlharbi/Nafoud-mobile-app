@@ -25,6 +25,7 @@ class NavigationScreen extends StatelessWidget {
           ),
           child: CupertinoTabScaffold(
             tabBar: CupertinoTabBar(
+              
               currentIndex: cubit.currentIndex,
               onTap: (value) => cubit.changeIndex(index: value),
               activeColor: Color(0xff656A53),
@@ -33,6 +34,7 @@ class NavigationScreen extends StatelessWidget {
               height: 70.h,
               items: [
                 BottomNavigationBarItem(
+
                   icon: SvgPicture.asset(
                     'assets/icons/nav_home.svg',
                     width: 32.h,

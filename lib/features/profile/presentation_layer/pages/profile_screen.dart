@@ -75,6 +75,7 @@ class ProfileScreen extends StatelessWidget {
         extendBodyBehindAppBar: true,
 
         appBar: AppBar(
+           automaticallyImplyLeading: false,
           backgroundColor: Colors.transparent,
           title: Text(
             "Profile",

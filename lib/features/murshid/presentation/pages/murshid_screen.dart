@@ -15,6 +15,7 @@ class MurshidScreen extends StatelessWidget {
     return CupertinoPageScaffold(
       backgroundColor: const Color(0xFFF1F1F1),
       navigationBar: CupertinoNavigationBar(
+          automaticallyImplyLeading: false,
         middle: Text(
           'murshid.murshid'.tr(),
           style: GoogleFonts.cairo(
