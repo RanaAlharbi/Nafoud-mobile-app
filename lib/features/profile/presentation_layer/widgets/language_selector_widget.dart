@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,7 +11,9 @@ class LanguageSelectorWidget extends StatefulWidget {
 }
 
 class _LanguageSelectorWidgetState extends State<LanguageSelectorWidget> {
-  String selectedLanguage = "English";
+  String get selectedLanguage {
+    return context.locale.languageCode == 'ar' ? 'العربية' : 'English';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +81,7 @@ class _LanguageSelectorWidgetState extends State<LanguageSelectorWidget> {
         ],
         onSelected: (value) {
           setState(() {
-            selectedLanguage = value;
+            //selectedLanguage = value;
           });
         },
       ),

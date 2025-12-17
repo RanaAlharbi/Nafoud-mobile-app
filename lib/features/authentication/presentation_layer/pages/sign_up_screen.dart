@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/core/routes/router.dart';
 import 'package:final_project/features/authentication/presentation_layer/bloc/authentication_bloc.dart';
 import 'package:flutter/cupertino.dart';
@@ -36,6 +37,9 @@ class SignUpScreen extends StatelessWidget {
       },
       builder: (context, state) {
         return CupertinoPageScaffold(
+          navigationBar: const CupertinoNavigationBar(
+            automaticallyImplyLeading: false,
+          ),
           backgroundColor: const Color(0xFFF1F1F1),
           child: Stack(
             children: [
@@ -57,32 +61,21 @@ class SignUpScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         21.verticalSpace,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                context.pop();
-                              },
-                              child: SvgPicture.asset(
-                                'assets/icons/arrow_left.svg',
-                              ),
-                            ),
-
-                            SvgPicture.asset(
-                              'assets/logo/NafoudLogo.svg',
-                              width: 67.87.w,
-                              height: 69.17.h,
-                            ),
-                          ],
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: SvgPicture.asset(
+                            'assets/logo/NafoudLogo.svg',
+                            width: 67.87.w,
+                            height: 69.17.h,
+                          ),
                         ),
 
                         58.83.verticalSpace,
 
                         Align(
-                          alignment: Alignment.centerLeft,
+                          alignment: AlignmentDirectional.centerStart,
                           child: Text(
-                            "Get Started",
+                            "signUp.getStarted".tr(),
                             style: GoogleFonts.cairo(
                               fontSize: 25.9.sp,
                               color: const Color(0xFF3D4032),
@@ -92,7 +85,7 @@ class SignUpScreen extends StatelessWidget {
                         ),
 
                         Text(
-                          "Start exploring places, culture, and hidden gems across the Kingdom",
+                          "signUp.subtitle".tr(),
                           style: GoogleFonts.cairo(
                             fontSize: 18.sp,
                             color: const Color(0xFF919191),
@@ -102,9 +95,9 @@ class SignUpScreen extends StatelessWidget {
                         20.verticalSpace,
 
                         Align(
-                          alignment: Alignment.centerLeft,
+                          alignment: AlignmentDirectional.centerStart,
                           child: Text(
-                            "Name",
+                            "signUp.name".tr(),
                             style: GoogleFonts.cairo(
                               fontSize: 18.sp,
                               color: const Color(0xFF3D4032),
@@ -114,7 +107,7 @@ class SignUpScreen extends StatelessWidget {
                         ),
                         CupertinoTextField(
                           controller: _nameController,
-                          placeholder: "Mohammed",
+                          placeholder: "signUp.namePlaceholder".tr(),
                           placeholderStyle: GoogleFonts.cairo(
                             fontSize: 18.sp,
                             color: const Color(0xFFB6B6B6),
@@ -129,7 +122,7 @@ class SignUpScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(9.r),
                           ),
                           suffix: Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
+                            padding: const EdgeInsetsDirectional.only(end: 8.0),
                             child: SvgPicture.asset(
                               'assets/icons/profile_icon.svg',
                               width: 24.w,
@@ -140,9 +133,9 @@ class SignUpScreen extends StatelessWidget {
 
                         22.verticalSpace,
                         Align(
-                          alignment: Alignment.centerLeft,
+                          alignment: AlignmentDirectional.centerStart,
                           child: Text(
-                            "Email",
+                            "signUp.email".tr(),
                             style: GoogleFonts.cairo(
                               fontSize: 18.sp,
                               color: const Color(0xFF3D4032),
@@ -152,7 +145,7 @@ class SignUpScreen extends StatelessWidget {
                         ),
                         CupertinoTextField(
                           controller: _emailController,
-                          placeholder: "Nafoud@Example.com",
+                          placeholder: "signUp.emailPlaceholder".tr(),
                           placeholderStyle: GoogleFonts.cairo(
                             fontSize: 18.sp,
                             color: const Color(0xFFB6B6B6),
@@ -167,7 +160,7 @@ class SignUpScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(9.r),
                           ),
                           suffix: Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
+                            padding: const EdgeInsetsDirectional.only(end: 8.0),
                             child: SvgPicture.asset(
                               'assets/icons/envelope_icon.svg',
                               width: 24.w,
@@ -179,9 +172,9 @@ class SignUpScreen extends StatelessWidget {
                         22.verticalSpace,
 
                         Align(
-                          alignment: Alignment.centerLeft,
+                          alignment: AlignmentDirectional.centerStart,
                           child: Text(
-                            "Password",
+                            "signUp.password".tr(),
                             style: GoogleFonts.cairo(
                               fontSize: 18.sp,
                               color: const Color(0xFF3D4032),
@@ -194,7 +187,7 @@ class SignUpScreen extends StatelessWidget {
                           builder: (context, isObscured, child) {
                             return CupertinoTextField(
                               controller: _passwordController,
-                              placeholder: "*********",
+                              placeholder: "signUp.passwordPlaceholder".tr(),
                               placeholderStyle: GoogleFonts.cairo(
                                 fontSize: 18.sp,
                                 color: const Color(0xFFB6B6B6),
@@ -211,7 +204,7 @@ class SignUpScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(9.r),
                               ),
                               suffix: Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
+                                padding: const EdgeInsetsDirectional.only(end: 8.0),
                                 child: GestureDetector(
                                   onTap: () {
                                     _obscurePasswordNotifier.value =
@@ -245,7 +238,7 @@ class SignUpScreen extends StatelessWidget {
                                       _termsAcceptedNotifier.value =
                                           !isAccepted;
                                       if (_errorNotifier.value ==
-                                          "You must agree to the Terms & Conditions.") {
+                                          "signUp.mustAgreeToTerms".tr()) {
                                         _errorNotifier.value = null;
                                       }
                                     },
@@ -281,14 +274,14 @@ class SignUpScreen extends StatelessWidget {
                                   text: TextSpan(
                                     children: [
                                       TextSpan(
-                                        text: "I agree to the ",
+                                        text: "signUp.agreeToThe".tr(),
                                         style: GoogleFonts.cairo(
                                           color: const Color(0xFF919191),
                                           fontSize: 15.sp,
                                         ),
                                       ),
                                       TextSpan(
-                                        text: "Terms & Conditions",
+                                        text: "signUp.termsAndConditions".tr(),
                                         style: GoogleFonts.cairo(
                                           color: const Color(0xFF656A53),
                                           fontSize: 15.sp,
@@ -332,7 +325,7 @@ class SignUpScreen extends StatelessWidget {
                               : () {
                                   if (!_termsAcceptedNotifier.value) {
                                     _errorNotifier.value =
-                                        "You must agree to the Terms & Conditions.";
+                                        "signUp.mustAgreeToTerms".tr();
                                     return;
                                   }
 
@@ -355,7 +348,7 @@ class SignUpScreen extends StatelessWidget {
                             ),
                           ),
                           child: Text(
-                            "Sign Up",
+                            "signUp.signUpButton".tr(),
                             style: GoogleFonts.cairo(fontSize: 18.sp),
                           ),
                         ),
@@ -369,14 +362,14 @@ class SignUpScreen extends StatelessWidget {
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                  text: "Already have an account?",
+                                  text: "signUp.alreadyHaveAccount".tr(),
                                   style: GoogleFonts.cairo(
                                     color: const Color(0xFF919191),
                                     fontSize: 15.sp,
                                   ),
                                 ),
                                 TextSpan(
-                                  text: " Login",
+                                  text: " ${"signUp.login".tr()}",
                                   style: GoogleFonts.cairo(
                                     color: const Color(0xFF656A53),
                                     fontSize: 15.sp,
@@ -399,7 +392,7 @@ class SignUpScreen extends StatelessWidget {
                     children: [
                       BackdropFilter(
                         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                        child: Container(color: Colors.black.withOpacity(.2)),
+                        child: Container(color: Colors.black.withValues(alpha: .2)),
                       ),
                       Center(
                         child: JumpingDots(

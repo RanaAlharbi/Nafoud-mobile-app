@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/core/routes/router.dart';
 import 'package:final_project/features/authentication/presentation_layer/bloc/authentication_bloc.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,6 +29,9 @@ class SignInScreen extends StatelessWidget {
       },
       builder: (context, state) {
         return CupertinoPageScaffold(
+          navigationBar: const CupertinoNavigationBar(
+            automaticallyImplyLeading: false,
+          ),
           backgroundColor: Color(0xFFF1F1F1),
           child: Stack(
             children: [
@@ -52,15 +56,6 @@ class SignInScreen extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            GestureDetector(
-                              onTap: () {
-                                context.pop();
-                              },
-                              child: SvgPicture.asset(
-                                'assets/icons/arrow_left.svg',
-                              ),
-                            ),
-
                             SvgPicture.asset(
                               'assets/logo/NafoudLogo.svg',
                               width: 67.87.w,
@@ -72,9 +67,9 @@ class SignInScreen extends StatelessWidget {
                         58.83.verticalSpace,
 
                         Align(
-                          alignment: Alignment.centerLeft,
+                          alignment: AlignmentDirectional.centerStart,
                           child: Text(
-                            "Welcome Back!",
+                            "signIn.welcomeBack".tr(),
                             style: GoogleFonts.cairo(
                               fontSize: 25.9.sp,
                               color: Color(0xFF3D4032),
@@ -84,7 +79,7 @@ class SignInScreen extends StatelessWidget {
                         ),
 
                         Text(
-                          "Your journey across Saudi Arabia continues here",
+                          "signIn.subtitle".tr(),
                           style: GoogleFonts.cairo(
                             fontSize: 18.sp,
                             color: Color(0xFF919191),
@@ -93,9 +88,9 @@ class SignInScreen extends StatelessWidget {
 
                         20.verticalSpace,
                         Align(
-                          alignment: Alignment.centerLeft,
+                          alignment: AlignmentDirectional.centerStart,
                           child: Text(
-                            "Email",
+                            "signIn.email".tr(),
                             style: GoogleFonts.cairo(
                               fontSize: 18.sp,
                               color: const Color(0xFF3D4032),
@@ -105,13 +100,12 @@ class SignInScreen extends StatelessWidget {
                         ),
                         CupertinoTextField(
                           controller: _emailController,
-                          placeholder: "Nafoud@Example.com",
+                          placeholder: "signIn.emailPlaceholder".tr(),
                           textAlignVertical: TextAlignVertical.center,
                           placeholderStyle: GoogleFonts.cairo(
                             fontSize: 18.sp,
                             color: const Color(0xFFB6B6B6),
                           ),
-
                           decoration: BoxDecoration(
                             color: Colors.transparent,
                             shape: BoxShape.rectangle,
@@ -134,9 +128,9 @@ class SignInScreen extends StatelessWidget {
                         22.verticalSpace,
 
                         Align(
-                          alignment: Alignment.centerLeft,
+                          alignment: AlignmentDirectional.centerStart,
                           child: Text(
-                            "Password",
+                            "signIn.password".tr(),
                             style: GoogleFonts.cairo(
                               fontSize: 18.sp,
                               color: const Color(0xFF3D4032),
@@ -151,17 +145,13 @@ class SignInScreen extends StatelessWidget {
                             return CupertinoTextField(
                               textAlignVertical: TextAlignVertical.center,
                               controller: _passwordController,
-                              placeholder: "*********",
+                              placeholder: "signIn.passwordPlaceholder".tr(),
                               placeholderStyle: GoogleFonts.cairo(
                                 fontSize: 18.sp,
                                 color: const Color(0xFFB6B6B6),
                               ),
                               obscureText: isObscured,
                               obscuringCharacter: '*',
-                              padding: EdgeInsets.symmetric(
-                                vertical: 14.h,
-                                horizontal: 16.w,
-                              ),
                               decoration: BoxDecoration(
                                 color: Colors.transparent,
                                 shape: BoxShape.rectangle,
@@ -224,7 +214,7 @@ class SignInScreen extends StatelessWidget {
                             ),
                             6.horizontalSpace,
                             Text(
-                              "Remember Me",
+                              "signIn.rememberMe".tr(),
                               style: GoogleFonts.cairo(
                                 fontSize: 15.sp,
                                 color: Color(0xFF919191),
@@ -235,7 +225,7 @@ class SignInScreen extends StatelessWidget {
                               onTap: () =>
                                   context.push(AppRoutes.forgotPasswordScreen),
                               child: Text(
-                                "Forget Password?",
+                                "signIn.forgetPassword".tr(),
                                 style: GoogleFonts.cairo(
                                   fontSize: 15.sp,
                                   fontWeight: FontWeight.bold,
@@ -285,7 +275,7 @@ class SignInScreen extends StatelessWidget {
                             ),
                           ),
                           child: Text(
-                            "Login",
+                            "signIn.login".tr(),
                             style: GoogleFonts.cairo(fontSize: 18.sp),
                           ),
                         ),
@@ -296,14 +286,14 @@ class SignInScreen extends StatelessWidget {
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                  text: "Don't have an account?",
+                                  text: "signIn.dontHaveAccount".tr(),
                                   style: GoogleFonts.cairo(
                                     color: Color(0xFF919191),
                                     fontSize: 15.sp,
                                   ),
                                 ),
                                 TextSpan(
-                                  text: " Sign Up",
+                                  text: " ${"signIn.signUp".tr()}",
                                   style: GoogleFonts.cairo(
                                     color: Color(0xFF656A53),
                                     fontSize: 15.sp,

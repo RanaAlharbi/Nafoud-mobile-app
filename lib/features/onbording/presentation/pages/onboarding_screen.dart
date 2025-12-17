@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/features/onbording/presentation/cubit/onbording_cubit.dart';
 import 'package:final_project/features/onbording/presentation/widget/langauge_switch_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -181,10 +182,13 @@ class OnboardingScreen extends StatelessWidget {
                 top: 60.h,
                 right: 20.w,
                 child: LanguageSwitchButton(
-                  languageCode: "EN",
+                  languageCode: context.locale.languageCode == 'en' ? "EN" : "AR",
                   onTap: () {
-                    // TODO: change language here
-                  
+                    if (context.locale.languageCode == 'en') {
+                      context.setLocale(const Locale('ar', 'SA'));
+                    } else {
+                      context.setLocale(const Locale('en', 'US'));
+                    }
                   },
                 ),
               ),

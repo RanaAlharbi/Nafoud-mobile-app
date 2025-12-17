@@ -1,5 +1,31 @@
 {
-  "1": "ا",
-  "2": "ب",
-  "3": "ت"
+  "signIn": {
+    "welcomeBack": "مرحباً بعودتك!",
+    "subtitle": "رحلتك عبر المملكة العربية السعودية تستمر هنا",
+    "email": "البريد الإلكتروني",
+    "emailPlaceholder": "Nafoud@Example.com",
+    "password": "كلمة المرور",
+    "passwordPlaceholder": "*********",
+    "rememberMe": "تذكرني",
+    "forgetPassword": "هل نسيت كلمة المرور؟",
+    "login": "تسجيل الدخول",
+    "dontHaveAccount": "ليس لديك حساب؟",
+    "signUp": "إنشاء حساب"
+  },
+  "signUp": {
+    "getStarted": "ابدأ الآن",
+    "subtitle": "ابدأ استكشاف الأماكن والثقافة والجواهر المخفية في المملكة",
+    "name": "الاسم",
+    "namePlaceholder": "محمد",
+    "email": "البريد الإلكتروني",
+    "emailPlaceholder": "Nafoud@Example.com",
+    "password": "كلمة المرور",
+    "passwordPlaceholder": "*********",
+    "agreeToThe": "أوافق على ",
+    "termsAndConditions": "الشروط والأحكام",
+    "mustAgreeToTerms": "يجب الموافقة على الشروط والأحكام.",
+    "signUpButton": "إنشاء حساب",
+    "alreadyHaveAccount": "هل لديك حساب؟",
+    "login": "تسجيل الدخول"
+  }
 }

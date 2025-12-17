@@ -1,5 +1,31 @@
 {
-  "1": "A",
-  "2": "B",
-  "3": "C"
+  "signIn": {
+    "welcomeBack": "Welcome Back!",
+    "subtitle": "Your journey across Saudi Arabia continues here",
+    "email": "Email",
+    "emailPlaceholder": "Nafoud@Example.com",
+    "password": "Password",
+    "passwordPlaceholder": "*********",
+    "rememberMe": "Remember Me",
+    "forgetPassword": "Forget Password?",
+    "login": "Login",
+    "dontHaveAccount": "Don't have an account?",
+    "signUp": "Sign Up"
+  },
+  "signUp": {
+    "getStarted": "Get Started",
+    "subtitle": "Start exploring places, culture, and hidden gems across the Kingdom",
+    "name": "Name",
+    "namePlaceholder": "Mohammed",
+    "email": "Email",
+    "emailPlaceholder": "Nafoud@Example.com",
+    "password": "Password",
+    "passwordPlaceholder": "*********",
+    "agreeToThe": "I agree to the ",
+    "termsAndConditions": "Terms & Conditions",
+    "mustAgreeToTerms": "You must agree to the Terms & Conditions.",
+    "signUpButton": "Sign Up",
+    "alreadyHaveAccount": "Already have an account?",
+    "login": "Login"
+  }
 }
