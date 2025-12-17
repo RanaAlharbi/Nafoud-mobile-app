@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           routerConfig: AppRoutes.appRouter,
 
-          // to avoid sys crashess due to cupertino vs material
+          // to avoid sys crashes due to cupertino vs material
           localizationsDelegates: [
             ...context.localizationDelegates,
             DefaultMaterialLocalizations.delegate,
