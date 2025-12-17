@@ -32,15 +32,7 @@ abstract class ThirdPartySetup {
   }
 
 
-  // FlutterGooglePlacesSdk get googlePlaces {
-  //   final apiKey = dotenv.env['GoogleMapsApiKey'];
 
-  //   if (apiKey == null || apiKey.isEmpty) {
-  //     throw Exception("Google Maps API Key is missing");
-  //   }
-
-  //   return FlutterGooglePlacesSdk(apiKey, locale: const Locale("en"));
-  // }
 
   //Gemini Api key
   @lazySingleton
