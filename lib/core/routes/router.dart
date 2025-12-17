@@ -19,7 +19,6 @@ import 'package:final_project/features/error_page/domain/use_cases/error_page_us
 import 'package:final_project/features/events/domain_layer/entity/events_entity.dart';
 import 'package:final_project/features/events/presentation_layer/pages/event_info_screen.dart';
 import 'package:final_project/features/events/presentation_layer/pages/events_full_screen.dart';
-import 'package:final_project/features/gathering/presentation/pages/map_screen.dart';
 import 'package:final_project/features/location/presentation/cubit/location_cubit.dart';
 import 'package:final_project/features/location/presentation/pages/pick_location_screen.dart';
 import 'package:final_project/features/profile/domain_layer/usecase/profile_usecase.dart';
@@ -27,12 +26,12 @@ import 'package:final_project/core/shared/gathering_entity/gathering_entity.dart
 import 'package:final_project/features/gathering/presentation/cubit/gathering_cubit.dart';
 import 'package:final_project/features/gathering/presentation/pages/add_events.dart';
 import 'package:final_project/features/gathering/presentation/pages/gathering_details_screen.dart';
-import 'package:final_project/features/gathering/presentation/pages/select_location_screen.dart' hide SelectLocationScreen;
 import 'package:final_project/features/home/presentation_layer/pages/all_activities_screen.dart';
 import 'package:final_project/features/home/presentation_layer/pages/currency_screen.dart';
 import 'package:final_project/features/emergency/presentation_layer/pages/emergency_screen.dart';
 import 'package:final_project/features/home/presentation_layer/pages/home_screen.dart';
 import 'package:final_project/features/sim_cards/presentation_layer/pages/sim_card_screen.dart';
+import 'package:final_project/features/splash/splash_screen.dart';
 import 'package:final_project/features/transport/presentation_layer/pages/transport_screen.dart';
 import 'package:final_project/features/weather/presentation/cubit/weather_cubit.dart';
 import 'package:final_project/features/weather/presentation/pages/weather_screen.dart';
@@ -115,7 +114,7 @@ class AppRoutes {
       return AppRoutes.navigationScreen;
     }
 
-    return AppRoutes.onboardingScreen;
+    return AppRoutes.splashScreen;
   }
 
   static final GoRouter appRouter = GoRouter(
@@ -247,16 +246,15 @@ class AppRoutes {
         },
       ),
 
-
-GoRoute(
-  path: AppRoutes.selectLocation,
-  builder: (context, state) {
-    return BlocProvider(
-      create: (_) => getIt<LocationCubit>(),
-      child: const SelectLocationScreen(),
-    );
-  },
-),
+      GoRoute(
+        path: AppRoutes.selectLocation,
+        builder: (context, state) {
+          return BlocProvider(
+            create: (_) => getIt<LocationCubit>(),
+            child: const SelectLocationScreen(),
+          );
+        },
+      ),
 
       //location selection screen
       // GoRoute(
@@ -283,10 +281,10 @@ GoRoute(
         },
       ),
 
-      // GoRoute(
-      //   path: AppRoutes.splashScreen,
-      //   builder: (context, state) => SplashScreenOne(),
-      // ),
+      GoRoute(
+        path: AppRoutes.splashScreen,
+        builder: (context, state) => SplashScreen(),
+      ),
 
       // Profile & Edit Profile
       GoRoute(

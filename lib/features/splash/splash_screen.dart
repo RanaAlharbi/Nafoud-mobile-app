@@ -1,51 +1,56 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_screenutil/flutter_screenutil.dart';
-// import 'package:flutter_svg/flutter_svg.dart';
-// import 'package:flutter_animate/flutter_animate.dart';
+import 'package:final_project/core/routes/router.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lottie/lottie.dart';
 
-// class SplashScreenTwo extends StatefulWidget {
-//   const SplashScreenTwo({super.key});
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
 
-//   @override
-//   State<SplashScreenTwo> createState() => _SplashScreenTwoState();
-// }
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
 
-// class _SplashScreenTwoState extends State<SplashScreenTwo> {
-//   @override
-//   void initState() {
-//     super.initState();
-//     Future.delayed(const Duration(seconds: 3), () {
-//       Navigator.of(context).pushReplacement(
-//         MaterialPageRoute(builder: (context) => const SecondScreen()),
-//       );
-//     });
-//   }
+class _SplashScreenState extends State<SplashScreen>
+    with TickerProviderStateMixin {
+  // TickerProviderStateMixin is needed for the Animation controller
+  // To make the splash screen speed slower
+  late final AnimationController _controller;
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Center(
-//         child: Stack(
-//           children: [
-//             Column(
-//               children: [
-//                 308.verticalSpace,
-//                 SvgPicture.asset('assets/splash/top.svg').animate().rotate(
-//                   duration: 1.seconds,
-//                   begin: 0,
-//                   end: 1,
-//                   curve: Curves.easeInOut,
-//                 ),
-//                 // .scale(duration: 2.seconds, curve: Curves.easeInOut),
-//                 39.31.verticalSpace,
-//                 SvgPicture.asset('assets/splash/middle.svg'),
+  @override
+  void initState() {
+    super.initState();
 
-//                 SvgPicture.asset('assets/splash/Vector 2.svg'),
-//               ],
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
+    _controller = AnimationController(
+      vsync: this,
+      // duration of splash screen, in milliseconds because seconds doesn't allow for double (5.8 s)
+      duration: const Duration(milliseconds: 5800),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Lottie.asset(
+          // Splash screen animation exported from Figma using LottieFiles plugin as a json Lottie File
+          'assets/jsons/splash/SplashScreen.json',
+          controller: _controller,
+          onLoaded: (composition) {
+            _controller
+              ..duration = composition.duration
+              // When Finished, move to onboarding screen
+              ..forward().whenComplete(
+                () => context.replace(AppRoutes.onboardingScreen),
+              );
+          },
+        ),
+      ),
+    );
+  }
+}
