@@ -79,7 +79,7 @@ class UpdatePasswordScreen extends StatelessWidget {
                         Align(
                           alignment: Alignment.topRight,
                           child: SvgPicture.asset(
-                            'Assets/logo/NafoudLogo.svg',
+                            'Assets/logo/NafoudLogo.svg',     // I can't see the image
                             width: 67.87.w,
                             height: 69.17.h,
                           ),
@@ -88,7 +88,7 @@ class UpdatePasswordScreen extends StatelessWidget {
                         58.83.verticalSpace,
 
                         Align(
-                          alignment: Alignment.centerLeft,
+                          alignment: AlignmentDirectional.centerStart,
                           child: Text(
                             "Reset Password",
                             style: GoogleFonts.cairo(

@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/core/routes/router.dart';
 import 'package:final_project/features/authentication/presentation_layer/bloc/authentication_bloc.dart';
 import 'package:flutter/cupertino.dart';
@@ -73,6 +74,7 @@ class OTPScreen extends StatelessWidget {
                         21.verticalSpace,
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          textDirection: .ltr,
                           children: [
                             GestureDetector(
                               onTap: () {
@@ -94,11 +96,11 @@ class OTPScreen extends StatelessWidget {
                         58.83.verticalSpace,
 
                         Align(
-                          alignment: Alignment.centerLeft,
+                          alignment: AlignmentDirectional.centerStart,
                           child: Text(
                             type == 'signup'
-                                ? "Verify Your Email Address"
-                                : "Enter Reset Code",
+                                ? "otp.emailVerify".tr()
+                                : "otp.resetCode".tr(),
                             style: GoogleFonts.cairo(
                               fontSize: 25.9.sp,
                               color: const Color(0xFF3D4032),
@@ -108,7 +110,7 @@ class OTPScreen extends StatelessWidget {
                         ),
 
                         Text(
-                          "Enter the 6-digit code we sent to your email",
+                          "otp.sixDeget".tr(),
                           style: GoogleFonts.cairo(
                             fontSize: 18.sp,
                             color: const Color(0xFF919191),
@@ -119,6 +121,7 @@ class OTPScreen extends StatelessWidget {
 
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          textDirection: .ltr,
                           children: List.generate(_otpLength, (index) {
                             return SizedBox(
                               width: 52.w,
@@ -219,7 +222,7 @@ class OTPScreen extends StatelessWidget {
                     children: [
                       BackdropFilter(
                         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                        child: Container(color: Colors.black.withOpacity(.2)),
+                        child: Container(color: Colors.black.withValues(alpha: .2)),
                       ),
                       Center(
                         child: JumpingDots(

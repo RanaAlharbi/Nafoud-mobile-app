@@ -27,5 +27,18 @@
     "signUpButton": "Sign Up",
     "alreadyHaveAccount": "Already have an account?",
     "login": "Login"
-  }
+  },
+  "forgetPassword": {
+    "resetPassword": "Reset Password",
+    "resetCode": "Enter your email to receive a reset code",
+    "otp": "Send OTP",
+    "email": "Email"
+  },
+  "otp": {
+    "signup":"signup",
+    "emailVerify":"Verify Your Email Address",
+    "resetCode":"Enter Reset Code",
+    "sixDeget":"Enter the 6-digit code we sent to your email",
+    "reset":"reset"
+  }  
 }
