@@ -177,6 +177,17 @@
     "carRentals": "Car Rentals"
   },
 
+  "bookmarks": {
+    "title": "Bookmarks",
+    "noBookmarksYet": "No bookmarks yet",
+    "viewDetails": "View details"
+  },
+
+  "myActivity": {
+    "title": "My Activity",
+    "noEventsFound": "No events found"
+  },
+
   "events": {
     "categories": {
       "all": "All Categories",
@@ -279,29 +290,42 @@
   "murshid": {
     "murshid": "Murshid",
     "hi": "Hi there!",
-    "intro_prefix": "I’m ",
+    "intro_prefix": "I'm ",
     "name": "Murshid",
     "intro_suffix": ", your AI assistant",
     "how_can_help": "How can I help you today?",
     "plan_trip": "Plan My Trip",
-    "identify_image": "Identify The Image"
+    "identify_image": "Identify The Image",
+    "upload_image_prompt": "Take or Upload Your Image Here",
+    "browse": "Browse"
   },
     "profile": {
-    "profileHeader": "Profile", 
-    "accountSettings": "Account Settings", 
-    "personalInfo": "Personal Info", 
-    "myActivity": "My Activity", 
-    "bookmark": "Bookmark", 
-    "accessibility": "Accessibility settings", 
-    "lang": "Language", 
-    "eng": "English", 
-    "ar": "Arabic", 
-    "fr": "French", 
-    "urd": "Urdu", 
-    "ind": "Hindi", 
-    "fontSize": "Font Size", 
+    "profileHeader": "Profile",
+    "accountSettings": "Account Settings",
+    "personalInfo": "Personal Info",
+    "myActivity": "My Activity",
+    "bookmark": "Bookmark",
+    "accessibility": "Accessibility settings",
+    "lang": "Language",
+    "eng": "English",
+    "ar": "Arabic",
+    "fr": "French",
+    "urd": "Urdu",
+    "ind": "Hindi",
+    "fontSize": "Font Size",
     "delete": "Delete Account",
-    "logOut": "logout"
+    "logOut": "Logout",
+    "errorLoadingProfile": "Error loading profile",
+    "retry": "Retry",
+    "leave": "Leave",
+    "chooseImageSource": "Choose Image Source",
+    "gallery": "Gallery",
+    "camera": "Camera",
+    "deleteAccountTitle": "Delete Account",
+    "deleteAccountConfirm": "Are you sure you want to delete your account?",
+    "cancel": "Cancel",
+    "signOut": "Sign Out",
+    "signOutConfirm": "Are you sure you want to sign out?"
   },
 
   "editProfile": {

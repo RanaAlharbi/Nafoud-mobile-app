@@ -8,6 +8,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../../../../core/routes/router.dart';
 import '../../domain_layer/usecase/profile_usecase.dart';
 import '../cubit/profile_cubit.dart';
@@ -15,7 +16,6 @@ import '../widgets/profile_avatar_widget.dart';
 import '../widgets/profile_info_widget.dart';
 import '../widgets/profile_settings_card_widget.dart';
 import '../widgets/language_selector_widget.dart';
-import '../widgets/font_size_selector_widget.dart';
 import '../widgets/pulsing_red_shadow_container_widget.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -27,18 +27,18 @@ class ProfileScreen extends StatelessWidget {
     final ImageSource? source = await showDialog<ImageSource>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: Text('Choose Image Source', style: TextStyle(fontSize: 23.h)),
+        title: Text('profile.chooseImageSource'.tr(), style: TextStyle(fontSize: 23.h)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
               leading: Icon(Icons.photo_library),
-              title: Text('Gallery'),
+              title: Text('profile.gallery'.tr()),
               onTap: () => Navigator.pop(dialogContext, ImageSource.gallery),
             ),
             ListTile(
               leading: Icon(Icons.camera_alt),
-              title: Text('Camera'),
+              title: Text('profile.camera'.tr()),
               onTap: () => Navigator.pop(dialogContext, ImageSource.camera),
             ),
           ],
@@ -77,7 +77,7 @@ class ProfileScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           title: Text(
-            "Profile",
+            "profile.profileHeader".tr(),
             style: TextStyle(
               color: Color.fromRGBO(61, 64, 50, 1),
               fontWeight: .bold,
@@ -106,7 +106,7 @@ class ProfileScreen extends StatelessWidget {
                     children: [
                       Icon(Icons.error_outline, size: 64.r, color: Colors.red),
                       Gap(16.h),
-                      Text('Error loading profile'),
+                      Text('profile.errorLoadingProfile'.tr()),
                       Gap(8.h),
                       Center(
                         child: Text(
@@ -122,7 +122,7 @@ class ProfileScreen extends StatelessWidget {
                           ElevatedButton(
                             onPressed: () =>
                                 context.read<ProfileCubit>().loadProfile(),
-                            child: Text('Retry'),
+                            child: Text('profile.retry'.tr()),
                           ),
                           ElevatedButton(
                             onPressed: () async {
@@ -131,7 +131,7 @@ class ProfileScreen extends StatelessWidget {
                                 context.read<ProfileCubit>().loadProfile();
                               }
                             },
-                            child: Text('Leave'),
+                            child: Text('profile.leave'.tr()),
                           ),
                         ],
                       ),
@@ -239,7 +239,7 @@ class ProfileScreen extends StatelessWidget {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "Account Settings",
+                            "profile.accountSettings".tr(),
                             style: TextStyle(
                               fontSize: 18.sp,
                               fontWeight: FontWeight.bold,
@@ -258,7 +258,7 @@ class ProfileScreen extends StatelessWidget {
                               height: 27.h,
                             ),
                             title: Text(
-                              "Personal Info",
+                              "profile.personalInfo".tr(),
                               style: TextStyle(
                                 fontSize: 16.h,
                                 fontWeight: .bold,
@@ -281,7 +281,7 @@ class ProfileScreen extends StatelessWidget {
                               height: 27.h,
                             ),
                             title: Text(
-                              "My Activity",
+                              "profile.myActivity".tr(),
                               style: TextStyle(
                                 fontSize: 16.h,
                                 fontWeight: .bold,
@@ -301,7 +301,7 @@ class ProfileScreen extends StatelessWidget {
                               height: 24.h,
                             ),
                             title: Text(
-                              "Bookmark",
+                              "profile.bookmark".tr(),
                               style: TextStyle(
                                 fontSize: 16.h,
                                 fontWeight: .bold,
@@ -315,38 +315,13 @@ class ProfileScreen extends StatelessWidget {
                               context.push(AppRoutes.bookmarkScreen);
                             },
                           ),
-                        ],
-                      ),
-                      Gap(25.h),
-
-                      // Accessibility settings section
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.w),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "Accessibility settings",
-                            style: TextStyle(
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Gap(15.h),
-
-                      // The Second Card - Accessibility
-                      ProfileSettingsCardWidget(
-                        children: [
                           LanguageSelectorWidget(),
-                          FontSizeSelectorWidget(),
                         ],
                       ),
+
                       Gap(27.h),
 
-                      /// Old Delete Logic, DO NOT DELETE IT. the logic was hard.
-                      /// We gonna remove it later on when UI/UX team choose to finish edit_profile_screen.dart
-                      Padding(
+                     Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20.w),
                         child: Row(
                           children: [
@@ -360,9 +335,9 @@ class ProfileScreen extends StatelessWidget {
                                       final shouldDelete = await showDialog<bool>(
                                         context: context,
                                         builder: (dialogContext) => AlertDialog(
-                                          title: Text('Delete Account'),
+                                          title: Text('profile.deleteAccountTitle'.tr()),
                                           content: Text(
-                                            'Are you sure you want to delete your account?',
+                                            'profile.deleteAccountConfirm'.tr(),
                                           ),
                                           actions: [
                                             TextButton(
@@ -370,7 +345,7 @@ class ProfileScreen extends StatelessWidget {
                                                 dialogContext,
                                                 false,
                                               ),
-                                              child: Text('Cancel'),
+                                              child: Text('profile.cancel'.tr()),
                                             ),
                                             TextButton(
                                               onPressed: () => Navigator.pop(
@@ -378,7 +353,7 @@ class ProfileScreen extends StatelessWidget {
                                                 true,
                                               ),
                                               child: Text(
-                                                'Delete Account',
+                                                'profile.deleteAccountTitle'.tr(),
                                                 style: TextStyle(color: Colors.red),
                                               ),
                                             ),
@@ -403,7 +378,7 @@ class ProfileScreen extends StatelessWidget {
                                       minimumSize: Size(double.infinity, 48.h),
                                     ),
                                     child: Text(
-                                      'Delete Account',
+                                      'profile.delete'.tr(),
                                       style: TextStyle(
                                         fontSize: 15.sp,
                                         fontWeight: FontWeight.bold,
@@ -424,18 +399,18 @@ class ProfileScreen extends StatelessWidget {
                                     context: context,
                                     builder: (dialogContext) => AlertDialog(
                                       title: Text(
-                                        'Sign Out',
+                                        'profile.signOut'.tr(),
                                         style: TextStyle(fontSize: 25.h),
                                       ),
                                       content: Text(
-                                        'Are you sure you want to sign out?',
+                                        'profile.signOutConfirm'.tr(),
                                       ),
                                       actions: [
                                         TextButton(
                                           onPressed: () =>
                                               Navigator.pop(dialogContext, false),
                                           child: Text(
-                                            'Cancel',
+                                            'profile.cancel'.tr(),
                                             style: TextStyle(fontSize: 15.h),
                                           ),
                                         ),
@@ -443,7 +418,7 @@ class ProfileScreen extends StatelessWidget {
                                           onPressed: () =>
                                               Navigator.pop(dialogContext, true),
                                           child: Text(
-                                            'Sign Out',
+                                            'profile.signOut'.tr(),
                                             style: TextStyle(
                                               color: Colors.red,
                                               fontSize: 15.h,
@@ -468,7 +443,7 @@ class ProfileScreen extends StatelessWidget {
                                   minimumSize: Size(double.infinity, 48.h),
                                 ),
                                 child: Text(
-                                  'Logout',
+                                  'profile.logOut'.tr(),
                                   style: TextStyle(
                                     fontSize: 15.sp,
                                     fontWeight: FontWeight.bold,

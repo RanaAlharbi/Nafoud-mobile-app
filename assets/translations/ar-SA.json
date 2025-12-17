@@ -180,6 +180,17 @@
     "carRentals": "تأجير السيارات"
   },
 
+  "bookmarks": {
+    "title": "الإشارات المرجعية",
+    "noBookmarksYet": "لا توجد إشارات مرجعية حتى الآن",
+    "viewDetails": "عرض التفاصيل"
+  },
+
+  "myActivity": {
+    "title": "نشاطي",
+    "noEventsFound": "لم يتم العثور على فعاليات"
+  },
+
   "events": {
     "categories": {
       "all": "جميع الفئات",
@@ -294,14 +305,16 @@
     "art": "فن"
   },
   "murshid": {
-    "title": "مرشد",
+    "murshid": "مرشد",
     "hi": "مرحباً!",
     "intro_prefix": "أنا ",
     "name": "مرشد",
     "intro_suffix": "، مساعدك الذكي",
     "how_can_help": "كيف أستطيع مساعدتك اليوم؟",
     "plan_trip": "خطط رحلتي",
-    "identify_image": "تعرّف على الصورة"
+    "identify_image": "تعرّف على الصورة",
+    "upload_image_prompt": "التقط أو ارفع صورتك هنا",
+    "browse": "تصفح"
   },
 
   "profile": {
@@ -319,7 +332,18 @@
     "ind": "الهندية",
     "fontSize": "حجم الخط",
     "delete": "حذف الحساب",
-    "logOut": "تسجيل الخروج"
+    "logOut": "تسجيل الخروج",
+    "errorLoadingProfile": "خطأ في تحميل الملف الشخصي",
+    "retry": "إعادة المحاولة",
+    "leave": "مغادرة",
+    "chooseImageSource": "اختر مصدر الصورة",
+    "gallery": "المعرض",
+    "camera": "الكاميرا",
+    "deleteAccountTitle": "حذف الحساب",
+    "deleteAccountConfirm": "هل أنت متأكد أنك تريد حذف حسابك؟",
+    "cancel": "إلغاء",
+    "signOut": "تسجيل الخروج",
+    "signOutConfirm": "هل أنت متأكد أنك تريد تسجيل الخروج؟"
   },
   "editProfile": {
     "editProfileHeader": "تعديل الملف الشخصي",

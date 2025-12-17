@@ -8,9 +8,9 @@ class EmergencyRepositoryImpl implements EmergencyRepository {
   EmergencyRepositoryImpl(this.dataSource);
 
   @override
-  Future<List<EmergencyContactEntity>> getEmergencyContacts() async {
+  Future<List<EmergencyContactEntity>> getEmergencyContacts(String languageCode) async {
     try {
-      final contacts = await dataSource.getEmergencyContacts();
+      final contacts = await dataSource.getEmergencyContacts(languageCode);
       return contacts.map((model) => model.toEntity()).toList();
     } catch (e) {
       throw Exception('Failed to get emergency contacts: $e');
@@ -18,18 +18,18 @@ class EmergencyRepositoryImpl implements EmergencyRepository {
   }
 
   @override
-  Future<Map<String, String>> getEmbassies() async {
+  Future<Map<String, String>> getEmbassies(String languageCode) async {
     try {
-      return await dataSource.getEmbassies();
+      return await dataSource.getEmbassies(languageCode);
     } catch (e) {
       throw Exception('Failed to get embassies: $e');
     }
   }
 
   @override
-  Future<Map<String, String>> getDescriptions() async {
+  Future<Map<String, String>> getDescriptions(String languageCode) async {
     try {
-      return await dataSource.getDescriptions();
+      return await dataSource.getDescriptions(languageCode);
     } catch (e) {
       throw Exception('Failed to get descriptions: $e');
     }

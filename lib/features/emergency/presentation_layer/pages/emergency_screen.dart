@@ -17,8 +17,11 @@ class EmergencyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get current language code
+    final languageCode = context.locale.languageCode;
+
     return BlocProvider(
-      create: (context) => getIt<EmergencyCubit>()..loadEmergencyContacts(),
+      create: (context) => getIt<EmergencyCubit>()..loadEmergencyContacts(languageCode),
       child: Scaffold(
         backgroundColor: const Color.fromRGBO(240, 240, 238, 1),
         appBar: AppBar(

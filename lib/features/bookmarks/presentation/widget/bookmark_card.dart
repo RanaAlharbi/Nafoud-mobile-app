@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/core/di/configure_dependencies.dart';
 import 'package:final_project/core/routes/router.dart';
 import 'package:final_project/core/shared/gathering_entity/gathering_entity.dart';
@@ -27,19 +28,19 @@ class BookmarkCard extends StatelessWidget {
     final month = parts[1];
     final day = parts[2];
 
-    const months = {
-      "01": "Jan",
-      "02": "Feb",
-      "03": "Mar",
-      "04": "Apr",
-      "05": "May",
-      "06": "Jun",
-      "07": "Jul",
-      "08": "Aug",
-      "09": "Sep",
-      "10": "Oct",
-      "11": "Nov",
-      "12": "Dec",
+    final months = {
+      "01": "gathering.months.jan".tr(),
+      "02": "gathering.months.feb".tr(),
+      "03": "gathering.months.mar".tr(),
+      "04": "gathering.months.apr".tr(),
+      "05": "gathering.months.may".tr(),
+      "06": "gathering.months.jun".tr(),
+      "07": "gathering.months.jul".tr(),
+      "08": "gathering.months.aug".tr(),
+      "09": "gathering.months.sep".tr(),
+      "10": "gathering.months.oct".tr(),
+      "11": "gathering.months.nov".tr(),
+      "12": "gathering.months.dec".tr(),
     };
 
     return Container(
@@ -184,7 +185,7 @@ class BookmarkCard extends StatelessWidget {
                       },
                     ),
                     child: Text(
-                      "View details",
+                      "bookmarks.viewDetails".tr(),
                       style: GoogleFonts.cairo(
                         color: const Color(0xFFF0F0EE),
                         fontWeight: FontWeight.bold,

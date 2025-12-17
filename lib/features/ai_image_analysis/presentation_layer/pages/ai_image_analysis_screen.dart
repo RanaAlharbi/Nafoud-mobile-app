@@ -11,6 +11,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class AIImageAnalysisScreen extends StatelessWidget {
   const AIImageAnalysisScreen({super.key});
@@ -51,7 +52,7 @@ class AIImageAnalysisScreen extends StatelessWidget {
                         SvgPicture.asset('assets/icons/murshid_trip.svg'),
                         const Gap(18),
                         Text(
-                          'Identify The Image',
+                          'murshid.identify_image'.tr(),
                           style: GoogleFonts.cairo(
                             color: const Color(0xff656A53),
                             fontSize: 31,
@@ -111,12 +112,12 @@ class AIImageAnalysisScreen extends StatelessWidget {
                                 children: [
                                   Image.asset('assets/Images/Upload_image.png'),
                                   const Gap(32),
-                                  Text("Take or Upload Your Image Here", 
+                                  Text("murshid.upload_image_prompt".tr(),
                                   style: GoogleFonts.cairo(
                                     fontSize: 21,
                                     fontWeight: .w600
                                   )),
-                                   Text("Browse", style: GoogleFonts.cairo(
+                                   Text("murshid.browse".tr(), style: GoogleFonts.cairo(
                                     fontSize: 18,
                                     fontWeight: .w600,
                                     decoration: TextDecoration.underline,

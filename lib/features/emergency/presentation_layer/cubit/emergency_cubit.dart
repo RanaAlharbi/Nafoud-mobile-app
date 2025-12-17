@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:final_project/features/emergency/domain_layer/usecase/emergency_usecase.dart';
@@ -12,13 +13,16 @@ class EmergencyCubit extends Cubit<EmergencyState> {
 
   EmergencyCubit(this.useCase) : super(const EmergencyInitialState());
 
-  Future<void> loadEmergencyContacts() async {
+  Future<void> loadEmergencyContacts([String? languageCode]) async {
     try {
       emit(const EmergencyLoadingState());
 
-      final contacts = await useCase.getEmergencyContacts();
-      final embassies = await useCase.getEmbassies();
-      final descriptions = await useCase.getDescriptions();
+      // Get current language code, default to 'en' if not provided
+      final langCode = languageCode ?? 'en';
+
+      final contacts = await useCase.getEmergencyContacts(langCode);
+      final embassies = await useCase.getEmbassies(langCode);
+      final descriptions = await useCase.getDescriptions(langCode);
 
       // Load iconMap from JSON
       final String jsonString = await rootBundle.loadString('assets/jsons/emergency_icons.json');

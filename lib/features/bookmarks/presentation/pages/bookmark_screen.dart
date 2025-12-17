@@ -1,4 +1,5 @@
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/features/bookmarks/presentation/cubit/bookmarks_cubit.dart';
 import 'package:final_project/features/bookmarks/presentation/cubit/bookmarks_state.dart';
 import 'package:final_project/features/bookmarks/presentation/widget/bookmark_card.dart';
@@ -18,7 +19,7 @@ class BookmarkScreen extends StatelessWidget {
       navigationBar: CupertinoNavigationBar(
         backgroundColor: const Color(0xFFF3F5EF).withValues(alpha: 0.8),
         middle:  Text(
-          "Bookmarks",
+          "bookmarks.title".tr(),
           style: GoogleFonts.cairo(
               fontSize: 25.sp,
               fontWeight: FontWeight.bold,
@@ -50,10 +51,10 @@ class BookmarkScreen extends StatelessWidget {
 
             if (state is BookmarkLoaded) {
               if (state.events.isEmpty) {
-                return const Center(
+                return Center(
                   child: Text(
-                    "No bookmarks yet",
-                    style: TextStyle(
+                    "bookmarks.noBookmarksYet".tr(),
+                    style: const TextStyle(
                       color: Color(0xFF656A53),
                       fontSize: 14
                       ),
