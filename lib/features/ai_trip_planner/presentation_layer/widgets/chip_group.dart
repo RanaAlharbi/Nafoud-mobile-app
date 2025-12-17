@@ -23,12 +23,12 @@ class ChipGroup extends StatelessWidget {
     return Wrap(
       spacing: 8.w,
       runSpacing: 10.h,
-      children: options.map((opt) {
+      children: options.map((option) {
         bool isSelected =
-            isMulti ? (selectedItems?.contains(opt) ?? false) : selectedItem == opt;
+            isMulti ? (selectedItems?.contains(option) ?? false) : selectedItem == option;
 
         return GestureDetector(
-          onTap: () => onSelect(opt),
+          onTap: () => onSelect(option),
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 200),
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
@@ -41,7 +41,7 @@ class ChipGroup extends StatelessWidget {
               ),
             ),
             child: Text(
-              opt,
+              option,
               style: GoogleFonts.cairo(
                 color: isSelected ? const Color(0xFF656A53) : Colors.grey,
                 fontWeight: isSelected ? FontWeight.w700 : FontWeight.normal,

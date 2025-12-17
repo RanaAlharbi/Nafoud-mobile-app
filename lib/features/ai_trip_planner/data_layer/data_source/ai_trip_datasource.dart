@@ -1,4 +1,5 @@
 import 'package:flutter_ai_toolkit/flutter_ai_toolkit.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:injectable/injectable.dart';
 
@@ -8,7 +9,8 @@ abstract class TripDataSource {
 
 @LazySingleton(as: TripDataSource)
 class TripRemoteDataSource implements TripDataSource {
-  final String _apiKey = 'AIzaSyDvyGSCJUeMJ3Gt6YPbMfXSyOMFeQLPBKE';
+  // Get the gemini API key from the .env file 
+  final String _apiKey = dotenv.env['GeminiAPIKey']!;
 
   @override
   Future<LlmProvider> initializeChatWithPrompt(String systemPrompt) async {
@@ -18,7 +20,7 @@ class TripRemoteDataSource implements TripDataSource {
       final content = [Content.text(systemPrompt)];
       final response = await model.generateContent(content);
 
-      final aiResponseText = response.text ?? "Here is your trip plan!";
+      final aiResponseText = response.text;
 
       return GeminiProvider(
         model: model,

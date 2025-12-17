@@ -8,6 +8,7 @@ class GenerateTripUseCase {
 
   GenerateTripUseCase(this.repository);
 
+  // The function is called call because there is only one function 
   Future<String> call(TripEntity preferences) {
     return repository.generateTripPlan(preferences);
   }

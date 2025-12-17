@@ -66,6 +66,7 @@ class SelectLocationScreen extends StatelessWidget {
                   target: LatLng(lat, lng),
                   zoom: 13,
                 ),
+                onMapCreated: cubit.setMapController,
                 onTap: (point) {
                   cubit.setManualLocation(point.latitude, point.longitude);
                 },

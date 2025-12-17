@@ -4,6 +4,7 @@ enum TripStatus { initial, loading, success, error }
 
 class TripPlannerState extends Equatable {
   final TripStatus status;
+  // Which step on the stepper I'm currently in 
   final int currentStep;
   final TripEntity preferences;
   final String? aiResponse;
