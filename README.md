@@ -4,50 +4,85 @@ Nafoud is an AI-powered smart tourism application designed to enhance the visito
 Aligned with Saudi Vision 2030, Nafoud aims to position the Kingdom as a global tourism destination that seamlessly blends heritage, hospitality, and modern technology.
 
 # ✨ Features
-Core Features
+## Core Features
 - AI Landmark Recognition
 - Users can capture or upload photos of landmarks to instantly receive historical and cultural information.
 - AI Smart Assistant (Chat-based Guide)
 - An intelligent conversational assistant that provides personalized recommendations for trips, food, cultural activities, and destinations.
 - Cultural Engagement & Social Announcements
-Users can create or join cultural activity announcements based on shared interests (food, history, outdoor activities), enabling safe and meaningful human interaction.
+- Users can create or join cultural activity announcements based on shared interests, enabling safe and meaningful human interaction.
 - Events Guide
 - Displays upcoming national events such as Riyadh Season, World Cup events, and Expo 2030.
 
-##Secondary Features
+## Secondary Features
+- SIM card purchase & activation guide
+- Currency converter
+- Weather guide by region with travel tips
+- Daily Arabic phrases with audio pronunciation
+- Multi-language support
+- Transportation integration (Uber, Careem, Metro)
+- Photo spots guide with map navigation
+- Saudi culture & etiquette guide
+- Emergency contacts and embassy access
+- Local business support and promotion
 
-SIM card purchase & activation guide
+# 🧩 Widgets and External Packages Used
 
-Currency converter
+🧩 Key Packages Used
 
-Weather guide by region with travel tips
+The Nafoud application relies on a carefully selected set of core Flutter packages to support clean architecture, AI capabilities, mapping, and a high-quality user experience.
 
-Daily Arabic phrases with audio pronunciation
+- bloc / flutter_bloc – State management using the BLoC pattern
+- injectable / get_it – Dependency injection for clean and scalable architecture
+- go_router – Declarative navigation and routing
+- supabase_flutter – Backend services (authentication, database, storage)
+- google_generative_ai – AI-powered smart assistant and recommendations
+- image_picker – Image capture for AI landmark recognition
+- google_maps_flutter – Interactive maps and location selection
+- flutter_google_places_sdk – Place search and autocomplete
+- easy_localization – Multi-language support
+- flutter_dotenv – Secure environment configuration
+- flutter_screenutil – Responsive UI across devices
+- lottie – Animations and splash screen effects
 
-Multi-language support
+# ⚙️ Tech Stack 
+- Frontend: Flutter
+- State Management: Bloc / Cubit
+- Backend: Supabase (Authentication, Database, Storage)
+- APIs:
+- Google Maps & Google Places
+- AI Image Recognition Services
+- Architecture: Clean Architecture
+- Platforms: Android & iOS
 
-Transportation integration (Uber, Careem, Metro)
+# 📂 folders structure
 
-Photo spots guide with map navigation
 
-Saudi culture & etiquette guide
 
-Emergency contacts and embassy access
 
-Local business support and promotion
 
-🧩 Widgets and External Packages Used
+# ▶️ How to Run
+Clone the repository:
+```bash
+git clone [https://github.com/USERNAME/REPO_NAME.git](https://github.com/RanaAlharbi/Nafoud-mobile-app.git)
+flutter pub get
+flutter run
+```
+## Developers 👨‍💻
+- **Elaf** - Flutter Developer 💙
+- **Rana** - Flutter Developer 💙
+- **Mohammed** - Flutter Developer 💙
 
-Google Maps & Places API – location selection, maps, and place search
+## Acknowledgments 🙏
+- **Tuwaiq Academy** for the comprehensive Flutter course 🎓
+- **Flutter Team** for the amazing framework 💙
+- **Supabase Team** for the powerful BaaS platform 🚀
+- **BLoC Library** maintainers for excellent state management 🎯
 
-AI Image Analysis APIs – landmark recognition
 
-Localization Packages – multi-language support
+**Built with ❤️ using Flutter & Supabase**
 
-State Management (Cubit / Bloc)
+@Tuwaiq Academy 🎓
 
-Networking & Backend Integration (e.g., Supabase / REST APIs)
+---
 
-UI Utilities (SVG, responsive layouts, custom widgets)
-
-🛠 Tech Stack
