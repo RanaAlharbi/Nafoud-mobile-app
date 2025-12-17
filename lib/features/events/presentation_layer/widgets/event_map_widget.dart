@@ -36,7 +36,7 @@ class EventMapWidget extends StatelessWidget {
           children: [
             RepaintBoundary(
               child: GoogleMap(
-                initialCameraPosition: CameraPosition(target: point, zoom: 15),
+                initialCameraPosition: CameraPosition(target: point, zoom: 25),
                 markers: {
                   Marker(
                     markerId: const MarkerId("eventLocation"),

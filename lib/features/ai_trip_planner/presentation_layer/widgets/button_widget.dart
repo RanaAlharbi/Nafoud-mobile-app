@@ -7,21 +7,19 @@ class NavigationButtons extends StatelessWidget {
   final TripPlannerState state;
   final TripPlannerBloc bloc;
 
-  const NavigationButtons({
-    super.key,
-    required this.state,
-    required this.bloc,
-  });
+  const NavigationButtons({super.key, required this.state, required this.bloc});
 
   @override
   Widget build(BuildContext context) {
+    // Which step I'm in 
     final currentStep = state.currentStep;
 
     return Padding(
       padding: EdgeInsets.only(bottom: 20.h, top: 10.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
+        children: [ 
+          // If we're not in first stepadd a back button 
           if (currentStep > 0)
             TextButton(
               onPressed: () => bloc.add(TripStepChanged(currentStep - 1)),
@@ -41,10 +39,7 @@ class NavigationButtons extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.r),
               ),
-              padding: EdgeInsets.symmetric(
-                horizontal: 30.w,
-                vertical: 10.h,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 10.h),
             ),
             onPressed: () {
               // Basic validation for Step 1 completion
@@ -65,9 +60,7 @@ class NavigationButtons extends StatelessWidget {
               // Basic validation for Step 2 completion
               if (currentStep == 1 && state.preferences.budget == null) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("Please select a Budget tier."),
-                  ),
+                  const SnackBar(content: Text("Please select a Budget tier.")),
                 );
                 return;
               }
@@ -75,7 +68,7 @@ class NavigationButtons extends StatelessWidget {
               if (currentStep < 2) {
                 bloc.add(TripStepChanged(currentStep + 1));
               } else {
-                // FINAL SUBMIT ONLY HERE
+                // Final submission 
                 bloc.add(TripPlanSubmitted());
               }
             },
