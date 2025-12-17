@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/core/app_theme/app_colors/app_colors.dart';
 import 'package:final_project/core/routes/router.dart';
 import 'package:final_project/features/events/presentation_layer/cubit/event_cubit.dart';
@@ -55,7 +56,7 @@ class EventsGridList extends StatelessWidget {
                       ),
                       Gap(16.h),
                       Text(
-                        "No events in ${filterState.selectedDestination}",
+                        "events.noEventsIn".tr(namedArgs: {'destination': filterState.selectedDestination}),
                         style: TextStyle(
                           color: Colors.grey,
                           fontSize: 16.sp,
@@ -182,7 +183,7 @@ class EventsGridList extends StatelessWidget {
                     ),
                     Gap(16.h),
                     Text(
-                      "Error loading events",
+                      "events.errorLoading".tr(),
                       style: TextStyle(
                         color: Colors.red,
                         fontSize: 16.sp,

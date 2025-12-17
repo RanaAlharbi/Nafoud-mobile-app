@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart' hide TextDirection;
 import 'package:final_project/core/app_theme/app_colors/app_colors.dart';
 import 'package:final_project/features/gathering/presentation/widget/category_chips_add.dart';
 import 'package:final_project/features/gathering/presentation/widget/custom_text_field.dart';
@@ -10,7 +11,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:final_project/features/gathering/presentation/cubit/gathering_cubit.dart';
 import 'package:final_project/features/gathering/presentation/cubit/gathering_state.dart';
@@ -28,7 +28,7 @@ class AddEventScreen extends StatelessWidget {
         backgroundColor: const Color(0xffF0F0EE),
         centerTitle: true,
         title: Text(
-          "Create Activity",
+          "gathering.createActivity".tr(),
           style: GoogleFonts.cairo(
             fontSize: 25,
             fontWeight: FontWeight.bold,
@@ -47,7 +47,7 @@ class AddEventScreen extends StatelessWidget {
                   cubit.selectedTime == null ||
                   cubit.selectedLat == null ||
                   cubit.selectedLng == null) {
-                showError(context, "Please fill all fields");
+                showError(context, "gathering.pleaseFillAllFields".tr());
                 return;
               }
 
@@ -80,7 +80,7 @@ class AddEventScreen extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  "Publish",
+                  "gathering.publish".tr(),
                   style: GoogleFonts.cairo(
                     color: const Color(0xffF0F0EE),
                     fontSize: 12,
@@ -108,7 +108,7 @@ class AddEventScreen extends StatelessWidget {
               15.verticalSpace,
 
               Text(
-                "Activity Title",
+                "gathering.activityTitle".tr(),
                 style: GoogleFonts.cairo(
                   color: const Color(0xff3D4032),
                   fontSize: 18.sp,
@@ -118,13 +118,13 @@ class AddEventScreen extends StatelessWidget {
               4.verticalSpace,
               CustomTextField(
                 initialValue: cubit.title,
-                hint: "What’s your activity called?",
+                hint: "gathering.activityTitleHint".tr(),
                 onChanged: (v) => cubit.updateField("title", v),
               ),
               28.verticalSpace,
 
               Text(
-                "About Activity",
+                "gathering.aboutActivity".tr(),
                 style: GoogleFonts.cairo(
                   color: const Color(0xff3D4032),
                   fontSize: 18,
@@ -134,7 +134,7 @@ class AddEventScreen extends StatelessWidget {
               4.verticalSpace,
               CustomTextField(
                 initialValue: cubit.description,
-                hint: "Describe your activity…",
+                hint: "gathering.describeActivity".tr(),
                 minLines: 3,
                 maxLines: 5,
                 onChanged: (v) => cubit.updateField("description", v),
@@ -142,7 +142,7 @@ class AddEventScreen extends StatelessWidget {
               20.verticalSpace,
 
               Text(
-                "Activity Category",
+                "gathering.activityCategory".tr(),
                 style: GoogleFonts.cairo(
                   color: const Color(0xff3D4032),
                   fontSize: 18,
@@ -153,7 +153,7 @@ class AddEventScreen extends StatelessWidget {
               20.verticalSpace,
 
               Text(
-                "Activity Date",
+                "gathering.activityDate".tr(),
                 style: GoogleFonts.cairo(
                   color: const Color(0xff3D4032),
                   fontSize: 18,
@@ -165,7 +165,7 @@ class AddEventScreen extends StatelessWidget {
               20.verticalSpace,
 
               Text(
-                "Activity Time",
+                "gathering.activityTime".tr(),
                 style: GoogleFonts.cairo(
                   color: const Color(0xff3D4032),
                   fontSize: 18,
@@ -177,7 +177,7 @@ class AddEventScreen extends StatelessWidget {
               20.verticalSpace,
 
               Text(
-                "Pick Location on Map",
+                "gathering.pickLocationOnMap".tr(),
                 style: GoogleFonts.cairo(
                   color: const Color(0xff3D4032),
                   fontSize: 18,
@@ -189,7 +189,7 @@ class AddEventScreen extends StatelessWidget {
               20.verticalSpace,
 
               Text(
-                "City",
+                "gathering.city".tr(),
                 style: GoogleFonts.cairo(
                   color: const Color(0xff3D4032),
                   fontSize: 18,
@@ -199,13 +199,13 @@ class AddEventScreen extends StatelessWidget {
               3.verticalSpace,
               CustomTextField(
                 initialValue: cubit.city,
-                hint: "Enter city",
+                hint: "gathering.enterCity".tr(),
                 onChanged: (v) => cubit.updateField("city", v),
               ),
               20.verticalSpace,
 
               Text(
-                "Full Address",
+                "gathering.fullAddress".tr(),
                 style: GoogleFonts.cairo(
                   color: const Color(0xff3D4032),
                   fontSize: 18,
@@ -215,7 +215,7 @@ class AddEventScreen extends StatelessWidget {
               3.verticalSpace,
               CustomTextField(
                 initialValue: cubit.address,
-                hint: "Enter full address",
+                hint: "gathering.enterFullAddress".tr(),
                 onChanged: (v) => cubit.updateField("address", v),
               ),
             ],
@@ -229,12 +229,12 @@ class AddEventScreen extends StatelessWidget {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: const Text("Error"),
+        title: Text("gathering.error".tr()),
         content: Text(msg),
         actions: [
           TextButton(
             child: Text(
-              "OK",
+              "gathering.ok".tr(),
               style: GoogleFonts.cairo(color: AppColors.khuzamaColor),
             ),
             onPressed: () => Navigator.pop(context),

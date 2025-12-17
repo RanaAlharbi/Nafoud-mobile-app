@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/core/app_theme/app_colors/app_colors.dart';
 import 'package:final_project/features/weather/presentation/cubit/weather_cubit.dart';
 import 'package:final_project/features/weather/presentation/cubit/weather_state.dart';
@@ -137,7 +138,7 @@ class WeatherContent extends StatelessWidget {
               onPressed: () {
                 context.read<WeatherCubit>().loadAllCitiesWeather();
               },
-              child: const Text('Retry'),
+              child: Text('weather.retry'.tr()),
             ),
           ],
         ),
@@ -150,8 +151,8 @@ class WeatherContent extends StatelessWidget {
         return Center(
           child: Text(
             loadedState.searchQuery.isEmpty
-              ? 'No weather data available'
-              : 'No cities found matching "${loadedState.searchQuery}"',
+              ? 'weather.noDataAvailable'.tr()
+              : '${'weather.noCitiesFound'.tr()} "${loadedState.searchQuery}"',
             style: TextStyle(
               fontSize: 16.sp,
               color: const Color.fromRGBO(30, 30, 30, 0.5),
@@ -180,7 +181,7 @@ class WeatherContent extends StatelessWidget {
     // Initial state
     return Center(
       child: Text(
-        'Loading weather data...',
+        'weather.loadingData'.tr(),
         style: TextStyle(
           fontSize: 16.sp,
           color: const Color.fromRGBO(30, 30, 30, 0.5),

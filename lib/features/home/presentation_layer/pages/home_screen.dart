@@ -333,6 +333,7 @@ class HomeScreen extends StatelessWidget {
                         padding: EdgeInsets.all(24.w),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
+                          textDirection: .ltr,
                           children: [
                             Text(
                               'home.banner_title'.tr(),

@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'transport_state.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -7,7 +8,12 @@ class TransportCubit extends Cubit<TransportState> {
     changeTab(0);
   }
 
-  final List<String> tabs = ["Taxi", "Trains", "Public", "Car Rentals"];
+  List<String> get tabs => [
+        "transport.taxi".tr(),
+        "transport.trains".tr(),
+        "transport.public".tr(),
+        "transport.carRentals".tr(),
+      ];
 
   final List<String> tabIcons = [
     "assets/Images/transports/taxi_inactive.svg",
@@ -137,17 +143,17 @@ class TransportCubit extends Cubit<TransportState> {
   void changeTab(int index) {
     List<Map<String, dynamic>> data;
 
-    switch (tabs[index]) {
-      case "Taxi":
+    switch (index) {
+      case 0: // Taxi
         data = taxi;
         break;
-      case "Trains":
+      case 1: // Trains
         data = trains;
         break;
-      case "Public":
+      case 2: // Public
         data = publicTransport;
         break;
-      case "Car Rentals":
+      case 3: // Car Rentals
         data = carRentals;
         break;
       default:

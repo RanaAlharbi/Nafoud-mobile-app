@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/features/weather/presentation/cubit/weather_cubit.dart';
 import 'package:final_project/features/weather/presentation/cubit/weather_state.dart';
 import 'package:final_project/features/weather/presentation/widgets/weather_content.dart';
@@ -24,9 +25,9 @@ class WeatherScreen extends StatelessWidget {
       backgroundColor: const Color.fromRGBO(240, 240, 238, 1),
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(240, 240, 238, 1),
-        title: const Text(
-          "Weather",
-          style: TextStyle(
+        title: Text(
+          "weather.title".tr(),
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             color: Color.fromRGBO(30, 30, 30, 1),
           ),

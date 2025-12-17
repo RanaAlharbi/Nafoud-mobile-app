@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/features/transport/presentation_layer/widget/transport_card.dart';
 import 'package:final_project/features/transport/presentation_layer/widget/transport_tabs.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,7 +19,7 @@ class TransportScreen extends StatelessWidget {
         backgroundColor: Color(0xFFF1F1F1),
         navigationBar: CupertinoNavigationBar(
           middle: Text(
-            "Transport",
+            "transport.title".tr(),
             style: GoogleFonts.cairo(
               fontWeight: .bold,
               color: Color(0xFF3D4032),

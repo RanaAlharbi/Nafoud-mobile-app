@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,7 +22,7 @@ class EventMapSection extends StatelessWidget {
 
     if (lat == null || lng == null) {
       return  Text(
-        "Location not available",
+        "gathering.locationNotAvailable".tr(),
         style: GoogleFonts.cairo(color: Colors.grey),
       );
     }
@@ -103,7 +104,7 @@ class EventMapSection extends StatelessWidget {
                           lng,
                         ),
                         child: Text(
-                          "Get Directions",
+                          "gathering.getDirections".tr(),
                           style: GoogleFonts.cairo(
                             color: const Color(0xffF0F0EE),
                             fontSize: 18.sp,

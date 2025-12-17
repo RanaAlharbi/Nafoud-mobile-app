@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/core/app_theme/app_colors/app_colors.dart';
 import 'package:final_project/core/di/configure_dependencies.dart';
 import 'package:final_project/core/routes/router.dart';
 import 'package:final_project/features/events/presentation_layer/cubit/event_cubit.dart';
 import 'package:final_project/features/events/presentation_layer/cubit/category_filter_cubit.dart';
+import 'package:final_project/features/events/presentation_layer/utils/event_category_utils.dart';
 import 'package:final_project/features/home/presentation_layer/cubit/destination_filter_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,84 +20,30 @@ class EventsFullScreen extends StatelessWidget {
 
   // Method to get category image path
   String _getCategoryImagePath(String? category) {
-    if (category == null) return 'assets/Images/events/Empty.svg';
-
-    switch (category.toLowerCase()) {
-      case 'shopping':
-        return 'assets/Images/events/Shopping.svg';
-      case 'sport':
-        return 'assets/Images/events/Sport.svg';
-      case 'concerts':
-        return 'assets/Images/events/Concerts.svg';
-      case 'food':
-        return 'assets/Images/events/Food.svg';
-      case 'cultural & arts':
-      case 'cultural and arts':
-      case 'cultural':
-      case 'arts':
-        return 'assets/Images/events/CulturalAndArts.svg';
-      default:
-        return 'assets/Images/events/Empty.svg';
-    }
+    return EventCategoryUtils.getCategoryImagePath(category);
   }
 
   // Method to get category display name
   String _getCategoryDisplayName(String? category) {
-    if (category == null) return 'Unknown';
-
-    switch (category.toLowerCase()) {
-      case 'shopping':
-        return 'Shopping';
-      case 'sport':
-        return 'Sport';
-      case 'concerts':
-        return 'Concerts';
-      case 'food':
-        return 'Food';
-      case 'cultural & arts':
-      case 'cultural and arts':
-      case 'cultural':
-      case 'arts':
-        return 'Cultural & Arts';
-      default:
-        return 'Unknown';
-    }
+    return EventCategoryUtils.getCategoryDisplayName(category);
   }
 
   // Method to get category color
   Color _getCategoryColor(String? category) {
-    if (category == null) return Colors.grey;
-
-    switch (category.toLowerCase()) {
-      case 'shopping':
-        return const Color(0xFF627BA5);
-      case 'sport':
-        return AppColors.khuzamaColor;
-      case 'concerts':
-        return Colors.black;
-      case 'food':
-        return AppColors.primaryColor;
-      case 'cultural & arts':
-      case 'cultural and arts':
-      case 'cultural':
-      case 'arts':
-        return AppColors.doohbanColor;
-      default:
-        return Colors.grey;
-    }
+    return EventCategoryUtils.getCategoryColor(category);
   }
 
   // Method to get ordered category list (selected category first)
   List<Map<String, String>> _getOrderedCategories(String? selectedCategory) {
     final categories = [
-      {'name': 'Sport', 'image': 'assets/Images/event_full/Sport.png'},
-      {'name': 'Concerts', 'image': 'assets/Images/event_full/Concerts.png'},
-      {'name': 'Shopping', 'image': 'assets/Images/event_full/Shopping.png'},
-      {'name': 'Food', 'image': 'assets/Images/event_full/Food.png'},
-      {'name': 'Cultural & Arts', 'image': 'assets/Images/event_full/CulturalAndArts.png'},
+      {'name': 'events.categories.sport'.tr(), 'image': 'assets/Images/event_full/Sport.png'},
+      {'name': 'events.categories.concerts'.tr(), 'image': 'assets/Images/event_full/Concerts.png'},
+      {'name': 'events.categories.shopping'.tr(), 'image': 'assets/Images/event_full/Shopping.png'},
+      {'name': 'events.categories.food'.tr(), 'image': 'assets/Images/event_full/Food.png'},
+      {'name': 'events.categories.culturalAndArts'.tr(), 'image': 'assets/Images/event_full/CulturalAndArts.png'},
     ];
 
-    if (selectedCategory != null && selectedCategory != 'All Categories') {
+    if (selectedCategory != null && selectedCategory != 'events.categories.all'.tr()) {
       // Find the selected category and move it to the front
       final selectedIndex = categories.indexWhere(
         (cat) => cat['name'] == selectedCategory,
@@ -188,7 +136,7 @@ class EventsFullScreen extends StatelessWidget {
             onPressed: () => Navigator.of(context).pop(),
           ),
           title: Text(
-            "All Events",
+            "events.allEvents".tr(),
             style: GoogleFonts.cairo(
               fontSize: 26.sp,
               fontWeight: FontWeight.bold,
@@ -229,26 +177,33 @@ class EventsFullScreen extends StatelessWidget {
                       }
 
                       // Filter by category
-                      if (categoryState.selectedCategory != 'All Categories') {
-                        filteredEvents = filteredEvents
-                            .where(
-                              (event) {
-                                final eventCategory = event.category?.toLowerCase() ?? '';
-                                final selectedCategory = categoryState.selectedCategory.toLowerCase();
+                      if (categoryState.selectedCategory != 'events.categories.all'.tr()) {
+                        // Convert translated category name to database key
+                        final selectedCategoryKey = EventCategoryUtils.getCategoryKeyFromTranslation(
+                          categoryState.selectedCategory,
+                        );
 
-                                // Handle "Cultural & Arts" variations
-                                if (selectedCategory == 'cultural & arts') {
-                                  return eventCategory == 'cultural & arts' ||
-                                         eventCategory == 'cultural and arts' ||
-                                         eventCategory == 'cultural' ||
-                                         eventCategory == 'arts';
-                                }
+                        if (selectedCategoryKey != null) {
+                          filteredEvents = filteredEvents
+                              .where(
+                                (event) {
+                                  final eventCategory = event.category?.toLowerCase() ?? '';
+                                  final selectedCategory = selectedCategoryKey.toLowerCase();
 
-                                // For other categories, do exact match
-                                return eventCategory == selectedCategory;
-                              },
-                            )
-                            .toList();
+                                  // Handle "Cultural & Arts" variations
+                                  if (selectedCategory == 'cultural & arts') {
+                                    return eventCategory == 'cultural & arts' ||
+                                           eventCategory == 'cultural and arts' ||
+                                           eventCategory == 'cultural' ||
+                                           eventCategory == 'arts';
+                                  }
+
+                                  // For other categories, do exact match
+                                  return eventCategory == selectedCategory;
+                                },
+                              )
+                              .toList();
+                        }
                       }
 
                   if (filteredEvents.isEmpty) {
@@ -263,7 +218,7 @@ class EventsFullScreen extends StatelessWidget {
                           ),
                           Gap(16.h),
                           Text(
-                            "No events in ${filterState.selectedDestination}",
+                            "events.noEventsIn".tr(namedArgs: {'destination': filterState.selectedDestination}),
                             style: TextStyle(
                               color: Colors.grey,
                               fontSize: 16.sp,
@@ -465,7 +420,7 @@ class EventsFullScreen extends StatelessWidget {
                         ),
                         Gap(16.h),
                         Text(
-                          "Error loading events",
+                          "events.errorLoading".tr(),
                           style: TextStyle(color: Colors.red, fontSize: 16.sp),
                         ),
                       ],

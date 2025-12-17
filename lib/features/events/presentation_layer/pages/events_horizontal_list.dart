@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/core/app_theme/app_colors/app_colors.dart';
 import 'package:final_project/core/routes/router.dart';
 import 'package:final_project/features/events/presentation_layer/cubit/event_cubit.dart';
@@ -65,7 +66,7 @@ class EventsHorizontalList extends StatelessWidget {
                           ),
                           Gap(8.h),
                           Text(
-                            "No events in ${filterState.selectedDestination}",
+                            "events.noEventsIn".tr(namedArgs: {'destination': filterState.selectedDestination}),
                             style: TextStyle(
                               color: Colors.grey,
                               fontSize: 14.sp,
@@ -198,7 +199,7 @@ class EventsHorizontalList extends StatelessWidget {
                         ),
                         Gap(8.h),
                         Text(
-                          "Error loading events",
+                          "events.errorLoading".tr(),
                           style: TextStyle(color: Colors.red, fontSize: 14.sp),
                         ),
                       ],

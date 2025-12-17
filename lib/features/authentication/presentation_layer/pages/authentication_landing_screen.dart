@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/core/routes/router.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -41,9 +42,9 @@ class AuthenticationLandingScreen extends StatelessWidget {
                   81.verticalSpace,
 
                   Align(
-                    alignment: Alignment.centerLeft,
+                    alignment: AlignmentDirectional.centerStart,
                     child: Text(
-                      "Discover Nafoud App",
+                      "authLanding.title".tr(),
                       style: GoogleFonts.cairo(
                         fontSize: 25.9.sp,
                         color: Color(0xFF3D4032),
@@ -53,7 +54,7 @@ class AuthenticationLandingScreen extends StatelessWidget {
                   ),
 
                   Text(
-                    "Explore the Kingdom your way، sign in, create an account, or continue as a guest",
+                    "authLanding.subtitle".tr(),
                     style: GoogleFonts.cairo(
                       fontSize: 18.sp,
                       color: Color(0xFF919191),
@@ -74,7 +75,7 @@ class AuthenticationLandingScreen extends StatelessWidget {
                       ),
                     ),
                     child: Text(
-                      "Login",
+                      "authLanding.login".tr(),
                       style: GoogleFonts.cairo(
                         // color: Color(0xFFF0F0EE),
                         fontSize: 18.sp,
@@ -97,7 +98,7 @@ class AuthenticationLandingScreen extends StatelessWidget {
                       ),
                     ),
                     child: Text(
-                      "Create Account",
+                      "authLanding.createAccount".tr(),
                       style: GoogleFonts.cairo(
                         // color: Color(0xFFF0F0EE),
                         fontSize: 18.sp,
@@ -107,7 +108,7 @@ class AuthenticationLandingScreen extends StatelessWidget {
                   12.verticalSpace,
                   GestureDetector(
                     child: Text(
-                      "Continue as Guest",
+                      "authLanding.continueAsGuest".tr(),
                       style: GoogleFonts.cairo(
                         color: Color(0xFF656A53),
                         fontSize: 15.sp,

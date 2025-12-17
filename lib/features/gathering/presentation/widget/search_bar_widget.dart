@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,7 +14,7 @@ class SearchBarWidget extends StatelessWidget {
       height: 52.h,
       child: CupertinoTextField(
         onChanged: (text) => context.read<GatheringCubit>().search(text),
-        placeholder: "Search here...",
+        placeholder: "gathering.searchHere".tr(),
         placeholderStyle: GoogleFonts.cairo(
           color: Color(0xFFB6B6B6),
           height: 1.0.h,

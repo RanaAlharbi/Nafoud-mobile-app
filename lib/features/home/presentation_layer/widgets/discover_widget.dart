@@ -26,6 +26,7 @@ class DiscoverWidget extends StatelessWidget {
               color: Colors.black,
             ),
           ),
+          SizedBox(width: 8.w),
           DropdownButton<String>(
             value: selectedDestination,
             underline: SizedBox(),

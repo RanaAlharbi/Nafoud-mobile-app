@@ -116,7 +116,7 @@ class SignInScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(9.r),
                           ),
                           suffix: Padding(
-                            padding: EdgeInsets.only(right: 12.w),
+                            padding: EdgeInsetsDirectional.only(end: 12.w),
                             child: SvgPicture.asset(
                               'assets/icons/envelope_icon.svg',
                               width: 24.w,
@@ -162,7 +162,7 @@ class SignInScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(9.r),
                               ),
                               suffix: Padding(
-                                padding: EdgeInsets.only(right: 12.w),
+                                padding: EdgeInsetsDirectional.only(end: 12.w),
                                 child: GestureDetector(
                                   onTap: () {
                                     _obscurePasswordNotifier.value =
@@ -239,7 +239,7 @@ class SignInScreen extends StatelessWidget {
                           Padding(
                             padding: EdgeInsets.only(top: 10.h),
                             child: Align(
-                              alignment: Alignment.centerLeft,
+                              alignment: AlignmentDirectional.centerStart,
                               child: Text(
                                 state.message,
                                 style: GoogleFonts.cairo(

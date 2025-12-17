@@ -1,4 +1,22 @@
 {
+  "onboarding": {
+    "title1": "Discover Nafoud Saudi Arabia",
+    "title2": "Smart Guidance Everywhere",
+    "title3": "Feel the Heart of Saudi",
+    "description1": "From its deserts to its cities ... we show you the Kingdom with unforgettable details",
+    "description2": "Snap a landmark, ask a question, and Nafoud helps instantly",
+    "description3": "Connect with locals, share your experiences and discover the culture from its heart",
+    "startNow": "Start Now",
+    "skip": "Skip",
+    "next": "Next"
+  },
+  "authLanding": {
+    "title": "Discover Nafoud App",
+    "subtitle": "Explore the Kingdom your way, sign in, create an account, or continue as a guest",
+    "login": "Login",
+    "createAccount": "Create Account",
+    "continueAsGuest": "Continue as Guest"
+  },
   "signIn": {
     "welcomeBack": "Welcome Back!",
     "subtitle": "Your journey across Saudi Arabia continues here",
@@ -27,6 +45,81 @@
     "signUpButton": "Sign Up",
     "alreadyHaveAccount": "Already have an account?",
     "login": "Login"
+    },
+  "forgetPassword": {
+    "resetPassword": "Reset Password",
+    "resetCode": "Enter your email to receive a reset code",
+    "otp": "Send OTP",
+    "email": "Email"
+  },
+  "otp": {
+    "signup":"signup",
+    "emailVerify":"Verify Your Email Address",
+    "resetCode":"Enter Reset Code",
+    "sixDeget":"Enter the 6-digit code we sent to your email",
+    "reset":"reset"
+  },
+  "updatePassword": {
+    "title": "Reset Password",
+    "subtitle": "Create a strong password to keep your password secure",
+    "newPassword": "New Password",
+    "passwordPlaceholder": "*********",
+    "confirmPassword": "Confirm Password",
+    "fillBothFields": "Please fill in both password fields.",
+    "passwordsDoNotMatch": "Passwords do not match.",
+    "savePassword": "Save Password",
+    "rememberedPassword": "Remembered your password?",
+    "signIn": "Sign In"
+  },
+  "termsAndConditions": {
+    "title": "Terms & Conditions",
+    "subtitle": "Please read the following terms & conditions carefully before continuing.",
+    "section1Title": "1. Acceptance of Terms",
+    "section1Text": "By creating an account or using the app, you agree to comply with these Terms & Conditions. If you do not agree, please stop using the app.",
+    "section2Title": "2. Purpose of the App",
+    "section2Text": "Nufud helps users discover events, explore experiences, plan trips, and interact with AI-powered features such as image analysis and recommendations. The app is for personal, non-commercial use only.",
+    "section3Title": "3. User Responsibilities",
+    "section3Text": "You agree to:",
+    "section3Bullet1": "Use the app respectfully and lawfully.",
+    "section3Bullet2": "Provide accurate information when creating an account.",
+    "section3Bullet3": "Not misuse any feature, including AI tools, image uploads, or event posting.",
+    "section3Bullet4": "Not upload harmful, inappropriate, or copyrighted content that you do not own.",
+    "section4Title": "4. Event Posting & Community Content",
+    "section4Text": "If you post an event or activity:",
+    "section4Bullet1": "You are responsible for the accuracy of your information.",
+    "section4Bullet2": "Nufud does not verify or guarantee event details.",
+    "section4Bullet3": "Nufud is not responsible for interactions between users or for any issues that occur during events.",
+    "section5Title": "5. AI Features",
+    "section5Text": "Nufud includes AI features such as trip planning, recommendations, and image analysis. These features:",
+    "section5Bullet1": "Provide suggestions only, not guarantees.",
+    "section5Bullet2": "May not always be accurate or complete.",
+    "section5Bullet3": "Should not be used for safety-critical decisions.",
+    "section6Title": "6. Privacy & Data",
+    "section6Text": "We collect and process data to improve your experience. This may include:",
+    "section6Bullet1": "Account information",
+    "section6Bullet2": "Uploaded images",
+    "section6Bullet3": "Location (if you choose to allow it)",
+    "section6Bullet4": "App usage analytics",
+    "section6Bullet5": "We do not sell your personal data to third parties. For more details, refer to our Privacy Policy.",
+    "section7Title": "7. Prohibited Activities",
+    "section7Text": "You agree NOT to:",
+    "section7Bullet1": "Use the app for illegal or harmful activities.",
+    "section7Bullet2": "Upload content containing violence, hate, harassment, or explicit material.",
+    "section7Bullet3": "Attempt to hack, reverse engineer, or misuse the app.",
+    "section7Bullet4": "Impersonate other users or create fake content.",
+    "section8Title": "8. Intellectual Property",
+    "section8Text": "All branding, design, content, and app features belong to Nufud. You may not copy, reproduce, or redistribute any part of the app without permission.",
+    "section9Title": "9. Limitation of Liability",
+    "section9Text": "Nufud is not responsible for:",
+    "section9Bullet1": "Event cancellations, misinformation, or disputes between users",
+    "section9Bullet2": "Damages resulting from the use of AI features",
+    "section9Bullet3": "Loss of data or technical issues",
+    "section9Bullet4": "You use the app at your own risk.",
+    "section10Title": "10. Changes to the Terms",
+    "section10Text": "We may update these Terms from time to time. If changes are made, we will notify users in the app. Continued use means you accept the updated Terms.",
+    "section11Title": "11. Contact",
+    "section11Text": "If you have questions or concerns, please contact us: support@nafoud.app",
+    "agree": "Agree"
   },
   "nav": {
     "home": "Home",
@@ -56,6 +149,131 @@
     "jeddah": "Jeddah",
     "dammam": "Dammam",
     "medina": "Medina"
+  },
+
+  "weather": {
+    "title": "Weather",
+    "searchPlaceholder": "Search Location ...",
+    "retry": "Retry",
+    "noDataAvailable": "No weather data available",
+    "noCitiesFound": "No cities found matching",
+    "loadingData": "Loading weather data...",
+    "high": "H",
+    "low": "L",
+    "conditions": {
+      "rainy": "Rainy",
+      "cloudy": "Cloudy",
+      "sunny": "Sunny",
+      "snowy": "Snowy",
+      "stormy": "Stormy"
+    }
+  },
+
+  "transport": {
+    "title": "Transport",
+    "taxi": "Taxi",
+    "trains": "Trains",
+    "public": "Public",
+    "carRentals": "Car Rentals"
+  },
+
+  "events": {
+    "categories": {
+      "all": "All Categories",
+      "shopping": "Shopping",
+      "sport": "Sport",
+      "concerts": "Concerts",
+      "food": "Food",
+      "culturalAndArts": "Cultural & Arts",
+      "unknown": "Unknown"
+    },
+    "locationNotAvailable": "Location not available",
+    "getDirections": "Get Directions",
+    "eventDetails": "Event Details",
+    "aboutEvent": "About {eventName}",
+    "noDescription": "No description available",
+    "information": "Information",
+    "location": "Location",
+    "noEventsIn": "No events in {destination}",
+    "errorLoading": "Error loading events",
+    "allEvents": "All Events",
+    "noEventsFound": "No events found",
+    "date": "Date: {date}",
+    "locationLabel": "Location: {location}",
+    "categoryLabel": "Category: {category}",
+    "error": "Error: {message}"
+  },
+
+  "gathering": {
+    "createActivity": "Create Activity",
+    "pleaseFillAllFields": "Please fill all fields",
+    "publish": "Publish",
+    "activityTitle": "Activity Title",
+    "activityTitleHint": "What's your activity called?",
+    "aboutActivity": "About Activity",
+    "describeActivity": "Describe your activity…",
+    "activityCategory": "Activity Category",
+    "activityDate": "Activity Date",
+    "activityTime": "Activity Time",
+    "pickLocationOnMap": "Pick Location on Map",
+    "city": "City",
+    "enterCity": "Enter city",
+    "fullAddress": "Full Address",
+    "enterFullAddress": "Enter full address",
+    "error": "Error",
+    "ok": "OK",
+    "success": "Success",
+    "dismiss": "DISMISS",
+    "aboutCategory": "About {category}",
+    "readLess": "Read Less",
+    "readMore": "Read More",
+    "information": "Information",
+    "joining": "Joining",
+    "gather": "Gather",
+    "noEventsFound": "No events found",
+    "searchHere": "Search here...",
+    "categories": {
+      "all": "All",
+      "sport": "Sport",
+      "music": "Music",
+      "food": "Food",
+      "cultural": "Cultural",
+      "adventure": "Adventure",
+      "entertainment": "Entertainment"
+    },
+    "months": {
+      "jan": "Jan",
+      "feb": "Feb",
+      "mar": "Mar",
+      "apr": "Apr",
+      "may": "May",
+      "jun": "Jun",
+      "jul": "Jul",
+      "aug": "Aug",
+      "sep": "Sep",
+      "oct": "Oct",
+      "nov": "Nov",
+      "dec": "Dec"
+    },
+    "viewDetails": "View details",
+    "locationNotAvailable": "Location not available",
+    "getDirections": "Get Directions",
+    "all": "All"
+  },
+
+  "currency": {
+    "currency": "Currency",
+    "amount": "Amount",
+    "convertedTo": "Converted to",
+    "select": "Select"
+  },
+
+  "emergency": {
+    "emergency": "Emergency",
+    "error": "Error",
+    "search": "Search ...",
+    "embassies": "Embassies",
+    "select": "Select"
   },
 
   "murshid": {
@@ -481,9 +699,4 @@
     "260": "+260",
     "263": "+263"
   }
-
 }
-
-
-
-

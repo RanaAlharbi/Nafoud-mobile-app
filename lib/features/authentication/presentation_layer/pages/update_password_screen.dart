@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/core/routes/router.dart';
 import 'package:final_project/features/authentication/presentation_layer/bloc/authentication_bloc.dart';
 import 'package:flutter/cupertino.dart';
@@ -77,9 +78,9 @@ class UpdatePasswordScreen extends StatelessWidget {
                       children: [
                         21.verticalSpace,
                         Align(
-                          alignment: Alignment.topRight,
+                          alignment: AlignmentDirectional.topEnd,
                           child: SvgPicture.asset(
-                            'Assets/logo/NafoudLogo.svg',
+                            'Assets/logo/NafoudLogo.svg',     // I can't see the image
                             width: 67.87.w,
                             height: 69.17.h,
                           ),
@@ -88,9 +89,9 @@ class UpdatePasswordScreen extends StatelessWidget {
                         58.83.verticalSpace,
 
                         Align(
-                          alignment: Alignment.centerLeft,
+                          alignment: AlignmentDirectional.centerStart,
                           child: Text(
-                            "Reset Password",
+                            "updatePassword.title".tr(),
                             style: GoogleFonts.cairo(
                               fontSize: 25.9.sp,
                               color: const Color(0xFF3D4032),
@@ -100,7 +101,7 @@ class UpdatePasswordScreen extends StatelessWidget {
                         ),
 
                         Text(
-                          "Create a strong password to keep your password secure",
+                          "updatePassword.subtitle".tr(),
                           style: GoogleFonts.cairo(
                             fontSize: 18.sp,
                             color: const Color(0xFF919191),
@@ -109,9 +110,9 @@ class UpdatePasswordScreen extends StatelessWidget {
 
                         20.verticalSpace,
                         Align(
-                          alignment: Alignment.centerLeft,
+                          alignment: AlignmentDirectional.centerStart,
                           child: Text(
-                            "New Password",
+                            "updatePassword.newPassword".tr(),
                             style: GoogleFonts.cairo(
                               fontSize: 18.sp,
                               color: const Color(0xFF3D4032),
@@ -124,7 +125,7 @@ class UpdatePasswordScreen extends StatelessWidget {
                           builder: (context, isObscured, child) {
                             return CupertinoTextField(
                               controller: _newPasswordController,
-                              placeholder: "*********",
+                              placeholder: "updatePassword.passwordPlaceholder".tr(),
                               placeholderStyle: GoogleFonts.cairo(
                                 fontSize: 18.sp,
                                 color: const Color(0xFFB6B6B6),
@@ -167,9 +168,9 @@ class UpdatePasswordScreen extends StatelessWidget {
                         22.verticalSpace,
 
                         Align(
-                          alignment: Alignment.centerLeft,
+                          alignment: AlignmentDirectional.centerStart,
                           child: Text(
-                            "Confirm Password",
+                            "updatePassword.confirmPassword".tr(),
                             style: GoogleFonts.cairo(
                               fontSize: 18.sp,
                               color: const Color(0xFF3D4032),
@@ -183,7 +184,7 @@ class UpdatePasswordScreen extends StatelessWidget {
                           builder: (context, isObscured, child) {
                             return CupertinoTextField(
                               controller: _confirmPasswordController,
-                              placeholder: "*********",
+                              placeholder: "updatePassword.passwordPlaceholder".tr(),
                               placeholderStyle: GoogleFonts.cairo(
                                 fontSize: 18.sp,
                                 color: const Color(0xFFB6B6B6),
@@ -239,7 +240,7 @@ class UpdatePasswordScreen extends StatelessWidget {
                             return Padding(
                               padding: EdgeInsets.only(top: 10.h),
                               child: Align(
-                                alignment: Alignment.centerLeft,
+                                alignment: AlignmentDirectional.centerStart,
                                 child: Text(
                                   displayMessage,
                                   style: GoogleFonts.cairo(
@@ -272,13 +273,13 @@ class UpdatePasswordScreen extends StatelessWidget {
                                   if (newPassword.isEmpty ||
                                       confirmPassword.isEmpty) {
                                     _errorNotifier.value =
-                                        "Please fill in both password fields.";
+                                        "updatePassword.fillBothFields".tr();
                                     return;
                                   }
 
                                   if (newPassword != confirmPassword) {
                                     _errorNotifier.value =
-                                        "Passwords do not match.";
+                                        "updatePassword.passwordsDoNotMatch".tr();
                                     return;
                                   }
 
@@ -300,7 +301,7 @@ class UpdatePasswordScreen extends StatelessWidget {
                             ),
                           ),
                           child: Text(
-                            "Save Password",
+                            "updatePassword.savePassword".tr(),
                             style: GoogleFonts.cairo(fontSize: 18.sp),
                           ),
                         ),
@@ -312,14 +313,14 @@ class UpdatePasswordScreen extends StatelessWidget {
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                  text: "Remembered your password?",
+                                  text: "updatePassword.rememberedPassword".tr(),
                                   style: GoogleFonts.cairo(
                                     color: const Color(0xFF919191),
                                     fontSize: 15.sp,
                                   ),
                                 ),
                                 TextSpan(
-                                  text: " Sign In",
+                                  text: " ${"updatePassword.signIn".tr()}",
                                   style: GoogleFonts.cairo(
                                     color: const Color(0xFF656A53),
                                     fontSize: 15.sp,

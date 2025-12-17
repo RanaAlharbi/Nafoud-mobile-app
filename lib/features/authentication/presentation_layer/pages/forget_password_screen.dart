@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/core/routes/router.dart';
 import 'package:final_project/features/authentication/presentation_layer/bloc/authentication_bloc.dart';
 import 'package:flutter/cupertino.dart';
@@ -52,6 +53,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                         21.verticalSpace,
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          textDirection: .ltr,
                           children: [
                             GestureDetector(
                               onTap: () {
@@ -73,9 +75,9 @@ class ForgotPasswordScreen extends StatelessWidget {
                         58.83.verticalSpace,
 
                         Align(
-                          alignment: Alignment.centerLeft,
+                          alignment: AlignmentDirectional.centerStart,
                           child: Text(
-                            "Reset Password",
+                            "forgetPassword.resetPassword".tr(),
                             style: GoogleFonts.cairo(
                               fontSize: 25.9.sp,
                               color: const Color(0xFF3D4032),
@@ -84,19 +86,22 @@ class ForgotPasswordScreen extends StatelessWidget {
                           ),
                         ),
 
-                        Text(
-                          "Enter your email to receive a reset code",
-                          style: GoogleFonts.cairo(
-                            fontSize: 18.sp,
-                            color: const Color(0xFF919191),
+                        Align(
+                          alignment: AlignmentDirectional.centerStart,
+                          child: Text(
+                            "forgetPassword.resetCode".tr(),
+                            style: GoogleFonts.cairo(
+                              fontSize: 18.sp,
+                              color: const Color(0xFF919191),
+                            ),
                           ),
                         ),
 
                         20.verticalSpace,
                         Align(
-                          alignment: Alignment.centerLeft,
+                          alignment: AlignmentDirectional.centerStart,
                           child: Text(
-                            "Email",
+                            "forgetPassword.email".tr(),
                             style: GoogleFonts.cairo(
                               fontSize: 18.sp,
                               color: const Color(0xFF3D4032),
@@ -125,7 +130,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(9.r),
                           ),
                           suffix: Padding(
-                            padding: EdgeInsets.only(right: 12.w),
+                            padding: EdgeInsetsDirectional.only(end: 12.w),
                             child: SvgPicture.asset(
                               'assets/icons/envelope_icon.svg',
                               width: 24.w,
@@ -138,7 +143,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                           Padding(
                             padding: EdgeInsets.only(top: 10.h),
                             child: Align(
-                              alignment: Alignment.centerLeft,
+                              alignment: AlignmentDirectional.centerStart,
                               child: Text(
                                 state.message,
                                 style: GoogleFonts.cairo(
@@ -175,7 +180,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                             ),
                           ),
                           child: Text(
-                            "Send OTP",
+                            "forgetPassword.otp".tr(),
                             style: GoogleFonts.cairo(fontSize: 18.sp),
                           ),
                         ),
@@ -190,7 +195,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                     children: [
                       BackdropFilter(
                         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                        child: Container(color: Colors.black.withOpacity(.2)),
+                        child: Container(color: Colors.black.withValues(alpha: .2)),
                       ),
                       Center(
                         child: JumpingDots(

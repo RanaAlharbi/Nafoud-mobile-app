@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/features/events/presentation_layer/utils/event_category_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class EventMapWidget extends StatelessWidget {
     // If there is no location
     if (lat == null || lng == null) {
       return Text(
-        "Location not available",
+        "events.locationNotAvailable".tr(),
         style: GoogleFonts.cairo(color: Colors.grey),
       );
     }
@@ -104,7 +105,7 @@ class EventMapWidget extends StatelessWidget {
                         ),
                         onPressed: () => MapLauncher.openGoogleMaps(lat, lng),
                         child: Text(
-                          "Get Directions",
+                          "events.getDirections".tr(),
                           style: GoogleFonts.cairo(
                             color: const Color(0xffF0F0EE),
                             fontSize: 18.sp,
