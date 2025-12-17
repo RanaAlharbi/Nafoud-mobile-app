@@ -14,6 +14,7 @@ class MyActivityModelMapper extends ClassMapperBase<MyActivityModel> {
   static MyActivityModelMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = MyActivityModelMapper._());
+      GatheringModelMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -21,14 +22,17 @@ class MyActivityModelMapper extends ClassMapperBase<MyActivityModel> {
   @override
   final String id = 'MyActivityModel';
 
-  static String _$id(MyActivityModel v) => v.id;
-  static const Field<MyActivityModel, String> _f$id = Field('id', _$id);
+  static List<GatheringModel> _$events(MyActivityModel v) => v.events;
+  static const Field<MyActivityModel, List<GatheringModel>> _f$events = Field(
+    'events',
+    _$events,
+  );
 
   @override
-  final MappableFields<MyActivityModel> fields = const {#id: _f$id};
+  final MappableFields<MyActivityModel> fields = const {#events: _f$events};
 
   static MyActivityModel _instantiate(DecodingData data) {
-    return MyActivityModel(id: data.dec(_f$id));
+    return MyActivityModel(events: data.dec(_f$events));
   }
 
   @override
@@ -93,7 +97,13 @@ extension MyActivityModelValueCopy<$R, $Out>
 
 abstract class MyActivityModelCopyWith<$R, $In extends MyActivityModel, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
-  $R call({String? id});
+  ListCopyWith<
+    $R,
+    GatheringModel,
+    GatheringModelCopyWith<$R, GatheringModel, GatheringModel>
+  >
+  get events;
+  $R call({List<GatheringModel>? events});
   MyActivityModelCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(
     Then<$Out2, $R2> t,
   );
@@ -108,10 +118,22 @@ class _MyActivityModelCopyWithImpl<$R, $Out>
   late final ClassMapperBase<MyActivityModel> $mapper =
       MyActivityModelMapper.ensureInitialized();
   @override
-  $R call({String? id}) => $apply(FieldCopyWithData({if (id != null) #id: id}));
+  ListCopyWith<
+    $R,
+    GatheringModel,
+    GatheringModelCopyWith<$R, GatheringModel, GatheringModel>
+  >
+  get events => ListCopyWith(
+    $value.events,
+    (v, t) => v.copyWith.$chain(t),
+    (v) => call(events: v),
+  );
+  @override
+  $R call({List<GatheringModel>? events}) =>
+      $apply(FieldCopyWithData({if (events != null) #events: events}));
   @override
   MyActivityModel $make(CopyWithData data) =>
-      MyActivityModel(id: data.get(#id, or: $value.id));
+      MyActivityModel(events: data.get(#events, or: $value.events));
 
   @override
   MyActivityModelCopyWith<$R2, MyActivityModel, $Out2> $chain<$R2, $Out2>(

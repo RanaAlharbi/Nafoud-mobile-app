@@ -65,6 +65,7 @@ dependencies:
   google_places_flutter: ^2.1.1
   flutter_google_places_sdk: ^0.4.2+1
   flutter_polyline_points: ^3.1.0
+  lottie: ^3.3.2
 
 
   
@@ -119,7 +120,7 @@ flutter:
     - assets/sim_cards/mobily.svg
     - assets/sim_cards/stc.svg
     - assets/sim_cards/zain.svg
-    - assets/splash/
+    - assets/jsons/splash/SplashScreen.json
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

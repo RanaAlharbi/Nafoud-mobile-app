@@ -21,17 +21,20 @@ import 'package:final_project/features/events/presentation_layer/pages/event_inf
 import 'package:final_project/features/events/presentation_layer/pages/events_full_screen.dart';
 import 'package:final_project/features/location/presentation/cubit/location_cubit.dart';
 import 'package:final_project/features/location/presentation/pages/pick_location_screen.dart';
+import 'package:final_project/features/my_activity/presentation/cubit/my_activity_cubit.dart';
+import 'package:final_project/features/my_activity/presentation/pages/my_activity_feature_screen.dart';
+import 'package:final_project/features/my_activity/presentation/pages/my_activity_details_screen.dart';
 import 'package:final_project/features/profile/domain_layer/usecase/profile_usecase.dart';
 import 'package:final_project/core/shared/gathering_entity/gathering_entity.dart';
 import 'package:final_project/features/gathering/presentation/cubit/gathering_cubit.dart';
 import 'package:final_project/features/gathering/presentation/pages/add_events.dart';
 import 'package:final_project/features/gathering/presentation/pages/gathering_details_screen.dart';
-import 'package:final_project/features/gathering/presentation/pages/select_location_screen.dart' hide SelectLocationScreen;
 import 'package:final_project/features/home/presentation_layer/pages/all_activities_screen.dart';
 import 'package:final_project/features/home/presentation_layer/pages/currency_screen.dart';
 import 'package:final_project/features/emergency/presentation_layer/pages/emergency_screen.dart';
 import 'package:final_project/features/home/presentation_layer/pages/home_screen.dart';
 import 'package:final_project/features/sim_cards/presentation_layer/pages/sim_card_screen.dart';
+import 'package:final_project/features/splash/splash_screen.dart';
 import 'package:final_project/features/transport/presentation_layer/pages/transport_screen.dart';
 import 'package:final_project/features/weather/presentation/cubit/weather_cubit.dart';
 import 'package:final_project/features/weather/presentation/pages/weather_screen.dart';
@@ -41,7 +44,6 @@ import 'package:final_project/features/onbording/presentation/cubit/onbording_cu
 import 'package:final_project/features/onbording/presentation/pages/onboarding_screen.dart';
 import 'package:final_project/features/bookmarks/presentation/pages/bookmark_screen.dart';
 import 'package:final_project/features/profile/presentation_layer/pages/edit_profile_screen.dart';
-import 'package:final_project/features/profile/presentation_layer/pages/my_activity_screen.dart';
 import 'package:final_project/features/profile/presentation_layer/pages/profile_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -74,6 +76,7 @@ class AppRoutes {
   static const profileScreen = '/profile-screen';
   static const editProfileScreen = '/edit-profile-screen';
   static const myActivityScreen = '/my-activity-screen';
+  static const myActivityDetailsScreen = '/my-activity-details-screen';
   static const bookmarkScreen = '/bookmark-screen';
 
   //error page (for testing)
@@ -114,7 +117,7 @@ class AppRoutes {
       return AppRoutes.navigationScreen;
     }
 
-    return AppRoutes.onboardingScreen;
+    return AppRoutes.splashScreen;
   }
 
   static final GoRouter appRouter = GoRouter(
@@ -246,16 +249,15 @@ class AppRoutes {
         },
       ),
 
-
-GoRoute(
-  path: AppRoutes.selectLocation,
-  builder: (context, state) {
-    return BlocProvider(
-      create: (_) => getIt<LocationCubit>(),
-      child: const SelectLocationScreen(),
-    );
-  },
-),
+      GoRoute(
+        path: AppRoutes.selectLocation,
+        builder: (context, state) {
+          return BlocProvider(
+            create: (_) => getIt<LocationCubit>(),
+            child: const SelectLocationScreen(),
+          );
+        },
+      ),
 
       //location selection screen
       // GoRoute(
@@ -282,10 +284,10 @@ GoRoute(
         },
       ),
 
-      // GoRoute(
-      //   path: AppRoutes.splashScreen,
-      //   builder: (context, state) => SplashScreenOne(),
-      // ),
+      GoRoute(
+        path: AppRoutes.splashScreen,
+        builder: (context, state) => SplashScreen(),
+      ),
 
       // Profile & Edit Profile
       GoRoute(
@@ -299,7 +301,22 @@ GoRoute(
       ),
       GoRoute(
         path: AppRoutes.myActivityScreen,
-        builder: (context, state) => MyActivityScreen(),
+        builder: (context, state) {
+          return BlocProvider<MyActivityCubit>(
+            create: (_) => getIt<MyActivityCubit>()..getMyActivityMethod(),
+            child: const MyActivityFeatureScreen(),
+          );
+        },
+      ),
+      GoRoute(
+        path: AppRoutes.myActivityDetailsScreen,
+        builder: (context, state) {
+          final event = state.extra as GatheringEntity;
+          return BlocProvider<MyActivityCubit>(
+            create: (_) => getIt<MyActivityCubit>(),
+            child: MyActivityDetailsScreen(event: event),
+          );
+        },
       ),
       GoRoute(
         path: AppRoutes.bookmarkScreen,

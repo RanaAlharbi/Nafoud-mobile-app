@@ -12,4 +12,8 @@ class MyActivityUseCase {
   Future<Either<String, MyActivityEntity>> getMyActivity() async {
     return _repositoryData.getMyActivity();
   }
+
+  Future<Either<String, MyActivityEntity>> refreshMyActivity() async {
+    return _repositoryData.refreshMyActivity();
+  }
 }
