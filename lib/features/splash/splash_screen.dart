@@ -1,7 +1,10 @@
 import 'package:final_project/core/routes/router.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -15,6 +18,8 @@ class _SplashScreenState extends State<SplashScreen>
   // TickerProviderStateMixin is needed for the Animation controller
   // To make the splash screen speed slower
   late final AnimationController _controller;
+  final session = GetIt.I.get<SupabaseClient>().auth.currentSession;
+  final box = GetIt.I.get<GetStorage>();
 
   @override
   void initState() {
@@ -45,9 +50,18 @@ class _SplashScreenState extends State<SplashScreen>
             _controller
               ..duration = composition.duration
               // When Finished, move to onboarding screen
-              ..forward().whenComplete(
-                () => context.replace(AppRoutes.onboardingScreen),
-              );
+              ..forward().whenComplete(() {
+                final rememberMe = box.read('remember_me') ?? false;
+                String targetRoute;
+                if (session != null && rememberMe) {
+                  targetRoute = AppRoutes.navigationScreen;
+                } else {
+                  targetRoute = AppRoutes.authenticationLandingScreen;
+                }
+                if (mounted) {
+                  context.go(targetRoute);
+                }
+              });
           },
         ),
       ),

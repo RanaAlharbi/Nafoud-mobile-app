@@ -108,20 +108,9 @@ class AppRoutes {
   static const eventInfoScreen = '/event-info';
 
   //remember_me
-  static String getInitialRoute() {
-    final session = GetIt.I.get<SupabaseClient>().auth.currentSession;
-    final box = GetIt.I.get<GetStorage>();
-    final rememberMe = box.read('remember_me') ?? false;
-
-    if (session != null && rememberMe) {
-      return AppRoutes.navigationScreen;
-    }
-
-    return AppRoutes.splashScreen;
-  }
 
   static final GoRouter appRouter = GoRouter(
-    initialLocation: getInitialRoute(),
+    initialLocation: AppRoutes.splashScreen,
     routes: [
       GoRoute(
         path: AppRoutes.authenticationLandingScreen,
@@ -222,7 +211,6 @@ class AppRoutes {
         path: AppRoutes.aiImageAnalysisScreen,
         builder: (context, state) => AIImageAnalysisScreen(),
       ),
-
 
       //event details screen
       GoRoute(
