@@ -192,6 +192,7 @@ class AppRoutes {
         },
       ),
 
+      //otp screen
       GoRoute(
         path: AppRoutes.otpScreen,
         builder: (context, state) {
@@ -204,6 +205,7 @@ class AppRoutes {
         },
       ),
 
+      //chat screen
       GoRoute(
         path: AppRoutes.chatScreen,
         builder: (context, state) {
@@ -221,18 +223,6 @@ class AppRoutes {
         builder: (context, state) => AIImageAnalysisScreen(),
       ),
 
-      // //map screen
-      // GoRoute(
-      //   path: "/eventsMap",
-      //   builder: (context, state) {
-      //     final cubit = state.extra as GatheringCubit;
-
-      //     return BlocProvider.value(
-      //       value: cubit,
-      //       child: EventsMapScreen(cubit: cubit),
-      //     );
-      //   },
-      // ),
 
       //event details screen
       GoRoute(
@@ -248,7 +238,7 @@ class AppRoutes {
           );
         },
       ),
-
+      //location selection screen
       GoRoute(
         path: AppRoutes.selectLocation,
         builder: (context, state) {
@@ -258,19 +248,6 @@ class AppRoutes {
           );
         },
       ),
-
-      //location selection screen
-      // GoRoute(
-      //   path: AppRoutes.selectLocation,
-      //   builder: (context, state) {
-      //     final cubit = state.extra as GatheringCubit;
-
-      //     return BlocProvider.value(
-      //       value: cubit,
-      //       child: SelectLocationScreen(),
-      //     );
-      //   },
-      // ),
 
       //Add event screen
       GoRoute(

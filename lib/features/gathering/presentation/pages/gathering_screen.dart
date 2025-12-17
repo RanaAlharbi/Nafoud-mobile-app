@@ -4,7 +4,6 @@ import 'package:final_project/features/gathering/presentation/cubit/gathering_cu
 import 'package:final_project/features/gathering/presentation/cubit/gathering_state.dart';
 import 'package:final_project/features/gathering/presentation/widget/add_button_widget.dart';
 import 'package:final_project/features/gathering/presentation/widget/category_chips_widget.dart';
-import 'package:final_project/features/gathering/presentation/widget/circle_button_widget.dart';
 import 'package:final_project/features/gathering/presentation/widget/event_card_widget.dart';
 import 'package:final_project/features/gathering/presentation/widget/search_bar_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -53,29 +52,6 @@ class GatheringScreen extends StatelessWidget {
                             //search bar
                             const Expanded(child: SearchBarWidget()),
                             13.horizontalSpace,
-
-                        //     //Map button
-                        //     // CircleButtonWidget(
-                        //     //   iconPath: 'assets/icons/murshid_image.svg',
-                        //     //   onTap: () {
-                        //     //     context.push(
-                        //     //       "/eventsMap",
-                        //     //       extra: context.read<GatheringCubit>(),
-                        //     //     );
-                        //     //   },
-                        //       // onTap: () {
-                        //       //   context.push(
-                        //       //     "/eventsMap",
-                        //       //     // extra: context.read<GatheringCubit>(),
-                        //       //   );
-                        //       // },
-                        //     ),
-                        //     13.horizontalSpace,
-
-                        //     // //Filter button
-                        //     // CircleButtonWidget(
-                        //     //   iconPath: 'assets/icons/filter-horizontal.svg',
-                        //     // ),
                           ],
                         ),
 
