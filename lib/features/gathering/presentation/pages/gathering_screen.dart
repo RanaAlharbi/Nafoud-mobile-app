@@ -54,28 +54,28 @@ class GatheringScreen extends StatelessWidget {
                             const Expanded(child: SearchBarWidget()),
                             13.horizontalSpace,
 
-                            //Map button
-                            CircleButtonWidget(
-                              iconPath: 'assets/icons/murshid_image.svg',
-                              onTap: () {
-                                context.push(
-                                  "/eventsMap",
-                                  extra: context.read<GatheringCubit>(),
-                                );
-                              },
-                              // onTap: () {
-                              //   context.push(
-                              //     "/eventsMap",
-                              //     // extra: context.read<GatheringCubit>(),
-                              //   );
-                              // },
-                            ),
-                            13.horizontalSpace,
+                        //     //Map button
+                        //     // CircleButtonWidget(
+                        //     //   iconPath: 'assets/icons/murshid_image.svg',
+                        //     //   onTap: () {
+                        //     //     context.push(
+                        //     //       "/eventsMap",
+                        //     //       extra: context.read<GatheringCubit>(),
+                        //     //     );
+                        //     //   },
+                        //       // onTap: () {
+                        //       //   context.push(
+                        //       //     "/eventsMap",
+                        //       //     // extra: context.read<GatheringCubit>(),
+                        //       //   );
+                        //       // },
+                        //     ),
+                        //     13.horizontalSpace,
 
-                            // //Filter button
-                            // CircleButtonWidget(
-                            //   iconPath: 'assets/icons/filter-horizontal.svg',
-                            // ),
+                        //     // //Filter button
+                        //     // CircleButtonWidget(
+                        //     //   iconPath: 'assets/icons/filter-horizontal.svg',
+                        //     // ),
                           ],
                         ),
 
