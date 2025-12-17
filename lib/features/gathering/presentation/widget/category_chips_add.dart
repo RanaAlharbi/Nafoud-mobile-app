@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,7 +13,7 @@ class CategoryChipsAdd extends StatelessWidget {
   Widget build(BuildContext context) {
     return Wrap(
       spacing: 5,
-      children: cubit.categories.where((c) => c != "All").map((cat) {
+      children: cubit.categories.where((c) => c != "gathering.all".tr()).map((cat) {
         final isSelected = cubit.selectedCategory == cat;
         return ChoiceChip(
           showCheckmark: false,

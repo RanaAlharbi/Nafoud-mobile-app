@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/core/di/configure_dependencies.dart';
 import 'package:final_project/core/shared/Widgets/error_box.dart';
 import 'package:final_project/features/gathering/presentation/cubit/gathering_cubit.dart';
@@ -27,7 +28,7 @@ class GatheringScreen extends StatelessWidget {
         navigationBar: CupertinoNavigationBar(
           backgroundColor: const Color(0xFFF0F0EE),
           middle: Text(
-            "Gather",
+            "gathering.gather".tr(),
             style: GoogleFonts.cairo(
               fontSize: 26,
               fontWeight: FontWeight.bold,
@@ -94,7 +95,7 @@ class GatheringScreen extends StatelessWidget {
                                       ),
                                       15.verticalSpace,
                                       Text(
-                                        "No events found",
+                                        "gathering.noEventsFound".tr(),
                                         style: GoogleFonts.cairo(
                                           fontSize: 16.sp,
                                           color: const Color(0xFF656A53),

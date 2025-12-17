@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -18,7 +19,7 @@ class EventsFeatureWidget extends StatelessWidget {
         if (state is LoadedEvents) {
           final events = state.events;
           if (events.isEmpty) {
-            return const Center(child: Text("No events found"));
+            return Center(child: Text("events.noEventsFound".tr()));
           }
 
           return ListView.builder(
@@ -39,11 +40,11 @@ class EventsFeatureWidget extends StatelessWidget {
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Date: ${event.date}"),
+                    Text("events.date".tr(namedArgs: {'date': event.date})),
                     if (event.location != null)
-                      Text("Location: ${event.location}"),
+                      Text("events.locationLabel".tr(namedArgs: {'location': event.location!})),
                     if (event.category != null)
-                      Text("Category: ${event.category}"),
+                      Text("events.categoryLabel".tr(namedArgs: {'category': event.category!})),
                   ],
                 ),
               );
@@ -52,7 +53,7 @@ class EventsFeatureWidget extends StatelessWidget {
         }
 
         if (state is EventsError) {
-          return Center(child: Text("Error: ${state.messsage}"));
+          return Center(child: Text("events.error".tr(namedArgs: {'message': state.messsage})));
         }
 
         return const SizedBox.shrink();

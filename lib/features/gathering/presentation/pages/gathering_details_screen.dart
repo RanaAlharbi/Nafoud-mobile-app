@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/core/shared/utils/share_utils.dart';
 import 'package:final_project/features/gathering/presentation/widget/event_header_section.dart';
 import 'package:final_project/features/gathering/presentation/widget/event_info_section.dart';
@@ -34,7 +35,7 @@ class GatheringDetailsScreen extends StatelessWidget {
                 children: [
                   Icon(Icons.check_circle, color: Colors.green, size: 28),
                   SizedBox(width: 10),
-                  Text("Success", style: GoogleFonts.cairo(fontSize: 20)),
+                  Text("gathering.success".tr(), style: GoogleFonts.cairo(fontSize: 20)),
                 ],
               ),
               content: Text(
@@ -44,7 +45,7 @@ class GatheringDetailsScreen extends StatelessWidget {
               actions: [
                 TextButton(
                   child: Text(
-                    "OK",
+                    "gathering.ok".tr(),
                     style: TextStyle(color: Colors.green, fontSize: 16),
                   ),
                   onPressed: () => Navigator.pop(context),
@@ -66,7 +67,7 @@ class GatheringDetailsScreen extends StatelessWidget {
                   Icon(Icons.error_outline, color: Colors.red, size: 28),
                   SizedBox(width: 10),
                   Text(
-                    "Error",
+                    "gathering.error".tr(),
                     style: GoogleFonts.cairo(fontSize: 20, color: Colors.red),
                   ),
                 ],
@@ -78,7 +79,7 @@ class GatheringDetailsScreen extends StatelessWidget {
               actions: [
                 TextButton(
                   child: Text(
-                    "DISMISS",
+                    "gathering.dismiss".tr(),
                     style: GoogleFonts.cairo(color: Colors.red, fontSize: 16),
                   ),
                   onPressed: () => Navigator.pop(context),
@@ -134,7 +135,7 @@ class GatheringDetailsScreen extends StatelessWidget {
                         children: [
                           SizedBox(height: 23.h),
                           Text(
-                            "About ${event.category}",
+                            "gathering.aboutCategory".tr(namedArgs: {'category': event.category}),
                             style: GoogleFonts.cairo(
                               fontSize: 18.sp,
                               fontWeight: FontWeight.bold,
@@ -164,7 +165,7 @@ class GatheringDetailsScreen extends StatelessWidget {
                             child: Row(
                               children: [
                                 Text(
-                                  isExpanded ? "Read Less" : "Read More",
+                                  isExpanded ? "gathering.readLess".tr() : "gathering.readMore".tr(),
                                   style: GoogleFonts.cairo(
                                     fontSize: 15.sp,
                                     fontWeight: FontWeight.bold,
@@ -199,7 +200,7 @@ class GatheringDetailsScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   child: Text(
-                    "Information",
+                    "gathering.information".tr(),
                     style: TextStyle(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
@@ -236,7 +237,7 @@ class GatheringDetailsScreen extends StatelessWidget {
                       onPressed: () =>
                           context.read<GatheringCubit>().joinEvent(event.id!),
                       child: Text(
-                        "Joining",
+                        "gathering.joining".tr(),
                         style: GoogleFonts.cairo(
                           fontSize: 18.sp,
                           color: Colors.white,

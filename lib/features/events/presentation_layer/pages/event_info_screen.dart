@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/core/app_theme/app_colors/app_colors.dart';
 import 'package:final_project/features/events/domain_layer/entity/events_entity.dart';
 import 'package:final_project/features/events/presentation_layer/utils/event_category_utils.dart';
@@ -25,7 +26,7 @@ class EventInfoScreen extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          "Event Details",
+          "events.eventDetails".tr(),
           style: GoogleFonts.cairo(
             fontSize: 26.sp,
             fontWeight: FontWeight.bold,
@@ -81,7 +82,7 @@ class EventInfoScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 16.0),
               child: Text(
-                "About ${event.title}",
+                "events.aboutEvent".tr(namedArgs: {'eventName': event.title}),
                 style: TextStyle(
                   fontSize: 19.sp,
                   fontWeight: FontWeight.bold,
@@ -94,7 +95,7 @@ class EventInfoScreen extends StatelessWidget {
             Container(
               padding: EdgeInsets.all(16.w),
               child: Text(
-                event.description ?? "No description available",
+                event.description ?? "events.noDescription".tr(),
                 style: TextStyle(
                   fontSize: 16.sp,
                   color: Colors.black,
@@ -108,7 +109,7 @@ class EventInfoScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 16.0),
               child: Text(
-                "Information",
+                "events.information".tr(),
                 style: TextStyle(
                   fontSize: 19.sp,
                   fontWeight: FontWeight.bold,
@@ -143,7 +144,7 @@ class EventInfoScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 16.0),
               child: Text(
-                "Location",
+                "events.location".tr(),
                 style: TextStyle(
                   fontSize: 19.sp,
                   fontWeight: FontWeight.bold,
