@@ -33,5 +33,41 @@
     "gather": "Gather",
     "murshid": "Murshid",
     "profile": "Profile"
+  },
+  "home": {
+    "hello": "Hello,",
+    "greetingSub": "What would you like to do today?",
+    "banner_title": "Enjoy the moment with others!",
+    "banner_body": "Got an event and looking for company? Post your announcement and let everyone join",
+    "post_now": "post Now",
+    "quick_guides": "Your Quick Guides",
+    "guides": {
+      "transport": "Transport",
+      "sim_card": "SIM Card",
+      "emergency": "Emergency",
+      "weather": "Weather",
+      "currency": "Currency"
+    },
+    "discover": "Discover",
+    "all_destinations": "All Destinations",
+    "recommended_activities": "Recommended Activities",
+    "view_all": "View All",
+    "riyadh": "Riyadh",
+    "jeddah": "Jeddah",
+    "dammam": "Dammam",
+    "medina": "Medina"
+  },
+
+  "murshid": {
+    "murshid": "Murshid",
+    "hi": "Hi there!",
+    "intro_prefix": "I’m ",
+    "name": "Murshid",
+    "intro_suffix": ", your AI assistant",
+    "how_can_help": "How can I help you today?",
+    "plan_trip": "Plan My Trip",
+    "identify_image": "Identify The Image"
   }
-}
+
+
+  }

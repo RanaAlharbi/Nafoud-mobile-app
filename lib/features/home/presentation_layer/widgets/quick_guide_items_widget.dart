@@ -4,27 +4,27 @@ class QuickGuideItemsWidget {
   static final List<Map<String, dynamic>> quickGuides = [
     {
       'svgPath': './assets/icons/Tram.svg',
-      'label': 'Transport',
+      'label': 'home.guides.transport',
       'route': AppRoutes.transportScreen,
     },
     {
       'svgPath': './assets/icons/SimCard.svg',
-      'label': 'SIM Card',
+      'label': 'home.guides.sim_card',
       'route': AppRoutes.simCardScreen,
     },
     {
       'svgPath': './assets/icons/Emergency.svg',
-      'label': 'Emergency',
+      'label': 'home.guides.emergency',
       'route': AppRoutes.emergencyScreen,
     },
     {
       'svgPath': './assets/icons/Cloud.svg',
-      'label': 'Weather',
+      'label': 'home.guides.weather',
       'route': AppRoutes.weatherScreen,
     },
     {
       'svgPath': './assets/icons/Currency.svg',
-      'label': 'Currency',
+      'label': 'home.guides.currency',
       'route': AppRoutes.currencyScreen,
     },
   ];

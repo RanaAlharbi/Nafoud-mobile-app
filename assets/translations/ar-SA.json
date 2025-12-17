@@ -12,7 +12,6 @@
     "dontHaveAccount": "ليس لديك حساب؟",
     "signUp": "إنشاء حساب"
   },
-
   "signUp": {
     "getStarted": "ابدأ الآن",
     "subtitle": "ابدأ استكشاف الأماكن والثقافة والجواهر المخفية في المملكة",
@@ -29,11 +28,65 @@
     "alreadyHaveAccount": "هل لديك حساب؟",
     "login": "تسجيل الدخول"
   },
-  
   "nav": {
     "home": "الرئيسية",
     "gather": "التواصل الثقافي",
     "murshid": "مرشد",
     "profile": "الحساب"
+  },
+
+  "home": {
+
+    "hello": "مرحباً،",
+    "greetingSub": "ماذا تحب أن تفعل اليوم؟",
+    "banner_title": "استمتع باللحظة مع الآخرين!",
+    "banner_body": "لديك مناسبة وتبحث عن رفقة؟ انشر إعلانك ودع الجميع ينضم إليك",
+    "post_now": "انشر الآن",
+    "quick_guides": "إرشادات سريعة",
+    "guides": {
+      "transport": "المواصلات",
+      "sim_card": "شريحة اتصال",
+      "emergency": "الطوارئ",
+      "weather": "الطقس",
+      "currency": "العملة"
+    },
+    "discover": "اكتشف",
+    "all_destinations": "جميع الوجهات",
+    "recommended_activities": "الأنشطة الموصى بها",
+    "view_all": "عرض الكل",
+    "all": "جميع الوجهات",
+    "riyadh": "الرياض",
+    "jeddah": "جدة",
+    "dammam": "الدمام",
+    "medina": "المدينة المنورة"
+  },
+  "events": {
+    "no_events_in": "لا توجد فعاليات في {destination}",
+    "error_loading": "حدث خطأ أثناء تحميل الفعاليات",
+    "date": "التاريخ"
+  },
+  "destinations": {
+    "all": "جميع الوجهات",
+    "riyadh": "الرياض",
+    "jeddah": "جدة",
+    "dammam": "الدمام",
+    "medina": "المدينة المنورة"
+  },
+  "categories": {
+    "culture": "ثقافة",
+    "sports": "رياضة",
+    "music": "موسيقى",
+    "food": "طعام",
+    "art": "فن"
+  },
+  "murshid": {
+    "title": "مرشد",
+    "hi": "مرحباً!",
+    "intro_prefix": "أنا ",
+    "name": "مرشد",
+    "intro_suffix": "، مساعدك الذكي",
+    "how_can_help": "كيف أستطيع مساعدتك اليوم؟",
+    "plan_trip": "خطط رحلتي",
+    "identify_image": "تعرّف على الصورة"
   }
 }

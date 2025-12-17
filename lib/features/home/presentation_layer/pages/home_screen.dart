@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/core/app_theme/app_colors/app_colors.dart';
 import 'package:final_project/core/routes/router.dart';
 import 'package:final_project/features/events/presentation_layer/pages/events_horizontal_list.dart';
@@ -11,7 +12,6 @@ import 'package:final_project/features/events/presentation_layer/cubit/event_cub
 import 'package:final_project/features/events/domain_layer/usecase/events_usecase.dart';
 import 'package:final_project/core/di/configure_dependencies.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:final_project/features/home/presentation_layer/cubit/home_user_info_cubit.dart';
 import 'package:final_project/features/home/presentation_layer/cubit/destination_filter_cubit.dart';
@@ -49,9 +49,7 @@ class HomeScreen extends StatelessWidget {
           create: (_) =>
               HomeUserInfoCubit(GetIt.I.get<ProfileUsecase>())..loadUserInfo(),
         ),
-        BlocProvider(
-          create: (_) => DestinationFilterCubit(),
-        ),
+        BlocProvider(create: (_) => DestinationFilterCubit()),
       ],
       child: Scaffold(
         backgroundColor: Color.fromRGBO(241, 241, 241, 1),
@@ -90,126 +88,142 @@ class HomeScreen extends StatelessWidget {
                                         child: Container(
                                           width: 85.h,
                                           height: 85.h,
-                                          color: Color.fromRGBO(241, 241, 241, 1),
+                                          color: Color.fromRGBO(
+                                            241,
+                                            241,
+                                            241,
+                                            1,
+                                          ),
                                         ),
                                       ),
                                     )
                                   : Container(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: avatarUrl != null
-                                        ? const Color.fromRGBO(
-                                            101,
-                                            106,
-                                            83,
-                                            1,
-                                          ) // 656A53 hex
-                                        : const Color.fromRGBO(
-                                            194,
-                                            164,
-                                            128,
-                                            1,
-                                          ),
-                                    width: 2.5.w,
-                                  ),
-                                ),
-                                child: CircleAvatar(
-                                  backgroundColor: const Color.fromRGBO(
-                                    237,
-                                    234,
-                                    231,
-                                    1,
-                                  ), // EDEAE7 hex
-                                  radius: 40.h,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color: avatarUrl != null
+                                              ? const Color.fromRGBO(
+                                                  101,
+                                                  106,
+                                                  83,
+                                                  1,
+                                                ) // 656A53 hex
+                                              : const Color.fromRGBO(
+                                                  194,
+                                                  164,
+                                                  128,
+                                                  1,
+                                                ),
+                                          width: 2.5.w,
+                                        ),
+                                      ),
+                                      child: CircleAvatar(
+                                        backgroundColor: const Color.fromRGBO(
+                                          237,
+                                          234,
+                                          231,
+                                          1,
+                                        ), // EDEAE7 hex
+                                        radius: 40.h,
 
-                                  // The image itself (PFP)
-                                  child: avatarUrl != null
-                                      ? CachedNetworkImage(
-                                          imageUrl: avatarUrl,
-                                          imageBuilder:
-                                              (context, imageProvider) =>
-                                                  Container(
-                                                    width: 80.h,
-                                                    height: 80.h,
-                                                    decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      image: DecorationImage(
-                                                        image: imageProvider,
-                                                        fit: BoxFit.cover,
+                                        // The image itself (PFP)
+                                        child: avatarUrl != null
+                                            ? CachedNetworkImage(
+                                                imageUrl: avatarUrl,
+                                                imageBuilder:
+                                                    (
+                                                      context,
+                                                      imageProvider,
+                                                    ) => Container(
+                                                      width: 80.h,
+                                                      height: 80.h,
+                                                      decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        image: DecorationImage(
+                                                          image: imageProvider,
+                                                          fit: BoxFit.cover,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                          placeholder: (context, url) =>
-                                              ClipOval(
-                                                child: Shimmer(
-                                                  duration: Duration(milliseconds: 800),
-                                                  color: AppColors.primaryColor,
-                                                  child: Container(
-                                                    width: 80.h,
-                                                    height: 80.h,
-                                                    color: Color.fromRGBO(241, 241, 241, 1),
-                                                  ),
+                                                placeholder: (context, url) =>
+                                                    ClipOval(
+                                                      child: Shimmer(
+                                                        duration: Duration(
+                                                          milliseconds: 800,
+                                                        ),
+                                                        color: AppColors
+                                                            .primaryColor,
+                                                        child: Container(
+                                                          width: 80.h,
+                                                          height: 80.h,
+                                                          color: Color.fromRGBO(
+                                                            241,
+                                                            241,
+                                                            241,
+                                                            1,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                errorWidget: (context, url, error) {
+                                                  final initials = _getInitials(
+                                                    fullName,
+                                                  );
+                                                  return initials.isNotEmpty
+                                                      ? Text(
+                                                          initials,
+                                                          style: TextStyle(
+                                                            color:
+                                                                const Color.fromRGBO(
+                                                                  194,
+                                                                  164,
+                                                                  128,
+                                                                  1,
+                                                                ), // C2A480 hex
+                                                            fontSize: 35.sp,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        )
+                                                      : Icon(
+                                                          Icons.person,
+                                                          size: 40.h,
+                                                          color:
+                                                              const Color.fromRGBO(
+                                                                194,
+                                                                164,
+                                                                128,
+                                                                1,
+                                                              ),
+                                                        );
+                                                },
+                                              )
+                                            : _getInitials(fullName).isNotEmpty
+                                            ? Text(
+                                                _getInitials(fullName),
+                                                style: TextStyle(
+                                                  color: const Color.fromRGBO(
+                                                    194,
+                                                    164,
+                                                    128,
+                                                    1,
+                                                  ), // C2A480 hex
+                                                  fontSize: 35.sp,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              )
+                                            : Icon(
+                                                Icons.person,
+                                                size: 40.h,
+                                                color: const Color.fromRGBO(
+                                                  194,
+                                                  164,
+                                                  128,
+                                                  1,
                                                 ),
                                               ),
-                                          errorWidget: (context, url, error) {
-                                            final initials = _getInitials(
-                                              fullName,
-                                            );
-                                            return initials.isNotEmpty
-                                                ? Text(
-                                                    initials,
-                                                    style: TextStyle(
-                                                      color:
-                                                          const Color.fromRGBO(
-                                                            194,
-                                                            164,
-                                                            128,
-                                                            1,
-                                                          ), // C2A480 hex
-                                                      fontSize: 35.sp,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  )
-                                                : Icon(
-                                                    Icons.person,
-                                                    size: 40.h,
-                                                    color: const Color.fromRGBO(
-                                                      194,
-                                                      164,
-                                                      128,
-                                                      1,
-                                                    ),
-                                                  );
-                                          },
-                                        )
-                                      : _getInitials(fullName).isNotEmpty
-                                      ? Text(
-                                          _getInitials(fullName),
-                                          style: TextStyle(
-                                            color: const Color.fromRGBO(
-                                              194,
-                                              164,
-                                              128,
-                                              1,
-                                            ), // C2A480 hex
-                                            fontSize: 35.sp,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        )
-                                      : Icon(
-                                          Icons.person,
-                                          size: 40.h,
-                                          color: const Color.fromRGBO(
-                                            194,
-                                            164,
-                                            128,
-                                            1,
-                                          ),
-                                        ),
-                                ),
-                              ),
+                                      ),
+                                    ),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -218,7 +232,7 @@ class HomeScreen extends StatelessWidget {
                                     Row(
                                       children: [
                                         Text(
-                                          "Hello, ",
+                                          "home.hello".tr(),
                                           style: TextStyle(
                                             fontSize: 20.w,
                                             fontWeight: FontWeight.w600,
@@ -227,22 +241,34 @@ class HomeScreen extends StatelessWidget {
                                         Flexible(
                                           child: isLoading
                                               ? Shimmer(
-                                                  duration: Duration(milliseconds: 800),
+                                                  duration: Duration(
+                                                    milliseconds: 800,
+                                                  ),
                                                   color: AppColors.primaryColor,
                                                   child: Container(
                                                     width: 100.w,
                                                     height: 20.h,
                                                     decoration: BoxDecoration(
-                                                      color: Color.fromRGBO(241, 241, 241, 1),
-                                                      borderRadius: BorderRadius.circular(4.r),
+                                                      color: Color.fromRGBO(
+                                                        241,
+                                                        241,
+                                                        241,
+                                                        1,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            4.r,
+                                                          ),
                                                     ),
                                                   ),
                                                 )
                                               : Text(
                                                   fullName,
-                                                  overflow: TextOverflow.ellipsis,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                   style: TextStyle(
-                                                    color: AppColors.primaryColor,
+                                                    color:
+                                                        AppColors.primaryColor,
                                                     fontSize: 20.h,
                                                     fontWeight: FontWeight.bold,
                                                   ),
@@ -252,21 +278,16 @@ class HomeScreen extends StatelessWidget {
                                     ),
                                     Gap(10.h),
                                     Text(
-                                      "What would you like to do today?",
+                                      "home.greetingSub".tr(),
                                       style: TextStyle(
-                                        fontSize: 10.h,
+                                        fontSize: 11.h,
                                         color: Colors.black38,
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
-                              IconButton(
-                                onPressed: () {},
-                                icon: SvgPicture.asset(
-                                  "./assets/icons/Bell.svg",
-                                ),
-                              ),
+                            
                             ],
                           );
                         },
@@ -314,7 +335,7 @@ class HomeScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Enjoy the moment with others!',
+                              'home.banner_title'.tr(),
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 20.sp,
@@ -323,7 +344,7 @@ class HomeScreen extends StatelessWidget {
                             ),
                             Gap(12.h),
                             Text(
-                              'Got an event and looking for company?\nPost your announcement and let everyone join',
+                              'home.banner_body'.tr(),
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 12.sp,
@@ -367,7 +388,7 @@ class HomeScreen extends StatelessWidget {
                                     ),
                                   ),
                                   child: Text(
-                                    'Post Now',
+                                    'home.post_now'.tr(),
                                     style: TextStyle(
                                       fontWeight: FontWeight.w800,
                                       fontSize: 14.sp,
@@ -411,7 +432,7 @@ class HomeScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: Text(
-                    'Your Quick Guides',
+                    'home.quick_guides'.tr(),
                     style: TextStyle(fontSize: 18.sp, color: Colors.black),
                   ),
                 ),
@@ -429,7 +450,7 @@ class HomeScreen extends StatelessWidget {
                       final guide = QuickGuideItemsWidget.quickGuides[index];
                       return BuildQuickGuideItemWidget(
                         svgPath: guide['svgPath'] as String,
-                        label: guide['label'] as String,
+                        label: (guide['label'] as String).tr(),
                         onTap: () {
                           context.push(guide['route'] as String);
                         },
@@ -447,7 +468,9 @@ class HomeScreen extends StatelessWidget {
                       selectedDestination: state.selectedDestination,
                       onDestinationChanged: (value) {
                         if (value != null) {
-                          context.read<DestinationFilterCubit>().changeDestination(value);
+                          context
+                              .read<DestinationFilterCubit>()
+                              .changeDestination(value);
                         }
                       },
                     );
@@ -461,7 +484,7 @@ class HomeScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Recommended Activities',
+                        'home.recommended_activities'.tr(),
                         style: TextStyle(fontSize: 18.sp, color: Colors.black),
                       ),
                       TextButton(
@@ -469,7 +492,7 @@ class HomeScreen extends StatelessWidget {
                           context.push(AppRoutes.eventsScreen);
                         },
                         child: Text(
-                          'View All',
+                          'home.view_all'.tr(),
                           style: TextStyle(color: Colors.grey, fontSize: 14.sp),
                         ),
                       ),

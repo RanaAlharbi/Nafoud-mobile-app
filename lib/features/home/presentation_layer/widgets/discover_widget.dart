@@ -1,7 +1,7 @@
 import 'package:final_project/core/app_theme/app_colors/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 class DiscoverWidget extends StatelessWidget {
   final String selectedDestination;
   final ValueChanged<String?> onDestinationChanged;
@@ -19,7 +19,7 @@ class DiscoverWidget extends StatelessWidget {
       child: Row(
         children: [
           Text(
-            'Discover  ',
+            'home.discover'.tr(),
             style: TextStyle(
               fontSize: 25.sp,
               fontWeight: FontWeight.bold,
@@ -37,23 +37,23 @@ class DiscoverWidget extends StatelessWidget {
             items: [
               DropdownMenuItem(
                 value: 'All Destinations',
-                child: Text('All Destinations', style: TextStyle(fontSize: 18.sp, color: AppColors.primaryColor)),
+                child: Text('home.all_destinations'.tr(), style: TextStyle(fontSize: 18.sp, color: AppColors.primaryColor)),
               ),
               DropdownMenuItem(
                 value: 'Riyadh',
-                child: Text('Riyadh', style: TextStyle(fontSize: 18.sp, color: AppColors.primaryColor)),
+                child: Text('home.riyadh'.tr(), style: TextStyle(fontSize: 18.sp, color: AppColors.primaryColor)),
               ),
               DropdownMenuItem(
                 value: 'Jeddah',
-                child: Text('Jeddah', style: TextStyle(fontSize: 18.sp, color: AppColors.primaryColor)),
+                child: Text('home.jeddah'.tr(), style: TextStyle(fontSize: 18.sp, color: AppColors.primaryColor)),
               ),
               DropdownMenuItem(
                 value: 'Dammam',
-                child: Text('Dammam', style: TextStyle(fontSize: 18.sp, color: AppColors.primaryColor)),
+                child: Text('home.dammam'.tr(), style: TextStyle(fontSize: 18.sp, color: AppColors.primaryColor)),
               ),
               DropdownMenuItem(
                 value: 'Medina',
-                child: Text('Medina', style: TextStyle(fontSize: 18.sp, color: AppColors.primaryColor)),
+                child: Text('home.medina'.tr(), style: TextStyle(fontSize: 18.sp, color: AppColors.primaryColor)),
               ),
             ],
             onChanged: onDestinationChanged,

@@ -4,6 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 
 class MurshidScreen extends StatelessWidget {
   const MurshidScreen({super.key});
@@ -14,7 +16,7 @@ class MurshidScreen extends StatelessWidget {
       backgroundColor: const Color(0xFFF1F1F1),
       navigationBar: CupertinoNavigationBar(
         middle: Text(
-          'Murshid',
+          'murshid.murshid'.tr(),
           style: GoogleFonts.cairo(
             color: const Color(0xff3D4032),
             fontSize: 25.9.sp,
@@ -42,7 +44,7 @@ class MurshidScreen extends StatelessWidget {
                   61.verticalSpace,
 
                   Text(
-                    'Hi there!',
+                      'murshid.hi'.tr(),
                     style: GoogleFonts.cairo(
                       fontSize: 25.92.sp,
                       fontWeight: FontWeight.bold,
@@ -57,15 +59,15 @@ class MurshidScreen extends StatelessWidget {
                         color: CupertinoColors.black,
                       ),
                       children: [
-                        const TextSpan(text: 'I’m '),
+                        TextSpan(text: 'murshid.intro_prefix'.tr()),
                         TextSpan(
-                          text: 'Murshid',
+                          text: 'murshid.name'.tr(),
                           style: GoogleFonts.cairo(
                             color: const Color(0xff656A53),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const TextSpan(text: ', your AI assistant'),
+                        TextSpan(text: 'murshid.intro_suffix'.tr()),
                       ],
                     ),
                   ),
@@ -73,7 +75,7 @@ class MurshidScreen extends StatelessWidget {
                   const Gap(14),
 
                   Text(
-                    'How can I help you today?',
+                      'murshid.how_can_help'.tr(),
                     style: const TextStyle(
                       fontSize: 18,
                       color: Color(0xff919191),
@@ -100,7 +102,7 @@ class MurshidScreen extends StatelessWidget {
                           SvgPicture.asset('assets/icons/murshid_trip.svg'),
                           const Gap(10),
                           Text(
-                            'Plan My Trip',
+                              'murshid.plan_trip'.tr(),
                             style: GoogleFonts.cairo(
                               fontSize: 18,
                               color: const Color(0xff656A53),
@@ -131,7 +133,7 @@ class MurshidScreen extends StatelessWidget {
                           SvgPicture.asset('assets/icons/murshid_image.svg'),
                           const Gap(10),
                           Text(
-                            'Identify The Image',
+                              'murshid.identify_image'.tr(),
                             style: GoogleFonts.cairo(
                               color: const Color(0xff656A53),
                               fontSize: 18,
