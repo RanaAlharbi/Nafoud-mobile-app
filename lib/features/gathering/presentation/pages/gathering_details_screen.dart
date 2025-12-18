@@ -20,6 +20,7 @@ class GatheringDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isArabic = context.locale.languageCode == 'ar';
     context.read<GatheringCubit>().loadParticipants(event.id!);
 
     return BlocListener<GatheringCubit, GatheringState>(
@@ -105,8 +106,8 @@ class GatheringDetailsScreen extends StatelessWidget {
           leading: CupertinoButton(
             padding: EdgeInsets.zero,
             onPressed: () => Navigator.pop(context, "refresh"),
-            child: const Icon(
-              CupertinoIcons.arrow_left,
+            child: Icon(
+              isArabic ? CupertinoIcons.arrow_right : CupertinoIcons.arrow_left,
               color: Color(0xFFB6B6B6),
             ),
           ),

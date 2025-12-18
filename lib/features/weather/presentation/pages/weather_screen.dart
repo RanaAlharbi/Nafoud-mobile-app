@@ -14,6 +14,7 @@ class WeatherScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isArabic = context.locale.languageCode == 'ar';
     final cubit = context.read<WeatherCubit>();
 
     // Load initial weather data for specific cities
@@ -34,7 +35,10 @@ class WeatherScreen extends StatelessWidget {
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: SvgPicture.asset('assets/icons/arrow_left.svg'),
+          icon: Transform.scale(
+            scaleX: isArabic ? -1 : 1,
+            child: SvgPicture.asset('assets/icons/arrow_left.svg'),
+          ),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),

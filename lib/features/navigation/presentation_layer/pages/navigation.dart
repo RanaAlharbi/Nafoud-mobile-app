@@ -107,7 +107,12 @@ class NavigationScreen extends StatelessWidget {
             tabBuilder: (context, index) {
               return IndexedStack(
                 index: cubit.currentIndex,
-                children: cubit.screens,
+                children: cubit.screens.map((screen) {
+                  return KeyedSubtree(
+                    key: ValueKey('${screen.runtimeType}_${context.locale.languageCode}'),
+                    child: screen,
+                  );
+                }).toList(),
               );
             },
           ),

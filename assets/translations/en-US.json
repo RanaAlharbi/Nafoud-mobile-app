@@ -299,7 +299,77 @@
     "upload_image_prompt": "Take or Upload Your Image Here",
     "browse": "Browse"
   },
-    "profile": {
+
+  "tripPlanner": {
+    "error": "An error occurred during planning.",
+    "murshid": "Murshid",
+    "stepTitles": {
+      "information": "Trip Information",
+      "assistance": "Trip Assistance",
+      "vibe": "Trip Vibe"
+    },
+    "step1": {
+      "destination": "Destination",
+      "destinationHint": "Where do you want to go?",
+      "cities": {
+        "riyadh": "Riyadh",
+        "jeddah": "Jeddah",
+        "dammam": "Dammam",
+        "medina": "Medina"
+      },
+      "whosGoing": "Who's Going?",
+      "travelerTypes": {
+        "solo": "Solo",
+        "partner": "Partner",
+        "family": "Family",
+        "friends": "Friends"
+      },
+      "adults": "Adults",
+      "kids": "Kids",
+      "travelDates": "Travel Dates",
+      "selectDates": "Select your travel dates"
+    },
+    "step2": {
+      "howCanHelp": "How Can I Help?",
+      "assistance": {
+        "accommodation": "Accommodation",
+        "activities": "Activities",
+        "food": "Food"
+      },
+      "budget": "Budget",
+      "budgetTiers": {
+        "flexible": "Flexible",
+        "budget": "Budget $",
+        "sensible": "Sensible $$",
+        "upscale": "Upscale $$$",
+        "luxury": "Luxury $$$$"
+      }
+    },
+    "step3": {
+      "interests": "Interests",
+      "interestOptions": {
+        "historicalSites": "Historical Sites",
+        "naturalPlaces": "Natural Places",
+        "localRestaurants": "Local Restaurants",
+        "experiences": "Experiences",
+        "cafes": "Cafes",
+        "events": "Events",
+        "museums": "Museums",
+        "shoppingBazaars": "Shopping & Bazaars",
+        "adventure": "Adventure",
+        "beachesSea": "Beaches & Sea"
+      }
+    },
+    "navigation": {
+      "back": "Back",
+      "next": "Next",
+      "plan": "Plan",
+      "validationDestination": "Please select Destination, Traveler Type, and Dates.",
+      "validationBudget": "Please select a Budget tier."
+    }
+  },
+
+  "profile": {
     "profileHeader": "Profile",
     "accountSettings": "Account Settings",
     "personalInfo": "Personal Info",

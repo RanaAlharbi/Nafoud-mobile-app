@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/core/di/configure_dependencies.dart';
 import 'package:final_project/features/emergency/presentation_layer/cubit/emergency_cubit.dart';
 import 'package:final_project/features/emergency/presentation_layer/cubit/emergency_state.dart';
@@ -39,6 +40,8 @@ class EmergencyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isArabic = context.locale.languageCode == 'ar';
+
     return BlocProvider(
       create: (context) => getIt<EmergencyCubit>()..loadEmergencyContacts(),
       child: Scaffold(
@@ -54,7 +57,10 @@ class EmergencyScreen extends StatelessWidget {
           ),
           centerTitle: true,
           leading: IconButton(
-            icon: SvgPicture.asset('assets/icons/arrow_left.svg'),
+            icon: Transform.scale(
+              scaleX: isArabic ? -1 : 1,
+              child: SvgPicture.asset('assets/icons/arrow_left.svg'),
+            ),
             onPressed: () => Navigator.of(context).pop(),
           ),
         ),

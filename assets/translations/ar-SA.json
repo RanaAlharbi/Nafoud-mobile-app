@@ -317,6 +317,75 @@
     "browse": "تصفح"
   },
 
+  "tripPlanner": {
+    "error": "حدث خطأ أثناء التخطيط.",
+    "murshid": "مرشد",
+    "stepTitles": {
+      "information": "معلومات الرحلة",
+      "assistance": "مساعدة الرحلة",
+      "vibe": "أجواء الرحلة"
+    },
+    "step1": {
+      "destination": "الوجهة",
+      "destinationHint": "إلى أين تريد الذهاب؟",
+      "cities": {
+        "riyadh": "الرياض",
+        "jeddah": "جدة",
+        "dammam": "الدمام",
+        "medina": "المدينة المنورة"
+      },
+      "whosGoing": "من سيذهب؟",
+      "travelerTypes": {
+        "solo": "فردي",
+        "partner": "شريك",
+        "family": "عائلة",
+        "friends": "أصدقاء"
+      },
+      "adults": "الكبار",
+      "kids": "الأطفال",
+      "travelDates": "تواريخ السفر",
+      "selectDates": "اختر تواريخ سفرك"
+    },
+    "step2": {
+      "howCanHelp": "كيف يمكنني المساعدة؟",
+      "assistance": {
+        "accommodation": "السكن",
+        "activities": "الأنشطة",
+        "food": "الطعام"
+      },
+      "budget": "الميزانية",
+      "budgetTiers": {
+        "flexible": "مرن",
+        "budget": "اقتصادي $",
+        "sensible": "معتدل $$",
+        "upscale": "راقي $$$",
+        "luxury": "فاخر $$$$"
+      }
+    },
+    "step3": {
+      "interests": "الاهتمامات",
+      "interestOptions": {
+        "historicalSites": "المواقع التاريخية",
+        "naturalPlaces": "الأماكن الطبيعية",
+        "localRestaurants": "المطاعم المحلية",
+        "experiences": "التجارب",
+        "cafes": "المقاهي",
+        "events": "الفعاليات",
+        "museums": "المتاحف",
+        "shoppingBazaars": "التسوق والأسواق",
+        "adventure": "المغامرة",
+        "beachesSea": "الشواطئ والبحر"
+      }
+    },
+    "navigation": {
+      "back": "رجوع",
+      "next": "التالي",
+      "plan": "خطط",
+      "validationDestination": "يرجى اختيار الوجهة ونوع المسافر والتواريخ.",
+      "validationBudget": "يرجى اختيار مستوى الميزانية."
+    }
+  },
+
   "profile": {
     "profileHeader": "الملف الشخصي",
     "accountSettings": "إعدادات الحساب",

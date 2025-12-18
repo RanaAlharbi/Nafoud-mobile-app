@@ -27,7 +27,10 @@ class ProfileScreen extends StatelessWidget {
     final ImageSource? source = await showDialog<ImageSource>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: Text('profile.chooseImageSource'.tr(), style: TextStyle(fontSize: 23.h)),
+        title: Text(
+          'profile.chooseImageSource'.tr(),
+          style: TextStyle(fontSize: 23.h),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -75,7 +78,7 @@ class ProfileScreen extends StatelessWidget {
         extendBodyBehindAppBar: true,
 
         appBar: AppBar(
-           automaticallyImplyLeading: false,
+          automaticallyImplyLeading: false,
           backgroundColor: Colors.transparent,
           title: Text(
             "profile.profileHeader".tr(),
@@ -171,13 +174,23 @@ class ProfileScreen extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     border: Border.all(
-                                      color: const Color.fromRGBO(194, 164, 128, 1),
+                                      color: const Color.fromRGBO(
+                                        194,
+                                        164,
+                                        128,
+                                        1,
+                                      ),
                                       width: 3.w,
                                     ),
                                   ),
                                   child: CircleAvatar(
                                     radius: 70.r,
-                                    backgroundColor: const Color.fromRGBO(237, 234, 231, 1),
+                                    backgroundColor: const Color.fromRGBO(
+                                      237,
+                                      234,
+                                      231,
+                                      1,
+                                    ),
                                     child: ClipOval(
                                       child: Shimmer(
                                         duration: Duration(milliseconds: 800),
@@ -185,7 +198,12 @@ class ProfileScreen extends StatelessWidget {
                                         child: Container(
                                           width: 140.r,
                                           height: 140.r,
-                                          color: Color.fromRGBO(241, 241, 241, 1),
+                                          color: Color.fromRGBO(
+                                            241,
+                                            241,
+                                            241,
+                                            1,
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -238,7 +256,7 @@ class ProfileScreen extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.w),
                         child: Align(
-                          alignment: Alignment.centerLeft,
+                          alignment: AlignmentDirectional.centerStart,
                           child: Text(
                             "profile.accountSettings".tr(),
                             style: TextStyle(
@@ -265,10 +283,18 @@ class ProfileScreen extends StatelessWidget {
                                 fontWeight: .bold,
                               ),
                             ),
-                            trailing: SvgPicture.asset(
-                              'assets/Images/profile/arrow-right-01.svg',
-                              height: 20.h,
-                            ),
+                            trailing: context.locale.languageCode == 'ar'
+                                ? Transform.rotate(
+                                    angle: 3.14159,
+                                    child: SvgPicture.asset(
+                                      'assets/Images/profile/arrow-right-01.svg',
+                                      height: 20.h,
+                                    ),
+                                  )
+                                : SvgPicture.asset(
+                                    'assets/Images/profile/arrow-right-01.svg',
+                                    height: 20.h,
+                                  ),
                             onTap: () async {
                               await context.push(AppRoutes.editProfileScreen);
                               if (context.mounted) {
@@ -288,10 +314,18 @@ class ProfileScreen extends StatelessWidget {
                                 fontWeight: .bold,
                               ),
                             ),
-                            trailing: SvgPicture.asset(
-                              'assets/Images/profile/arrow-right-01.svg',
-                              height: 20.h,
-                            ),
+                            trailing: context.locale.languageCode == 'ar'
+                                ? Transform.rotate(
+                                    angle: 3.14159,
+                                    child: SvgPicture.asset(
+                                      'assets/Images/profile/arrow-right-01.svg',
+                                      height: 20.h,
+                                    ),
+                                  )
+                                : SvgPicture.asset(
+                                    'assets/Images/profile/arrow-right-01.svg',
+                                    height: 20.h,
+                                  ),
                             onTap: () {
                               context.push(AppRoutes.myActivityScreen);
                             },
@@ -308,10 +342,18 @@ class ProfileScreen extends StatelessWidget {
                                 fontWeight: .bold,
                               ),
                             ),
-                            trailing: SvgPicture.asset(
-                              'assets/Images/profile/arrow-right-01.svg',
-                              height: 20.h,
-                            ),
+                            trailing: context.locale.languageCode == 'ar'
+                                ? Transform.rotate(
+                                    angle: 3.14159,
+                                    child: SvgPicture.asset(
+                                      'assets/Images/profile/arrow-right-01.svg',
+                                      height: 20.h,
+                                    ),
+                                  )
+                                : SvgPicture.asset(
+                                    'assets/Images/profile/arrow-right-01.svg',
+                                    height: 20.h,
+                                  ),
                             onTap: () {
                               context.push(AppRoutes.bookmarkScreen);
                             },
@@ -322,7 +364,7 @@ class ProfileScreen extends StatelessWidget {
 
                       Gap(27.h),
 
-                     Padding(
+                      Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20.w),
                         child: Row(
                           children: [
@@ -336,7 +378,9 @@ class ProfileScreen extends StatelessWidget {
                                       final shouldDelete = await showDialog<bool>(
                                         context: context,
                                         builder: (dialogContext) => AlertDialog(
-                                          title: Text('profile.deleteAccountTitle'.tr()),
+                                          title: Text(
+                                            'profile.deleteAccountTitle'.tr(),
+                                          ),
                                           content: Text(
                                             'profile.deleteAccountConfirm'.tr(),
                                           ),
@@ -346,7 +390,9 @@ class ProfileScreen extends StatelessWidget {
                                                 dialogContext,
                                                 false,
                                               ),
-                                              child: Text('profile.cancel'.tr()),
+                                              child: Text(
+                                                'profile.cancel'.tr(),
+                                              ),
                                             ),
                                             TextButton(
                                               onPressed: () => Navigator.pop(
@@ -354,27 +400,38 @@ class ProfileScreen extends StatelessWidget {
                                                 true,
                                               ),
                                               child: Text(
-                                                'profile.deleteAccountTitle'.tr(),
-                                                style: TextStyle(color: Colors.red),
+                                                'profile.deleteAccountTitle'
+                                                    .tr(),
+                                                style: TextStyle(
+                                                  color: Colors.red,
+                                                ),
                                               ),
                                             ),
                                           ],
                                         ),
                                       );
 
-                                      if (shouldDelete == true && context.mounted) {
+                                      if (shouldDelete == true &&
+                                          context.mounted) {
                                         context
                                             .read<ProfileCubit>()
                                             .deleteAccount();
-                                        await context.push(AppRoutes.signInScreen);
+                                        await context.push(
+                                          AppRoutes.signInScreen,
+                                        );
                                       }
                                     },
                                     style: OutlinedButton.styleFrom(
                                       backgroundColor: Colors.red,
                                       foregroundColor: Colors.white,
-                                      side: BorderSide(color: Colors.red, width: 1.w),
+                                      side: BorderSide(
+                                        color: Colors.red,
+                                        width: 1.w,
+                                      ),
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8.r),
+                                        borderRadius: BorderRadius.circular(
+                                          8.r,
+                                        ),
                                       ),
                                       minimumSize: Size(double.infinity, 48.h),
                                     ),
@@ -390,69 +447,85 @@ class ProfileScreen extends StatelessWidget {
                               ),
                             ),
                             Gap(3.w),
-                          // Logout Button
-                          Expanded(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 8.w),
-                              child: OutlinedButton(
-                                onPressed: () async {
-                                  final shouldSignOut = await showDialog<bool>(
-                                    context: context,
-                                    builder: (dialogContext) => AlertDialog(
-                                      title: Text(
-                                        'profile.signOut'.tr(),
-                                        style: TextStyle(fontSize: 25.h),
-                                      ),
-                                      content: Text(
-                                        'profile.signOutConfirm'.tr(),
-                                      ),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () =>
-                                              Navigator.pop(dialogContext, false),
-                                          child: Text(
-                                            'profile.cancel'.tr(),
-                                            style: TextStyle(fontSize: 15.h),
-                                          ),
-                                        ),
-                                        TextButton(
-                                          onPressed: () =>
-                                              Navigator.pop(dialogContext, true),
-                                          child: Text(
-                                            'profile.signOut'.tr(),
-                                            style: TextStyle(
-                                              color: Colors.red,
-                                              fontSize: 15.h,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
+                            // Logout Button
+                            Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 8.w),
+                                child: OutlinedButton(
+                                  onPressed: () async {
+                                    final shouldSignOut =
+                                        await showDialog<bool>(
+                                          context: context,
+                                          builder: (dialogContext) =>
+                                              AlertDialog(
+                                                title: Text(
+                                                  'profile.signOut'.tr(),
+                                                  style: TextStyle(
+                                                    fontSize: 25.h,
+                                                  ),
+                                                ),
+                                                content: Text(
+                                                  'profile.signOutConfirm'.tr(),
+                                                ),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(
+                                                          dialogContext,
+                                                          false,
+                                                        ),
+                                                    child: Text(
+                                                      'profile.cancel'.tr(),
+                                                      style: TextStyle(
+                                                        fontSize: 15.h,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(
+                                                          dialogContext,
+                                                          true,
+                                                        ),
+                                                    child: Text(
+                                                      'profile.signOut'.tr(),
+                                                      style: TextStyle(
+                                                        color: Colors.red,
+                                                        fontSize: 15.h,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                        );
 
-                                  if (shouldSignOut == true && context.mounted) {
-                                    context.read<ProfileCubit>().signOut();
-                                  }
-                                },
-                                style: OutlinedButton.styleFrom(
-                                  backgroundColor: Colors.white,
-                                  foregroundColor: Colors.red,
-                                  side: BorderSide(color: Colors.red, width: 1.w),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8.r),
+                                    if (shouldSignOut == true &&
+                                        context.mounted) {
+                                      context.read<ProfileCubit>().signOut();
+                                    }
+                                  },
+                                  style: OutlinedButton.styleFrom(
+                                    backgroundColor: Colors.white,
+                                    foregroundColor: Colors.red,
+                                    side: BorderSide(
+                                      color: Colors.red,
+                                      width: 1.w,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.r),
+                                    ),
+                                    minimumSize: Size(double.infinity, 48.h),
                                   ),
-                                  minimumSize: Size(double.infinity, 48.h),
-                                ),
-                                child: Text(
-                                  'profile.logOut'.tr(),
-                                  style: TextStyle(
-                                    fontSize: 15.sp,
-                                    fontWeight: FontWeight.bold,
+                                  child: Text(
+                                    'profile.logOut'.tr(),
+                                    style: TextStyle(
+                                      fontSize: 15.sp,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
                           ],
                         ),
                       ),

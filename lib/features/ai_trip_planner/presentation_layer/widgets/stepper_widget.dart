@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class CustomStepper extends StatelessWidget {
   final int currentStep;
@@ -61,9 +62,9 @@ class CustomStepper extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _stepText("Trip Information", 0, currentStep, TextAlign.left),
-            _stepText("Trip Assistance", 1, currentStep, TextAlign.center),
-            _stepText("Trip Vibe", 2, currentStep, TextAlign.right),
+            _stepText("tripPlanner.stepTitles.information".tr(), 0, currentStep, TextAlign.left),
+            _stepText("tripPlanner.stepTitles.assistance".tr(), 1, currentStep, TextAlign.center),
+            _stepText("tripPlanner.stepTitles.vibe".tr(), 2, currentStep, TextAlign.right),
           ],
         ),
       ],

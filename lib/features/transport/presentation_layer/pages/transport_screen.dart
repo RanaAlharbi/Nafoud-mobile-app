@@ -13,6 +13,8 @@ class TransportScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isArabic = context.locale.languageCode == 'ar';
+
     return BlocProvider(
       create: (_) => TransportCubit(),
       child: CupertinoPageScaffold(
@@ -31,8 +33,8 @@ class TransportScreen extends StatelessWidget {
             onPressed: () {
               context.pop();
             },
-            child: const Icon(
-              CupertinoIcons.arrow_left,
+            child: Icon(
+              isArabic ? CupertinoIcons.arrow_right : CupertinoIcons.arrow_left,
               size: 20,
               color: Color(0xffB6B6B6),
               weight: 1.5,

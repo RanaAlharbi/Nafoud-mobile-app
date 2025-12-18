@@ -8,6 +8,8 @@ class CurrencyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isArabic = context.locale.languageCode == 'ar';
+
     return Scaffold(
       backgroundColor: Color.fromRGBO(241, 241, 241, 1),
       appBar: AppBar(
@@ -21,7 +23,10 @@ class CurrencyScreen extends StatelessWidget {
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: SvgPicture.asset('assets/icons/arrow_left.svg'),
+          icon: Transform.scale(
+            scaleX: isArabic ? -1 : 1,
+            child: SvgPicture.asset('assets/icons/arrow_left.svg'),
+          ),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),

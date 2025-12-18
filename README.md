@@ -53,10 +53,13 @@ The Nafoud application relies on a carefully selected set of core Flutter packag
 - Architecture: Clean Architecture
 - Platforms: Android & iOS
 
-# 📂 folders structure
+
 
 # Output 📱
 <img width="1682" height="761" alt="image" src="https://github.com/user-attachments/assets/5b6da500-a947-4be1-9676-08ae7f6dedde" />
+
+<img width="1734" height="878" alt="image" src="https://github.com/user-attachments/assets/e1d52ae1-8784-4aaf-a439-8faee1e9d0fc" />
+
 
 
 # ▶️ How to Run

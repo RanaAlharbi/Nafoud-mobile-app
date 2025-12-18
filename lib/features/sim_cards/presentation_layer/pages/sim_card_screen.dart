@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_project/features/sim_cards/presentation_layer/widgets/sim_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -28,6 +29,8 @@ class SimCardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isArabic = context.locale.languageCode == 'ar';
+
     return Scaffold(
       backgroundColor: const Color.fromRGBO(240, 240, 238, 1),
       appBar: AppBar(
@@ -41,7 +44,10 @@ class SimCardScreen extends StatelessWidget {
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: SvgPicture.asset('assets/icons/arrow_left.svg'),
+          icon: Transform.scale(
+            scaleX: isArabic ? -1 : 1,
+            child: SvgPicture.asset('assets/icons/arrow_left.svg'),
+          ),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),

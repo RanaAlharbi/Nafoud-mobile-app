@@ -24,7 +24,7 @@ class ChatScreen extends StatelessWidget {
       listener: (context, state) {
         if (state.status == TripStatus.error) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("An error occurred during planning.")),
+            SnackBar(content: Text("tripPlanner.error".tr())),
           );
         }
       },
@@ -38,7 +38,7 @@ class ChatScreen extends StatelessWidget {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
-            title: const Text('Murshid'),
+            title: Text('tripPlanner.murshid'.tr()),
             titleTextStyle: GoogleFonts.cairo(
               color: const Color(0xff3D4032),
               fontSize: 25.9.sp,

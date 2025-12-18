@@ -2,6 +2,7 @@ import 'package:final_project/features/ai_trip_planner/presentation_layer/bloc/a
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class NavigationButtons extends StatelessWidget {
   final TripPlannerState state;
@@ -19,12 +20,12 @@ class NavigationButtons extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [ 
-          // If we're not in first stepadd a back button 
+          // If we're not in first stepadd a back button
           if (currentStep > 0)
             TextButton(
               onPressed: () => bloc.add(TripStepChanged(currentStep - 1)),
               child: Text(
-                "Back",
+                "tripPlanner.navigation.back".tr(),
                 style: GoogleFonts.cairo(
                   color: Colors.grey,
                   fontWeight: FontWeight.bold,
@@ -48,9 +49,9 @@ class NavigationButtons extends StatelessWidget {
                       state.preferences.travelerType == null ||
                       state.preferences.dateRange == null)) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
+                  SnackBar(
                     content: Text(
-                      "Please select Destination, Traveler Type, and Dates.",
+                      "tripPlanner.navigation.validationDestination".tr(),
                     ),
                   ),
                 );
@@ -60,7 +61,7 @@ class NavigationButtons extends StatelessWidget {
               // Basic validation for Step 2 completion
               if (currentStep == 1 && state.preferences.budget == null) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Please select a Budget tier.")),
+                  SnackBar(content: Text("tripPlanner.navigation.validationBudget".tr())),
                 );
                 return;
               }
@@ -75,7 +76,7 @@ class NavigationButtons extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  currentStep == 2 ? "Plan" : "Next",
+                  currentStep == 2 ? "tripPlanner.navigation.plan".tr() : "tripPlanner.navigation.next".tr(),
                   style: GoogleFonts.cairo(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

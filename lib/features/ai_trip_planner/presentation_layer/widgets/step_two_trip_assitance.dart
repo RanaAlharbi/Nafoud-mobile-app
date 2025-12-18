@@ -4,6 +4,7 @@ import 'package:final_project/features/ai_trip_planner/presentation_layer/widget
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'chip_group.dart';
 
@@ -43,9 +44,9 @@ class Step2TripAssistance extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const CustomLabel("How Can I Help?"),
+        CustomLabel("tripPlanner.step2.howCanHelp".tr()),
         ChipGroup(
-          options: ["Accommodation", "Activities", "Food"],
+          options: const ["Accommodation", "Activities", "Food"],
           selectedItems: prefs.assistanceNeeded,
           isMulti: true,
           onSelect: (val) {
@@ -62,7 +63,7 @@ class Step2TripAssistance extends StatelessWidget {
         ),
 
         20.verticalSpace,
-        const CustomLabel("Budget"),
+        CustomLabel("tripPlanner.step2.budget".tr()),
         ChipGroup(
           options: const [
             "Flexible",

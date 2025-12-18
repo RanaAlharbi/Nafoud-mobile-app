@@ -32,6 +32,9 @@ class CategoryChipsWidget extends StatelessWidget {
         return 'gathering.categories.adventure'.tr();
       case 'entertainment':
         return 'gathering.categories.entertainment'.tr();
+      case 'art':
+      case 'arts':
+        return 'categories.art'.tr();
       default:
         return category; // Return original if no translation found
     }

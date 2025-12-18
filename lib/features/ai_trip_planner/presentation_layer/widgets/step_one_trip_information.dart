@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'chip_group.dart';
 
 class Step1TripInformation extends StatelessWidget {
@@ -34,9 +35,9 @@ class Step1TripInformation extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const CustomLabel("Destination"),
+        CustomLabel("tripPlanner.step1.destination".tr()),
         CustomDropdown(
-          hint: "Where do you want to go?",
+          hint: "tripPlanner.step1.destinationHint".tr(),
           value: prefs.destination,
           items: const ["Riyadh", "Jeddah", "Dammam", "Medina"],
           onChanged: (val) =>
@@ -44,7 +45,7 @@ class Step1TripInformation extends StatelessWidget {
         ),
 
         19.verticalSpace,
-        const CustomLabel("Who's Going?"),
+        CustomLabel("tripPlanner.step1.whosGoing".tr()),
         ChipGroup(
           options: const ["Solo", "Partner", "Family", "Friends"],
           selectedItem: _travelerTypeToUiString(prefs.travelerType),
@@ -61,7 +62,7 @@ class Step1TripInformation extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const CustomLabel("Adults"),
+                  CustomLabel("tripPlanner.step1.adults".tr()),
                   NumberDropdown(
                     value: prefs.adults ?? 0,
                     onChanged: (val) => bloc.add(
@@ -76,7 +77,7 @@ class Step1TripInformation extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const CustomLabel("Kids"),
+                  CustomLabel("tripPlanner.step1.kids".tr()),
                   NumberDropdown(
                     value: prefs.kids ?? 0,
                     onChanged: (val) =>
@@ -89,7 +90,7 @@ class Step1TripInformation extends StatelessWidget {
         ),
 
         19.verticalSpace,
-        const CustomLabel("Travel Dates"),
+        CustomLabel("tripPlanner.step1.travelDates".tr()),
         GestureDetector(
           onTap: () async {
             final picked = await showDateRangePicker(
@@ -132,7 +133,7 @@ class Step1TripInformation extends StatelessWidget {
               children: [
                 Text(
                   prefs.dateRange == null
-                      ? "Select your travel dates"
+                      ? "tripPlanner.step1.selectDates".tr()
                       : "${DateFormat('MMM dd').format(prefs.dateRange!.start)} - ${DateFormat('MMM dd').format(prefs.dateRange!.end)}",
                   style: GoogleFonts.cairo(
                     color: prefs.dateRange == null ? Colors.grey : Colors.black,

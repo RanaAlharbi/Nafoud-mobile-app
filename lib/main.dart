@@ -38,19 +38,27 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return CupertinoApp.router(
-          debugShowCheckedModeBanner: false,
-          routerConfig: AppRoutes.appRouter,
+        // Using Builder to ensure rebuild on locale change without destroying the router
+        return Builder(
+          builder: (context) {
+            // Access locale to create dependency
+            final _ = context.locale;
 
-          // to avoid sys crashes due to cupertino vs material
-          localizationsDelegates: [
-            ...context.localizationDelegates,
-            DefaultMaterialLocalizations.delegate,
-            DefaultCupertinoLocalizations.delegate,
-            DefaultWidgetsLocalizations.delegate,
-          ],
-          supportedLocales: context.supportedLocales,
-          locale: context.locale,
+            return CupertinoApp.router(
+              debugShowCheckedModeBanner: false,
+              routerConfig: AppRoutes.appRouter,
+
+              // to avoid sys crashes due to cupertino vs material
+              localizationsDelegates: [
+                ...context.localizationDelegates,
+                DefaultMaterialLocalizations.delegate,
+                DefaultCupertinoLocalizations.delegate,
+                DefaultWidgetsLocalizations.delegate,
+              ],
+              supportedLocales: context.supportedLocales,
+              locale: context.locale,
+            );
+          },
         );
       },
     );

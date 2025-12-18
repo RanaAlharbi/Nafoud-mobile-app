@@ -3,6 +3,7 @@ import 'package:final_project/features/ai_trip_planner/presentation_layer/bloc/a
 import 'package:final_project/features/ai_trip_planner/presentation_layer/widgets/label_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'chip_group.dart';
 
 class Step3TripVibe extends StatelessWidget {
@@ -30,7 +31,7 @@ class Step3TripVibe extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const CustomLabel("Interests"),
+        CustomLabel("tripPlanner.step3.interests".tr()),
         ChipGroup(
           options: interests,
           selectedItems: prefs.interests,
