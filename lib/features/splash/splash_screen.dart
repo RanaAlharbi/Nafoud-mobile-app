@@ -51,9 +51,13 @@ class _SplashScreenState extends State<SplashScreen>
               ..duration = composition.duration
               // When Finished, move to onboarding screen
               ..forward().whenComplete(() {
+                final hasSeenOnboarding = box.read('has_seen_onboarding') ?? false;
                 final rememberMe = box.read('remember_me') ?? false;
                 String targetRoute;
-                if (session != null && rememberMe) {
+
+                if (!hasSeenOnboarding) {
+                  targetRoute = AppRoutes.onboardingScreen;
+                } else if (session != null && rememberMe) {
                   targetRoute = AppRoutes.navigationScreen;
                 } else {
                   targetRoute = AppRoutes.authenticationLandingScreen;

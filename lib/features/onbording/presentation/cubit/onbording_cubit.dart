@@ -1,7 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:get_it/get_it.dart';
+import 'package:get_storage/get_storage.dart';
 
 class OnboardingCubit extends Cubit<int> {
   final PageController pageController = PageController();
@@ -43,8 +44,9 @@ class OnboardingCubit extends Cubit<int> {
     }
   }
 
-  void skip(BuildContext context) {
-    context.go('/authentication-landing');
+  void markOnboardingComplete() {
+    final box = GetIt.I.get<GetStorage>();
+    box.write('has_seen_onboarding', true);
   }
 
   void onPageChanged(int index) {

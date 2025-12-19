@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:final_project/core/routes/router.dart';
 import 'package:final_project/features/onbording/presentation/cubit/onbording_cubit.dart';
 import 'package:final_project/features/onbording/presentation/widget/langauge_switch_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -117,7 +118,8 @@ class OnboardingScreen extends StatelessWidget {
                                 ),
                                 minimumSize: Size(360.w, 42.h),
                                 onPressed: () {
-                                  context.go('/authentication-landing');
+                                  cubit.markOnboardingComplete();
+                                  context.go(AppRoutes.authenticationLandingScreen);
                                 },
 
                                 child: Text(
@@ -134,7 +136,10 @@ class OnboardingScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 CupertinoButton(
-                                  onPressed: () => cubit.skip(context),
+                                  onPressed: () {
+                                    cubit.markOnboardingComplete();
+                                    context.go(AppRoutes.authenticationLandingScreen);
+                                  },
                                   child: Text(
                                     "onboarding.skip".tr(),
                                     style: GoogleFonts.cairo(
